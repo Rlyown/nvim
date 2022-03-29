@@ -46,7 +46,7 @@ return packer.startup(function(use)
 	-- use "joshdick/onedark.vim"
 	use({ "catppuccin/nvim", as = "catppuccin" })
 
-	-- Cmp plugins
+	-- Completion
 	use("hrsh7th/nvim-cmp") -- The completion plugin
 	use("hrsh7th/cmp-buffer") -- buffer completions
 	use("hrsh7th/cmp-path") -- path completions

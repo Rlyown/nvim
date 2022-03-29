@@ -9,13 +9,13 @@ Configuration tree:
 ├── lua
 │   ├── core
 │   │   ├── autocommands.lua    # autocommands configuration
-│   │   ├── gvarible.lua				# global varible set
-│   │   ├── keymaps.lua					# vim-builtin keymap set
-│   │   └── options.lua					# vim option set
-│   ├── modules									# plugins configuration
-│   └── plugin									# plugin manager
-├── my-snippets									# customizer snippets
-└── plugin											# compiled packer location
+│   │   ├── gvarible.lua        # global varible set
+│   │   ├── keymaps.lua         # vim-builtin keymap set
+│   │   └── options.lua         # vim option set
+│   ├── modules                 # plugins configuration
+│   └── plugin                  # plugin manager
+├── my-snippets                 # customizer snippets
+└── plugin                      # compiled packer location
 ```
 
 ## Install 
@@ -135,7 +135,7 @@ Leader key is comma(`,`) key.
 | ------ | ----------- |
 | [catppuccin/nvim](https://github.com/catppuccin/nvim) |  |
 
-**Cmp plugins**
+**Completions**
 
 | Plugin | Description |
 | ------ | ----------- |
@@ -213,7 +213,7 @@ Leader key is comma(`,`) key.
 | [dstein64/vim-startuptime](https://github.com/dstein64/vim-startuptime) | A Vim plugin for profiling Vim's startup time |
 | [Pocco81/AutoSave.nvim](https://github.com/Pocco81/AutoSave.nvim) | enable autosave. |
 
-**Important**: Undo/Redo can cause autosave. Sometimes these will move cursor and then do action, but move cursor will cause autosave too. So I set autosave delay time big enough.
+*Note*: Undo/Redo can cause autosave. Sometimes these will move cursor and then do action, but move cursor will cause autosave too. So I set autosave delay time big enough.
 
 **Treesitter**
 
