@@ -36,6 +36,13 @@ Install the follow dependencies:
 brew install ripgrep fd lazygit fortune bear clang-format asmfmt stylua black
 ```
 
+​	*Nerd Fonts* is needed to show icons. And don't forget to change your terminal fonts.
+
+```shell
+cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+```
+
+
 
 Then run `nvim` and wait for the plugins to be installed.
 
