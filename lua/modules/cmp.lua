@@ -124,6 +124,7 @@ cmp.setup({
 		{ name = "buffer" },
 		{ name = "path" },
 		{ name = "nvim_lua" },
+		{ name = "spell" },
 		-- { name = 'copilot' },
 	},
 	confirm_opts = {
