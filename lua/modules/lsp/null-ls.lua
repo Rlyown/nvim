@@ -3,7 +3,7 @@ if not null_ls_status_ok then
 	return
 end
 
--- local code_actions = null_ls.builtins.code_actions
+local code_actions = null_ls.builtins.code_actions
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
 local formatting = null_ls.builtins.formatting
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
@@ -31,5 +31,8 @@ null_ls.setup({
 		-- python
 		formatting.black.with({ extra_args = { "--fast" } }),
 		-- diagnostics.flake8
+
+		-- shell
+		formatting.shfmt,
 	},
 })

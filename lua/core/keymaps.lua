@@ -57,6 +57,15 @@ keymap("v", "K", ":m .-2<CR>==", opts)
 -- paste and replace
 keymap("v", "p", '"_dP', opts)
 
+-- plugins
+keymap("v", "<leader>l", ":ToggleTermSendVisualLines<cr>", opts)
+keymap("v", "<leader>r", ":SnipRun<cr>", opts)
+keymap("v", "<leader>s", ":ToggleTermSendVisualSelection<cr>", opts)
+keymap("v", "<leader>Gc", ":GoChannelPeers<cr>", opts)
+keymap("v", "<leader>GR", ":GoRemoveTags<cr>", opts)
+keymap("v", "<leader>GT", ":GoAddTags<cr>", opts)
+keymap("v", "<leader>a", ":Telescope lsp_range_code_actions<cr>", opts)
+
 -- Visual Block --
 -- Move text up and down
 keymap("x", "J", ":move '>+1<CR>gv-gv", opts)

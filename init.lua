@@ -1,7 +1,5 @@
-require "core.options"
-require "core.keymaps"
-require "core.autocommands"
-require "plugin.plugins"
-require "modules"
-
-
+require("core.options")
+require("core.keymaps")
+require("core.autocommands")
+require("plugin.plugins")
+require("modules")

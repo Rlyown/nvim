@@ -72,27 +72,38 @@ local setup = {
 local term_id_max = 9
 
 local function term_id_cmds(name, cmd_str)
-	local t = {}
-	t["name"] = name
-	for i = 1, term_id_max, 1 do
-		local k = tostring(i)
-		local s = string.format("<cmd>%s %d<cr>", cmd_str, i)
-		local n = string.format("Term %d", i)
-		t[k] = { s, n }
+	local prompt = string.format("Input Terminal ID(1 - %d, default 1): ", term_id_max)
+
+	local do_func = function()
+		local id = tonumber(vim.fn.input(prompt))
+		if not id then
+			id = 1
+		end
+
+		if id and 1 <= id and id <= term_id_max then
+			local s = string.format("%s %d", cmd_str, id)
+			vim.cmd(s)
+		end
 	end
-	return t
+
+	return { do_func, name }
 end
 
 local function term_multi_hv(name, size, direction)
-	local t = {}
-	t["name"] = name
-	for i = 1, term_id_max, 1 do
-		local k = tostring(i)
-		local s = string.format("<cmd>%dToggleTerm size=%d direction=%s<cr>", i, size, direction)
-		local n = string.format("Term %d", i)
-		t[k] = { s, n }
+	local prompt = string.format("Input Terminal ID(1 - %d, default 1): ", term_id_max)
+	local do_func = function()
+		local id = tonumber(vim.fn.input(prompt))
+		if not id then
+			id = 1
+		end
+
+		if id and 1 <= id and id <= term_id_max then
+			local s = string.format("%dToggleTerm size=%d direction=%s", id, size, direction)
+			vim.cmd(s)
+		end
 	end
-	return t
+
+	return { do_func, name }
 end
 
 local n_opts = {
@@ -144,6 +155,35 @@ local n_mappings = {
 				"Undo Stage Hunk",
 			},
 		},
+		["G"] = {
+			name = "Golang",
+			a = { "<cmd>GoAlternate<cr>", "Alternate" },
+			b = { "<cmd>GoBuild<cr>", "Build" },
+			B = { "<cmd>GoCoverageBrowser<cr>", "Coverage Browser" },
+			c = { "<cmd>GoTestCompile<cr>", "Compile Test" },
+			C = { "<cmd>GoCoverageToggle<cr>", "Coverage" },
+			D = { "<cmd>GoDeps<cr>", "Dependence" },
+			f = { "<cmd>GoTestFunc<cr>", "Function Test" },
+			F = { "<cmd>GoFiles<cr>", "Files" },
+			I = { "<cmd>GoInstallBinaries<cr>", "Install Binaries" },
+			r = { "<cmd>GoRun<cr>", "Run" },
+			R = {
+				function()
+					local s = vim.fn.input("Input GoRemoveTags Optional Args: ")
+					vim.cmd(string.format("GoRemoveTags %s", s))
+				end,
+				"Remove Tags",
+			},
+			t = { "<cmd>GoTest<cr>", "Test" },
+			T = {
+				function()
+					local s = vim.fn.input("Input GoAddTags Optional Args: ")
+					vim.cmd(string.format("GoAddTags %s", s))
+				end,
+				"Add Tags",
+			},
+			U = { "<cmd>GoUpdateBinaries<cr>", "Update Binaries" },
+		},
 		["h"] = { "<cmd>nohlsearch<CR>", "No Highlight Search" },
 		["l"] = {
 			a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
@@ -164,7 +204,7 @@ local n_mappings = {
 				"<cmd>lua vim.lsp.diagnostic.goto_next()<CR>",
 				"Next Diagnostic",
 			},
-			N = { "<cmd>NullLsInfo", "Null-Ls Info" },
+			N = { "<cmd>NullLsInfo<cr>", "Null-Ls Info" },
 			p = {
 				"<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>",
 				"Prev Diagnostic",
@@ -182,12 +222,23 @@ local n_mappings = {
 				"Workspace Diagnostics",
 			},
 		},
+		["m"] = { "<cmd>MarkdownPreviewToggle<cr>", "Markdown Preview" },
 		["n"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
+		["o"] = {
+			name = "Open(MacOS Only)",
+			m = {
+				function()
+					vim.cmd(string.format('silent exec "!open -a /Applications/Typora.app %s"', vim.fn.expand("%:p")))
+				end,
+				"Typora",
+			},
+		},
+		["O"] = { "<cmd>AerialToggle right<cr>", "Code OutLine" },
 		["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
 		["r"] = {
 			name = "SnipRun",
-			c = { "<cmd>SnipClose", "Close" },
-			i = { "<cmd>SnipInfo", "Info" },
+			c = { "<cmd>SnipClose<cr>", "Close" },
+			i = { "<cmd>SnipInfo<cr>", "Info" },
 			l = { "<cmd>SnipLive<cr>", "Live" },
 			m = { "<cmd>SnipReplMemoryClean<cr>", "Memory Clean" },
 			r = { "<cmd>SnipRun<cr>", "Run" },
@@ -197,6 +248,7 @@ local n_mappings = {
 		["s"] = {
 			name = "Search",
 			b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+			B = { "<cmd>Telescope file_browser<cr>", "File Browser" },
 			c = { "<cmd>Telescope commands<cr>", "Commands" },
 			C = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
 			h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
@@ -207,24 +259,29 @@ local n_mappings = {
 		},
 		["S"] = {
 			name = "Session",
-			c = { "<cmd>SessionManager load_current_dir_session", "Load Current Dirtectory" },
-			d = { "<cmd>SessionManager delete_session", "Delete Session" },
-			l = { "<cmd>SessionManager load_last_session", "Last Saved Session" },
-			s = { "<cmd>SessionManager load_session<cr>", "Load Session" },
-			w = { "<cmd>SessionManager save_current_session", "Save Current Dirtectory" },
+			c = { "<cmd>SessionManager load_current_dir_session<cr>", "Load Current Dirtectory" },
+			d = { "<cmd>SessionManager delete_session<cr>", "Delete Session" },
+			l = { "<cmd>SessionManager load_last_session<cr>", "Last Session" },
+			s = { "<cmd>SessionManager load_session<cr>", "Select Session" },
+			w = { "<cmd>SessionManager save_current_session<cr>", "Save Current Dirtectory" },
 		},
 		["t"] = {
 			name = "Terminal",
 			a = { "<cmd>ToggleTermToggleAll<cr>", "All" },
-			c = { "<cmd>ToggleTermSendCurrentLine<cr>", "Send Line" },
-			C = term_id_cmds("Send Line", "ToggleTermSendCurrentLine"),
-			g = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
-			p = { "<cmd>lua _PYTHON3_TOGGLE()<cr>", "Python3" },
+			c = term_id_cmds("Send Line", "ToggleTermSendCurrentLine"),
 			f = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
-			h = { "<cmd>ToggleTerm size=15 direction=horizontal<cr>", "Horizontal" },
-			H = term_multi_hv("Multi-Horizontal", 15, "horizontal"),
-			v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
-			V = term_multi_hv("Multi-Vertical", vim.o.columns * 0.4, "vertical"),
+			h = term_multi_hv("Horizontal", 15, "horizontal"),
+			s = {
+				name = "Specific",
+				b = { "<cmd>lua _BEAR_MAKE_TOGGLE()<cr>", "Bear" },
+				c = { "<cmd>lua _CGDB_TOGGLE()<cr>", "CGDB" },
+				d = { "<cmd>lua _DLV_DEBUG_TOGGLE()<cr>", "Delve" },
+				g = { "<cmd>lua _GDB_TOGGLE()<cr>", "GDB" },
+				l = { "<cmd>lua _LLDB_TOGGLE()<cr>", "LLDB" },
+				G = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
+				p = { "<cmd>lua _PYTHON3_TOGGLE()<cr>", "Python3" },
+			},
+			v = term_multi_hv("Vertical", vim.o.columns * 0.4, "vertical"),
 			w = { "<cmd>ToggleTerm direction=window<cr>", "Window" },
 		},
 		["T"] = {
@@ -235,10 +292,6 @@ local n_mappings = {
 		["u"] = { "<cmd>UndotreeToggle<cr>", "Undotree" },
 		["w"] = { "<cmd>w<cr>", "Save" },
 		["W"] = { "<cmd>w !sudo -S tee %<CR>", "Force Save(Linux Only)" },
-		["z"] = {
-			name = "Unachieved",
-			a = {},
-		},
 		["="] = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
 		["<leader>"] = {
 			c = {
@@ -259,6 +312,31 @@ local n_mappings = {
 			s = { "<cmd>StartupTime<cr>", "Startup Time" },
 		},
 	},
+	["g"] = {
+		a = "Code Action",
+		c = {
+			name = "Line Comment",
+			A = "Line End",
+			c = "Current Line",
+			O = "Line Above ",
+			o = "Line Below ",
+		},
+		b = {
+			name = "Block Comment",
+			c = "Current Line",
+		},
+		d = "Goto Definition",
+		D = "Goto Declaration",
+		j = "Move Text Down",
+		i = "Goto Implementation",
+		k = "Move Text Up",
+		l = "Show Diagnostic",
+		r = "References",
+		S = "Split Line",
+		J = "Join Block",
+		t = "Next Tab",
+		T = "Prev Tab",
+	},
 }
 
 which_key.setup(setup)
@@ -277,11 +355,18 @@ local v_opts = {
 
 local v_mappings = {
 	["<leader>"] = {
-		l = { "<cmd>ToggleTermSendVisualLines<cr>", "Send Line" },
-		L = term_id_cmds("Send Line", "ToggleTermSendVisualLines"),
-		r = { "<cmd>SnipRun<cr>", "Run Snip" },
-		s = { "<cmd>ToggleTermSendVisualSelection<cr>", "Send Selection" },
-		S = term_id_cmds("Send Selection", "ToggleTermSendVisualSelection"),
+		a = "Refactoring",
+		c = "Line Comment",
+		b = "Block Comment",
+		l = "ToggleTermSendVisualLines",
+		r = "SnipRun",
+		s = "ToggleTermSendVisualSelection",
+		G = {
+			name = "Golang",
+			c = "GoChannelPeers",
+			R = "GoRemoveTags",
+			T = "GoAddTags",
+		},
 	},
 }
 

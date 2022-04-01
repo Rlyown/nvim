@@ -46,7 +46,7 @@ return packer.startup(function(use)
 	-- use "joshdick/onedark.vim"
 	use({ "catppuccin/nvim", as = "catppuccin" })
 
-	-- Completion
+	-- Completions
 	use("hrsh7th/nvim-cmp") -- The completion plugin
 	use("hrsh7th/cmp-buffer") -- buffer completions
 	use("hrsh7th/cmp-path") -- path completions
@@ -68,8 +68,11 @@ return packer.startup(function(use)
 	use("jose-elias-alvarez/null-ls.nvim") -- for formatters and linters
 	use("antoinemadec/FixCursorHold.nvim") -- This is needed to fix lsp doc highlight
 	-- use { "RishabhRD/nvim-lsputils", requires = { "RishabhRD/popfix" } } -- Better defaults for nvim-lsp actions
-	use("ray-x/lsp_signature.nvim")
+	use("ray-x/lsp_signature.nvim") -- LSP signature hint as you type
 	use("kosayoda/nvim-lightbulb") -- show lightbulb when code action is available
+	use({ "fatih/vim-go", run = ":GoInstallBinaries" }) -- Go development plugin
+	use("stevearc/aerial.nvim") -- code outline window
+	use("ThePrimeagen/refactoring.nvim") -- The Refactoring library
 
 	-- Project
 	use("ahmedkhalf/project.nvim") -- superior project management
@@ -84,6 +87,7 @@ return packer.startup(function(use)
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- FZF sorter for telescope
 	use("nvim-telescope/telescope-ui-select.nvim") -- It sets vim.ui.select to telescope
 	use({ "nvim-telescope/telescope-frecency.nvim", requires = { "tami5/sqlite.lua" } }) -- offers intelligent prioritization
+	use({ "nvim-telescope/telescope-file-browser.nvim" }) -- File Browser extension
 
 	-- Terminal
 	use("akinsho/toggleterm.nvim") -- easily manage multiple terminal windows
@@ -102,14 +106,15 @@ return packer.startup(function(use)
 	use({ "michaelb/sniprun", run = "bash ./install.sh" }) -- run lines/blocs of code
 	use("nathom/filetype.nvim") -- A faster version of filetype.vim
 	use("dstein64/vim-startuptime") -- A Vim plugin for profiling Vim's startup time
-	use("Pocco81/AutoSave.nvim") -- enable autosave
+	-- use("Pocco81/AutoSave.nvim") -- enable autosave
+	use("AndrewRadev/splitjoin.vim") -- Switch between single-line and multiline forms of code
+	-- use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install " }) -- markdown preview plugin
 
 	-- Treesitter
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-	use("JoosepAlviste/nvim-ts-context-commentstring")
+	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- Nvim Treesitter configurations and abstraction layer
+	use("JoosepAlviste/nvim-ts-context-commentstring") -- setting the commentstring based on the cursor location in a file.
 	use("romgrk/nvim-treesitter-context") -- show code context
 	use("nvim-treesitter/playground") -- View treesitter information directly in Neovim
-	use("stevearc/aerial.nvim") -- code outline window
 
 	-- UI
 	use("psliwka/vim-smoothie") -- page scroll smoothly

@@ -10,14 +10,14 @@ sniprun.setup({
 
 	interpreter_options = { --# intepreter-specific options, see docs / :SnipInfo <name>
 		GFM_original = {
-			use_on_filetypes = { "markdown.pandoc" },    --# the 'use_on_filetypes' configuration key is
+			use_on_filetypes = { "markdown.pandoc" }, --# the 'use_on_filetypes' configuration key is
 			--# available for every interpreter
 		},
 	},
 
 	--# you can combo different display modes as desired
 	display = {
-		"Classic", --# display results in the command-line  area
+		-- "Classic", --# display results in the command-line  area
 		"VirtualTextOk", --# display ok results as virtual text (multiline is shortened)
 		"VirtualTextErr", --# display error results as virtual text
 		-- "TempFloatingWindow",      --# display results in a floating window
@@ -30,7 +30,7 @@ sniprun.setup({
 
 	display_options = {
 		terminal_width = 45, --# change the terminal display option width
-		notification_timeout = 5,   --# timeout for nvim_notify output
+		notification_timeout = 5, --# timeout for nvim_notify output
 	},
 
 	--# You can use the same keys to customize whether a sniprun producing
@@ -54,5 +54,5 @@ sniprun.setup({
 
 	borders = "single", --# display borders around floating windows
 	--# possible values are 'none', 'single', 'double', or 'shadow'
-	live_mode_toggle = "off",       --# live mode toggle, see Usage - Running for more info
+	live_mode_toggle = "off", --# live mode toggle, see Usage - Running for more info
 })

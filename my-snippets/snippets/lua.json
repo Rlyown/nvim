@@ -1,7 +1,7 @@
 {
   "Pcall Condition": {
-    "prefix": "pc",
-    "body": "local ${1:status_ok}, $2 = pcall(${3:require}, \"$4\")\nif not $1 then\n\treturn\nend",
+    "prefix": "pcall",
+    "body": "local $1_status_ok, $1 = pcall(${2:require}, \"$3\")\nif not $1_status_ok then\n\treturn\nend",
     "description": "pcall with condition"
   }
 }

@@ -115,9 +115,25 @@ telescope.setup({
 				-- ["conf"]    = vim.fn.expand("~/.config"),
 			},
 		},
+		file_browser = {
+			theme = "dropdown",
+			mappings = {
+				["i"] = {
+					-- your custom insert mode mappings
+				},
+				["n"] = {
+					-- your custom normal mode mappings
+				},
+			},
+		},
 	},
 })
 
+telescope.load_extension("aerial")
 telescope.load_extension("fzf")
 telescope.load_extension("ui-select")
 telescope.load_extension("frecency")
+telescope.load_extension("refactoring")
+local file_browser = telescope.load_extension("file_browser")
+-- Telescope has deprecated file_browser, but some plugins still use it.
+require("telescope.builtin").file_browser = file_browser.file_browser

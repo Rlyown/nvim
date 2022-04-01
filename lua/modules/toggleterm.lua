@@ -55,4 +55,27 @@ function _PYTHON3_TOGGLE()
 	python3:toggle()
 end
 
--- TODO: add bear terminal for "compile_commands.json", "compile_flags.txt"
+local bear_make = Terminal:new({ cmd = "bear make", hidden = true })
+function _BEAR_MAKE_TOGGLE()
+	bear_make:toggle()
+end
+
+local dlv_debug = Terminal:new({ cmd = "dlv debug", hidden = true })
+function _DLV_DEBUG_TOGGLE()
+	dlv_debug:toggle()
+end
+
+local gdb = Terminal:new({ cmd = "gdb", hidden = true })
+function _GDB_TOGGLE()
+	gdb:toggle()
+end
+
+local cgdb = Terminal:new({ cmd = "cgdb", hidden = true })
+function _CGDB_TOGGLE()
+	cgdb:toggle()
+end
+
+local lldb = Terminal:new({ cmd = "lldb", hidden = true })
+function _LLDB_TOGGLE()
+	lldb:toggle()
+end

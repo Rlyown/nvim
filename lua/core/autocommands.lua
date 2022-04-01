@@ -1,3 +1,19 @@
+-- To get your imports ordered on save, like goimports does
+function OrgImports(wait_ms)
+	local params = vim.lsp.util.make_range_params()
+	params.context = { only = { "source.organizeImports" } }
+	local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
+	for _, res in pairs(result or {}) do
+		for _, r in pairs(res.result or {}) do
+			if r.edit then
+				vim.lsp.util.apply_workspace_edit(r.edit)
+			else
+				vim.lsp.buf.execute_command(r.command)
+			end
+		end
+	end
+end
+
 vim.cmd([[
     augroup _general_settings
         autocmd!
@@ -32,12 +48,23 @@ vim.cmd([[
     " Autoformat
     augroup _lsp
         autocmd!
-        autocmd BufWritePre * lua vim.lsp.buf.formatting_sync() 
+        autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()
+    augroup end
+    "
+    augroup _golang
+        autocmd!
+        autocmd BufWritePre *.go lua OrgImports(1000)
     augroup end
 
     " auto close nvim-tree"
     augroup _nvim_tree
         autocmd!
         autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
+    augroup end
+
+    " auto close aerial window
+    augroup _aerial
+        autocmd!
+        autocmd BufEnter * ++nested if winnr('$') == 1 && &filetype == 'aerial' | quit | endif
     augroup end
 ]])
