@@ -21,6 +21,7 @@ require("modules.sniprun")
 require("modules.telescope")
 require("modules.toggleterm")
 require("modules.treesitter")
+require("modules.treesitter-context")
 require("modules.undotree")
 require("modules.whichkey")
 

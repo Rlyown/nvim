@@ -155,6 +155,8 @@ See `lua/plugin/plugins.lua`
 <leader><leader>s
 ```
 
+![image-20220402152627633](README/image-20220402152627633.png)
+
 ## Something Useful
 
 * [Everything you need to know to configure neovim using lua](https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/)

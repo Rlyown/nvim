@@ -71,6 +71,47 @@ local function gps_content()
 	end
 end
 
+local function lsp_process()
+	-- Color for highlights
+	local colors = {
+		yellow = "#ECBE7B",
+		cyan = "#008080",
+		darkblue = "#081633",
+		green = "#98be65",
+		orange = "#FF8800",
+		violet = "#a9a1e1",
+		magenta = "#c678dd",
+		blue = "#51afef",
+		red = "#ec5f67",
+	}
+
+	return {
+		"lsp_progress",
+		-- With spinner
+		display_components = { "lsp_client_name", "spinner", { "title", "percentage", "message" } },
+		colors = {
+			percentage = colors.cyan,
+			title = colors.cyan,
+			message = colors.cyan,
+			spinner = colors.cyan,
+			lsp_client_name = colors.magenta,
+			use = true,
+		},
+		separators = {
+			component = " ",
+			progress = " | ",
+			message = { pre = "(", post = ")" },
+			percentage = { pre = "", post = "%% " },
+			title = { pre = "", post = ": " },
+			lsp_client_name = { pre = "[", post = "]" },
+			spinner = { pre = "", post = "" },
+			-- message = { commenced = 'In Progress', completed = 'Completed' },
+		},
+		timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 1000 },
+		spinner_symbols = { "🌑 ", "🌒 ", "🌓 ", "🌔 ", "🌕 ", "🌖 ", "🌗 ", "🌘 " },
+	}
+end
+
 lualine.setup({
 	options = {
 		icons_enabled = true,
@@ -83,7 +124,7 @@ lualine.setup({
 	sections = {
 		lualine_a = { branch, diagnostics },
 		lualine_b = { mode },
-		lualine_c = { gps_content },
+		lualine_c = { gps_content, "lsp_process" },
 		-- lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_x = { diff, spaces, "encoding", filetype },
 		lualine_y = { location },
