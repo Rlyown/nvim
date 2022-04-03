@@ -33,10 +33,10 @@ Install the follow dependencies:
 * On MacOS
 
 ```shell
-brew install neovim ripgrep fd fortune lua
+brew install neovim ripgrep fd fortune lua sqlite
 
 # Tools for language support
-brew install llvm bear clang-format cmake lazygit golang stylua rustup-init shfmt node yarn
+brew install llvm bear clang-format cmake lazygit golang stylua rustup-init shfmt  node yarn
 python3 -m pip install pynvim
 npm install -g neovim
 go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -52,21 +52,13 @@ cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complet
 
 * On Ubuntu 20.04
 
-  * Lua require >= 5.4
-
   * Golang require >= 1.17
 
   ```shell
   # Install System denpendence
   sudo apt-get install software-properties-common curl gnupg git libreadline-dev 
   
-  # Install Lua
-  curl -R -O http://www.lua.org/ftp/lua-5.4.4.tar.gz
-  tar zxf lua-5.4.4.tar.gz
-  cd lua-5.4.4
-  make -j$(nproc)
-  sudo make install
-  cd ..
+  # Install Golang
   wget https://go.dev/dl/go1.18.linux-amd64.tar.gz 
   sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
   export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH
@@ -74,13 +66,12 @@ cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complet
   # Install main packages
   sudo add-apt-repository ppa:neovim-ppa/stable
   sudo apt update
-  sudo apt install -y neovim ripgrep fd-find fortune-mod
+  sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.3
   
   # Tools for language support
   curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-  
   sudo apt-get update
-  sudo apt install -y llvm bear clang-format cmake nodejs gdb yarn python3-pip
+  sudo apt install -y llvm bear clang-format cmake nodejs gdb yarn python3-pip libsqlite3-dev sqlite3
   # If you want to make go-bin-path persistent, write it to your ~/.bashrc
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   source $HOME/.cargo/env
@@ -92,6 +83,13 @@ cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complet
   go install mvdan.cc/sh/v3/cmd/shfmt@latest
   go install github.com/go-delve/delve/cmd/dlv@latest
   ```
+
+​		*Nerd Fonts* is needed to show icons. And don't forget to change your terminal fonts.
+
+```shell
+mkdir -p ~/.local/share/fonts
+cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+```
 
 Then run `nvim` and wait for the plugins to be installed.
 
@@ -200,6 +198,12 @@ See `lua/plugin/plugins.lua`
 ```
 
 ![image-20220402152627633](README/image-20220402152627633.png)
+
+## Screenshot
+
+![image-20220404010324460](README/image-20220404010324460.png)
+
+![image-20220404010415841](README/image-20220404010415841.png)
 
 ## Something Useful
 
