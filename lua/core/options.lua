@@ -40,8 +40,8 @@ local options = {
 	guifont = "monospace:h17", -- the font used in graphical neovim applications
 	autoread = true, -- auto re-read file when modified by third editor
 	confirm = true, -- confirm when file is unsaved or read-only
-    autowrite = true, -- enable auto write buffer
-    autowriteall = true, -- similar to autowrite. It will auto save in some extra events
+	autowrite = true, -- enable auto write buffer
+	autowriteall = true, -- similar to autowrite. It will auto save in some extra events
 }
 
 vim.opt.shortmess:append("c") -- enable short message with flag "c"
@@ -56,7 +56,10 @@ vim.cmd([[set iskeyword+=-]]) -- set word to keyword
 vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
 
 -- set default colorscheme
-vim.cmd([[colorscheme catppuccin]])
+local catppuccin_status_ok, catppuccin = pcall(require, "catppuccin")
+if catppuccin_status_ok then
+	vim.cmd([[colorscheme catppuccin]])
+end
 
 -- enable global varible
 local global_varible = require("core.gvarible")
