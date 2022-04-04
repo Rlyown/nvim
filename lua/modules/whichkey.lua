@@ -128,6 +128,7 @@ local n_mappings = {
 			d = { "<cmd>BufferLineSortByDirectory<cr>", "Sort By Dir" },
 		},
 		["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
+		["e"] = { "<cmd>SudaRead<cr>", "Sudo Reopen" },
 		["f"] = {
 			"<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
 			"Find files",
@@ -235,6 +236,7 @@ local n_mappings = {
 		},
 		["O"] = { "<cmd>AerialToggle right<cr>", "Code OutLine" },
 		["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
+		["q"] = { "<cmd>qa<cr>", "Quit" },
 		["r"] = {
 			name = "SnipRun",
 			c = { "<cmd>SnipClose<cr>", "Close" },
@@ -291,11 +293,7 @@ local n_mappings = {
 		},
 		["u"] = { "<cmd>UndotreeToggle<cr>", "Undotree" },
 		["w"] = { "<cmd>w<cr>", "Save" },
-		["W"] = {
-			name = "Sudo Reopen",
-			e = { "<cmd>SudaRead<cr>", "Reopen" },
-			w = { "<cmd>SudaWrite<cr>", "Force Save" },
-		},
+		["W"] = { "<cmd>SudaWrite<cr>", "Force Save" },
 		["="] = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
 		["<leader>"] = {
 			c = {
