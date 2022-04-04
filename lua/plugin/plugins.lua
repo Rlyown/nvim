@@ -110,6 +110,7 @@ return packer.startup(function(use)
 	-- use({ "Pocco81/AutoSave.nvim" }) -- enable autosave
 	use({ "AndrewRadev/splitjoin.vim" }) -- Switch between single-line and multiline forms of code
 	use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install ", ft = "markdown" }) -- markdown preview plugin
+	use({ "lambdalisue/suda.vim" }) -- An alternative sudo.vim for Vim and Neovim
 
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- Nvim Treesitter configurations and abstraction layer

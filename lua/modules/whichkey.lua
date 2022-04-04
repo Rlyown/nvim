@@ -291,7 +291,11 @@ local n_mappings = {
 		},
 		["u"] = { "<cmd>UndotreeToggle<cr>", "Undotree" },
 		["w"] = { "<cmd>w<cr>", "Save" },
-		["W"] = { "<cmd>w !sudo -S tee %<CR>", "Force Save(Linux Only)" },
+		["W"] = {
+			name = "Sudo Reopen",
+			e = { "<cmd>SudaRead<cr>", "Reopen" },
+			w = { "<cmd>SudaWrite<cr>", "Force Save" },
+		},
 		["="] = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
 		["<leader>"] = {
 			c = {

@@ -48,6 +48,14 @@ local location = {
 	padding = 0,
 }
 
+local function file_status()
+	if vim.bo.readonly then
+		return "[READONLY ]"
+	else
+		return ""
+	end
+end
+
 -- cool function for progress
 local progress = function()
 	local current_line = vim.fn.line(".")
@@ -63,7 +71,10 @@ local spaces = function()
 end
 
 local function gps_content()
-	local gps = require("nvim-gps")
+	local gps_status_ok, gps = pcall(require, "nvim-gps")
+	if not gps_status_ok then
+		return
+	end
 	if gps.is_available() then
 		return gps.get_location()
 	else
@@ -124,7 +135,7 @@ lualine.setup({
 	sections = {
 		lualine_a = { branch, diagnostics },
 		lualine_b = { mode },
-		lualine_c = { gps_content, "lsp_process" },
+		lualine_c = { file_status, gps_content, "lsp_process" },
 		-- lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_x = { diff, spaces, "encoding", filetype },
 		lualine_y = { location },
