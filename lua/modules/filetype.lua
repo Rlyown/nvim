@@ -5,14 +5,18 @@ end
 
 filetype.setup({
 	overrides = {
-		-- extensions = {
-		-- Set the filetype of *.pn files to potion
-		-- pn = "potion",
-		-- },
-		-- literal = {
-		-- Set the filetype of files named "MyBackupFile" to lua
-		-- MyBackupFile = "lua",
-		-- },
+		extensions = {
+			-- Set the filetype of *.pn files to potion
+			-- pn = "potion",
+			org = "org",
+		},
+		literal = {
+			-- Set the filetype of files named "MyBackupFile" to lua
+			-- MyBackupFile = "lua",
+			["profile"] = "sh",
+			["environment"] = "sh",
+			["env"] = "sh",
+		},
 		-- complex = {
 		-- Set the filetype of any full filename matching the regex to gitconfig
 		-- [".*git/config"] = "gitconfig", -- Included in the plugin

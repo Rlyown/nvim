@@ -124,7 +124,7 @@ cmp.setup({
 		{ name = "buffer" },
 		{ name = "path" },
 		{ name = "nvim_lua" },
-		{ name = "spell" },
+		-- { name = "spell" },
 		-- { name = 'copilot' },
 	},
 	confirm_opts = {
@@ -144,3 +144,7 @@ cmp.setup({
 cmp.event:on("confirm_done", autopairs.on_confirm_done({ map_char = { tex = "" } }))
 -- add a lisp filetype
 autopairs.lisp[#autopairs.lisp + 1] = "racket"
+
+-- enable cmp spell check
+-- vim.opt.spell = true
+-- vim.opt.spelllang = { "en_us" }
