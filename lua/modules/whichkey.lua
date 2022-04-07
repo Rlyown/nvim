@@ -97,6 +97,10 @@ local function term_multi_hv(name, size, direction)
 			id = 1
 		end
 
+		if direction == "Vertical" then
+			size = vim.o.columns * size
+		end
+
 		if id and 1 <= id and id <= term_id_max then
 			local s = string.format("%dToggleTerm size=%d direction=%s", id, size, direction)
 			vim.cmd(s)
@@ -275,7 +279,6 @@ local n_mappings = {
 			h = term_multi_hv("Horizontal", 15, "horizontal"),
 			s = {
 				name = "Specific",
-				b = { "<cmd>lua _BEAR_MAKE_TOGGLE()<cr>", "Bear" },
 				c = { "<cmd>lua _CGDB_TOGGLE()<cr>", "CGDB" },
 				d = { "<cmd>lua _DLV_DEBUG_TOGGLE()<cr>", "Delve" },
 				g = { "<cmd>lua _GDB_TOGGLE()<cr>", "GDB" },
@@ -283,7 +286,7 @@ local n_mappings = {
 				G = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
 				p = { "<cmd>lua _PYTHON3_TOGGLE()<cr>", "Python3" },
 			},
-			v = term_multi_hv("Vertical", vim.o.columns * 0.4, "vertical"),
+			v = term_multi_hv("Vertical", 0.4, "vertical"),
 			w = { "<cmd>ToggleTerm direction=window<cr>", "Window" },
 		},
 		["T"] = {

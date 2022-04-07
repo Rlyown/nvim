@@ -1,0 +1,17 @@
+{
+    "block comment": {
+        "prefix": "/*",
+        "body": "/*\n * $1\n */",
+        "description": "add block comment"
+    },
+    "function comment": {
+        "prefix": "/**func",
+        "body": "/**\n * @brief ${1:function_brief}\n * @details ${2:function_description}\n *\n * @param ${3:argument_name} ${4:argument_details}\n * @return ${5:return_details}\n *\n * @note ${6:note_info}\n */",
+        "description": "add doxygen function comment"
+    },
+    "file comment": {
+        "prefix": "/**file",
+        "body": "/**\n * @file $TM_FILENAME \n * @brief ${1:file_brief}\n * @details ${2:file_description}\n * @author ${3:file_author}\n * @date $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE\n */",
+        "description": "add doxygen file comment"
+    }
+}

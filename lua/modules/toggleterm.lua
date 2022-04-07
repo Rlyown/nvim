@@ -55,11 +55,6 @@ function _PYTHON3_TOGGLE()
 	python3:toggle()
 end
 
-local bear_make = Terminal:new({ cmd = "bear make", hidden = true })
-function _BEAR_MAKE_TOGGLE()
-	bear_make:toggle()
-end
-
 local dlv_debug = Terminal:new({ cmd = "dlv debug", hidden = true })
 function _DLV_DEBUG_TOGGLE()
 	dlv_debug:toggle()
