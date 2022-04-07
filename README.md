@@ -32,23 +32,23 @@ Install the follow dependencies:
 
 * On MacOS
 
-```shell
-brew install neovim ripgrep fd fortune lua sqlite
+    ```shell
+    brew install neovim ripgrep fd fortune lua sqlite
+    
+    # Tools for language support
+    brew install llvm bear clang-format cmake lazygit golang stylua rustup-init shfmt  node yarn
+    python3 -m pip install pynvim
+    npm install -g neovim
+    go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
+    go install github.com/go-delve/delve/cmd/dlv@latest
+    rustup-init
+    ```
 
-# Tools for language support
-brew install llvm bear clang-format cmake lazygit golang stylua rustup-init shfmt  node yarn
-python3 -m pip install pynvim
-npm install -g neovim
-go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
-go install github.com/go-delve/delve/cmd/dlv@latest
-rustup-init
-```
+    *Nerd Fonts* is needed to show icons. And don't forget to change your terminal fonts.
 
-​	*Nerd Fonts* is needed to show icons. And don't forget to change your terminal fonts.
-
-```shell
-cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
-```
+    ```shell
+    cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+    ```
 
 * On Ubuntu 20.04
 
@@ -84,12 +84,12 @@ cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complet
   go install github.com/go-delve/delve/cmd/dlv@latest
   ```
 
-​		*Nerd Fonts* is needed to show icons. And don't forget to change your terminal fonts.
+  *Nerd Fonts* is needed to show icons. And don't forget to change your terminal fonts.
 
-```shell
-mkdir -p ~/.local/share/fonts
-cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
-```
+    ```shell
+    mkdir -p ~/.local/share/fonts
+    cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+    ```
 
 Then run `nvim` and wait for the plugins to be installed.
 
