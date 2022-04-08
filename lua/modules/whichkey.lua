@@ -240,7 +240,8 @@ local n_mappings = {
 		},
 		["O"] = { "<cmd>AerialToggle right<cr>", "Code OutLine" },
 		["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
-		["q"] = { "<cmd>qa<cr>", "Quit" },
+		["q"] = { "<cmd>q<cr>", "Quit" },
+		["Q"] = { "<cmd>qa<cr>", "Quit All" },
 		["r"] = {
 			name = "SnipRun",
 			c = { "<cmd>SnipClose<cr>", "Close" },
@@ -373,6 +374,10 @@ local v_mappings = {
 			R = "GoRemoveTags",
 			T = "GoAddTags",
 		},
+	},
+	["g"] = {
+		u = "Lower",
+		U = "Upper",
 	},
 }
 
