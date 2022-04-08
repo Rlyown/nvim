@@ -214,7 +214,7 @@ local n_mappings = {
 				"<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>",
 				"Prev Diagnostic",
 			},
-			q = { "<cmd>lua vim.lsp.diagnostic.setloclist()<cr>", "Diagnostic List" },
+			q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Diagnostic List" },
 			r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
 			R = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
 			s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
