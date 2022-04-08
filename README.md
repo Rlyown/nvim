@@ -36,7 +36,7 @@ Install the follow dependencies:
     brew install neovim ripgrep fd fortune lua sqlite
     
     # Tools for language support
-    brew install llvm bear clang-format cmake lazygit golang stylua rustup-init shfmt  node yarn
+    brew install llvm bear clang-format cmake lazygit golang stylua rustup-init shfmt node yarn neovim-remote
     python3 -m pip install pynvim
     npm install -g neovim
     go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -77,6 +77,7 @@ Install the follow dependencies:
   source $HOME/.cargo/env
   cargo install stylua
   python3 -m pip install pynvim # Python2 is ok
+  python3 -m pip install neovim-remote
   sudo npm install -g neovim
   go install github.com/jesseduffield/lazygit@latest
   go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -91,7 +92,13 @@ Install the follow dependencies:
     cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
     ```
 
-Then run `nvim` and wait for the plugins to be installed.
+To set neovim as default editor, you can add these to `~/.bashrc` or `~/.zshrc`:
+```shell
+export VISUAL="nvim"
+export EDITOR="nvim"
+```
+
+Finally, run `nvim` and wait for the plugins to be installed.
 
 ## Check Health 
 
