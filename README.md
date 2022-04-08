@@ -135,7 +135,7 @@ Leader key is comma(`,`) key.
 | LSP             | normal           | `[d`              | goto prev                                                    |
 | LSP             | normal           | `]d`              | goto declaration                                             |
 | LSP             | normal           | `gl`              | show current diagnostic                                      |
-| LSP             | normal           | `<leader>q`       | show diagnostic list                                         |
+| LSP             | normal           | `gq`              | show diagnostic list                                         |
 | which-key       | normal           | `<leader>`        | show shortcut binding to `<leader>`                          |
 | which-key       | normal           | `'`               | show marks                                                   |
 | which-key       | normal           | `"`               | show Registers                                               |
@@ -183,6 +183,13 @@ Leader key is comma(`,`) key.
 | vim-startuptime | startup-view     | `gf`              | load the corresponding file in a new split                   |
 | splitjoin       | normal           | `gS`              | split a one-liner into multiple lines                        |
 | splitjoin       | normal           | `gJ`              | (with the cursor on the first line of a block) to join a block into a single-line statement. |
+| terminal        | terminal-insert  | `jk`              | escape terminal insert mode                                  |
+| terminal        | normal           | `i`               | go back to terminal insert mode                              |
+| terminal        | terminal-insert  | `<C-h>`           | move to left window                                          |
+| terminal        | terminal-insert  | `<C-j>`           | move to down window                                          |
+| terminal        | terminal-insert  | `<C-k>`           | move to up window                                            |
+| terminal        | terminal-insert  | `<C-l>`           | move to right window                                         |
+
 
 ## Plugins
 
