@@ -97,8 +97,10 @@ local function term_multi_hv(name, size, direction)
 			id = 1
 		end
 
-		if direction == "Vertical" then
+		if direction == "vertical" then
 			size = vim.o.columns * size
+		elseif direction == "horizontal" then
+			size = vim.o.lines * size
 		end
 
 		if id and 1 <= id and id <= term_id_max then
@@ -108,6 +110,16 @@ local function term_multi_hv(name, size, direction)
 	end
 
 	return { do_func, name }
+end
+
+-- bufdelete.nvim plugin cannot kill terminal by Bdelete command
+local function close_buffer()
+	local toggleterm_pattern = "^term://.*#toggleterm#%d+"
+	if string.find(vim.fn.bufname(), toggleterm_pattern) then
+		vim.cmd("bdelete!")
+	else
+		vim.cmd("Bdelete!")
+	end
 end
 
 local n_opts = {
@@ -131,7 +143,7 @@ local n_mappings = {
 			name = "BufferLine",
 			d = { "<cmd>BufferLineSortByDirectory<cr>", "Sort By Dir" },
 		},
-		["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
+		["c"] = { close_buffer, "Close Buffer" },
 		["e"] = { "<cmd>SudaRead<cr>", "Sudo Reopen" },
 		["f"] = {
 			"<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
@@ -277,7 +289,9 @@ local n_mappings = {
 			a = { "<cmd>ToggleTermToggleAll<cr>", "All" },
 			c = term_id_cmds("Send Line", "ToggleTermSendCurrentLine"),
 			f = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
-			h = term_multi_hv("Horizontal", 15, "horizontal"),
+			h = term_multi_hv("Horizontal", 0.3, "horizontal"),
+			q = { "<cmd>q<cr>", "Background" },
+			Q = { "<cmd>q<cr>", "Finish" },
 			s = {
 				name = "Specific",
 				c = { "<cmd>lua _CGDB_TOGGLE()<cr>", "CGDB" },
@@ -288,7 +302,7 @@ local n_mappings = {
 				p = { "<cmd>lua _PYTHON3_TOGGLE()<cr>", "Python3" },
 			},
 			v = term_multi_hv("Vertical", 0.4, "vertical"),
-			w = { "<cmd>ToggleTerm direction=window<cr>", "Window" },
+			w = { "<cmd>terminal<cr>", "Window" },
 		},
 		["T"] = {
 			name = "Tab",

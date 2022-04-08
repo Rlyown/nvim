@@ -100,6 +100,7 @@ return packer.startup(function(use)
 	use({ "windwp/nvim-autopairs" }) -- Autopairs, integrates with both cmp and treesitter
 	use({ "numToStr/Comment.nvim" }) -- Easily comment stuff
 	use({ "famiu/bufdelete.nvim", cmd = { "Bdelete", "Bwipeout", "Bdelete!", "Bwipeout!" } }) -- delete buffers (close files) without closing your windows or messing up your layout
+	-- use({ "moll/vim-bbye", cmd = { "Bdelete", "Bwipeout", "Bdelete!", "Bwipeout!" } }) -- delete buffers (close files) without closing your windows or messing up your layout
 	use({ "lewis6991/impatient.nvim" }) -- Improve startup time for Neovim
 	use({ "folke/which-key.nvim" }) -- Create key bindings that stick.
 	use({ "tpope/vim-repeat" }) -- enable repeating supported plugin maps with "."
