@@ -335,6 +335,7 @@ local n_mappings = {
 		j = "Move Text Down",
 		i = "Goto Implementation",
 		k = "Move Text Up",
+		h = "Signature Help",
 		l = "Show Diagnostic",
 		r = "References",
 		S = "Split Line",

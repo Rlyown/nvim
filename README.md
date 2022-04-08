@@ -130,7 +130,7 @@ Leader key is comma(`,`) key.
 | LSP             | normal           | `gd`              | goto definition                                              |
 | LSP             | normal           | `K`               | hover                                                        |
 | LSP             | normal           | `gi`              | goto implementation                                          |
-| LSP             | normal           | `<C-k>`           | signature help                                               |
+| LSP             | normal           | `gh`              | signature help                                               |
 | LSP             | normal           | `gr`              | references                                                   |
 | LSP             | normal           | `[d`              | goto prev                                                    |
 | LSP             | normal           | `]d`              | goto declaration                                             |
