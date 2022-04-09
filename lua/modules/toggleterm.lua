@@ -43,7 +43,12 @@ vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 
 -- Create custom terminals
 local Terminal = require("toggleterm.terminal").Terminal
-local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
+
+-- Setup nvim as default editor for lazygit
+local lazygit = Terminal:new({
+	cmd = [[VISUAL="nvim" EDITOR="nvim" lazygit]],
+	hidden = true,
+})
 
 function _LAZYGIT_TOGGLE()
 	lazygit:toggle()
