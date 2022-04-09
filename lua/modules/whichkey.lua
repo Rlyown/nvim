@@ -89,18 +89,21 @@ local function term_id_cmds(name, cmd_str)
 	return { do_func, name }
 end
 
-local function term_multi_hv(name, size, direction)
+local function term_multi_hv(name, rate, direction)
 	local prompt = string.format("Input Terminal ID(1 - %d, default 1): ", term_id_max)
+
 	local do_func = function()
 		local id = tonumber(vim.fn.input(prompt))
 		if not id then
 			id = 1
 		end
 
+		local size = 20
+
 		if direction == "vertical" then
-			size = vim.o.columns * size
+			size = vim.o.columns * rate
 		elseif direction == "horizontal" then
-			size = vim.o.lines * size
+			size = vim.o.lines * rate
 		end
 
 		if id and 1 <= id and id <= term_id_max then
