@@ -77,3 +77,45 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 -- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+
+-- Hop plugins
+local hop_status_ok, _ = pcall(require, "hop")
+if hop_status_ok then
+	-- place this in one of your configuration file(s)
+	keymap(
+		"n",
+		"f",
+		"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR })<cr>",
+		opts
+	)
+	keymap(
+		"n",
+		"F",
+		"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR })<cr>",
+		opts
+	)
+	keymap(
+		"v",
+		"f",
+		"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, inclusive_jump = true })<cr>",
+		opts
+	)
+	keymap(
+		"v",
+		"F",
+		"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, inclusive_jump = true })<cr>",
+		opts
+	)
+	keymap(
+		"",
+		"t",
+		"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR })<cr>",
+		opts
+	)
+	keymap(
+		"",
+		"T",
+		"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR })<cr>",
+		opts
+	)
+end

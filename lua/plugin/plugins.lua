@@ -112,6 +112,7 @@ return packer.startup(function(use)
 	use({ "AndrewRadev/splitjoin.vim" }) -- Switch between single-line and multiline forms of code
 	use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install ", ft = "markdown" }) -- markdown preview plugin
 	use({ "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" } }) -- An alternative sudo.vim for Vim and Neovim
+	use({ "phaazon/hop.nvim", branch = "v1" }) -- Neovim motions on speed
 
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- Nvim Treesitter configurations and abstraction layer
