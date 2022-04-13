@@ -304,6 +304,7 @@ local n_mappings = {
 				G = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
 				p = { "<cmd>lua _PYTHON3_TOGGLE()<cr>", "Python3" },
 			},
+			t = { "<cmd>ToggleTerm direction=tab<cr>", "Tab" },
 			v = term_multi_hv("Vertical", 0.4, "vertical"),
 			w = { "<cmd>terminal<cr>", "Window" },
 		},
