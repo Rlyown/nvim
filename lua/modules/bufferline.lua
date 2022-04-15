@@ -31,8 +31,8 @@ bufferline.setup({
 		--     return vim.fn.fnamemodify(buf.name, ':t:r')
 		--   end
 		-- end,
-		max_name_length = 30,
-		max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
+		max_name_length = 21,
+		max_prefix_length = 18, -- prefix used when a buffer is de-duplicated
 		tab_size = 21,
 		diagnostics = false, -- | "nvim_lsp" | "coc",
 		diagnostics_update_in_insert = false,
@@ -55,7 +55,10 @@ bufferline.setup({
 		--     return true
 		--   end
 		-- end,
-		offsets = { { filetype = "NvimTree", text = "", padding = 1 }, { filetype = "aerial", text = "", padding = 1 } },
+		offsets = {
+			{ filetype = "NvimTree", text = "", padding = 1 },
+			{ filetype = "aerial", text = "", padding = 1 },
+		},
 		show_buffer_icons = true,
 		show_buffer_close_icons = true,
 		show_close_icon = true,
@@ -64,7 +67,9 @@ bufferline.setup({
 		-- can also be a table containing 2 custom separators
 		-- [focused and unfocused]. eg: { '|', '|' }
 		separator_style = "thin", -- | "thick" | "thin" | { 'any', 'any' },
-		enforce_regular_tabs = true,
+		-- enforces a minimum tab size so that the buffer line appears consistent.
+		-- when this option is set to `true`. It will disable the ability to deduplicate buffers.
+		enforce_regular_tabs = false,
 		always_show_bufferline = true,
 		-- sort_by = 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)
 		--   -- add custom logic
@@ -119,8 +124,8 @@ bufferline.setup({
 		},
 
 		duplicate_selected = {
-			guifg = { attribute = "fg", highlight = "TabLineSel" },
-			guibg = { attribute = "bg", highlight = "TabLineSel" },
+			guifg = { attribute = "fg", highlight = "TabLine" },
+			guibg = { attribute = "bg", highlight = "TabLine" },
 			gui = "italic",
 		},
 		duplicate_visible = {

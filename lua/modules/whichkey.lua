@@ -362,6 +362,7 @@ local n_mappings = {
 		J = "Join Block",
 		t = "Next Tab",
 		T = "Prev Tab",
+		w = { "<cmd>BufferLinePick<cr>", "Pick Buffer" },
 	},
 }
 
