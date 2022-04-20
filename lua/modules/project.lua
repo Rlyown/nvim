@@ -23,9 +23,8 @@ project.setup({
 	-- detection_methods = { "lsp", "pattern" }, -- NOTE: lsp detection will get annoying with multiple langs in one project
 	detection_methods = { "pattern" },
 
-	-- ".project" is a fake directory to specific project root.
 	---@usage patterns used to detect root dir, when **"pattern"** is in detection_methods
-	patterns = { ".git", ".svn", ".idea" },
+	patterns = { ".git", ".svn", ".idea", ".vscode" },
 
 	---@ Show hidden files in telescope when searching for files in a project
 	show_hidden = false,
