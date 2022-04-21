@@ -50,7 +50,7 @@ local location = {
 
 local function file_status()
 	if vim.bo.readonly then
-		return "[READONLY ]"
+		return "[READ-ONLY ]"
 	else
 		return ""
 	end

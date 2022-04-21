@@ -3,6 +3,8 @@ if not status_ok then
 	return
 end
 
+local gpath = require("core.gvarible").path
+
 local setup = {
 	plugins = {
 		marks = true, -- shows a list of your marks on ' and `
@@ -125,6 +127,40 @@ local function close_buffer()
 	end
 end
 
+local function copy_file(oldPath, newPath)
+	local oldf, errorString = io.open(oldPath, "r")
+	if oldf == nil then
+		vim.notify(errorString, vim.log.levels.ERROR, {})
+		return
+	end
+	local data = oldf:read("a")
+	oldf:close()
+	local newf = io.open(newPath, "w")
+	newf:write(data)
+	newf:close()
+
+	local msg = string.format("Success copy file %s to %s", oldPath, newPath)
+	vim.notify(msg, vim.log.levels.INFO)
+end
+
+local function clang_tidy_setup()
+	local clang_tidy = gpath.clangd_template .. "/clang-tidy"
+	local target = vim.fn.getcwd() .. "/.clang-tidy"
+	copy_file(clang_tidy, target)
+
+	-- refresh nvim-tree
+	vim.cmd([[NvimTreeRefresh]])
+end
+
+local function clang_format_setup()
+	local clang_format = gpath.clangd_template .. "/clang-format"
+	local target = vim.fn.getcwd() .. "/.clang-format"
+	copy_file(clang_format, target)
+
+	-- refresh nvim-tree
+	vim.cmd([[NvimTreeRefresh]])
+end
+
 local n_opts = {
 	mode = "n", -- NORMAL mode
 	prefix = "",
@@ -206,19 +242,14 @@ local n_mappings = {
 		},
 		["h"] = { "<cmd>nohlsearch<CR>", "No Highlight Search" },
 		["l"] = {
-			a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
 			c = {
 				"<cmd>Telescope lsp_document_diagnostics<cr>",
 				"Document Diagnostics",
 			},
-			d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
-			D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
+			f = { "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", "Format" },
 			K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover" },
-			h = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Sig Help" },
 			H = { "<cmd>LspInfo<cr>", "Info" },
-			i = { "<cmd>lua vim.lsp.buf.implementation()<cr>", "Implementation" },
 			I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
-			l = { '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>', "Diagnostics" },
 			L = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
 			n = {
 				"<cmd>lua vim.lsp.diagnostic.goto_next()<CR>",
@@ -229,17 +260,12 @@ local n_mappings = {
 				"<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>",
 				"Prev Diagnostic",
 			},
-			q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Diagnostic List" },
-			r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
+			q = { "<cmd>Telescope diagnostics<cr>", "Diagnostic" },
 			R = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
 			s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
 			S = {
 				"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
 				"Workspace Symbols",
-			},
-			w = {
-				"<cmd>Telescope lsp_workspace_diagnostics<cr>",
-				"Workspace Diagnostics",
 			},
 		},
 		["m"] = { "<cmd>MarkdownPreviewToggle<cr>", "Markdown Preview" },
@@ -316,14 +342,28 @@ local n_mappings = {
 		["u"] = { "<cmd>UndotreeToggle<cr>", "Undotree" },
 		["w"] = { "<cmd>w<cr>", "Save" },
 		["W"] = { "<cmd>SudaWrite<cr>", "Force Save" },
-		["="] = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
-		["<leader>"] = {
+		["x"] = {
+			name = "Trouble",
+			d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics" },
+			l = { "<cmd>TroubleToggle loclist", "LocList" },
+			q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
+			r = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
+			w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics" },
+			x = { "<cmd>TroubleToggle<cr>", "Trouble" },
+		},
+		[","] = {
+			name = "Ext",
 			c = {
 				name = "Colorizer",
 				a = { "<cmd>ColorizerAttachToBuffer<cr>", "Attach" },
 				d = { "<cmd>ColorizerDetachFromBuffer<cr>", "Detach" },
 				r = { "<cmd>ColorizerReloadAllBuffers<cr>", "Reload" },
 				t = { "<cmd>ColorizerToggle<cr>", "Toggle" },
+			},
+			l = {
+				name = "Language Specific",
+				t = { clang_tidy_setup, "Clang Tidy" },
+				f = { clang_format_setup, "Clang Format" },
 			},
 			p = {
 				name = "Packer",
@@ -358,6 +398,7 @@ local n_mappings = {
 		l = "Show Diagnostic",
 		q = "Diagnostic List",
 		r = "References",
+		R = "Rename",
 		S = "Split Line",
 		J = "Join Block",
 		t = "Next Tab",

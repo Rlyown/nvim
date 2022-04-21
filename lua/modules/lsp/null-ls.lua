@@ -16,14 +16,15 @@ null_ls.setup({
 		-- asm
 		formatting.asmfmt,
 
+		-- Disable it because command line arguments take precedence over .clang-format file
 		-- c/cpp
-		formatting.clang_format.with({
-			extra_args = {
-				"--sort-includes",
-				"-style",
-				"{BasedOnStyle: llvm, IndentWidth: 4}",
-			},
-		}),
+		-- formatting.clang_format.with({
+		-- 	extra_args = {
+		-- 		"--sort-includes",
+		-- 		"-style",
+		-- 		"{BasedOnStyle: google, IndentWidth: 4}",
+		-- 	},
+		-- }),
 
 		-- lua
 		formatting.stylua,

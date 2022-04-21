@@ -56,7 +56,7 @@ vim.cmd([[set iskeyword+=-]]) -- set word to keyword
 vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
 
 -- set default colorscheme
-local catppuccin_status_ok, catppuccin = pcall(require, "catppuccin")
+local catppuccin_status_ok, _ = pcall(require, "catppuccin")
 if catppuccin_status_ok then
 	vim.cmd([[colorscheme catppuccin]])
 end

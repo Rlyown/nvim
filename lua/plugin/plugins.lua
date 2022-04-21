@@ -74,6 +74,7 @@ return packer.startup(function(use)
 	use({ "fatih/vim-go", run = ":GoInstallBinaries", ft = "go" }) -- Go development plugin
 	use({ "stevearc/aerial.nvim" }) -- code outline window
 	use({ "ThePrimeagen/refactoring.nvim" }) -- The Refactoring library
+	-- use({ "emilienlemaire/clang-tidy.nvim" }) -- A plugin to publish clang-tidy checks on neovin lsp diagnostics
 
 	-- Project
 	use({ "ahmedkhalf/project.nvim" }) -- superior project management
@@ -135,6 +136,7 @@ return packer.startup(function(use)
 	-- use "gelguy/wilder.nvim" -- A more adventurous wildmenu
 	-- use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 	use({ "norcalli/nvim-colorizer.lua", ft = { "css", "javascript", "html" } }) -- The fastest Neovim colorizer.
+	use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" }) -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

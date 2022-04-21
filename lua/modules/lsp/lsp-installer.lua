@@ -3,8 +3,8 @@ if not status_ok then
 	return
 end
 
-local function get_config_path(server)
-	return string.format("modules.lsp.settings.%s", server)
+local function get_config_path(server_name)
+	return string.format("modules.lsp.settings.%s", server_name)
 end
 
 -- the lsp-servers list
