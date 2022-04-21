@@ -66,7 +66,7 @@ return packer.startup(function(use)
 	use({ "neovim/nvim-lspconfig" }) -- enable LSP
 	use({ "williamboman/nvim-lsp-installer" }) -- simple to use language server installer
 	use({ "tamago324/nlsp-settings.nvim" }) -- language server settings defined in json for
-	use({ "jose-elias-alvarez/null-ls.nvim" }) -- for formatters and linters
+	use({ "jose-elias-alvarez/null-ls.nvim", ft = { "asm", "lua", "python", "sh" } }) -- for formatters and linters
 	use({ "antoinemadec/FixCursorHold.nvim" }) -- This is needed to fix lsp doc highlight
 	-- use { "RishabhRD/nvim-lsputils", requires = { "RishabhRD/popfix" } } -- Better defaults for nvim-lsp actions
 	use({ "ray-x/lsp_signature.nvim" }) -- LSP signature hint as you type
@@ -83,6 +83,7 @@ return packer.startup(function(use)
 	-- Snippets
 	use({ "L3MON4D3/LuaSnip" }) --snippet engine
 	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
+	use({ "tibabit/vim-templates" }) -- create files from templates
 
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" }) -- Find, Filter, Preview, Pick.
@@ -108,7 +109,7 @@ return packer.startup(function(use)
 	use({ "tpope/vim-surround" }) -- all about "surroundings": parentheses, brackets, quotes, XML tags, and more
 	use({ "michaelb/sniprun", run = "bash ./install.sh", cmd = { "SnipRun", "'<,'>SnipRun", "SnipInfo" } }) -- run lines/blocs of code
 	use({ "nathom/filetype.nvim" }) -- A faster version of filetype.vim
-	use({ "dstein64/vim-startuptime" }) -- A Vim plugin for profiling Vim's startup time
+	use({ "dstein64/vim-startuptime", cmd = { "StartupTime" } }) -- A Vim plugin for profiling Vim's startup time
 	-- use({ "Pocco81/AutoSave.nvim" }) -- enable autosave
 	use({ "AndrewRadev/splitjoin.vim" }) -- Switch between single-line and multiline forms of code
 	use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install ", ft = "markdown" }) -- markdown preview plugin
@@ -136,7 +137,11 @@ return packer.startup(function(use)
 	-- use "gelguy/wilder.nvim" -- A more adventurous wildmenu
 	-- use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 	use({ "norcalli/nvim-colorizer.lua", ft = { "css", "javascript", "html" } }) -- The fastest Neovim colorizer.
-	use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" }) -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
+	use({
+		"folke/trouble.nvim",
+		requires = "kyazdani42/nvim-web-devicons",
+		cmd = { "Telescope", "Trouble", "TroubleToggle" },
+	}) -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

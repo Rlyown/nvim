@@ -1,10 +1,5 @@
 M = {}
 
-M.path = {}
-
-M.path.template = vim.fn.stdpath("config") .. "/template"
-M.path.clangd_template = M.path.template .. "/clangd"
-
 function M.setup()
 	vim.g.python3_host_prog = "/opt/homebrew/bin/python3" -- specify the python3 path if there are multiple versions
 

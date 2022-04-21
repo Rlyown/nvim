@@ -3,8 +3,6 @@ if not status_ok then
 	return
 end
 
-local gpath = require("core.gvarible").path
-
 local setup = {
 	plugins = {
 		marks = true, -- shows a list of your marks on ' and `
@@ -125,40 +123,6 @@ local function close_buffer()
 	else
 		vim.cmd("Bdelete!")
 	end
-end
-
-local function copy_file(oldPath, newPath)
-	local oldf, errorString = io.open(oldPath, "r")
-	if oldf == nil then
-		vim.notify(errorString, vim.log.levels.ERROR, {})
-		return
-	end
-	local data = oldf:read("a")
-	oldf:close()
-	local newf = io.open(newPath, "w")
-	newf:write(data)
-	newf:close()
-
-	local msg = string.format("Success copy file %s to %s", oldPath, newPath)
-	vim.notify(msg, vim.log.levels.INFO)
-end
-
-local function clang_tidy_setup()
-	local clang_tidy = gpath.clangd_template .. "/clang-tidy"
-	local target = vim.fn.getcwd() .. "/.clang-tidy"
-	copy_file(clang_tidy, target)
-
-	-- refresh nvim-tree
-	vim.cmd([[NvimTreeRefresh]])
-end
-
-local function clang_format_setup()
-	local clang_format = gpath.clangd_template .. "/clang-format"
-	local target = vim.fn.getcwd() .. "/.clang-format"
-	copy_file(clang_format, target)
-
-	-- refresh nvim-tree
-	vim.cmd([[NvimTreeRefresh]])
 end
 
 local n_opts = {
@@ -362,8 +326,8 @@ local n_mappings = {
 			},
 			l = {
 				name = "Language Specific",
-				t = { clang_tidy_setup, "Clang Tidy" },
-				f = { clang_format_setup, "Clang Format" },
+				t = { "<cmd>edit .clang-tidy | w<cr>", "Clang Tidy" },
+				f = { "<cmd>edit .clang-format | w<cr>", "Clang Format" },
 			},
 			p = {
 				name = "Packer",
