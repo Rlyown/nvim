@@ -54,13 +54,3 @@ end
 vim.cmd("set whichwrap+=<,>,[,],h,l") -- enable this key to go next/before line at line end/head.
 vim.cmd([[set iskeyword+=-]]) -- set word to keyword
 vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
-
--- set default colorscheme
-local catppuccin_status_ok, _ = pcall(require, "catppuccin")
-if catppuccin_status_ok then
-	vim.cmd([[colorscheme catppuccin]])
-end
-
--- enable global varible
-local global_varible = require("core.gvarible")
-global_varible.setup()

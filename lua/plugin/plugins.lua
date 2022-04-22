@@ -66,7 +66,7 @@ return packer.startup(function(use)
 	use({ "neovim/nvim-lspconfig" }) -- enable LSP
 	use({ "williamboman/nvim-lsp-installer" }) -- simple to use language server installer
 	use({ "tamago324/nlsp-settings.nvim" }) -- language server settings defined in json for
-	use({ "jose-elias-alvarez/null-ls.nvim", ft = { "asm", "lua", "python", "sh" } }) -- for formatters and linters
+	use({ "jose-elias-alvarez/null-ls.nvim" }) -- for formatters and linters
 	use({ "antoinemadec/FixCursorHold.nvim" }) -- This is needed to fix lsp doc highlight
 	-- use { "RishabhRD/nvim-lsputils", requires = { "RishabhRD/popfix" } } -- Better defaults for nvim-lsp actions
 	use({ "ray-x/lsp_signature.nvim" }) -- LSP signature hint as you type
@@ -88,7 +88,6 @@ return packer.startup(function(use)
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" }) -- Find, Filter, Preview, Pick.
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- FZF sorter for telescope
-	use({ "nvim-telescope/telescope-ui-select.nvim" }) -- It sets vim.ui.select to telescope
 	use({ "nvim-telescope/telescope-frecency.nvim", requires = { "tami5/sqlite.lua" } }) -- offers intelligent prioritization
 	use({ "nvim-telescope/telescope-file-browser.nvim" }) -- File Browser extension
 
@@ -142,6 +141,9 @@ return packer.startup(function(use)
 		requires = "kyazdani42/nvim-web-devicons",
 		cmd = { "Telescope", "Trouble", "TroubleToggle" },
 	}) -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
+	-- use({ "nvim-telescope/telescope-ui-select.nvim" }) -- It sets vim.ui.select to telescope
+	use({ "stevearc/dressing.nvim" }) -- Neovim plugin to improve the default vim.ui interfaces
+	use({ "rcarriga/nvim-notify" }) -- A fancy, configurable, notification manager for NeoVim
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

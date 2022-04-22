@@ -4,7 +4,7 @@ if not status_ok then
 end
 
 local actions = require("telescope.actions")
-local themes = require("telescope.themes")
+-- local themes = require("telescope.themes")
 
 local trouble_status_ok, trouble = pcall(require, "trouble.providers.telescope")
 if not trouble_status_ok then
@@ -108,11 +108,11 @@ telescope.setup({
 			case_mode = "smart_case", -- or "ignore_case" or "respect_case"
 			-- the default case_mode is "smart_case"
 		},
-		["ui-select"] = {
-			themes.get_dropdown({
-				previewer = false,
-			}),
-		},
+		-- ["ui-select"] = {
+		-- 	themes.get_dropdown({
+		-- 		previewer = false,
+		-- 	}),
+		-- },
 		frecency = {
 			show_scores = false,
 			show_unindexed = true,
@@ -138,7 +138,7 @@ telescope.setup({
 
 telescope.load_extension("aerial")
 telescope.load_extension("fzf")
-telescope.load_extension("ui-select")
+-- telescope.load_extension("ui-select")
 telescope.load_extension("frecency")
 telescope.load_extension("refactoring")
 local file_browser = telescope.load_extension("file_browser")

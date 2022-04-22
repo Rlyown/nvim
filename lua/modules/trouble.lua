@@ -44,8 +44,8 @@ trouble.setup({
 		-- icons / text used for a diagnostic
 		error = "",
 		warning = "",
-		hint = "",
-		information = "",
+		hint = "",
+		information = "",
 		other = "",
 	},
 	use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client

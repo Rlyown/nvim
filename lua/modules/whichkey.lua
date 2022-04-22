@@ -69,32 +69,39 @@ local setup = {
 	},
 }
 
-local term_id_max = 9
+local ainput = require("core.gvarible").fn.async_ui_input_wrap()
 
 local function term_id_cmds(name, cmd_str)
-	local prompt = string.format("Input Terminal ID(1 - %d, default 1): ", term_id_max)
-
-	local do_func = function()
-		local id = tonumber(vim.fn.input(prompt))
-		if not id then
+	local opts = {
+		prompt = "Input Terminal ID(default 1): ",
+		kind = "term",
+	}
+	local function on_confirm(input)
+		local id = tonumber(input)
+		if not id or (id < 1) then
 			id = 1
 		end
 
-		if id and 1 <= id and id <= term_id_max then
-			local s = string.format("%s %d", cmd_str, id)
-			vim.cmd(s)
-		end
+		local s = string.format("%s %d", cmd_str, id)
+		vim.cmd(s)
+	end
+
+	local do_func = function()
+		ainput(opts, on_confirm)
 	end
 
 	return { do_func, name }
 end
 
 local function term_multi_hv(name, rate, direction)
-	local prompt = string.format("Input Terminal ID(1 - %d, default 1): ", term_id_max)
+	local opts = {
+		prompt = "Input Terminal ID(default 1): ",
+		kind = "term",
+	}
 
-	local do_func = function()
-		local id = tonumber(vim.fn.input(prompt))
-		if not id then
+	local function on_confirm(input)
+		local id = tonumber(input)
+		if not id or (id < 1) then
 			id = 1
 		end
 
@@ -106,10 +113,12 @@ local function term_multi_hv(name, rate, direction)
 			size = vim.o.lines * rate
 		end
 
-		if id and 1 <= id and id <= term_id_max then
-			local s = string.format("%dToggleTerm size=%d direction=%s", id, size, direction)
-			vim.cmd(s)
-		end
+		local s = string.format("%dToggleTerm size=%d direction=%s", id, size, direction)
+		vim.cmd(s)
+	end
+
+	local do_func = function()
+		ainput(opts, on_confirm)
 	end
 
 	return { do_func, name }
@@ -266,6 +275,7 @@ local n_mappings = {
 			h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
 			k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
 			m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+			n = { "<cmd>Telescope notify<cr>", "Notify" },
 			r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
 			R = { "<cmd>Telescope registers<cr>", "Registers" },
 		},

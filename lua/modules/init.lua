@@ -1,32 +1,27 @@
-require("modules.alpha")
-require("modules.aerial")
--- require("modules.autosave")
-require("modules.autopairs")
-require("modules.bufferline")
-require("modules.catppuccin")
-require("modules.cmp")
-require("modules.colorizer")
-require("modules.comment")
-require("modules.filetype")
-require("modules.gitsigns")
-require("modules.gps")
-require("modules.hop")
-require("modules.impatient")
-require("modules.indentline")
-require("modules.lualine")
-require("modules.lsp")
-require("modules.nvim-tree")
-require("modules.project")
-require("modules.session_manager")
-require("modules.sniprun")
-require("modules.telescope")
-require("modules.vim-templates")
-require("modules.trouble")
-require("modules.toggleterm")
-require("modules.treesitter")
-require("modules.treesitter-context")
-require("modules.undotree")
-require("modules.whichkey")
+local M = {}
 
--- FUTURE: add tmux integrity
--- FUTURE: Remote development
+local modules_dir = require("core.gvarible").modules_dir
+
+function M.setup(user_conf)
+	local ignore = user_conf.ignore or {}
+
+	local rev_ignore_list = {}
+	for _, name in ipairs(ignore) do
+		rev_ignore_list[name] = true
+	end
+
+	local plugins = vim.fn.readdir(modules_dir)
+
+	for _, f in ipairs(plugins) do
+		local pname = f
+		if f:sub(-4, -1) == ".lua" then
+			pname = f:sub(0, -5)
+		end
+
+		if not rev_ignore_list[pname] then
+			require("modules." .. pname)
+		end
+	end
+end
+
+return M
