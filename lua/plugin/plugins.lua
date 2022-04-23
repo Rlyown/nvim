@@ -83,13 +83,18 @@ return packer.startup(function(use)
 	-- Snippets
 	use({ "L3MON4D3/LuaSnip" }) --snippet engine
 	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
-	use({ "tibabit/vim-templates" }) -- create files from templates
+	use({ "vigoux/templar.nvim" }) -- A dead simple template manager
 
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" }) -- Find, Filter, Preview, Pick.
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- FZF sorter for telescope
 	use({ "nvim-telescope/telescope-frecency.nvim", requires = { "tami5/sqlite.lua" } }) -- offers intelligent prioritization
 	use({ "nvim-telescope/telescope-file-browser.nvim" }) -- File Browser extension
+	use({
+		"benfowler/telescope-luasnip.nvim",
+		module = "telescope._extensions.luasnip", -- if you wish to lazy-load
+		after = "telescope.nvim",
+	})
 
 	-- Terminal
 	use({ "akinsho/toggleterm.nvim" }) -- easily manage multiple terminal windows
@@ -127,7 +132,6 @@ return packer.startup(function(use)
 	use({ "kyazdani42/nvim-web-devicons" }) -- a lua fork from vim-devicons
 	use({ "kyazdani42/nvim-tree.lua" }) -- file explorer
 	use({ "akinsho/bufferline.nvim" }) -- buffer line plugin
-	use({ "arkav/lualine-lsp-progress" })
 	use({ "nvim-lualine/lualine.nvim" }) -- statusline plugin
 	use({ "goolord/alpha-nvim" }) -- a lua powered greeter
 	use({ "lukas-reineke/indent-blankline.nvim" }) -- Indent guides for Neovim
@@ -139,9 +143,7 @@ return packer.startup(function(use)
 	use({
 		"folke/trouble.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
-		cmd = { "Telescope", "Trouble", "TroubleToggle" },
 	}) -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
-	-- use({ "nvim-telescope/telescope-ui-select.nvim" }) -- It sets vim.ui.select to telescope
 	use({ "stevearc/dressing.nvim" }) -- Neovim plugin to improve the default vim.ui interfaces
 	use({ "rcarriga/nvim-notify" }) -- A fancy, configurable, notification manager for NeoVim
 

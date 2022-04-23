@@ -32,6 +32,7 @@ local setup = {
 		-- ["<space>"] = "SPC",
 		-- ["<cr>"] = "RET",
 		-- ["<tab>"] = "TAB",
+		["<leader>"] = "LDR",
 	},
 	icons = {
 		breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
@@ -278,6 +279,7 @@ local n_mappings = {
 			n = { "<cmd>Telescope notify<cr>", "Notify" },
 			r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
 			R = { "<cmd>Telescope registers<cr>", "Registers" },
+			s = { "<cmd>Telescope luasnip<cr>", "Luasnip" },
 		},
 		["S"] = {
 			name = "Session",
@@ -325,7 +327,7 @@ local n_mappings = {
 			w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics" },
 			x = { "<cmd>TroubleToggle<cr>", "Trouble" },
 		},
-		[","] = {
+		["<leader>"] = {
 			name = "Ext",
 			c = {
 				name = "Colorizer",

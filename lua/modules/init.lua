@@ -13,10 +13,7 @@ function M.setup(user_conf)
 	local plugins = vim.fn.readdir(modules_dir)
 
 	for _, f in ipairs(plugins) do
-		local pname = f
-		if f:sub(-4, -1) == ".lua" then
-			pname = f:sub(0, -5)
-		end
+		local pname = vim.fn.fnamemodify(f, ":r")
 
 		if not rev_ignore_list[pname] then
 			require("modules." .. pname)

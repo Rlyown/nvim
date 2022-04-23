@@ -6,9 +6,13 @@ end
 local actions = require("telescope.actions")
 -- local themes = require("telescope.themes")
 
-local trouble_status_ok, trouble = pcall(require, "trouble.providers.telescope")
-if not trouble_status_ok then
-	return
+local qlist = function()
+	local trouble_status_ok, trouble = pcall(require, "trouble.providers.telescope")
+	if not trouble_status_ok then
+		return actions.send_to_qflist + actions.open_qflist
+	else
+		return trouble.open_with_trouble
+	end
 end
 
 telescope.setup({
@@ -44,8 +48,7 @@ telescope.setup({
 
 				["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
 				["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
-				["<C-q>"] = trouble.open_with_trouble,
-				-- ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+				["<C-q>"] = qlist(),
 				-- ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 				["<C-l>"] = actions.complete_tag,
 				["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
@@ -61,8 +64,7 @@ telescope.setup({
 
 				["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
 				["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
-				["<C-q>"] = trouble.open_with_trouble,
-				-- ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+				["<C-q>"] = qlist(),
 				-- ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 
 				["j"] = actions.move_selection_next,
@@ -108,11 +110,6 @@ telescope.setup({
 			case_mode = "smart_case", -- or "ignore_case" or "respect_case"
 			-- the default case_mode is "smart_case"
 		},
-		-- ["ui-select"] = {
-		-- 	themes.get_dropdown({
-		-- 		previewer = false,
-		-- 	}),
-		-- },
 		frecency = {
 			show_scores = false,
 			show_unindexed = true,
@@ -136,11 +133,12 @@ telescope.setup({
 	},
 })
 
-telescope.load_extension("aerial")
 telescope.load_extension("fzf")
--- telescope.load_extension("ui-select")
 telescope.load_extension("frecency")
 telescope.load_extension("refactoring")
+telescope.load_extension("luasnip")
+telescope.load_extension("notify")
+
 local file_browser = telescope.load_extension("file_browser")
 -- Telescope has deprecated file_browser, but some plugins still use it.
 require("telescope.builtin").file_browser = file_browser.file_browser
