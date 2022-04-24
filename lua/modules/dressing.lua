@@ -50,6 +50,10 @@ dressing.setup({
 				return {
 					relative = "editor",
 				}
+			elseif opts.kind == "dap" then
+				return {
+					relative = "editor",
+				}
 			end
 		end,
 	},

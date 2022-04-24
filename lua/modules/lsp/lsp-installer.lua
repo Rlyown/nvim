@@ -18,6 +18,7 @@ local servers = {
 	"ltex",
 	"rust_analyzer",
 	"sumneko_lua",
+	"taplo",
 	"pyright",
 }
 

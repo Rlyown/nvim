@@ -1,14 +1,12 @@
 local M = {}
 
-local modules_dir = require("core.gvarible").modules_dir
+local modules_dir = require("core.gvariable").modules_dir
+local rev_table = require("core.gvariable").fn.rev_table
 
 function M.setup(user_conf)
 	local ignore = user_conf.ignore or {}
 
-	local rev_ignore_list = {}
-	for _, name in ipairs(ignore) do
-		rev_ignore_list[name] = true
-	end
+	local rev_ignore_list = rev_table(ignore, true)
 
 	local plugins = vim.fn.readdir(modules_dir)
 

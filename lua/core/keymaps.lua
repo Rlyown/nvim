@@ -1,6 +1,6 @@
 local opts = { noremap = true, silent = true }
 
-local term_opts = { silent = true }
+-- local term_opts = { silent = true }
 
 -- Shorten function name
 local keymap = vim.api.nvim_set_keymap
@@ -119,3 +119,6 @@ if hop_status_ok then
 		opts
 	)
 end
+
+-- Dap plugins
+-- keymap("v", "<leader>d", ':lua require("dapui").eval()', opts)

@@ -11,4 +11,4 @@ require("impatient")
 -- other files will be called by default
 require("modules").setup({ ignore = { "autosave" } })
 
-require("core.gvarible").setup()
+require("core.gvariable").setup()

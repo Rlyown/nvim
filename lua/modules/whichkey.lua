@@ -70,7 +70,7 @@ local setup = {
 	},
 }
 
-local ainput = require("core.gvarible").fn.async_ui_input_wrap()
+local ainput = require("core.gvariable").fn.async_ui_input_wrap()
 
 local function term_id_cmds(name, cmd_str)
 	local opts = {
@@ -157,6 +157,50 @@ local n_mappings = {
 			d = { "<cmd>BufferLineSortByDirectory<cr>", "Sort By Dir" },
 		},
 		["c"] = { close_buffer, "Close Buffer" },
+		["d"] = {
+			name = "DAP",
+			b = { "<cmd>lua require'dap'.toggle_breakpoint()<CR>", "Breakpoint" },
+			c = { "<cmd>lua require'dap'.continue()<CR>", "Countinue" },
+			C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
+			d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
+			e = {
+				"<cmd>lua require'dap'.set_exception_breakpoints('default', { breakMode = 'userUnhandled' })",
+				"Exception Breakpoint",
+			},
+			-- E = {
+			-- 	function()
+			-- 		require("dapui").float_element()
+			-- 	end,
+			-- 	"Float Element",
+			-- },
+			f = { "<cmd>lua require'dap'.step_out()<CR>", "Step Out" },
+			g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
+			h = { "<cmd>lua require'dap'.set_breakpoint(nil, vim.fn.input('Hit count: '))", "Hit Count Breakpoint" },
+			l = {
+				"<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
+				"Log Breakpoint",
+			},
+			n = { "<cmd>lua require'dap'.step_over()<CR>", "Next" },
+			o = { "<cmd>lua require'dap'.repl.toggle()<CR>", "Open Repl" },
+			p = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
+			q = { "<cmd>lua require'dap'.close()<cr>", "Close" },
+			-- r = {
+			-- 	function()
+			-- 		require("dapui").eval()
+			-- 	end,
+			-- 	"Eval",
+			-- },
+			R = { "<cmd>lua require'dap'.run_last()<CR>", "Rerun" },
+			s = { "<cmd>lua require'dap'.step_into()<CR>", "Step Into" },
+			w = {
+				"<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+				"Condition Breakpoint",
+			},
+			x = {
+				"<cmd>lua require('dapui').toggle()<cr>",
+				"Dapui Toggle",
+			},
+		},
 		["e"] = { "<cmd>SudaRead<cr>", "Sudo Reopen" },
 		["f"] = {
 			"<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
@@ -273,10 +317,18 @@ local n_mappings = {
 			B = { "<cmd>Telescope file_browser<cr>", "File Browser" },
 			c = { "<cmd>Telescope commands<cr>", "Commands" },
 			C = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+			d = {
+				name = "DAP",
+				b = { "<cmd>Telescope dap list_breakpoints<cr>", "Breakpoints" },
+				c = { "<cmd>Telescope dap commands<cr>", "Commands" },
+				C = { "<cmd>Telescope dap configurations<cr>", "Configurations" },
+				f = { "<cmd>Telescope dap frames<cr>", "Frames" },
+				v = { "<cmd>Telescope dap variables<cr>", "Variables" },
+			},
 			h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
 			k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
 			m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
-			n = { "<cmd>Telescope notify<cr>", "Notify" },
+			n = { "<cmd>Telescope notify theme=dropdown<cr>", "Notify" },
 			r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
 			R = { "<cmd>Telescope registers<cr>", "Registers" },
 			s = { "<cmd>Telescope luasnip<cr>", "Luasnip" },
@@ -400,8 +452,9 @@ local v_opts = {
 local v_mappings = {
 	["<leader>"] = {
 		a = "Refactoring",
-		c = "Line Comment",
 		b = "Block Comment",
+		c = "Line Comment",
+		d = "Dap Eval",
 		l = "ToggleTermSendVisualLines",
 		r = "SnipRun",
 		s = "ToggleTermSendVisualSelection",

@@ -4,7 +4,7 @@ if not status_ok then
 end
 
 local actions = require("telescope.actions")
--- local themes = require("telescope.themes")
+local themes = require("telescope.themes")
 
 local qlist = function()
 	local trouble_status_ok, trouble = pcall(require, "trouble.providers.telescope")
@@ -103,6 +103,7 @@ telescope.setup({
 		--   extension_config_key = value,
 		-- }
 		-- please take a look at the readme of the extension you want to configure
+		notify = themes.get_dropdown(),
 		fzf = {
 			fuzzy = true, -- false will only do exact matching
 			override_generic_sorter = true, -- override the generic sorter
@@ -138,6 +139,7 @@ telescope.load_extension("frecency")
 telescope.load_extension("refactoring")
 telescope.load_extension("luasnip")
 telescope.load_extension("notify")
+telescope.load_extension("dap")
 
 local file_browser = telescope.load_extension("file_browser")
 -- Telescope has deprecated file_browser, but some plugins still use it.

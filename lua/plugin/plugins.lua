@@ -58,6 +58,13 @@ return packer.startup(function(use)
 	-- use "github/copilot.vim" -- gitHub Copilot
 	-- use "hrsh7th/cmp-copilot" -- this is a experimental product
 
+	-- DAP
+	use({ "mfussenegger/nvim-dap" }) -- Debug Adapter Protocol client implementation
+	use({ "rcarriga/nvim-dap-ui" }) -- A UI for nvim-dap
+	use({ "theHamsta/nvim-dap-virtual-text" }) -- show virtual text
+	use({ "nvim-telescope/telescope-dap.nvim" }) -- Integration for nvim-dap with telescope.nvim
+	-- use("simrat39/rust-tools.nvim") -- Tools for better development in rust using neovim's builtin lsp
+
 	-- Git
 	use({ "lewis6991/gitsigns.nvim" }) -- show git info in buffer
 	-- use("tpope/vim-fugitive") -- a git wrapper
@@ -74,7 +81,6 @@ return packer.startup(function(use)
 	use({ "fatih/vim-go", run = ":GoInstallBinaries", ft = "go" }) -- Go development plugin
 	use({ "stevearc/aerial.nvim" }) -- code outline window
 	use({ "ThePrimeagen/refactoring.nvim" }) -- The Refactoring library
-	-- use({ "emilienlemaire/clang-tidy.nvim" }) -- A plugin to publish clang-tidy checks on neovin lsp diagnostics
 
 	-- Project
 	use({ "ahmedkhalf/project.nvim" }) -- superior project management

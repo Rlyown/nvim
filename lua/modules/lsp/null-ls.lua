@@ -1,6 +1,6 @@
 local null_ls_status_ok, null_ls = pcall(require, "null-ls")
 if not null_ls_status_ok then
-	return
+    return
 end
 
 local code_actions = null_ls.builtins.code_actions
@@ -10,30 +10,30 @@ local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
 
 null_ls.setup({
-	debug = false,
-	-- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
-	sources = {
-		-- asm
-		formatting.asmfmt,
+    debug = false,
+    -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
+    sources = {
+        -- asm
+        formatting.asmfmt,
 
-		-- Disable it because command line arguments take precedence over .clang-format file
-		-- c/cpp
-		-- formatting.clang_format.with({
-		-- 	extra_args = {
-		-- 		"--sort-includes",
-		-- 		"-style",
-		-- 		"{BasedOnStyle: google, IndentWidth: 4}",
-		-- 	},
-		-- }),
+        -- Disable it because command line arguments take precedence over .clang-format file
+        -- c/cpp
+        -- formatting.clang_format.with({
+        -- 	extra_args = {
+        -- 		"--sort-includes",
+        -- 		"-style",
+        -- 		"{BasedOnStyle: google, IndentWidth: 4}",
+        -- 	},
+        -- }),
 
-		-- lua
-		formatting.stylua,
+        -- lua
+        formatting.stylua,
 
-		-- python
-		formatting.black.with({ extra_args = { "--fast" } }),
-		-- diagnostics.flake8
+        -- python
+        formatting.black.with({ extra_args = { "--fast" } }),
+        -- diagnostics.flake8
 
-		-- shell
-		formatting.shfmt,
-	},
+        -- shell
+        formatting.shfmt,
+    },
 })
