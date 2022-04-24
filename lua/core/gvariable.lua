@@ -19,6 +19,7 @@ elseif M.os == "unix" then
 	M.debugpy_python_path = "/usr/bin/python3"
 end
 
+-- this function will be called at the end of init.lua
 function M.setup()
 	vim.g.python3_host_prog = M.debugpy_python_path -- set the python3 path which installed pynvim
 

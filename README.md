@@ -18,7 +18,7 @@ Configuration tree:
 ├── lua
 │   ├── core
 │   │   ├── autocommands.lua    # autocommands configuration
-│   │   ├── gvariable.lua       # global variable set
+│   │   ├── gvariable.lua       # global variable set(the last one be called)
 │   │   ├── keymaps.lua         # vim-builtin keymap set
 │   │   └── options.lua         # vim option set
 │   ├── modules                 # plugins configuration
@@ -34,7 +34,7 @@ This configuration mainly focus on programming with `C/Cpp`, `Golang`, `Rust` an
 
 Make sure to remove or move your current `nvim` directory.
 
-**IMPORTANT** Configuration based on neovim v0.6.0. 
+**IMPORTANT** Configuration based on neovim v0.7.0. 
 
 ```shell
 $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
@@ -49,7 +49,7 @@ Install the follow dependencies:
     
     # Tools for language support
     # neovim-remote is not Required
-    $ brew install llvm bear clang-format cmake lazygit golang stylua rustup-init shfmt node yarn
+    $ brew install llvm bear cmake lazygit golang stylua rustup-init shfmt node yarn
     
     $ npm install -g neovim
     $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -93,8 +93,12 @@ Install the follow dependencies:
   $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   $ source $HOME/.cargo/env
   
+  # Install LLVM
+  $ bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+  
   # add Node source
   $ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+  
   # add neovim source
   $ sudo add-apt-repository ppa:neovim-ppa/stable
   
@@ -104,7 +108,7 @@ Install the follow dependencies:
   
   # Tools for language support
   $ sudo apt-get update
-  $ sudo apt install -y llvm bear clang-format cmake nodejs gdb yarn python3-pip libsqlite3-dev sqlite3
+  $ sudo apt install -y  bear cmake nodejs gdb yarn python3-pip libsqlite3-dev sqlite3
   $ cargo install stylua
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
