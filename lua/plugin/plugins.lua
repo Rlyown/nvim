@@ -98,8 +98,6 @@ return packer.startup(function(use)
 	use({ "nvim-telescope/telescope-file-browser.nvim" }) -- File Browser extension
 	use({
 		"benfowler/telescope-luasnip.nvim",
-		module = "telescope._extensions.luasnip", -- if you wish to lazy-load
-		after = "telescope.nvim",
 	})
 
 	-- Terminal

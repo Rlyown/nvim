@@ -14,6 +14,42 @@ function _G.OrgImports(wait_ms)
 	end
 end
 
+-- example: t = {{bname=bufname, filetype=filetype}}
+function _G.check_last_special_win(t)
+	local name_cases = {
+		["NvimTree_" .. vim.fn.tabpagenr()] = true,
+		["OUTLINE"] = true,
+		-- ["DAP Scopes"] = true,
+		-- ["DAP Breakpoints"] = true,
+		-- ["DAP Stacks"] = true,
+		-- ["DAP Watches"] = true,
+		-- ["[dap-repl]"] = true,
+	}
+
+	local type_cases = {
+		["Outline"] = true,
+		-- ["dapui_scopes"] = true,
+		-- ["dapui_breakpoints"] = true,
+		-- ["dapui_stacks"] = true,
+		-- ["dapui_watches"] = true,
+		-- ["dap-rel"] = true,
+	}
+
+	if not t or #t == 0 then
+		return false
+	end
+
+	for _, value in ipairs(t) do
+		if value.bname and name_cases[value.bname] then
+		elseif value.filetype and type_cases[value.btype] then
+		else
+			return false
+		end
+	end
+
+	return true
+end
+
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
@@ -99,12 +135,19 @@ autocmd("BufEnter", {
 	group = "_auto_close",
 	pattern = "*",
 	callback = function()
-		if vim.fn.winnr("$") == 1 then
-			if vim.fn.bufname() == "NvimTree_" .. vim.fn.tabpagenr() then
-				vim.cmd("quit")
-			elseif vim.bo.filetype == "Outline" then
-				vim.cmd("quit")
-			end
+		local wins = {}
+		local winnr = vim.fn.winnr("$")
+
+		for w = 1, winnr do
+			local buf = vim.fn.winbufnr(w)
+			wins[#wins + 1] = {
+				bname = vim.fn.bufname(buf),
+				btype = vim.fn.getbufvar(buf, "&filetype"),
+			}
+		end
+
+		if check_last_special_win(wins) then
+			vim.cmd("quit")
 		end
 	end,
 	nested = true,

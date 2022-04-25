@@ -99,8 +99,12 @@ Install the follow dependencies:
   # add Node source
   $ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
   
-  # add neovim source
-  $ sudo add-apt-repository ppa:neovim-ppa/stable
+  # Install neovim
+  $ cargo install --git https://github.com/MordechaiHadad/bob.git
+  $ bob install v0.7.0
+  $ echo 'export PATH=$HOME/.local/share/neovim/bin:$PATH' >> ~/.bashrc
+  $ source ~/.bashrc
+  $ bob use v0.7.0
   
   # Install main packages
   $ sudo apt update

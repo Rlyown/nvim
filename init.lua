@@ -7,8 +7,12 @@ require("core.autocommands")
 -- impatient needs to be setup before any other lua plugin is loaded
 require("impatient")
 
--- add config file name which should be ignored, and set value to "true"
--- other files will be called by default
-require("modules").setup({ ignore = { "autosave" } })
+-- Add config file name which should be ignored, and set value to "true"
+-- other files will be called by default.
+-- Set the plugins load orders, if needed.
+-- Note: Set the name of all plugins to key to avoid performing reverse table
+require("modules").setup({
+	ignore = { "autosave" },
+})
 
 require("core.gvariable").setup()

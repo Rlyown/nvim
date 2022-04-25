@@ -154,7 +154,12 @@ local n_mappings = {
 		},
 		["B"] = {
 			name = "BufferLine",
-			d = { "<cmd>BufferLineSortByDirectory<cr>", "Sort By Dir" },
+			c = { "<cmd>BufferLineGroupClose<cr>", "Close Group Buffers" },
+			d = { "<cmd>BufferLineSortByDirectory<cr>", "Sort By Directory" },
+			e = { "<cmd>BufferLineSortByExtension<cr>", "Sort By Extensions" },
+			p = { "<cmd>BufferLineTogglePin<cr>", "Pin" },
+			t = { "<cmd>BufferLineGroupToggle<cr>", "Group Toggle" },
+			T = { "<cmd>BufferLineSortByTabs<cr>", "Sort by Tabs" },
 		},
 		["c"] = { close_buffer, "Close Buffer" },
 		["d"] = {
