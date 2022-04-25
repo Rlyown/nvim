@@ -94,10 +94,6 @@ M.on_attach = function(client, bufnr)
 		client.resolved_capabilities.document_formatting = false
 	end
 
-	local aerial_status_ok, aerial = pcall(require, "aerial")
-	if aerial_status_ok then
-		aerial.on_attach(client, bufnr)
-	end
 	lsp_keymaps(bufnr)
 	lsp_highlight_document(client)
 end

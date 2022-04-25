@@ -3,15 +3,16 @@ if not status_ok then
 	return
 end
 
+local symbols = require("core.gvariable").symbol_map
+
 gps.setup({
 	disable_icons = false, -- Setting it to true will disable all icons
 
 	icons = {
-		["class-name"] = " ", -- Classes and class-like objects
-		["function-name"] = " ", -- Functions
-		["method-name"] = " ", -- Methods (functions inside class-like objects)
-		-- ["container-name"] = " ", -- Containers (example: lua tables)
-		["container-name"] = " ", -- Containers (example: lua tables)
+		["class-name"] = string.format("%s ", symbols.Class), -- Classes and class-like objects
+		["function-name"] = string.format("%s ", symbols.Function), -- Functions
+		["method-name"] = string.format("%s ", symbols.Method), -- Methods (functions inside class-like objects)
+		["container-name"] = string.format("%s ", symbols.Field), -- Containers (example: lua tables)
 		["tag-name"] = "炙", -- Tags (example: html tags)
 	},
 

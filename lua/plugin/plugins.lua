@@ -79,7 +79,6 @@ return packer.startup(function(use)
 	use({ "ray-x/lsp_signature.nvim" }) -- LSP signature hint as you type
 	use({ "kosayoda/nvim-lightbulb" }) -- show lightbulb when code action is available
 	use({ "fatih/vim-go", run = ":GoInstallBinaries", ft = "go" }) -- Go development plugin
-	-- use({ "stevearc/aerial.nvim" }) -- code outline window
 	use({ "simrat39/symbols-outline.nvim" }) -- A tree like view for symbols
 	use({ "ThePrimeagen/refactoring.nvim" }) -- The Refactoring library
 

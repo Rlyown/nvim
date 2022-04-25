@@ -57,7 +57,7 @@ bufferline.setup({
 		-- end,
 		offsets = {
 			{ filetype = "NvimTree", text = "", padding = 1 },
-			{ filetype = "aerial", text = "", padding = 1 },
+			{ filetype = "Outline", text = "", padding = 1 },
 		},
 		show_buffer_icons = true,
 		show_buffer_close_icons = true,

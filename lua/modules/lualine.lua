@@ -105,7 +105,6 @@ lualine.setup({
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = {
 			"alpha",
-			-- "aerial",
 			-- "dashboard",
 			-- "NvimTree",
 			-- "Outline",

@@ -297,7 +297,6 @@ local n_mappings = {
 				"Typora",
 			},
 		},
-		-- ["O"] = { "<cmd>AerialToggle right<cr>", "Code OutLine" },
 		["O"] = { "<cmd>SymbolsOutline<cr>", "Code OutLine" },
 		["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
 		["q"] = { "<cmd>q<cr>", "Quit" },
