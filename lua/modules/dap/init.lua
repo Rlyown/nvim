@@ -13,19 +13,10 @@ dap.listeners.before.event_exited["dapui_config"] = function()
 	dap.repl.close()
 end
 
-vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DiagnosticSignHint", linehl = "", numhl = "" })
-vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "DiagnosticSignHint", linehl = "", numhl = "" })
-vim.fn.sign_define("DapLogPoint", { text = "ﱴ", texthl = "DiagnosticSignHint", linehl = "", numhl = "" })
-vim.fn.sign_define("DapStopped", {
-	text = "",
-	texthl = "DiagnosticSignInfo",
-	linehl = "Todo",
-	numhl = "CursorLineNr",
-})
-vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
-
 require("modules.dap.ui")
 require("modules.dap.vtext")
+
+require("modules.dap.util").dap_signs_scheme(3)
 
 -- setup adapter and language
 -- codelldb will display disassembly

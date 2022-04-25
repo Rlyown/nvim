@@ -33,6 +33,7 @@ local options = {
 	number = true, -- set numbered lines
 	relativenumber = false, -- set relative numbered lines
 	numberwidth = 4, -- set number column width to 2 {default 4}
+	-- Issue: https://github.com/neovim/neovim/issues/16632
 	signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
 	wrap = false, -- display lines as one long line
 	scrolloff = 8, -- is one of my fav

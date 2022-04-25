@@ -3,6 +3,7 @@ if not status_ok then
 	return
 end
 
+-- Issue: https://github.com/folke/which-key.nvim/issues/48
 local setup = {
 	plugins = {
 		marks = true, -- shows a list of your marks on ' and `
@@ -169,7 +170,7 @@ local n_mappings = {
 			C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
 			d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
 			e = {
-				"<cmd>lua require'dap'.set_exception_breakpoints('default', { breakMode = 'userUnhandled' })",
+				"<cmd>lua require'dap'.set_exception_breakpoints('default', { breakMode = 'userUnhandled' })<cr>",
 				"Exception Breakpoint",
 			},
 			-- E = {
