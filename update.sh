@@ -13,26 +13,7 @@ if [[ $? -ne 0 ]]; then
 			;;
 
 		[nN][oO] | [nN])
-			while true; do
-				read -r -p "Do you want to merge changes, and deal with conflicts? [Y/n] " input
-
-				case $input in
-				[yY][eE][sS] | [yY])
-					git fetch origin main
-					git merge origin/main
-					break
-					;;
-
-				[nN][oO] | [nN])
-					exit 0
-					;;
-
-				*)
-					echo "Invalid input..."
-					;;
-				esac
-			done
-			break
+			exit 0
 			;;
 
 		*)
