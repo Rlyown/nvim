@@ -26,10 +26,10 @@ end
 --   פּ ﯟ   some other good icons
 local kind_icons = {
 	Text = "",
-	Method = "m",
-	Function = "",
+	Method = "",
+	Function = "",
 	Constructor = "",
-	Field = "",
+	Field = "",
 	Variable = "",
 	Class = "",
 	Interface = "",
@@ -45,7 +45,7 @@ local kind_icons = {
 	Reference = "",
 	Folder = "",
 	EnumMember = "",
-	Constant = "",
+	Constant = "",
 	Struct = "",
 	Event = "",
 	Operator = "",

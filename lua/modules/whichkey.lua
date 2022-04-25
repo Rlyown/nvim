@@ -297,7 +297,8 @@ local n_mappings = {
 				"Typora",
 			},
 		},
-		["O"] = { "<cmd>AerialToggle right<cr>", "Code OutLine" },
+		-- ["O"] = { "<cmd>AerialToggle right<cr>", "Code OutLine" },
+		["O"] = { "<cmd>SymbolsOutline<cr>", "Code OutLine" },
 		["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
 		["q"] = { "<cmd>q<cr>", "Quit" },
 		["Q"] = { "<cmd>qa<cr>", "Quit All" },
@@ -433,6 +434,26 @@ local n_mappings = {
 		T = "Prev Tab",
 		w = { "<cmd>BufferLinePick<cr>", "Pick Buffer" },
 	},
+	["z"] = {
+		d = "Delete Fold",
+		D = "Recursion Delete Fold",
+		E = "Eliminate All Folds",
+		f = "Create Fold",
+		F = "Create Fold Lines",
+		j = "Next Fold Begin",
+		k = "Prev Fold End",
+		i = "Toggle Fold ",
+		n = "Disable Fold ",
+		N = "Enable Fold",
+	},
+	["["] = {
+		d = "Prev Diagnostic",
+		z = "Current Fold Begin",
+	},
+	["]"] = {
+		d = "Next Diagnostic",
+		z = "Current Fold End",
+	},
 }
 
 which_key.setup(setup)
@@ -468,6 +489,9 @@ local v_mappings = {
 	["g"] = {
 		u = "Lower",
 		U = "Upper",
+	},
+	["z"] = {
+		f = "Create Fold",
 	},
 }
 

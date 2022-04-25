@@ -9,6 +9,6 @@ require("impatient")
 
 -- add config file name which should be ignored, and set value to "true"
 -- other files will be called by default
-require("modules").setup({ ignore = { "autosave" } })
+require("modules").setup({ ignore = { "autosave", "aerial" } })
 
 require("core.gvariable").setup()

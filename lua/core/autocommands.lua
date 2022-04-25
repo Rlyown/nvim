@@ -102,7 +102,7 @@ autocmd("BufEnter", {
 		if vim.fn.winnr("$") == 1 then
 			if vim.fn.bufname() == "NvimTree_" .. vim.fn.tabpagenr() then
 				vim.cmd("quit")
-			elseif vim.bo.filetype == "aerial" then
+			elseif vim.bo.filetype == "Outline" then
 				vim.cmd("quit")
 			end
 		end

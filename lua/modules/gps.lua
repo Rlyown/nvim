@@ -1,17 +1,18 @@
 local status_ok, gps = pcall(require, "nvim-gps")
 if not status_ok then
-    return
+	return
 end
 
 gps.setup({
-	disable_icons = false,           -- Setting it to true will disable all icons
+	disable_icons = false, -- Setting it to true will disable all icons
 
 	icons = {
-		["class-name"] = ' ',      -- Classes and class-like objects
-		["function-name"] = ' ',   -- Functions
-		["method-name"] = 'm ',     -- Methods (functions inside class-like objects)
-		["container-name"] = ' ',  -- Containers (example: lua tables)
-		["tag-name"] = '炙'         -- Tags (example: html tags)
+		["class-name"] = " ", -- Classes and class-like objects
+		["function-name"] = " ", -- Functions
+		["method-name"] = " ", -- Methods (functions inside class-like objects)
+		-- ["container-name"] = " ", -- Containers (example: lua tables)
+		["container-name"] = " ", -- Containers (example: lua tables)
+		["tag-name"] = "炙", -- Tags (example: html tags)
 	},
 
 	-- Add custom configuration per language or
@@ -21,43 +22,43 @@ gps.setup({
 		-- Some languages have custom icons
 		["json"] = {
 			icons = {
-				["array-name"] = ' ',
-				["object-name"] = ' ',
-				["null-name"] = '] ',
-				["boolean-name"] = 'ﰰﰴ ',
-				["number-name"] = '# ',
-				["string-name"] = ' '
-			}
+				["array-name"] = " ",
+				["object-name"] = " ",
+				["null-name"] = "] ",
+				["boolean-name"] = "ﰰﰴ ",
+				["number-name"] = "# ",
+				["string-name"] = " ",
+			},
 		},
 		["toml"] = {
 			icons = {
-				["table-name"] = ' ',
-				["array-name"] = ' ',
-				["boolean-name"] = 'ﰰﰴ ',
-				["date-name"] = ' ',
-				["date-time-name"] = ' ',
-				["float-name"] = ' ',
-				["inline-table-name"] = ' ',
-				["integer-name"] = '# ',
-				["string-name"] = ' ',
-				["time-name"] = ' '
-			}
+				["table-name"] = " ",
+				["array-name"] = " ",
+				["boolean-name"] = "ﰰﰴ ",
+				["date-name"] = " ",
+				["date-time-name"] = " ",
+				["float-name"] = " ",
+				["inline-table-name"] = " ",
+				["integer-name"] = "# ",
+				["string-name"] = " ",
+				["time-name"] = " ",
+			},
 		},
 		["verilog"] = {
 			icons = {
-				["module-name"] = ' '
-			}
+				["module-name"] = " ",
+			},
 		},
 		["yaml"] = {
 			icons = {
-				["mapping-name"] = ' ',
-				["sequence-name"] = ' ',
-				["null-name"] = '[] ',
-				["boolean-name"] = 'ﰰﰴ ',
-				["integer-name"] = '# ',
-				["float-name"] = ' ',
-				["string-name"] = ' '
-			}
+				["mapping-name"] = " ",
+				["sequence-name"] = " ",
+				["null-name"] = "[] ",
+				["boolean-name"] = "ﰰﰴ ",
+				["integer-name"] = "# ",
+				["float-name"] = " ",
+				["string-name"] = " ",
+			},
 		},
 		["yang"] = {
 			icons = {
@@ -71,7 +72,7 @@ gps.setup({
 				["leaf-list-name"] = " ",
 				["leaf-name"] = " ",
 				["action-name"] = " ",
-			}
+			},
 		},
 
 		-- Disable for particular languages
@@ -93,12 +94,12 @@ gps.setup({
 		--}
 	},
 
-	separator = ' > ',
+	separator = " > ",
 
 	-- limit for amount of context shown
 	-- 0 means no limit
 	depth = 3,
 
 	-- indicator used when context hits depth limit
-	depth_limit_indicator = ".."
+	depth_limit_indicator = "..",
 })
