@@ -1,5 +1,5 @@
 -- delve installed by golang, so it use global path
-local cmd = "dlv"
+local cmd = require("core.gvariable").debuggers.delve
 local get_args = require("modules.dap.util").get_args
 
 local dap = require("dap")

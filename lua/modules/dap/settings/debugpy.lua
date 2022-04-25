@@ -1,4 +1,4 @@
-local dbgpy = require("core.gvariable").debugpy_python_path
+local dbgpy = require("core.gvariable").debuggers.debugpy
 local get_args = require("modules.dap.util").get_args
 
 local dap = require("dap")
@@ -29,7 +29,7 @@ dap.configurations.python = {
 			elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
 				return cwd .. "/.venv/bin/python"
 			else
-				local data_in = vim.fn.input("Python Path: ", "/usr/bin/python3", "file")
+				local data_in = vim.fn.input("Python Interpreter: ", "/usr/bin/python3", "file")
 				if not data_in or data_in == "" then
 					return "/usr/bin/python3"
 				end

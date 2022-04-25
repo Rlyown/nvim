@@ -16,7 +16,7 @@ function get_latest_release() {
 }
 LATEST=$(get_latest_release "vadimcn/vscode-lldb")
 
-BASE=$(nvim --headless --noplugin -c "lua print(require'core.gvariable'.dapinstall_dir)" -c "quit" 2>&1)
+BASE=$(nvim --headless --noplugin -c "lua print(require'core.gvariable'.debuggers.dapinstall_dir)" -c "quit" 2>&1)
 TARGET_DIR=$BASE"/codelldb"
 
 echo -e "Platform: $PLAT $ARCH"

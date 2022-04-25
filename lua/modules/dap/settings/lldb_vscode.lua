@@ -1,10 +1,10 @@
-local llvm_dir = require("core.gvariable").llvm_bin_path
+local lldb_vscode = require("core.gvariable").debuggers.lldb_vscode
 local get_args = require("modules.dap.util").get_args
 
 local dap = require("dap")
 dap.adapters.lldb = {
 	type = "executable",
-	command = llvm_dir .. "/lldb-vscode", -- adjust as needed
+	command = lldb_vscode,
 	name = "lldb",
 }
 

@@ -1,27 +1,30 @@
 local M = {}
 
+-- path to debuggers
+M.debuggers = {}
+
 if vim.fn.has("mac") then
 	M.os = "mac"
-	M.llvm_bin_path = "/opt/homebrew/opt/llvm/bin"
+	M.debuggers.lldb_vscode = "/opt/homebrew/opt/llvm/bin/lldb-vscode"
+	M.debuggers.debugpy = "/opt/homebrew/Caskroom/miniforge/base/envs/debugpy/bin/python3"
 elseif vim.fn.has("unix") then
 	M.os = "unix"
-	M.llvm_bin_path = "/usr/bin"
+	M.debuggers.lldb_vscode = "/usr/bin/lldb-vscode"
+	M.debuggers.debugpy = "/usr/bin/python3"
 else
 	M.os = "unsupport"
+	M.debuggers.lldb_vscode = "lldb-vscode"
+	M.debuggers.debugpy = "python3"
 end
 
+M.debuggers.delve = "dlv"
+
 M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
-M.dapinstall_dir = vim.fn.stdpath("data") .. "/dapinstall"
--- the python path which installed debugpy
-if M.os == "mac" then
-	M.debugpy_python_path = "/opt/homebrew/Caskroom/miniforge/base/envs/debugpy/bin/python3"
-elseif M.os == "unix" then
-	M.debugpy_python_path = "/usr/bin/python3"
-end
+-- M.debuggers.dapinstall_dir = vim.fn.stdpath("data") .. "/dapinstall"
 
 -- this function will be called at the end of init.lua
 function M.setup()
-	vim.g.python3_host_prog = M.debugpy_python_path -- set the python3 path which installed pynvim
+	vim.g.python3_host_prog = M.debuggers.debugpy -- set the python3 path which installed pynvim
 
 	-- set default colorscheme
 	local catppuccin_status_ok, _ = pcall(require, "catppuccin")

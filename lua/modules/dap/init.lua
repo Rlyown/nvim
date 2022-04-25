@@ -30,6 +30,6 @@ require("modules.dap.vtext")
 -- setup adapter and language
 -- codelldb will display disassembly
 -- require("modules.dap.settings.codelldb") -- for C/Cpp/Rust
-require("modules.dap.settings.lldb-vscode") -- for C/Cpp/Rust
+require("modules.dap.settings.lldb_vscode") -- for C/Cpp/Rust
 require("modules.dap.settings.delve") -- for Golang
 require("modules.dap.settings.debugpy") -- for Python, default interpreter is /usr/bin/python3
