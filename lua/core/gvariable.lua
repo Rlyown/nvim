@@ -66,6 +66,9 @@ M.fn = {
 		local nSplitArray = {}
 		local i = 1
 
+		local msg = "Get Args:"
+		local format_template = "\n  [%d] %s"
+
 		if not szFullString or not szSeparator or #szSeparator > 1 or #szFullString == 0 then
 			return nSplitArray
 		end
@@ -99,8 +102,10 @@ M.fn = {
 							local start_ch = szFullString:sub(nFindStartIndex, nFindStartIndex)
 							if start_ch == '"' or start_ch == "'" then
 								nSplitArray[#nSplitArray + 1] = szFullString:sub(nFindStartIndex + 1, i - 2)
+								msg = msg .. string.format(format_template, #nSplitArray, nSplitArray[#nSplitArray])
 							else
 								nSplitArray[#nSplitArray + 1] = szFullString:sub(nFindStartIndex, i - 1)
+								msg = msg .. string.format(format_template, #nSplitArray, nSplitArray[#nSplitArray])
 							end
 						end
 					end
@@ -121,13 +126,16 @@ M.fn = {
 					local start_ch = szFullString:sub(nFindStartIndex, nFindStartIndex)
 					if start_ch == '"' or start_ch == "'" then
 						nSplitArray[#nSplitArray + 1] = szFullString:sub(nFindStartIndex + 1, i - 2)
+						msg = msg .. string.format(format_template, #nSplitArray, nSplitArray[#nSplitArray])
 					else
 						nSplitArray[#nSplitArray + 1] = szFullString:sub(nFindStartIndex, i - 1)
+						msg = msg .. string.format(format_template, #nSplitArray, nSplitArray[#nSplitArray])
 					end
 				end
 				break
 			end
 		end
+		vim.notify(msg, "info", { title = "function args_parse" })
 		return nSplitArray
 	end,
 }
