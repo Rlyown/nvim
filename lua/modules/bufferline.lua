@@ -3,6 +3,7 @@ if not status_ok then
 	return
 end
 
+-- Issue: https://github.com/akinsho/bufferline.nvim/pull/349
 bufferline.setup({
 	options = {
 		numbers = "none", -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,

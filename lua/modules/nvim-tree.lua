@@ -36,6 +36,7 @@ end
 local tree_cb = nvim_tree_config.nvim_tree_callback
 
 nvim_tree.setup({
+	auto_reload_on_write = true,
 	disable_netrw = true,
 	hijack_netrw = true,
 	open_on_setup = false,
@@ -45,14 +46,11 @@ nvim_tree.setup({
 		"alpha",
 	},
 	open_on_tab = false,
-	hijack_cursor = false,
+	hijack_cursor = true,
 	update_cwd = true,
-	update_to_buf_dir = {
-		enable = true,
-		auto_open = true,
-	},
 	diagnostics = {
 		enable = true,
+		show_on_dirs = true,
 		icons = {
 			hint = "",
 			info = "",
@@ -62,16 +60,8 @@ nvim_tree.setup({
 	},
 	update_focused_file = {
 		enable = true,
-		update_cwd = true,
+		update_cwd = false,
 		ignore_list = {},
-	},
-	system_open = {
-		cmd = nil,
-		args = {},
-	},
-	filters = {
-		dotfiles = false,
-		custom = {},
 	},
 	git = {
 		enable = true,
@@ -83,7 +73,7 @@ nvim_tree.setup({
 		height = 30,
 		hide_root_folder = false,
 		side = "left",
-		auto_resize = true,
+		preserve_window_proportions = false,
 		mappings = {
 			custom_only = false,
 			list = {
@@ -91,24 +81,61 @@ nvim_tree.setup({
 				{ key = "h", cb = tree_cb("close_node") },
 				{ key = "v", cb = tree_cb("vsplit") },
 				{ key = "?", cb = tree_cb("toggle_help") },
+				{ key = "d", cb = tree_cb("trash") },
+				{ key = "D", cb = tree_cb("remove") },
+				{ key = "+", cb = tree_cb("cd") },
 			},
 		},
 		number = false,
 		relativenumber = false,
 	},
+	renderer = {
+		indent_markers = {
+			enable = true,
+			icons = {
+				corner = "└ ",
+				edge = "│ ",
+				none = "  ",
+			},
+		},
+		icons = {
+			webdev_colors = true,
+		},
+	},
 	trash = {
 		cmd = "trash",
 		require_confirm = true,
 	},
-	quit_on_open = 0,
-	git_hl = 1,
-	disable_window_picker = 0,
-	root_folder_modifier = ":t",
-	show_icons = {
-		git = 1,
-		folders = 1,
-		files = 1,
-		folder_arrows = 1,
-		tree_width = 30,
+	actions = {
+		use_system_clipboard = true,
+		change_dir = {
+			enable = true,
+			global = false,
+			restrict_above_cwd = false,
+		},
+		open_file = {
+			quit_on_open = false,
+			resize_window = false,
+			window_picker = {
+				enable = true,
+				chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+				exclude = {
+					filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+					buftype = { "nofile", "terminal", "help" },
+				},
+			},
+		},
+	},
+	log = {
+		enable = false,
+		truncate = false,
+		types = {
+			all = false,
+			config = false,
+			copy_paste = false,
+			diagnostics = false,
+			git = false,
+			profile = false,
+		},
 	},
 })

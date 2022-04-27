@@ -1,5 +1,6 @@
 # Nvim 
 
+
 My neovim config is inspired by [LunarVim/Neovim-from-scratch](https://github.com/LunarVim/Neovim-from-scratch) repository.
 
 * [Nvim](#nvim)
@@ -67,13 +68,20 @@ Install the follow dependencies:
     # llvm should add to path manually
     # On Apple Sillcon
     $ echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
+    
+    # If you want delete file to trash bin directory by nvim-tree
+    $ brew install trash
     ```
 
-    *Nerd Fonts* is needed to show icons. And don't forget to change your terminal fonts.
+    *Nerd Fonts* is needed to show icons. You can choose your favorite font or find icons in the  [https://www.nerdfonts.com](https://www.nerdfonts.com).
 
     ```shell
-    $ cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+    # Other nice fonts: Hack, Fira Code, Meslo
+    $ brew tap homebrew/cask-fonts
+    $ brew install --cask font-jetbrains-mono-nerd-font
     ```
+
+    *Note*: Don't forget to change your terminal fonts.
 
 * On Ubuntu 20.04
 
@@ -123,14 +131,20 @@ Install the follow dependencies:
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can follow the method of MacOS
   $ pip3 install pynvim debugpy
+  
+  # If you want delete file to trash bin directory by nvim-tree
+  $ npm install --global trash-cli
   ```
   
-  *Nerd Fonts* is needed to show icons. And don't forget to change your terminal fonts.
+  *Nerd Fonts* is needed to show icons. You can choose your favorite font or find icons in the  [https://www.nerdfonts.com](https://www.nerdfonts.com).
   
-    ```shell
-    $ mkdir -p ~/.local/share/fonts
-    $ cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
-    ```
+  ```shell
+  # Other nice fonts: Hack, Fira Code, Meslo
+  $ mkdir -p ~/.local/share/fonts
+  $ cd ~/.local/share/fonts && curl -fLo "JetBrains Mono NL Regular Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/complete/JetBrains%20Mono%20NL%20Regular%20Nerd%20Font%20Complete.ttf
+  ```
+  
+  *Note*: Don't forget to change your terminal fonts.
 
 To set neovim as default editor, you can add these to `~/.bashrc` or `~/.zshrc`:
 
@@ -160,8 +174,8 @@ Leader key is comma(`,`) key. You can just press `<leader>` or `<leader><leader>
 | Vim-builtin     | normal           | `<C-l>`               | move right window                                            |
 | Vim-builtin     | normal           | `<C-k>`               | move up window                                               |
 | Vim-builtin     | normal           | `<C-j>`               | move down window                                             |
-| Vim-builtin     | normal           | `<C-n>`               | next buffer                                                  |
-| Vim-builtin     | normal           | `<C-p>`               | prev buffer                                                  |
+| Vim-builtin     | normal           | `<C-n>`/`L`           | next buffer                                                  |
+| Vim-builtin     | normal           | `<C-p>`/`H`           | prev buffer                                                  |
 | Vim-builtin     | normal           | `<leader><leader>lt`  | copy `.clang-tidy` from template directory to your current location |
 | Vim-builtin     | normal           | `<leader><leader>lf`  | copy `.clang-format` from template directory to your current location |
 | Vim-builtin     | normal           | `gt`                  | next tab                                                     |
@@ -208,18 +222,6 @@ Leader key is comma(`,`) key. You can just press `<leader>` or `<leader><leader>
 | Comment.nvim    | visual           | `gc`                  | line comment                                                 |
 | Comment.nvim    | visual           | `gb`                  | block comment                                                |
 | nvim-tree       | tree-view        | `?`                   | show help                                                    |
-| Project.nvim    | telescope-normal | `f`                   | find project files                                           |
-| Project.nvim    | telescope-normal | `b`                   | browse project files                                         |
-| Project.nvim    | telescope-normal | `d`                   | delete project                                               |
-| Project.nvim    | telescope-normal | `s`                   | search in project files                                      |
-| Project.nvim    | telescope-normal | `r`                   | recent project files                                         |
-| Project.nvim    | telescope-normal | `w`                   | change working directory                                     |
-| Project.nvim    | telescope-insert | `<C-f>`               | find project files                                           |
-| Project.nvim    | telescope-insert | `<C-b>`               | browse project files                                         |
-| Project.nvim    | telescope-insert | `<C-d>`               | delete project                                               |
-| Project.nvim    | telescope-insert | `<C-s>`               | search in project files                                      |
-| Project.nvim    | telescope-insert | `<C-r>`               | recent project files                                         |
-| Project.nvim    | telescope-insert | `<C-w>`               | change working directory                                     |
 | Telescope       | telescope-normal | `?`                   | which key                                                    |
 | Telescope       | telescope-insert | `<C-_>`               | which key                                                    |
 | undotree        | undotree-view    | `?`                   | show help                                                    |

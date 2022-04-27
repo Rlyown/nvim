@@ -12,7 +12,7 @@ require("impatient")
 -- Set the plugins load orders, if needed.
 -- Note: Set the name of all plugins to key to avoid performing reverse table
 require("modules").setup({
-	ignore = { "autosave" },
+	ignore = { "autosave", "project" },
 })
 
 require("core.gvariable").setup()

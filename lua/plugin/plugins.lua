@@ -83,7 +83,7 @@ return packer.startup(function(use)
 	use({ "ThePrimeagen/refactoring.nvim" }) -- The Refactoring library
 
 	-- Project
-	use({ "ahmedkhalf/project.nvim" }) -- superior project management
+	-- use({ "ahmedkhalf/project.nvim" }) -- superior project management
 	use({ "Shatur/neovim-session-manager" }) -- A simple wrapper around :mksession
 
 	-- Snippets
@@ -150,6 +150,7 @@ return packer.startup(function(use)
 	}) -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
 	use({ "stevearc/dressing.nvim" }) -- Neovim plugin to improve the default vim.ui interfaces
 	use({ "rcarriga/nvim-notify" }) -- A fancy, configurable, notification manager for NeoVim
+	-- use({ "kwkarlwang/bufresize.nvim" }) -- Keep buffer dimensions in proportion when terminal window is resized
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
