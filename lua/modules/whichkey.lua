@@ -136,6 +136,17 @@ local function close_buffer()
 	end
 end
 
+-- enable or disable autoformat
+local function auto_format_toggle()
+	if vim.g.custom_enable_auto_format then
+		vim.g.custom_enable_auto_format = false
+		vim.notify("File autoformat is disabled", "info", { title = "LSP Autoformat" })
+	else
+		vim.g.custom_enable_auto_format = true
+		vim.notify("File autoformat is enabled", "info", { title = "LSP Autoformat" })
+	end
+end
+
 local n_opts = {
 	mode = "n", -- NORMAL mode
 	prefix = "",
@@ -271,6 +282,7 @@ local n_mappings = {
 				"Document Diagnostics",
 			},
 			f = { "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", "Format" },
+			F = { auto_format_toggle, "Auto Format Toggle" },
 			K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover" },
 			H = { "<cmd>LspInfo<cr>", "Info" },
 			I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },

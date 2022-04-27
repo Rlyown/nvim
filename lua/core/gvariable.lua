@@ -174,9 +174,14 @@ M.symbol_map = {
 	Object = "⦿",
 }
 
--- this function will be called at the end of init.lua
+-- This function will be called at the end of init.lua
 function M.setup()
-	vim.g.python3_host_prog = M.debuggers.debugpy -- set the python3 path which installed pynvim
+	-- Set the python3 path which installed pynvim
+	vim.g.python3_host_prog = M.debuggers.debugpy
+
+	-- custom variable to enable or disable auto format by default.
+	-- You can toggle it with keybinding <leader>lF
+	vim.g.custom_enable_auto_format = true
 
 	-- set default colorscheme
 	local catppuccin_status_ok, _ = pcall(require, "catppuccin")

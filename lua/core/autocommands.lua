@@ -118,7 +118,9 @@ autocmd("BufWritePre", {
 	group = "_lsp",
 	pattern = "*",
 	callback = function()
-		vim.lsp.buf.formatting_sync()
+		if vim.g.custom_enable_auto_format then
+			vim.lsp.buf.formatting_sync()
+		end
 	end,
 	desc = "auto format",
 })
