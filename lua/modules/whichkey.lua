@@ -316,7 +316,7 @@ local n_mappings = {
 			},
 		},
 		["O"] = { "<cmd>SymbolsOutline<cr>", "Code OutLine" },
-		["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
+		-- ["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
 		["q"] = { "<cmd>q<cr>", "Quit" },
 		["Q"] = { "<cmd>qa<cr>", "Quit All" },
 		["r"] = {
