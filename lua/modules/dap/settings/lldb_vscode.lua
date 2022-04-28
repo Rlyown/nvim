@@ -31,7 +31,9 @@ dap.configurations.cpp = {
 		-- But you should be aware of the implications:
 		-- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
 
-		runInTerminal = false,
+		runInTerminal = function()
+			return vim.g.custom_lldb_run_in_terminal or false
+		end,
 
 		-- 💀
 		-- If you use `runInTerminal = true` and resize the terminal window,

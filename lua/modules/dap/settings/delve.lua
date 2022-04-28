@@ -52,6 +52,12 @@ dap.configurations.go = {
 		mode = "test",
 		program = "${file}",
 	},
+	{
+		type = "go",
+		name = "Debug Package",
+		request = "launch",
+		program = "${fileDirname}",
+	},
 	-- works with go.mod packages and sub packages
 	{
 		type = "go",
@@ -59,5 +65,12 @@ dap.configurations.go = {
 		request = "launch",
 		mode = "test",
 		program = "./${relativeFileDirname}",
+	},
+	{
+		type = "go",
+		name = "Attach",
+		mode = "local",
+		request = "attach",
+		processId = require("dap.utils").pick_process,
 	},
 }

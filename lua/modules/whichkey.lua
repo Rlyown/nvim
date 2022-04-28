@@ -136,17 +136,6 @@ local function close_buffer()
 	end
 end
 
--- enable or disable autoformat
-local function auto_format_toggle()
-	if vim.g.custom_enable_auto_format then
-		vim.g.custom_enable_auto_format = false
-		vim.notify("File autoformat is disabled", "info", { title = "LSP Autoformat" })
-	else
-		vim.g.custom_enable_auto_format = true
-		vim.notify("File autoformat is enabled", "info", { title = "LSP Autoformat" })
-	end
-end
-
 local n_opts = {
 	mode = "n", -- NORMAL mode
 	prefix = "",
@@ -209,6 +198,18 @@ local n_mappings = {
 			-- },
 			R = { "<cmd>lua require'dap'.run_last()<CR>", "Rerun" },
 			s = { "<cmd>lua require'dap'.step_into()<CR>", "Step Into" },
+			t = {
+				function()
+					if vim.g.custom_lldb_run_in_terminal then
+						vim.g.custom_lldb_run_in_terminal = false
+						vim.notify("Run in terminal is disabled", "info", { title = "DAP runInTerminal" })
+					else
+						vim.g.custom_lldb_run_in_terminal = true
+						vim.notify("Run in terminal is enabled", "info", { title = "DAP runInTerminal" })
+					end
+				end,
+				"Run In Terminal",
+			},
 			w = {
 				"<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
 				"Condition Breakpoint",
@@ -282,7 +283,18 @@ local n_mappings = {
 				"Document Diagnostics",
 			},
 			f = { "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", "Format" },
-			F = { auto_format_toggle, "Auto Format Toggle" },
+			F = {
+				function()
+					if vim.g.custom_enable_auto_format then
+						vim.g.custom_enable_auto_format = false
+						vim.notify("File autoformat is disabled", "info", { title = "LSP Autoformat" })
+					else
+						vim.g.custom_enable_auto_format = true
+						vim.notify("File autoformat is enabled", "info", { title = "LSP Autoformat" })
+					end
+				end,
+				"Auto Format Toggle",
+			},
 			K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover" },
 			H = { "<cmd>LspInfo<cr>", "Info" },
 			I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
