@@ -49,7 +49,6 @@ dap.configurations.cpp = {
 		type = "lldb", -- Adjust this to match your adapter name (`dap.adapters.<name>`)
 		request = "attach",
 		pid = require("dap.utils").pick_process,
-		args = get_args,
 	},
 }
 

@@ -208,7 +208,7 @@ local n_mappings = {
 						vim.notify("Run in terminal is enabled", "info", { title = "DAP runInTerminal" })
 					end
 				end,
-				"Run In Terminal",
+				"Terminal Toggle",
 			},
 			w = {
 				"<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
@@ -387,6 +387,8 @@ local n_mappings = {
 				l = { "<cmd>lua _LLDB_TOGGLE()<cr>", "LLDB" },
 				G = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
 				p = { "<cmd>lua _PYTHON3_TOGGLE()<cr>", "Python3" },
+				r = { "<cmd>lua _RUST_GDB_TOGGLE()<cr>", "Rust GDB" },
+				R = { "<cmd>lua _RUST_LLDB_TOGGLE()<cr>", "Rust LLDB" },
 			},
 			t = { "<cmd>ToggleTerm direction=tab<cr>", "Tab" },
 			v = term_multi_hv("Vertical", 0.4, "vertical"),
