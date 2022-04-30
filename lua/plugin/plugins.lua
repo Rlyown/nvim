@@ -102,6 +102,11 @@ return packer.startup(function(use)
 
 	-- Terminal
 	use({ "akinsho/toggleterm.nvim" }) -- easily manage multiple terminal windows
+	use({
+		"sakhnik/nvim-gdb",
+		run = "bash ./install.sh",
+		cmd = { "GdbStart", "GdbStartLLDB", "GdbStartPDB", "GdbStartBashDB" },
+	}) -- Neovim thin wrapper for GDB, LLDB, PDB/PDB++ and BashDB
 
 	-- Tools
 	use({ "wbthomason/packer.nvim" }) -- Have packer manage itself

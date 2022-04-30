@@ -381,14 +381,37 @@ local n_mappings = {
 			Q = { "<cmd>q<cr>", "Finish" },
 			s = {
 				name = "Specific",
-				c = { "<cmd>lua _CGDB_TOGGLE()<cr>", "CGDB" },
 				d = { "<cmd>lua _DLV_DEBUG_TOGGLE()<cr>", "Delve" },
-				g = { "<cmd>lua _GDB_TOGGLE()<cr>", "GDB" },
-				l = { "<cmd>lua _LLDB_TOGGLE()<cr>", "LLDB" },
+				g = {
+					function()
+						local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
+						vim.cmd(string.format("GdbStart gdb %s", prog))
+					end,
+					"GDB",
+				},
 				G = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
+				l = {
+					function()
+						local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
+						vim.cmd(string.format("GdbStartLLDB lldb %s", prog))
+					end,
+					"LLDB",
+				},
 				p = { "<cmd>lua _PYTHON3_TOGGLE()<cr>", "Python3" },
-				r = { "<cmd>lua _RUST_GDB_TOGGLE()<cr>", "Rust GDB" },
-				R = { "<cmd>lua _RUST_LLDB_TOGGLE()<cr>", "Rust LLDB" },
+				r = {
+					function()
+						local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
+						vim.cmd(string.format("GdbStartLLDB rust-lldb %s", prog))
+					end,
+					"Rust LLDB",
+				},
+				R = {
+					function()
+						local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
+						vim.cmd(string.format("GdbStart rust-gdb %s", prog))
+					end,
+					"Rust GDB",
+				},
 			},
 			t = { "<cmd>ToggleTerm direction=tab<cr>", "Tab" },
 			v = term_multi_hv("Vertical", 0.4, "vertical"),

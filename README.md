@@ -263,8 +263,7 @@ Leader key is comma(`,`) key. You can just press `<leader>` or `<leader><leader>
 | nvim-dap-ui     | dapui-view       | `d`                   | remove the watched expression.                               |
 | nvim-dap-ui     | dapui-view       | `r`                   | Send to REPL                                                 |
 | nvim-dap-ui     | dapui-view       | `<space>`             | enable/disable the selected breakpoint, or toggle displaying subtle frames |
-
-
+| Nvim-gdb        | buf-normal       | `<space>`             | set/unset breakpoint                                         |
 
 If you want to enter a new expression at `DAP Watches`, just enter insert mode and you will see a prompt appear, and press enter to submit. For more details about `dap-ui`, you can click [https://github.com/rcarriga/nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui).
 
