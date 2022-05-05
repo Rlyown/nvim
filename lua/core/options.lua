@@ -15,6 +15,7 @@ local options = {
 	showmode = false, -- we don't need to see things like -- INSERT -- anymore
 	showtabline = 2, -- always show tabs
 	autoindent = true, -- apply the indentation in normal mode
+	cindent = true, -- c/cpp indent
 	smartcase = true, -- smart case
 	smartindent = true, -- make indenting smarter again
 	splitbelow = true, -- force all horizontal splits to go below current window
@@ -55,3 +56,5 @@ end
 vim.cmd("set whichwrap+=<,>,[,],h,l") -- enable this key to go next/before line at line end/head.
 vim.cmd([[set iskeyword+=-]]) -- set word to keyword
 vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
+vim.cmd([[set cinoptions=g0,:0,N-s,(0]]) -- set c/cpp indent options
+vim.cmd([[filetype indent on]]) -- auto indent for different filetype
