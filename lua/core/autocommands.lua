@@ -14,6 +14,17 @@ function _G.OrgImports(wait_ms)
 	end
 end
 
+-- Related issue: https://github.com/L3MON4D3/LuaSnip/issues/258
+function _G.leave_snippet()
+	if
+		((vim.v.event.old_mode == "s" and vim.v.event.new_mode == "n") or vim.v.event.old_mode == "i")
+		and require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
+		and not require("luasnip").session.jump_active
+	then
+		require("luasnip").unlink_current()
+	end
+end
+
 -- example: t = {{bname=bufname, filetype=filetype}}
 function _G.check_last_special_win(t)
 	local name_cases = {
@@ -153,4 +164,12 @@ autocmd("BufEnter", {
 		end
 	end,
 	nested = true,
+})
+
+-- stop snippets when you leave to normal mode
+augroup("_luasnip", { clear = true })
+autocmd("ModeChanged", {
+	group = "_luasnip",
+	pattern = "*",
+	command = "lua leave_snippet()",
 })
