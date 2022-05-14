@@ -329,6 +329,14 @@ local n_mappings = {
 		},
 		["O"] = { "<cmd>SymbolsOutline<cr>", "Code OutLine" },
 		-- ["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
+		["p"] = {
+			name = "Session",
+			c = { "<cmd>SessionManager load_current_dir_session<cr>", "Load Current Dirtectory" },
+			d = { "<cmd>SessionManager delete_session<cr>", "Delete Session" },
+			l = { "<cmd>SessionManager load_last_session<cr>", "Last Session" },
+			s = { "<cmd>SessionManager load_session<cr>", "Select Session" },
+			w = { "<cmd>SessionManager save_current_session<cr>", "Save Current Dirtectory" },
+		},
 		["q"] = { "<cmd>q<cr>", "Quit" },
 		["Q"] = { "<cmd>qa<cr>", "Quit All" },
 		["r"] = {
@@ -364,12 +372,10 @@ local n_mappings = {
 			s = { "<cmd>Telescope luasnip<cr>", "Luasnip" },
 		},
 		["S"] = {
-			name = "Session",
-			c = { "<cmd>SessionManager load_current_dir_session<cr>", "Load Current Dirtectory" },
-			d = { "<cmd>SessionManager delete_session<cr>", "Delete Session" },
-			l = { "<cmd>SessionManager load_last_session<cr>", "Last Session" },
-			s = { "<cmd>SessionManager load_session<cr>", "Select Session" },
-			w = { "<cmd>SessionManager save_current_session<cr>", "Save Current Dirtectory" },
+			name = "Search & Replace",
+			o = { "<cmd>lua require('spectre').open()<CR>", "Open" },
+			w = { "<cmd>lua require('spectre').open_visual({select_word=true})<CR>", "Search Word" },
+			f = { "viw:lua require('spectre').open_file_search()<cr>", "Search in File" },
 		},
 		["t"] = {
 			name = "Terminal",
@@ -533,6 +539,7 @@ local v_mappings = {
 		l = "ToggleTermSendVisualLines",
 		r = "SnipRun",
 		s = "ToggleTermSendVisualSelection",
+		S = "Search & Replace",
 		G = {
 			name = "Golang",
 			c = "GoChannelPeers",

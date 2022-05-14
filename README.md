@@ -50,7 +50,7 @@ Install the follow dependencies:
     
     # Tools for language support
     # neovim-remote is not Required
-    $ brew install llvm bear cmake lazygit golang stylua rustup-init shfmt node yarn
+    $ brew install llvm bear cmake lazygit golang stylua rustup-init shfmt node yarn gnu-sed
     
     $ npm install -g neovim
     $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
