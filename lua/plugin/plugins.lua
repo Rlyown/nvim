@@ -85,6 +85,7 @@ return packer.startup(function(use)
 	-- Project
 	-- use({ "ahmedkhalf/project.nvim" }) -- superior project management
 	use({ "Shatur/neovim-session-manager" }) -- A simple wrapper around :mksession
+	use("ethanholz/nvim-lastplace") -- Intelligently reopen files at your last edit position
 
 	-- Snippets
 	use({ "L3MON4D3/LuaSnip" }) --snippet engine

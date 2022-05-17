@@ -39,8 +39,8 @@ function _G.check_last_special_win(t)
 
 	local type_cases = {
 		["Outline"] = true,
-		-- ["dapui_scopes"] = true,
 		-- ["dapui_breakpoints"] = true,
+		-- ["dapui_scopes"] = true,
 		-- ["dapui_stacks"] = true,
 		-- ["dapui_watches"] = true,
 		-- ["dap-rel"] = true,
@@ -141,6 +141,23 @@ autocmd("BufWritePre", {
 	callback = function()
 		OrgImports(1000)
 	end,
+})
+-- Issue: https://github.com/nvim-telescope/telescope.nvim/issues/559
+autocmd("BufRead", {
+	group = "_lsp",
+	pattern = "*",
+	callback = function()
+		vim.api.nvim_create_autocmd("BufWinEnter", {
+			once = true,
+			command = "normal! zx zM zR",
+		})
+	end,
+})
+-- Question: https://superuser.com/questions/567352/how-can-i-set-foldlevelstart-in-vim-to-just-fold-nothing-initially-still-allowi
+autocmd("BufWinEnter", {
+	group = "_lsp",
+	pattern = "*",
+	command = [[ let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)')) ]],
 })
 
 augroup("_auto_close", { clear = true })

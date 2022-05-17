@@ -16,3 +16,5 @@ require("modules").setup({
 })
 
 require("core.gvariable").setup()
+
+-- TODO: spell check

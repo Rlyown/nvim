@@ -44,6 +44,8 @@ local options = {
 	confirm = true, -- confirm when file is unsaved or read-only
 	autowrite = true, -- enable auto write buffer
 	autowriteall = true, -- similar to autowrite. It will auto save in some extra events
+	foldmethod = "expr",
+	foldexpr = "nvim_treesitter#foldexpr()",
 }
 
 vim.opt.shortmess:append("c") -- enable short message with flag "c"
