@@ -46,11 +46,7 @@ dressing.setup({
 
 		-- see :help dressing_get_config
 		get_config = function(opts)
-			if opts.kind == "term" then
-				return {
-					relative = "editor",
-				}
-			elseif opts.kind == "dap" then
+			if opts.kind == "center" then
 				return {
 					relative = "editor",
 				}

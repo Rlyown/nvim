@@ -75,13 +75,14 @@ local ainput = require("core.gvariable").fn.async_ui_input_wrap()
 
 local function term_id_cmds(name, cmd_str)
 	local opts = {
-		prompt = "Input Terminal ID(default 1): ",
-		kind = "term",
+		prompt = "Input Terminal ID:",
+		kind = "center",
+		default = "1",
 	}
 	local function on_confirm(input)
 		local id = tonumber(input)
 		if not id or (id < 1) then
-			id = 1
+			return
 		end
 
 		local s = string.format("%s %d", cmd_str, id)
@@ -97,14 +98,15 @@ end
 
 local function term_multi_hv(name, rate, direction)
 	local opts = {
-		prompt = "Input Terminal ID(default 1): ",
-		kind = "term",
+		prompt = "Input Terminal ID:",
+		kind = "center",
+		default = "1",
 	}
 
 	local function on_confirm(input)
 		local id = tonumber(input)
 		if not id or (id < 1) then
-			id = 1
+			return
 		end
 
 		local size = 20
@@ -134,6 +136,41 @@ local function close_buffer()
 	else
 		vim.cmd("Bdelete!")
 	end
+end
+
+local function markdown_helper()
+	local compile_once = true
+
+	local opts = {
+		prompt = "Current filetype isn't markdown. Do you want to change it and continue?[Y/n]",
+		kind = "center",
+		default = "no",
+	}
+	local function on_confirm(input)
+		if vim.bo.ft ~= "markdown" then
+			if not input or #input == 0 then
+				return
+			else
+				input = string.lower(input)
+				if input == "y" or input == "yes" then
+					vim.bo.ft = "markdown"
+					if compile_once then
+						vim.cmd("PackerCompile")
+						compile_once = nil
+					end
+				else
+					return
+				end
+			end
+		end
+		vim.cmd("MarkdownPreviewToggle")
+	end
+
+	local do_func = function()
+		ainput(opts, on_confirm)
+	end
+
+	return do_func
 end
 
 local n_opts = {
@@ -316,7 +353,7 @@ local n_mappings = {
 				"Workspace Symbols",
 			},
 		},
-		["M"] = { "<cmd>MarkdownPreviewToggle<cr>", "Markdown Preview" },
+		["M"] = { markdown_helper(), "Markdown Preview" },
 		["m"] = {
 			name = "Motion",
 			b = { "<cmd>HopChar2<cr>", "2-Char" },
