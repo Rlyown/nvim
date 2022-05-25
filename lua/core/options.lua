@@ -47,6 +47,8 @@ local options = {
 	foldmethod = "expr",
 	foldexpr = "nvim_treesitter#foldexpr()",
 	foldenable = false, -- when off, all folds are open
+	spell = true, -- enable spell check, spellfile will set in gvariable.lua
+	spelllang = "en", -- set language
 }
 
 vim.opt.shortmess:append("c") -- enable short message with flag "c"

@@ -81,6 +81,7 @@ return packer.startup(function(use)
 	use({ "fatih/vim-go", run = ":GoInstallBinaries", ft = "go" }) -- Go development plugin
 	use({ "simrat39/symbols-outline.nvim" }) -- A tree like view for symbols
 	use({ "ThePrimeagen/refactoring.nvim" }) -- The Refactoring library
+	use({ "lewis6991/spellsitter.nvim" }) -- Treesitter powered spellchecker
 
 	-- Project
 	-- use({ "ahmedkhalf/project.nvim" }) -- superior project management
