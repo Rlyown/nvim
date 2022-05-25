@@ -46,6 +46,7 @@ local options = {
 	autowriteall = true, -- similar to autowrite. It will auto save in some extra events
 	foldmethod = "expr",
 	foldexpr = "nvim_treesitter#foldexpr()",
+	foldenable = false, -- when off, all folds are open
 }
 
 vim.opt.shortmess:append("c") -- enable short message with flag "c"
