@@ -20,6 +20,7 @@ end
 M.debuggers.delve = "dlv"
 
 M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
+M.lazymod_configs = require("lazymods.configs")
 -- M.debuggers.dapinstall_dir = vim.fn.stdpath("data") .. "/dapinstall"
 
 M.fn = {

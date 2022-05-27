@@ -13,3 +13,7 @@ buf
 merkle
 util
 keymaps
+cmd
+io
+config
+configs

@@ -1,4 +1,5 @@
 local fn = vim.fn
+local configs = require("core.gvariable").lazymod_configs
 
 -- Automatically install packer
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -57,6 +58,7 @@ return packer.startup(function(use)
 	-- use({ "f3fora/cmp-spell" }) -- spell source for nvim-cmp
 	-- use "github/copilot.vim" -- gitHub Copilot
 	-- use "hrsh7th/cmp-copilot" -- this is a experimental product
+	use({ "saecki/crates.nvim", tag = "v0.2.1", event = { "BufRead Cargo.toml" }, config = configs.crates }) -- helps managing crates.io dependencies
 
 	-- DAP
 	use({ "mfussenegger/nvim-dap" }) -- Debug Adapter Protocol client implementation
@@ -82,6 +84,7 @@ return packer.startup(function(use)
 	use({ "simrat39/symbols-outline.nvim" }) -- A tree like view for symbols
 	use({ "ThePrimeagen/refactoring.nvim" }) -- The Refactoring library
 	use({ "lewis6991/spellsitter.nvim" }) -- Treesitter powered spellchecker
+	-- use({ "simrat39/rust-tools.nvim", ft = { "toml", "rust" } }) -- Tools for better development in rust using neovim's builtin lsp
 
 	-- Project
 	-- use({ "ahmedkhalf/project.nvim" }) -- superior project management
@@ -122,7 +125,12 @@ return packer.startup(function(use)
 	use({ "folke/which-key.nvim" }) -- Create key bindings that stick.
 	use({ "tpope/vim-repeat" }) -- enable repeating supported plugin maps with "."
 	use({ "tpope/vim-surround" }) -- all about "surroundings": parentheses, brackets, quotes, XML tags, and more
-	use({ "michaelb/sniprun", run = "bash ./install.sh", cmd = { "SnipRun", "'<,'>SnipRun", "SnipInfo" } }) -- run lines/blocs of code
+	use({
+		"michaelb/sniprun",
+		run = "bash ./install.sh",
+		cmd = { "SnipRun", "'<,'>SnipRun", "SnipInfo" },
+		config = configs.sniprun,
+	}) -- run lines/blocs of code
 	use({ "nathom/filetype.nvim" }) -- A faster version of filetype.vim
 	use({ "dstein64/vim-startuptime", cmd = { "StartupTime" } }) -- A Vim plugin for profiling Vim's startup time
 	-- use({ "Pocco81/AutoSave.nvim" }) -- enable autosave
@@ -151,7 +159,7 @@ return packer.startup(function(use)
 	use({ "mbbill/undotree", cmd = "UndotreeToggle" }) -- undo history visualizer
 	-- use "gelguy/wilder.nvim" -- A more adventurous wildmenu
 	-- use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
-	use({ "norcalli/nvim-colorizer.lua", ft = { "css", "javascript", "html" } }) -- The fastest Neovim colorizer.
+	use({ "norcalli/nvim-colorizer.lua", ft = { "css", "javascript", "html" }, config = configs.colorizer }) -- The fastest Neovim colorizer.
 	use({
 		"folke/trouble.nvim",
 		requires = "kyazdani42/nvim-web-devicons",

@@ -495,8 +495,26 @@ local n_mappings = {
 			},
 			l = {
 				name = "Language Specific",
-				t = { "<cmd>edit .clang-tidy | w<cr>", "Clang Tidy" },
-				f = { "<cmd>edit .clang-format | w<cr>", "Clang Format" },
+				c = {
+					name = "C/CPP",
+					t = { "<cmd>edit .clang-tidy | w<cr>", "Clang Tidy" },
+					f = { "<cmd>edit .clang-format | w<cr>", "Clang Format" },
+				},
+				r = {
+					name = "Rust Crate",
+					d = { "<cmd>lua require('crates').open_documentation()<cr>", "Documentation" },
+					f = { "<cmd>lua require('crates').show_features_popup()<cr>", "Features" },
+					g = { "<cmd>lua require('crates').open_repository()<cr>", "Repository" },
+					h = { "<cmd>lua require('crates').open_homepage()<cr>", "Homepage" },
+					i = { "<cmd>lua require('crates').upgrade_crate()<cr>", "Upgrade" },
+					I = { "<cmd>lua require('crates').upgrade_all_crates()<cr>", "Upgrade All" },
+					o = { "<cmd>lua require('crates').toggle()<cr>", "Toggle" },
+					p = { "<cmd>lua require('crates').open_crates_io()<cr>", "Creates.io" },
+					r = { "<cmd>lua require('crates').reload()<cr>", "Reload" },
+					u = { "<cmd>lua require('crates').update_crate()<cr>", "Update" },
+					U = { "<cmd>lua require('crates').update_all_crates()<cr>", "Update All" },
+					v = { "<cmd>lua require('crates').show_versions_popup()<cr>", "Versions" },
+				},
 			},
 			p = {
 				name = "Packer",
@@ -596,6 +614,16 @@ local v_mappings = {
 			c = "GoChannelPeers",
 			R = "GoRemoveTags",
 			T = "GoAddTags",
+		},
+		["<leader>"] = {
+			l = {
+				name = "Language Specific",
+				r = {
+					name = "Rust Crate",
+					u = "Update",
+					i = "Upgrade",
+				},
+			},
 		},
 	},
 	["g"] = {

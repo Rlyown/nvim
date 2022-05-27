@@ -188,5 +188,14 @@ augroup("_luasnip", { clear = true })
 autocmd("ModeChanged", {
 	group = "_luasnip",
 	pattern = "*",
-	command = "lua leave_snippet()",
+	callback = leave_snippet,
+})
+
+augroup("_cmp", { clear = true })
+autocmd("FileType", {
+	group = "_cmp",
+	pattern = "toml",
+	callback = function()
+		require("cmp").setup.buffer({ sources = { { name = "crates" } } })
+	end,
 })

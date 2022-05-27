@@ -81,19 +81,17 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- Hop plugin
-local hop_status_ok, _ = pcall(require, "hop")
-if hop_status_ok then
-	keymap("v", "<leader>mb", ":HopChar2<cr>", opts)
-	keymap("v", "<leader>mc", ":HopChar1<cr>", opts)
-	keymap("v", "<leader>ml", ":HopLine<cr>", opts)
-	keymap("v", "<leader>mw", ":HopWord<cr>", opts)
-end
+keymap("v", "<leader>mb", ":HopChar2<cr>", opts)
+keymap("v", "<leader>mc", ":HopChar1<cr>", opts)
+keymap("v", "<leader>ml", ":HopLine<cr>", opts)
+keymap("v", "<leader>mw", ":HopWord<cr>", opts)
 
 -- Dap plugin
 -- keymap("v", "<leader>d", ':lua require("dapui").eval()', opts)
 
 -- spectre plugin
-local spectre_status_ok, _ = pcall(require, "spectre")
-if spectre_status_ok then
-	keymap("v", "<leader>S", "<cmd>lua require('spectre').open_visual()<CR>", opts)
-end
+keymap("v", "<leader>S", "<cmd>lua require('spectre').open_visual()<CR>", opts)
+
+-- crate plugin
+keymap("v", "<leader><leader>lru", ":lua require('crates').update_crates()<cr>", opts)
+keymap("v", "<leader><leader>lru", ":lua require('crates').upgrade_crates()<cr>", opts)

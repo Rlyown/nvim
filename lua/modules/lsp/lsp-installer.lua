@@ -41,6 +41,13 @@ lsp_installer.on_server_ready(function(server)
 		capabilities = require("modules.lsp.handlers").capabilities,
 	}
 
+	if server.name == "rust_analyzer" then
+		-- enable auto-import
+		opts.capabilities.textDocument.completion.completionItem.resolveSupport = {
+			properties = { "documentation", "detail", "additionalTextEdits" },
+		}
+	end
+
 	-- if detected server config file, automatically load it.
 	local has_config, server_opts = pcall(require, get_config_path(server.name))
 	if has_config then
