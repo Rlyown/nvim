@@ -11,3 +11,5 @@ lua
 filetype
 buf
 merkle
+util
+keymaps
