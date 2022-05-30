@@ -139,6 +139,10 @@ M.fn = {
 		vim.notify(msg, "info", { title = "function args_parse" })
 		return nSplitArray
 	end,
+	["get_random_int"] = function(min, max)
+		math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+		return math.random(min, max)
+	end,
 }
 M.symbol_map = {
 	Text = "",
