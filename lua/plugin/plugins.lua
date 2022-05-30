@@ -157,7 +157,6 @@ return packer.startup(function(use)
 	use({ "lukas-reineke/indent-blankline.nvim" }) -- Indent guides for Neovim
 	use({ "SmiteshP/nvim-gps" }) -- Simple statusline component that show code context
 	use({ "mbbill/undotree", cmd = "UndotreeToggle" }) -- undo history visualizer
-	-- use "gelguy/wilder.nvim" -- A more adventurous wildmenu
 	-- use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 	use({ "norcalli/nvim-colorizer.lua", ft = { "css", "javascript", "html" }, config = configs.colorizer }) -- The fastest Neovim colorizer.
 	use({
@@ -167,6 +166,13 @@ return packer.startup(function(use)
 	use({ "stevearc/dressing.nvim" }) -- Neovim plugin to improve the default vim.ui interfaces
 	use({ "rcarriga/nvim-notify" }) -- A fancy, configurable, notification manager for NeoVim
 	-- use({ "kwkarlwang/bufresize.nvim" }) -- Keep buffer dimensions in proportion when terminal window is resized
+	use({
+		"gelguy/wilder.nvim",
+		requires = {
+			{ "romgrk/fzy-lua-native", run = "make" },
+			{ "nixprime/cpsm", run = "./install.sh" },
+		},
+	}) -- A more adventurous wildmenu
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

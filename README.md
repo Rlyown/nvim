@@ -50,7 +50,7 @@ Install the follow dependencies:
     
     # Tools for language support
     # neovim-remote is not Required
-    $ brew install llvm bear cmake lazygit golang stylua rustup-init shfmt node yarn gnu-sed
+    $ brew install llvm bear cmake lazygit golang stylua rustup-init shfmt node yarn gnu-sed boost
     
     $ npm install -g neovim
     $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -89,7 +89,7 @@ Install the follow dependencies:
 
   ```shell
   # Install System denpendence
-  $ sudo apt-get install software-properties-common curl gnupg git libreadline-dev 
+  $ sudo apt-get install software-properties-common curl gnupg git libreadline-dev
   
   # Install Golang
   $ wget https://go.dev/dl/go1.18.linux-amd64.tar.gz 
@@ -120,7 +120,7 @@ Install the follow dependencies:
   
   # Tools for language support
   $ sudo apt-get update
-  $ sudo apt install -y  bear cmake nodejs gdb yarn python3-pip libsqlite3-dev sqlite3
+  $ sudo apt install -y  bear cmake nodejs gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev
   $ cargo install stylua
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest

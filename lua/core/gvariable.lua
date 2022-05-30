@@ -23,6 +23,9 @@ M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
 M.lazymod_configs = require("lazymods.configs")
 -- M.debuggers.dapinstall_dir = vim.fn.stdpath("data") .. "/dapinstall"
 
+-- Set the python3 path which installed pynvim
+vim.g.python3_host_prog = M.debuggers.debugpy
+
 M.fn = {
 	["async_ui_input_wrap"] = function()
 		local async = require("plenary.async")
@@ -181,9 +184,6 @@ M.symbol_map = {
 
 -- This function will be called at the end of init.lua
 function M.setup()
-	-- Set the python3 path which installed pynvim
-	vim.g.python3_host_prog = M.debuggers.debugpy
-
 	-- custom variable to enable or disable auto format by default.
 	-- You can toggle it with keybinding <leader>lF
 	vim.g.custom_enable_auto_format = true
