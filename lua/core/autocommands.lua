@@ -1,3 +1,5 @@
+local configs = require("lazymods.configs")
+
 -- To get your imports ordered on save, like goimports does
 function _G.OrgImports(wait_ms)
 	local params = vim.lsp.util.make_range_params()
@@ -64,69 +66,69 @@ end
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
-augroup("_general_settings", { clear = true })
+augroup("_CUSTOM_general_settings", { clear = true })
 autocmd("FileType", {
-	group = "_general_settings",
+	group = "_CUSTOM_general_settings",
 	pattern = { "qf", "help", "man", "lspinfo", "startuptime" },
 	command = "nnoremap <silent> <buffer> q :close<CR>",
 })
 autocmd("TextYankPost", {
-	group = "_general_settings",
+	group = "_CUSTOM_general_settings",
 	pattern = "*",
 	command = "silent!lua require('vim.highlight').on_yank({higroup = 'Visual', timeout = 200})",
 })
 autocmd("BufWinEnter", {
-	group = "_general_settings",
+	group = "_CUSTOM_general_settings",
 	pattern = "*",
 	command = ":set formatoptions-=cro",
 })
 autocmd("FileType", {
-	group = "_general_settings",
+	group = "_CUSTOM_general_settings",
 	pattern = "qf",
 	command = "set nobuflisted",
 })
 
-augroup("_git", { clear = true })
+augroup("_CUSTOM_git", { clear = true })
 autocmd("FileType", {
-	group = "_git",
+	group = "_CUSTOM_git",
 	pattern = "gitcommit",
 	command = "setlocal wrap",
 })
 autocmd("FileType", {
-	group = "_git",
+	group = "_CUSTOM_git",
 	pattern = "gitcommit",
 	command = "setlocal spell",
 })
 
-augroup("_markdown", { clear = true })
+augroup("_CUSTOM_markdown", { clear = true })
 autocmd("FileType", {
-	group = "_markdown",
+	group = "_CUSTOM_markdown",
 	pattern = "markdown",
 	command = "setlocal wrap",
 })
 autocmd("FileType", {
-	group = "_markdown",
+	group = "_CUSTOM_markdown",
 	pattern = "markdown",
 	command = "setlocal spell",
 })
 
-augroup("_auto_resize", { clear = true })
+augroup("_CUSTOM_auto_resize", { clear = true })
 autocmd("VimResized", {
-	group = "_auto_resize",
+	group = "_CUSTOM_auto_resize",
 	pattern = "*",
 	command = "tabdo wincmd =",
 })
 
-augroup("_alpha", { clear = true })
+augroup("_CUSTOM_alpha", { clear = true })
 autocmd("User", {
-	group = "_alpha",
+	group = "_CUSTOM_alpha",
 	pattern = "AlphaReady",
 	command = "set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2",
 })
 
-augroup("_lsp", { clear = true })
+augroup("_CUSTOM_lsp", { clear = true })
 autocmd("BufWritePre", {
-	group = "_lsp",
+	group = "_CUSTOM_lsp",
 	pattern = "*",
 	callback = function()
 		if vim.g.custom_enable_auto_format then
@@ -136,7 +138,7 @@ autocmd("BufWritePre", {
 	desc = "auto format",
 })
 autocmd("BufWritePre", {
-	group = "_lsp",
+	group = "_CUSTOM_lsp",
 	pattern = "*.go",
 	callback = function()
 		OrgImports(1000)
@@ -144,7 +146,7 @@ autocmd("BufWritePre", {
 })
 -- Issue: https://github.com/nvim-telescope/telescope.nvim/issues/559
 autocmd("BufRead", {
-	group = "_lsp",
+	group = "_CUSTOM_lsp",
 	pattern = "*",
 	callback = function()
 		vim.api.nvim_create_autocmd("BufWinEnter", {
@@ -155,14 +157,14 @@ autocmd("BufRead", {
 })
 -- Question: https://superuser.com/questions/567352/how-can-i-set-foldlevelstart-in-vim-to-just-fold-nothing-initially-still-allowi
 autocmd("BufWinEnter", {
-	group = "_lsp",
+	group = "_CUSTOM_lsp",
 	pattern = "*",
 	command = [[ let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)')) ]],
 })
 
-augroup("_auto_close", { clear = true })
+augroup("_CUSTOM_auto_close", { clear = true })
 autocmd("BufEnter", {
-	group = "_auto_close",
+	group = "_CUSTOM_auto_close",
 	pattern = "*",
 	callback = function()
 		local wins = {}
@@ -184,18 +186,29 @@ autocmd("BufEnter", {
 })
 
 -- stop snippets when you leave to normal mode
-augroup("_luasnip", { clear = true })
+augroup("_CUSTOM_luasnip", { clear = true })
 autocmd("ModeChanged", {
-	group = "_luasnip",
+	group = "_CUSTOM_luasnip",
 	pattern = "*",
 	callback = leave_snippet,
 })
 
-augroup("_cmp", { clear = true })
+augroup("_CUSTOM_cmp", { clear = true })
 autocmd("FileType", {
-	group = "_cmp",
+	group = "_CUSTOM_cmp",
 	pattern = "toml",
 	callback = function()
 		require("cmp").setup.buffer({ sources = { { name = "crates" } } })
+	end,
+})
+
+augroup("_CUSTOM_wilder", { clear = true })
+autocmd("CmdlineEnter", {
+	group = "_CUSTOM_wilder",
+	pattern = "*",
+	once = true,
+	callback = function()
+		configs.wilder()
+		vim.cmd([[call g:wilder#main#start()]])
 	end,
 })

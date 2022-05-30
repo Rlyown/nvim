@@ -1,4 +1,5 @@
-vim.cmd([[
+return function()
+	vim.cmd([[
 call wilder#setup({
       \ 'modes': [':', '/', '?'],
       \ 'next_key': '<Tab>',
@@ -74,3 +75,4 @@ call wilder#set_option('renderer', wilder#renderer_mux({
       \ 'substitute': g:wildmenu_renderer,
       \ }))
 ]])
+end

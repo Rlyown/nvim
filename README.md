@@ -282,7 +282,7 @@ See details in `lua/plugin/plugins.lua`
 $ nvim --startuptime startup.log
 ```
 
-![image-20220424222330774](README/image-20220424222330774.png)
+![image-20220531011343308](README/image-20220531011343308.png)
 
 Alternatively, you can use a Go program to measure startup time of vim. [https://github.com/rhysd/vim-startuptime](https://github.com/rhysd/vim-startuptime).
 
@@ -293,7 +293,7 @@ $ go install github.com/rhysd/vim-startuptime@latest
 $ vim-startuptime -vimpath nvim
 ```
 
-
+![image-20220531011418326](README/image-20220531011418326.png)
 
 ## Screenshot
 
