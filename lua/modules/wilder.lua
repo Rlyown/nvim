@@ -1,5 +1,11 @@
 vim.cmd([[
-call wilder#setup({'modes': [':', '/', '?']})
+call wilder#setup({
+      \ 'modes': [':', '/', '?'],
+      \ 'next_key': '<Tab>',
+      \ 'previous_key': '<S-Tab>',
+      \ 'accept_key': '<Right>',
+      \ 'reject_key': '<Left>',
+      \ })
 
 call wilder#set_option('pipeline', [
       \   wilder#branch(
