@@ -43,6 +43,8 @@ configs.setup({
 		-- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
 		extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
 		max_file_lines = 3000, -- Do not enable for files with more than n lines, int
+		-- Colors will be changed by catppuccin plugin.
+		-- Disable option in catppuccin to custom it.
 		colors = {
 			"#CCFFFF",
 			"#0066CC",

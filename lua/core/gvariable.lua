@@ -190,6 +190,7 @@ function M.setup()
 	-- set default colorscheme
 	local catppuccin_status_ok, _ = pcall(require, "catppuccin")
 	if catppuccin_status_ok then
+		vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 		vim.cmd([[colorscheme catppuccin]])
 	end
 
