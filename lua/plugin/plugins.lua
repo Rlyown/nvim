@@ -170,7 +170,8 @@ return packer.startup(function(use)
 		"gelguy/wilder.nvim",
 		requires = {
 			{ "romgrk/fzy-lua-native", run = "make" },
-			{ "nixprime/cpsm", run = "./install.sh" },
+			-- NOTE: cpsm require compile manually, run `cd ~/.local/share/nvim/site/pack/packer/start/cpsm && ./install.sh`
+			{ "nixprime/cpsm" },
 		},
 	}) -- A more adventurous wildmenu
 

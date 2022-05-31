@@ -155,6 +155,19 @@ export EDITOR="nvim"
 
 Finally, run `nvim` and wait for the plugins to be installed.
 
+```sh
+# First time to run nvim
+$ nvim
+# Or Synchronize all plugins manually
+$ nvim +PackerSync
+
+# cpsm plugin require manual compilation at first time
+# cpsm plugin is used for wilder.nvim plugin
+$ cd ~/.local/share/nvim/site/pack/packer/start/cpsm && ./install.sh
+```
+
+Congratulations, now start enjoying the powerful neovim!
+
 ## Check Health 
 
 Run `nvim` and type the following:
