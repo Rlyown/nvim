@@ -50,7 +50,7 @@ Install the follow dependencies:
     
     # Tools for language support
     # neovim-remote is not Required
-    $ brew install llvm bear cmake lazygit golang stylua rustup-init shfmt node yarn gnu-sed boost
+    $ brew install llvm bear cmake lazygit golang stylua rustup-init shfmt node yarn gnu-sed boost black
     
     $ npm install -g neovim
     $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -104,7 +104,7 @@ Install the follow dependencies:
   # Install LLVM
   $ bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
   
-  # add Node source
+  # add Node source (node version >= 14)
   $ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
   
   # Install neovim
@@ -118,9 +118,14 @@ Install the follow dependencies:
   $ sudo apt update
   $ sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.3
   
+  # ote that the binary is called fdfind as the binary name fd is already used by another package. 
+  # Make sure that $HOME/.local/bin is in your $PATH
+  $ mkdir -p ~/.local/bin
+  $ ln -s $(which fdfind) ~/.local/bin/fd
+  
   # Tools for language support
   $ sudo apt-get update
-  $ sudo apt install -y  bear cmake nodejs gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev
+  $ sudo apt install -y  bear cmake nodejs gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev black
   $ cargo install stylua
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
