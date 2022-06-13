@@ -40,6 +40,10 @@ nvim_tree.setup({
 		update_cwd = false,
 		ignore_list = {},
 	},
+	filesystem_watchers = {
+		enable = true,
+		interval = 500,
+	},
 	git = {
 		enable = true,
 		ignore = true,
@@ -72,6 +76,7 @@ nvim_tree.setup({
 			icons = {
 				corner = "└ ",
 				edge = "│ ",
+				item = "├ ",
 				none = "  ",
 			},
 		},
