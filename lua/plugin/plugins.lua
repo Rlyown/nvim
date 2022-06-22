@@ -125,12 +125,12 @@ return packer.startup(function(use)
 	use({ "folke/which-key.nvim" }) -- Create key bindings that stick.
 	use({ "tpope/vim-repeat" }) -- enable repeating supported plugin maps with "."
 	use({ "tpope/vim-surround" }) -- all about "surroundings": parentheses, brackets, quotes, XML tags, and more
-	use({
-		"michaelb/sniprun",
-		run = "bash ./install.sh",
-		cmd = { "SnipRun", "'<,'>SnipRun", "SnipInfo" },
-		config = configs.sniprun,
-	}) -- run lines/blocs of code
+	-- use({
+	-- 	"michaelb/sniprun",
+	-- 	run = "bash ./install.sh 1",
+	-- 	cmd = { "SnipRun", "'<,'>SnipRun", "SnipInfo" },
+	-- 	config = configs.sniprun,
+	-- }) -- run lines/blocs of code
 	use({ "nathom/filetype.nvim" }) -- A faster version of filetype.vim
 	use({ "dstein64/vim-startuptime", cmd = { "StartupTime" } }) -- A Vim plugin for profiling Vim's startup time
 	-- use({ "Pocco81/AutoSave.nvim" }) -- enable autosave
