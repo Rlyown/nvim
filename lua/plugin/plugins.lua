@@ -112,6 +112,28 @@ return packer.startup(function(use)
 		run = "bash ./install.sh",
 		cmd = { "GdbStart", "GdbStartLLDB", "GdbStartPDB", "GdbStartBashDB" },
 	}) -- Neovim thin wrapper for GDB, LLDB, PDB/PDB++ and BashDB
+	use({
+		"aserowy/tmux.nvim",
+		config = function()
+			require("tmux").setup({
+				-- overwrite default configuration
+				-- here, e.g. to enable default bindings
+				copy_sync = {
+					-- enables copy sync and overwrites all register actions to
+					-- sync registers *, +, unnamed, and 0 till 9 from tmux in advance
+					enable = true,
+				},
+				navigation = {
+					-- enables default keybindings (C-hjkl) for normal mode
+					enable_default_keybindings = true,
+				},
+				resize = {
+					-- enables default keybindings (A-hjkl) for normal mode
+					enable_default_keybindings = true,
+				},
+			})
+		end,
+	})
 
 	-- Tools
 	use({ "wbthomason/packer.nvim" }) -- Have packer manage itself
