@@ -353,6 +353,13 @@ local n_mappings = {
 				"Workspace Symbols",
 			},
 		},
+		["L"] = {
+			name = "Leetcode",
+			["l"] = { "<cmd>LeetCodeList<cr>", "List" },
+			["t"] = { "<cmd>LeetcodeTest<cr>", "Test" },
+			["s"] = { "<cmd>LeetcodeSubmit<cr>", "Submit" },
+			["i"] = { "<cmd>LeetCodeSignIn<cr>", "Login" },
+		},
 		["M"] = { markdown_helper(), "Markdown Preview" },
 		["m"] = {
 			name = "Motion",
