@@ -337,8 +337,8 @@ local n_mappings = {
 			s = { "<cmd>SessionManager load_session<cr>", "Select Session" },
 			w = { "<cmd>SessionManager save_current_session<cr>", "Save Current Dirtectory" },
 		},
-		["q"] = { "<cmd>q<cr>", "Quit" },
-		["Q"] = { "<cmd>qa<cr>", "Quit All" },
+		["q"] = { "<cmd>q<cr>", "Close Window" },
+		["Q"] = { "<cmd>qa<cr>", "Quit Nvim" },
 		-- ["r"] = {
 		-- 	name = "SnipRun",
 		-- 	c = { "<cmd>SnipClose<cr>", "Close" },
