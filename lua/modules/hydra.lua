@@ -2,7 +2,7 @@ local Hydra = require("hydra")
 
 -- NOTE: body need to hit toghter
 local dap_hydra = Hydra({
-	name = "Dap",
+	name = "DAP",
 	mode = "n",
 	body = "<leader>d",
 	config = {
@@ -13,9 +13,6 @@ local dap_hydra = Hydra({
 			position = "bottom",
 			border = "rounded",
 		},
-		on_enter = function()
-			vim.bo.modifiable = false
-		end,
 	},
 	hint = [[
  _b_: Breakpoint      _f_: Step out         _o_: Repl        _t_: Terminal      

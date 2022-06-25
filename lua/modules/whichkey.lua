@@ -3,7 +3,6 @@ if not status_ok then
 	return
 end
 
--- Issue: https://github.com/folke/which-key.nvim/issues/48
 local setup = {
 	plugins = {
 		marks = true, -- shows a list of your marks on ' and `
