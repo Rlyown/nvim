@@ -185,7 +185,7 @@ local n_opts = {
 local n_mappings = {
 	["<leader>"] = {
 		["a"] = { "<cmd>Alpha<cr>", "Alpha" },
-		["A"] = { "<cmd>ASToggle<cr>", "Autosave" },
+		-- ["A"] = { "<cmd>ASToggle<cr>", "Autosave" },
 		["b"] = {
 			"<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
 			"Buffers",
