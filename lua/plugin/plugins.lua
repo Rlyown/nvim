@@ -145,6 +145,10 @@ return packer.startup(function(use)
 	-- use({ "moll/vim-bbye", cmd = { "Bdelete", "Bwipeout", "Bdelete!", "Bwipeout!" } }) -- delete buffers (close files) without closing your windows or messing up your layout
 	use({ "lewis6991/impatient.nvim" }) -- Improve startup time for Neovim
 	use({ "folke/which-key.nvim" }) -- Create key bindings that stick.
+	use({
+		"anuvyklack/hydra.nvim",
+		requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
+	}) -- Bind a bunch of key bindings together.
 	use({ "tpope/vim-repeat" }) -- enable repeating supported plugin maps with "."
 	use({ "tpope/vim-surround" }) -- all about "surroundings": parentheses, brackets, quotes, XML tags, and more
 	-- use({

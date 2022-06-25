@@ -201,60 +201,10 @@ local n_mappings = {
 		},
 		["c"] = { close_buffer, "Close Buffer" },
 		["d"] = {
-			name = "DAP",
-			b = { "<cmd>lua require'dap'.toggle_breakpoint()<CR>", "Breakpoint" },
-			c = { "<cmd>lua require'dap'.continue()<CR>", "Countinue" },
-			C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
-			d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
-			e = {
-				"<cmd>lua require'dap'.set_exception_breakpoints('default', { breakMode = 'userUnhandled' })<cr>",
-				"Exception Breakpoint",
-			},
-			-- E = {
-			-- 	function()
-			-- 		require("dapui").float_element()
-			-- 	end,
-			-- 	"Float Element",
-			-- },
-			f = { "<cmd>lua require'dap'.step_out()<CR>", "Step Out" },
-			g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
-			h = { "<cmd>lua require'dap'.set_breakpoint(nil, vim.fn.input('Hit count: '))", "Hit Count Breakpoint" },
-			l = {
-				"<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
-				"Log Breakpoint",
-			},
-			n = { "<cmd>lua require'dap'.step_over()<CR>", "Next" },
-			o = { "<cmd>lua require'dap'.repl.toggle()<CR>", "Open Repl" },
-			p = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
-			q = { "<cmd>lua require'dap'.close()<cr>", "Close" },
-			-- r = {
-			-- 	function()
-			-- 		require("dapui").eval()
-			-- 	end,
-			-- 	"Eval",
-			-- },
-			R = { "<cmd>lua require'dap'.run_last()<CR>", "Rerun" },
-			s = { "<cmd>lua require'dap'.step_into()<CR>", "Step Into" },
-			t = {
-				function()
-					if vim.g.custom_lldb_run_in_terminal then
-						vim.g.custom_lldb_run_in_terminal = false
-						vim.notify("Run in terminal is disabled", "info", { title = "DAP runInTerminal" })
-					else
-						vim.g.custom_lldb_run_in_terminal = true
-						vim.notify("Run in terminal is enabled", "info", { title = "DAP runInTerminal" })
-					end
-				end,
-				"Terminal Toggle",
-			},
-			w = {
-				"<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-				"Condition Breakpoint",
-			},
-			x = {
-				"<cmd>lua require('dapui').toggle()<cr>",
-				"Dapui Toggle",
-			},
+			function()
+				require("hydra").spawn("dap-hydra")
+			end,
+			"DAP",
 		},
 		["e"] = { "<cmd>SudaRead<cr>", "Sudo Reopen" },
 		["f"] = {
