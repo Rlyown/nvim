@@ -188,9 +188,6 @@ function M.setup()
 	-- You can toggle it with keybinding <leader>lF
 	vim.g.custom_enable_auto_format = true
 
-	-- enable/disable option runInTerminal for dap lldb
-	vim.g.custom_lldb_run_in_terminal = false
-
 	-- set default colorscheme
 	local catppuccin_status_ok, _ = pcall(require, "catppuccin")
 	if catppuccin_status_ok then

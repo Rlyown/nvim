@@ -9,16 +9,19 @@ local dap_hydra = Hydra({
 		invoke_on_body = false,
 		color = "pink",
 		timeout = false,
+		on_enter = function()
+			vim.bo.modifiable = false
+		end,
 		hint = {
-			position = "bottom",
+			position = "middle-right",
 			border = "rounded",
 		},
 	},
 	hint = [[
- _b_: Breakpoint      _f_: Step out         _o_: Repl        _t_: Terminal      
- _c_: Continue        _g_: Get Session      _p_: Pause       _w_: CondBreakpoint
- _C_: Run to Cursor   _h_: CountBreakpint   _q_: Close       _x_: Dapui         
- _d_: Disconnect      _l_: LogBreakpoint    _R_: Rerun                          
+ _b_: Breakpoint      _f_: Step out         _o_: Repl        _w_: CondBreakpoint
+ _c_: Continue        _g_: Get Session      _p_: Pause       _x_: Dapui         
+ _C_: Run to Cursor   _y_: CountBreakpint   _q_: Close                          
+ _d_: Disconnect      _v_: LogBreakpoint    _R_: Rerun                          
  _e_: ExpBreakpoint   _n_: Step over        _s_: Step into                      
  ^
  ^ ^              ^ ^                                   ^ ^            _<Esc>_
@@ -34,14 +37,6 @@ local dap_hydra = Hydra({
 		},
 		{ "f", "<cmd>lua require'dap'.step_out()<CR>" },
 		{ "g", "<cmd>lua require'dap'.session()<cr>" },
-		{
-			"h",
-			"<cmd>lua require'dap'.set_breakpoint(nil, vim.fn.input('Hit count: '))",
-		},
-		{
-			"l",
-			"<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
-		},
 		{ "n", "<cmd>lua require'dap'.step_over()<CR>" },
 		{ "o", "<cmd>lua require'dap'.repl.toggle()<CR>" },
 		{ "p", "<cmd>lua require'dap'.pause.toggle()<cr>" },
@@ -49,22 +44,18 @@ local dap_hydra = Hydra({
 		{ "R", "<cmd>lua require'dap'.run_last()<CR>" },
 		{ "s", "<cmd>lua require'dap'.step_into()<CR>" },
 		{
-			"t",
-			function()
-				if vim.g.custom_lldb_run_in_terminal then
-					vim.g.custom_lldb_run_in_terminal = false
-					vim.notify("Run in terminal is disabled", "info", { title = "DAP runInTerminal" })
-				else
-					vim.g.custom_lldb_run_in_terminal = true
-					vim.notify("Run in terminal is enabled", "info", { title = "DAP runInTerminal" })
-				end
-			end,
+			"v",
+			"<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
 		},
 		{
 			"w",
 			"<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
 		},
 		{ "x", "<cmd>lua require('dapui').toggle()<cr>", { exit = true } },
+		{
+			"y",
+			"<cmd>lua require'dap'.set_breakpoint(nil, vim.fn.input('Hit count: '))",
+		},
 		{ "<Esc>", nil, { exit = true } },
 	},
 })

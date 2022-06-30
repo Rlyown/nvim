@@ -37,6 +37,7 @@ function _G.check_last_special_win(t)
 		-- ["DAP Stacks"] = true,
 		-- ["DAP Watches"] = true,
 		-- ["[dap-repl]"] = true,
+		-- ["[dap-terminal] Launch"] = true,
 	}
 
 	local type_cases = {
@@ -46,6 +47,7 @@ function _G.check_last_special_win(t)
 		-- ["dapui_stacks"] = true,
 		-- ["dapui_watches"] = true,
 		-- ["dap-rel"] = true,
+		-- ["dapui_console"] = true,
 	}
 
 	if not t or #t == 0 then
@@ -61,6 +63,16 @@ function _G.check_last_special_win(t)
 	end
 
 	return true
+end
+
+function _G.set_terminal_keymaps()
+	local opts = { noremap = true }
+	-- vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "jk", [[<C-\><C-n>]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], opts)
 end
 
 local augroup = vim.api.nvim_create_augroup
@@ -211,4 +223,16 @@ autocmd("CmdlineEnter", {
 		configs.wilder()
 		vim.cmd([[call g:wilder#main#start()]])
 	end,
+})
+
+augroup("_CUSTOM_terminal", { clear = true })
+autocmd("TermOpen", {
+	group = "_CUSTOM_terminal",
+	pattern = { "term://*" },
+	callback = set_terminal_keymaps,
+})
+autocmd("FileType", {
+	group = "_CUSTOM_terminal",
+	pattern = { "dapui_console" },
+	callback = set_terminal_keymaps,
 })
