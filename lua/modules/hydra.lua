@@ -90,8 +90,93 @@ local resize_hydra = Hydra({
 	},
 })
 
+-- TODO: set hydra for gitsigns
+local gitsigns = require("gitsigns")
+local git_hydra = Hydra({
+	name = "Git",
+	hint = [[
+ _J_: next hunk   _s_: stage hunk        _d_: show deleted   _b_: blame line
+ _K_: prev hunk   _u_: undo stage hunk   _p_: preview hunk   _B_: blame show full 
+ ^ ^              _S_: stage buffer      ^ ^                 _/_: show base file
+ ^
+ ^ ^  _c_: checkout branch    _C_: checkout commit    _o_: open changed file
+ ^ ^              ^ ^                    ^ ^                 _<esc>_
+]],
+	config = {
+		color = "pink",
+		invoke_on_body = true,
+		hint = {
+			position = "bottom",
+			border = "rounded",
+		},
+		-- on_enter = function()
+		-- 	vim.bo.modifiable = false
+		-- gitsigns.toggle_signs(true)
+		-- gitsigns.toggle_linehl(true)
+		-- end,
+		-- on_exit = function()
+		-- gitsigns.toggle_signs(false)
+		-- gitsigns.toggle_linehl(false)
+		-- gitsigns.toggle_deleted(false)
+		-- end,
+	},
+	mode = { "n", "x" },
+	body = "<leader>g",
+	heads = {
+		{
+			"J",
+			function()
+				if vim.wo.diff then
+					return "]c"
+				end
+				vim.schedule(function()
+					gitsigns.next_hunk()
+				end)
+				return "<Ignore>"
+			end,
+			{ expr = true },
+		},
+		{
+			"K",
+			function()
+				if vim.wo.diff then
+					return "[c"
+				end
+				vim.schedule(function()
+					gitsigns.prev_hunk()
+				end)
+				return "<Ignore>"
+			end,
+			{ expr = true },
+		},
+		{ "s", ":Gitsigns stage_hunk<CR>", { silent = true } },
+		{ "u", gitsigns.undo_stage_hunk },
+		{ "S", gitsigns.stage_buffer },
+		{ "p", gitsigns.preview_hunk },
+		{ "d", gitsigns.toggle_deleted, { nowait = true } },
+		{ "b", gitsigns.blame_line },
+		{
+			"B",
+			function()
+				gitsigns.blame_line({ full = true })
+			end,
+		},
+		{ "/", gitsigns.show, { exit = true } }, -- show the base of the file
+		{ "c", "<cmd>Telescope git_branches<cr>", { exit = true } },
+		{ "C", "<cmd>Telescope git_commits<cr>", { exit = true } },
+		{ "o", "<cmd>Telescope git_status<cr>", { exit = true } },
+		{ "<Enter>", _LAZYGIT_TOGGLE, { exit = true } },
+		{ "<esc>", nil, { exit = true, nowait = true } },
+	},
+})
+
+-- TODO: set hydra for [ and ] shortcut
+-- local motion_hydra = Hydra({})
+
 Hydra.spawn = function(head)
 	if head == "dap-hydra" then
 		dap_hydra:activate()
+	elseif head == "git-hydra" then
+		git_hydra:activate()
 	end
 end
