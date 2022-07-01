@@ -47,6 +47,7 @@ local options = {
 	foldmethod = "expr",
 	foldexpr = "nvim_treesitter#foldexpr()",
 	foldenable = false, -- when off, all folds are open
+	foldlevel = 99,
 	spell = true, -- enable spell check, spellfile will set in gvariable.lua
 	spelllang = "en", -- set language
 }

@@ -163,16 +163,16 @@ autocmd("BufRead", {
 	callback = function()
 		vim.api.nvim_create_autocmd("BufWinEnter", {
 			once = true,
-			command = "normal! zx zM zR",
+			command = "normal! zx",
 		})
 	end,
 })
 -- Question: https://superuser.com/questions/567352/how-can-i-set-foldlevelstart-in-vim-to-just-fold-nothing-initially-still-allowi
-autocmd("BufWinEnter", {
-	group = "_CUSTOM_lsp",
-	pattern = "*",
-	command = [[ let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)')) ]],
-})
+-- autocmd("BufWinEnter", {
+-- 	group = "_CUSTOM_lsp",
+-- 	pattern = "*",
+-- 	command = [[ let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)')) ]],
+-- })
 
 augroup("_CUSTOM_auto_close", { clear = true })
 autocmd("BufEnter", {
@@ -229,10 +229,16 @@ augroup("_CUSTOM_terminal", { clear = true })
 autocmd("TermOpen", {
 	group = "_CUSTOM_terminal",
 	pattern = { "term://*" },
-	callback = set_terminal_keymaps,
+	callback = function()
+		set_terminal_keymaps()
+		vim.wo.spell = false
+	end,
 })
 autocmd("FileType", {
 	group = "_CUSTOM_terminal",
 	pattern = { "dapui_console" },
-	callback = set_terminal_keymaps,
+	callback = function()
+		set_terminal_keymaps()
+		vim.wo.spell = false
+	end,
 })
