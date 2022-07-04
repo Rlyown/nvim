@@ -5,7 +5,6 @@ My neovim config is inspired by [LunarVim/Neovim-from-scratch](https://github.co
 
 * [Nvim](#nvim)
   * [Install](#install)
-  * [Leetcode (optional)](#leetcode (optional))
   * [Check Health](#check-health)
   * [Keymaps](#keymaps)
   * [Plugins](#plugins)
@@ -173,34 +172,6 @@ $ cd ~/.local/share/nvim/site/pack/packer/start/cpsm && ./install.sh
 ```
 
 Congratulations, now start enjoying the powerful neovim!
-
-## Leetcode (optional)
-
-If you want to solve LeetCode problems in Vim，follow steps below：
-
-1. Install dependencies
-
-   ```sh
-   $ pip3 install pynvim  # This has been installed
-   $ pip3 install keyring browser-cookie3
-   ```
-
-2. Set browser option at `lua/modules/leetcode.lua`
-
-   ```lua
-   vim.g.leetcode_browser = 'chrome'  -- Or 'firefox'
-   vim.g.leetcode_china = 1 -- Or 0
-   ...
-   ```
-
-3. Run vim command for **SignIn** and **List**
-
-   ```sh
-   # SignIn keybinding <leader>Li
-   :LeetcodeSignIn
-   # List keybinding <leader>Ll
-   :LeetcodeList
-   ```
 
 ## Check Health 
 

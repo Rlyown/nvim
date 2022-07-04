@@ -11,6 +11,10 @@ local diagnostics = null_ls.builtins.diagnostics
 
 null_ls.setup({
 	debug = false,
+	-- on_init = function(new_client, _)
+	-- 	new_client.offset_encoding = "utf-8"
+	-- end,
+
 	-- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
 	sources = {
 		-- asm
@@ -25,6 +29,9 @@ null_ls.setup({
 		-- 		"{BasedOnStyle: google, IndentWidth: 4}",
 		-- 	},
 		-- }),
+
+		-- gitsigns
+		-- code_actions.gitsigns,
 
 		-- lua
 		formatting.stylua,
