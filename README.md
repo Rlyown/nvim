@@ -26,7 +26,7 @@ Configuration tree:
 │   └── plugin                  # plugin manager
 ├── my-snippets                 # customizer snippets
 ├── template                    # store some template file
-└── plugin                      # compiled packer location
+└── plugin                      # compiled plugin file location
 ```
 
 This configuration mainly focus on programming with `C/Cpp`, `Golang`, `Rust` and `Python`. 
