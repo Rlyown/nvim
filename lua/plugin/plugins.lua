@@ -37,6 +37,7 @@ packer.init({
 			return require("packer.util").float({ border = "rounded" })
 		end,
 	},
+	auto_reload_compiled = true,
 })
 
 -- Install your plugins here
@@ -95,6 +96,7 @@ return packer.startup(function(use)
 	use({ "L3MON4D3/LuaSnip" }) --snippet engine
 	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
 	use({ "vigoux/templar.nvim" }) -- A dead simple template manager
+	-- use({ "glepnir/template.nvim" }) -- Quickly insert templates into file
 
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" }) -- Find, Filter, Preview, Pick.

@@ -17,5 +17,14 @@ catppuccin.setup({
 		which_key = true,
 		-- This option will override ts_rainbow colors in treesitter.lua
 		ts_rainbow = true,
+		dap = {
+			enabled = true,
+			enable_ui = true,
+		},
+	},
+	compile = {
+		enabled = true,
+		path = vim.fn.stdpath("config") .. "/plugin",
+		suffix = "_compiled",
 	},
 })
