@@ -152,7 +152,8 @@ return packer.startup(function(use)
 		requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
 	}) -- Bind a bunch of key bindings together.
 	use({ "tpope/vim-repeat" }) -- enable repeating supported plugin maps with "."
-	use({ "tpope/vim-surround" }) -- all about "surroundings": parentheses, brackets, quotes, XML tags, and more
+	-- use({ "tpope/vim-surround" }) -- all about "surroundings": parentheses, brackets, quotes, XML tags, and more
+	use({ "kylechui/nvim-surround" }) -- Add/change/delete surrounding delimiter pairs with ease
 	-- use({
 	-- 	"michaelb/sniprun",
 	-- 	run = "bash ./install.sh 1",
