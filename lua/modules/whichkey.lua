@@ -205,7 +205,8 @@ local n_mappings = {
 			end,
 			"DAP",
 		},
-		["e"] = { "<cmd>SudaRead<cr>", "Sudo Reopen" },
+		["e"] = { "<cmd>edit<cr>", "Reopen" },
+		["E"] = { "<cmd>SudaRead<cr>", "Sudo Reopen" },
 		["f"] = {
 			"<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
 			"Find files",
