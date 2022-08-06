@@ -168,6 +168,7 @@ return packer.startup(function(use)
 	use({ "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" } }) -- An alternative sudo.vim for Vim and Neovim
 	use({ "phaazon/hop.nvim", branch = "v1" }) -- Neovim motions on speed
 	use({ "windwp/nvim-spectre" }) -- Find the enemy and replace them with dark power.
+	use({ "mrjones2014/dash.nvim", run = "make install", after = "telescope.nvim", config = configs.dash }) -- Search Dash.app from your Neovim fuzzy finder
 
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- Nvim Treesitter configurations and abstraction layer

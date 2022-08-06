@@ -131,6 +131,9 @@ telescope.setup({
 				},
 			},
 		},
+		dash = {
+			-- your config here
+		},
 	},
 })
 

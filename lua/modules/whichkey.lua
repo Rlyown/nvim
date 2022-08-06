@@ -329,6 +329,7 @@ local n_mappings = {
 		-- },
 		["s"] = {
 			name = "Search",
+			a = { "<cmd>Telescope dash search<cr>", "API Search" },
 			B = { "<cmd>Telescope file_browser<cr>", "File Browser" },
 			c = { "<cmd>Telescope commands<cr>", "Commands" },
 			C = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
