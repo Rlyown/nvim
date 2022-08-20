@@ -36,6 +36,9 @@ null_ls.setup({
 		-- lua
 		formatting.stylua,
 
+		-- make
+		null_ls.builtins.diagnostics.checkmake,
+
 		-- python
 		formatting.black.with({ extra_args = { "--fast" } }),
 		-- diagnostics.flake8

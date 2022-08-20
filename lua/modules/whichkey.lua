@@ -141,7 +141,7 @@ local function markdown_helper()
 	local compile_once = true
 
 	local opts = {
-		prompt = "Current filetype isn't markdown. Do you want to change it and continue?[Y/n]",
+		prompt = "Current filetype isn't markdown. Do you want to change it and continue?[Y/n] ",
 		kind = "center",
 		default = "no",
 	}
@@ -170,6 +170,37 @@ local function markdown_helper()
 	end
 
 	return do_func
+end
+
+local function filetype_check(ft_list)
+	local ft = vim.bo.ft
+	if type(ft_list) == "string" then
+		if ft == ft_list then
+			return true
+		end
+	elseif type(ft_list) == "table" then
+		for k, v in ipairs(ft_list) do
+			if ft == v then
+				return true
+			end
+		end
+	end
+
+	local force = false
+	local opts = {
+		prompt = "Current filetype not included in allowed list, force run?[Y/n] ",
+		kind = "center",
+		default = "no",
+	}
+	local function on_confirm(input)
+		input = string.lower(input)
+		if #input > 0 and (input == "y" or input == "yes") then
+			force = true
+		end
+	end
+	ainput(opts, on_confirm)
+
+	return force
 end
 
 local n_opts = {
@@ -354,6 +385,7 @@ local n_mappings = {
 			r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
 			R = { "<cmd>Telescope registers<cr>", "Registers" },
 			s = { "<cmd>Telescope luasnip<cr>", "Luasnip" },
+			t = { "<cmd>Telescope tags<cr>", "Tags" },
 		},
 		["S"] = {
 			name = "Search & Replace",
@@ -374,31 +406,39 @@ local n_mappings = {
 				d = { "<cmd>lua _DLV_DEBUG_TOGGLE()<cr>", "Delve" },
 				g = {
 					function()
-						local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
-						vim.cmd(string.format("GdbStart gdb %s", prog))
+						if filetype_check({ "c", "cpp", "rust" }) then
+							local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
+							vim.cmd(string.format("GdbStart gdb %s", prog))
+						end
 					end,
 					"GDB",
 				},
 				G = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
 				l = {
 					function()
-						local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
-						vim.cmd(string.format("GdbStartLLDB lldb %s", prog))
+						if filetype_check({ "c", "cpp", "rust" }) then
+							local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
+							vim.cmd(string.format("GdbStartLLDB lldb %s", prog))
+						end
 					end,
 					"LLDB",
 				},
 				p = { "<cmd>lua _PYTHON3_TOGGLE()<cr>", "Python3" },
 				r = {
 					function()
-						local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
-						vim.cmd(string.format("GdbStartLLDB rust-lldb %s", prog))
+						if filetype_check("rust") then
+							local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
+							vim.cmd(string.format("GdbStartLLDB rust-lldb %s", prog))
+						end
 					end,
 					"Rust LLDB",
 				},
 				R = {
 					function()
-						local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
-						vim.cmd(string.format("GdbStart rust-gdb %s", prog))
+						if filetype_check("rust") then
+							local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
+							vim.cmd(string.format("GdbStart rust-gdb %s", prog))
+						end
 					end,
 					"Rust GDB",
 				},

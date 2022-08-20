@@ -114,29 +114,7 @@ return packer.startup(function(use)
 		run = "bash ./install.sh",
 		cmd = { "GdbStart", "GdbStartLLDB", "GdbStartPDB", "GdbStartBashDB" },
 	}) -- Neovim thin wrapper for GDB, LLDB, PDB/PDB++ and BashDB
-	use({
-		"aserowy/tmux.nvim",
-		config = function()
-			require("tmux").setup({
-				-- overwrite default configuration
-				-- here, e.g. to enable default bindings
-				copy_sync = {
-					-- enables copy sync and overwrites all register actions to
-					-- sync registers *, +, unnamed, and 0 till 9 from tmux in advance
-					enable = true,
-				},
-				navigation = {
-					-- enables default keybindings (C-hjkl) for normal mode
-					enable_default_keybindings = true,
-				},
-				resize = {
-					-- enables default keybindings (A-hjkl) for normal mode
-					enable_default_keybindings = true,
-				},
-			})
-		end,
-	})
-
+	use({ "aserowy/tmux.nvim" }) -- tmux integration for nvim features pane movement and resizing from within nvim.
 	-- Tools
 	use({ "wbthomason/packer.nvim" }) -- Have packer manage itself
 	use({ "nvim-lua/popup.nvim" }) -- An implementation of the Popup API from vim in Neovim
@@ -195,7 +173,7 @@ return packer.startup(function(use)
 	}) -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
 	use({ "stevearc/dressing.nvim" }) -- Neovim plugin to improve the default vim.ui interfaces
 	use({ "rcarriga/nvim-notify" }) -- A fancy, configurable, notification manager for NeoVim
-	-- use({ "kwkarlwang/bufresize.nvim" }) -- Keep buffer dimensions in proportion when terminal window is resized
+	use({ "kwkarlwang/bufresize.nvim" }) -- Keep buffer dimensions in proportion when terminal window is resized
 	use({
 		"gelguy/wilder.nvim",
 		requires = {

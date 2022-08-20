@@ -50,6 +50,7 @@ local options = {
 	foldlevel = 99,
 	spell = true, -- enable spell check, spellfile will set in gvariable.lua
 	spelllang = "en", -- set language
+	jumpoptions = "stack",
 }
 
 vim.opt.shortmess:append("c") -- enable short message with flag "c"
