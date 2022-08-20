@@ -6,7 +6,7 @@ M.debuggers = {}
 if vim.fn.has("mac") == 1 then
 	M.os = "mac"
 	M.debuggers.lldb_vscode = "/opt/homebrew/opt/llvm/bin/lldb-vscode"
-	M.debuggers.debugpy = "/opt/homebrew/Caskroom/miniforge/base/envs/debugpy/bin/python3"
+	M.debuggers.debugpy = "/opt/homebrew/bin/python3"
 elseif vim.fn.has("unix") == 1 then
 	M.os = "unix"
 	M.debuggers.lldb_vscode = "/usr/bin/lldb-vscode-14"

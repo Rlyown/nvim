@@ -58,12 +58,9 @@ Install the follow dependencies:
     $ rustup-init
     
     # Install neovim python support, and python debugger used by dap
-    # To avoid multi-version conflicts, 
-    # set up a virtual environment to install neovim related libraries.
-    # the python path is set in the lua/core/gvariable.lua
-    $ conda create -n debugpy python=3.9
-    $ conda activate debugpy
-    $ pip install pynvim debugpy
+    # If want to deal with multi-version conflicts, you can set
+    # the virtualenv python path is set in the lua/core/gvariable.lua
+    $ pip3 install pynvim debugpy
     
     # llvm should add to path manually
     # On Apple Sillcon
@@ -72,17 +69,17 @@ Install the follow dependencies:
     # If you want delete file to trash bin directory by nvim-tree
     $ brew install trash
     ```
-
+    
     *Nerd Fonts* is needed to show icons. You can choose your favorite font or find icons in the  [https://www.nerdfonts.com](https://www.nerdfonts.com).
-
+    
     ```shell
     # Other nice fonts: Hack, Fira Code, Meslo
     $ brew tap homebrew/cask-fonts
     $ brew install --cask font-jetbrains-mono-nerd-font
     ```
-
+    
     *Note*: Don't forget to change your terminal fonts.
-
+    
 * On Ubuntu 20.04
 
   * Golang require >= 1.17
@@ -134,7 +131,8 @@ Install the follow dependencies:
   $ go install github.com/go-delve/delve/cmd/dlv@latest
   
   # Install neovim python support, and python debugger used by dap
-  # If want to deal with multi-version conflicts, you can follow the method of MacOS
+  # If want to deal with multi-version conflicts, you can set
+  # the virtualenv python path is set in the lua/core/gvariable.lua
   $ pip3 install pynvim debugpy
   
   # If you want delete file to trash bin directory by nvim-tree
