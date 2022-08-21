@@ -50,7 +50,7 @@ Install the follow dependencies:
     
     # Tools for language support
     # neovim-remote is not Required
-    $ brew install llvm bear cmake lazygit golang stylua rustup-init shfmt node yarn gnu-sed boost black
+    $ brew install llvm bear cmake lazygit golang stylua rustup-init shfmt node yarn gnu-sed boost black checkmake
     
     $ npm install -g neovim
     $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -129,6 +129,7 @@ Install the follow dependencies:
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
   $ go install mvdan.cc/sh/v3/cmd/shfmt@latest
   $ go install github.com/go-delve/delve/cmd/dlv@latest
+  $ curl -s https://packagecloud.io/install/repositories/mrtazz/checkmake/script.deb.sh | sudo bash
   
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
