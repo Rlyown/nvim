@@ -1,30 +1,34 @@
 local M = {}
 
--- path to debuggers
-M.debuggers = {}
-
+local helper = {}
 if vim.fn.has("mac") == 1 then
 	M.os = "mac"
-	M.debuggers.lldb_vscode = "/opt/homebrew/opt/llvm/bin/lldb-vscode"
-	M.debuggers.debugpy = "/opt/homebrew/bin/python3"
+	helper.lldb_vscode = "/opt/homebrew/opt/llvm/bin/lldb-vscode"
+	-- Set the python3 path which installed pynvim
+	vim.g.python3_host_prog = "/opt/homebrew/bin/python3"
 elseif vim.fn.has("unix") == 1 then
 	M.os = "unix"
-	M.debuggers.lldb_vscode = "/usr/bin/lldb-vscode-14"
-	M.debuggers.debugpy = "/usr/bin/python3"
+	helper.lldb_vscode = "/usr/bin/lldb-vscode-14"
+	-- Set the python3 path which installed pynvim
+	vim.g.python3_host_prog = "/usr/bin/python3"
 else
 	M.os = "unsupport"
-	M.debuggers.lldb_vscode = "lldb-vscode"
-	M.debuggers.debugpy = "python3"
+	helper.lldb_vscode = "lldb-vscode"
+	-- Set the python3 path which installed pynvim
+	vim.g.python3_host_prog = "python3"
 end
 
-M.debuggers.delve = "dlv"
+-- path to debuggers
+M.debuggers = {
+	delve = "dlv",
+	--[[ codelldb = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension", ]]
+	debugpy = vim.g.python3_host_prog,
+	lldb_vscode = helper.lldb_vscode,
+}
 
 M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
 M.lazymod_configs = require("lazymods.configs")
--- M.debuggers.dapinstall_dir = vim.fn.stdpath("data") .. "/dapinstall"
-
--- Set the python3 path which installed pynvim
-vim.g.python3_host_prog = M.debuggers.debugpy
+M.snippet_dir = vim.fn.stdpath("config") .. "/my-snippets"
 
 M.fn = {
 	["async_ui_input_wrap"] = function()
@@ -143,7 +147,7 @@ M.fn = {
 		return nSplitArray
 	end,
 	["get_random_int"] = function(min, max)
-		math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+		math.randomseed(tonumber(tostring(os.time()):reverse():sub(1, 6)))
 		return math.random(min, max)
 	end,
 }

@@ -9,9 +9,9 @@ local dap_hydra = Hydra({
 		invoke_on_body = false,
 		color = "pink",
 		timeout = false,
-		on_enter = function()
-			vim.bo.modifiable = false
-		end,
+		--[[ on_enter = function() ]]
+		--[[ 	vim.bo.modifiable = false ]]
+		--[[ end, ]]
 		hint = {
 			position = "middle-right",
 			border = "rounded",

@@ -146,7 +146,8 @@ dap.listeners.before["event_progressStart"]["progress-notifications"] = function
 		hide_form_history = false,
 	})
 
-	notif_data.notification.spinner = 1, update_spinner("dap", body.progressId)
+	notif_data.notification.spinner = 1
+	update_spinner("dap", body.progressId)
 end
 
 dap.listeners.before["event_progressUpdate"]["progress-notifications"] = function(session, body)

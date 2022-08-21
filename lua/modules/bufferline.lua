@@ -77,6 +77,7 @@ bufferline.setup({
 		--   return buffer_a.modified > buffer_b.modified
 		-- end
 	},
+	-- color have problem for dup and modi
 	highlights = {
 		fill = {
 			fg = { attribute = "fg", highlight = "#ff0000" },
@@ -124,32 +125,32 @@ bufferline.setup({
 		},
 
 		duplicate_selected = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
+			fg = { attribute = "fg", highlight = "MoreMsg" },
+			bg = { attribute = "bg", highlight = "MoreMsg" },
 			italic = true,
 		},
 		duplicate_visible = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
+			fg = { attribute = "fg", highlight = "MoreMsg" },
+			bg = { attribute = "bg", highlight = "MoreMsg" },
 			italic = true,
 		},
 		duplicate = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
+			fg = { attribute = "fg", highlight = "MoreMsg" },
+			bg = { attribute = "bg", highlight = "MoreMsg" },
 			italic = true,
 		},
 
 		modified = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
+			fg = { attribute = "fg", highlight = "Normal" },
+			bg = { attribute = "bg", highlight = "Normal" },
 		},
 		modified_selected = {
 			fg = { attribute = "fg", highlight = "Normal" },
 			bg = { attribute = "bg", highlight = "Normal" },
 		},
 		modified_visible = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
+			fg = { attribute = "fg", highlight = "Normal" },
+			bg = { attribute = "bg", highlight = "Normal" },
 		},
 
 		separator = {

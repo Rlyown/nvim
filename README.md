@@ -24,7 +24,7 @@ Configuration tree:
 │   │   └── options.lua         # vim option set
 │   ├── modules                 # plugins configuration
 │   └── plugin                  # plugin manager
-├── my-snippets                 # customizer snippets
+├── my-snippets                 # customizer snippets(Didn't work, not fix yet)
 ├── template                    # store some template file
 └── plugin                      # compiled plugin file location
 ```
@@ -50,17 +50,16 @@ Install the follow dependencies:
     
     # Tools for language support
     # neovim-remote is not Required
-    $ brew install llvm bear cmake lazygit golang stylua rustup-init shfmt node yarn gnu-sed boost black checkmake
+    $ brew install llvm bear cmake lazygit golang rustup-init node yarn gnu-sed boost checkmake
     
     $ npm install -g neovim
     $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
-    $ go install github.com/go-delve/delve/cmd/dlv@latest
     $ rustup-init
     
     # Install neovim python support, and python debugger used by dap
     # If want to deal with multi-version conflicts, you can set
     # the virtualenv python path is set in the lua/core/gvariable.lua
-    $ pip3 install pynvim debugpy
+    $ pip3 install pynvim
     
     # llvm should add to path manually
     # On Apple Sillcon
@@ -122,19 +121,16 @@ Install the follow dependencies:
   
   # Tools for language support
   $ sudo apt-get update
-  $ sudo apt install -y  bear cmake nodejs gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev black
-  $ cargo install stylua
+  $ sudo apt install -y  bear cmake nodejs gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
-  $ go install mvdan.cc/sh/v3/cmd/shfmt@latest
-  $ go install github.com/go-delve/delve/cmd/dlv@latest
   $ curl -s https://packagecloud.io/install/repositories/mrtazz/checkmake/script.deb.sh | sudo bash
   
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
   # the virtualenv python path is set in the lua/core/gvariable.lua
-  $ pip3 install pynvim debugpy
+  $ pip3 install pynvim
   
   # If you want delete file to trash bin directory by nvim-tree
   $ npm install --global trash-cli

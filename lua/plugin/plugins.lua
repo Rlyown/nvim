@@ -66,16 +66,19 @@ return packer.startup(function(use)
 	use({ "rcarriga/nvim-dap-ui" }) -- A UI for nvim-dap
 	use({ "theHamsta/nvim-dap-virtual-text" }) -- show virtual text
 	use({ "nvim-telescope/telescope-dap.nvim" }) -- Integration for nvim-dap with telescope.nvim
-	-- use("simrat39/rust-tools.nvim") -- Tools for better development in rust using neovim's builtin lsp
 
 	-- Git
 	use({ "lewis6991/gitsigns.nvim" }) -- show git info in buffer
 	-- use("tpope/vim-fugitive") -- a git wrapper
 
 	-- LSP
-	use({ "neovim/nvim-lspconfig" }) -- enable LSP
-	use({ "williamboman/nvim-lsp-installer" }) -- simple to use language server installer
-	use({ "tamago324/nlsp-settings.nvim" }) -- language server settings defined in json for
+	use({ -- It's important that you set up the plugins in the following order
+		"williamboman/mason.nvim", -- Portable package manager for Neovim that runs everywhere Neovim runs.
+		"williamboman/mason-lspconfig.nvim", -- Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim
+		"neovim/nvim-lspconfig", -- enable LSP
+	})
+	use({ "WhoIsSethDaniel/mason-tool-installer.nvim" }) -- Install and upgrade third party tools automatically
+	--[[ use({ "tamago324/nlsp-settings.nvim" }) -- language server settings defined in json for ]]
 	use({ "jose-elias-alvarez/null-ls.nvim" }) -- for formatters and linters
 	use({ "antoinemadec/FixCursorHold.nvim" }) -- This is needed to fix lsp doc highlight
 	-- use { "RishabhRD/nvim-lsputils", requires = { "RishabhRD/popfix" } } -- Better defaults for nvim-lsp actions
@@ -85,7 +88,6 @@ return packer.startup(function(use)
 	use({ "simrat39/symbols-outline.nvim" }) -- A tree like view for symbols
 	use({ "ThePrimeagen/refactoring.nvim" }) -- The Refactoring library
 	use({ "lewis6991/spellsitter.nvim" }) -- Treesitter powered spellchecker
-	-- use({ "simrat39/rust-tools.nvim", ft = { "toml", "rust" } }) -- Tools for better development in rust using neovim's builtin lsp
 
 	-- Project
 	-- use({ "ahmedkhalf/project.nvim" }) -- superior project management
@@ -132,12 +134,6 @@ return packer.startup(function(use)
 	use({ "tpope/vim-repeat" }) -- enable repeating supported plugin maps with "."
 	-- use({ "tpope/vim-surround" }) -- all about "surroundings": parentheses, brackets, quotes, XML tags, and more
 	use({ "kylechui/nvim-surround" }) -- Add/change/delete surrounding delimiter pairs with ease
-	-- use({
-	-- 	"michaelb/sniprun",
-	-- 	run = "bash ./install.sh 1",
-	-- 	cmd = { "SnipRun", "'<,'>SnipRun", "SnipInfo" },
-	-- 	config = configs.sniprun,
-	-- }) -- run lines/blocs of code
 	use({ "nathom/filetype.nvim" }) -- A faster version of filetype.vim
 	use({ "dstein64/vim-startuptime", cmd = { "StartupTime" } }) -- A Vim plugin for profiling Vim's startup time
 	-- use({ "Pocco81/AutoSave.nvim" }) -- enable autosave
