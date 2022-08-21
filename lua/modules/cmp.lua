@@ -16,8 +16,7 @@ end
 -- Load default
 require("luasnip/loaders/from_vscode").lazy_load()
 -- Load customized
--- TODO: after a update for luasnip, this line got error
---[[ require("luasnip/loaders/from_vscode").lazy_load({ paths = { require("core.gvariable").snippet_dir } }) ]]
+require("luasnip/loaders/from_vscode").lazy_load({ paths = { require("core.gvariable").snippet_dir } })
 
 local check_backspace = function()
 	local col = vim.fn.col(".") - 1

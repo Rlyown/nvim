@@ -24,7 +24,7 @@ Configuration tree:
 │   │   └── options.lua         # vim option set
 │   ├── modules                 # plugins configuration
 │   └── plugin                  # plugin manager
-├── my-snippets                 # customizer snippets(Didn't work, not fix yet)
+├── my-snippets                 # customizer snippets
 ├── template                    # store some template file
 └── plugin                      # compiled plugin file location
 ```
