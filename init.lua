@@ -17,8 +17,10 @@ require("modules").setup({
 
 require("core.gvariable").setup()
 
--- TODO: https://github.com/williamboman/mason.nvim
--- TODO: https://github.com/kevinhwang91/nvim-ufo
+-- TODO: https://github.com/phaazon/mind.nvim
+-- TODO: https://github.com/anuvyklack/pretty-fold.nvim
+-- TODO: https://github.com/gaoDean/autolist.nvim
+-- TODO: markdownlint
 -- TODO: https://github.com/gbprod/yanky.nvim
 -- TODO: https://github.com/nvim-neorg/neorg
 -- TODO: https://github.com/nvim-orgmode/orgmode
@@ -29,3 +31,4 @@ require("core.gvariable").setup()
 -- TODO: https://rumpelsepp.org/blog/nvim-clipboard-through-ssh/
 -- TODO: https://github.com/ojroques/vim-oscyank
 -- TODO: all in one package
+-- TODO: https://github.com/justinhj/battery.nvim

@@ -299,7 +299,7 @@ local n_mappings = {
 			},
 			K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover" },
 			H = { "<cmd>LspInfo<cr>", "Info" },
-			I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
+			I = { "<cmd>Mason<cr>", "Mason Info" },
 			L = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
 			n = {
 				"<cmd>lua vim.lsp.diagnostic.goto_next()<CR>",
