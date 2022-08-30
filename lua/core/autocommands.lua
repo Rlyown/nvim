@@ -32,6 +32,7 @@ function _G.check_last_special_win(t)
 	local name_cases = {
 		["NvimTree_" .. vim.fn.tabpagenr()] = true,
 		["OUTLINE"] = true,
+		["mind"] = true,
 		-- ["DAP Scopes"] = true,
 		-- ["DAP Breakpoints"] = true,
 		-- ["DAP Stacks"] = true,

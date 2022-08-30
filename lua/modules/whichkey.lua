@@ -327,6 +327,13 @@ local n_mappings = {
 			w = { "<cmd>HopWord<cr>", "Word" },
 		},
 		["n"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
+		["N"] = {
+			name = "Mind Tree",
+			o = { "<cmd>MindOpenMain<cr>", "Main Tree" },
+			p = { "<cmd>MindOpenProject false<cr>", "Local Project Tree" },
+			g = { "<cmd>MindOpenProject true<cr>", "Global Project Tree" },
+			r = { "<cmd>MindReloadState<cr>", "Reload" },
+		},
 		["o"] = {
 			name = "Open(MacOS Only)",
 			m = {

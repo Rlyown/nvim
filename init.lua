@@ -17,7 +17,6 @@ require("modules").setup({
 
 require("core.gvariable").setup()
 
--- TODO: https://github.com/phaazon/mind.nvim
 -- TODO: https://github.com/anuvyklack/pretty-fold.nvim
 -- TODO: https://github.com/gaoDean/autolist.nvim
 -- TODO: markdownlint
