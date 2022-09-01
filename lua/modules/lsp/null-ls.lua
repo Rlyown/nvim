@@ -39,6 +39,10 @@ null_ls.setup({
 		-- make
 		diagnostics.checkmake,
 
+		-- markdown
+		diagnostics.markdownlint,
+		formatting.markdownlint,
+
 		-- python
 		formatting.black.with({ extra_args = { "--fast" } }),
 		-- diagnostics.flake8

@@ -4,6 +4,7 @@ require("mason-tool-installer").setup({
 	-- start; they should be the names Mason uses for each tool
 	ensure_installed = {
 		-- Lint
+		"markdownlint",
 
 		-- Format
 		"stylua",

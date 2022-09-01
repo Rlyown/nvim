@@ -117,6 +117,7 @@ return packer.startup(function(use)
 		cmd = { "GdbStart", "GdbStartLLDB", "GdbStartPDB", "GdbStartBashDB" },
 	}) -- Neovim thin wrapper for GDB, LLDB, PDB/PDB++ and BashDB
 	use({ "aserowy/tmux.nvim" }) -- tmux integration for nvim features pane movement and resizing from within nvim.
+
 	-- Tools
 	use({ "wbthomason/packer.nvim" }) -- Have packer manage itself
 	use({ "nvim-lua/popup.nvim" }) -- An implementation of the Popup API from vim in Neovim
@@ -143,13 +144,7 @@ return packer.startup(function(use)
 	use({ "phaazon/hop.nvim", branch = "v1" }) -- Neovim motions on speed
 	use({ "windwp/nvim-spectre" }) -- Find the enemy and replace them with dark power.
 	use({ "mrjones2014/dash.nvim", run = "make install", after = "telescope.nvim", config = configs.dash }) -- Search Dash.app from your Neovim fuzzy finder
-	use({
-		"phaazon/mind.nvim",
-		branch = "v2",
-		requires = { "nvim-lua/plenary.nvim" },
-		cmd = { "MindOpenMain", "MindOpenProject" },
-		configure = configs.mind,
-	})
+	use({ "gaoDean/autolist.nvim", ft = "markdown" })
 
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- Nvim Treesitter configurations and abstraction layer
@@ -184,7 +179,9 @@ return packer.startup(function(use)
 			-- NOTE: cpsm require compile manually, run `cd ~/.local/share/nvim/site/pack/packer/start/cpsm && ./install.sh`
 			{ "nixprime/cpsm" },
 		},
+		config = configs.wilder,
 	}) -- A more adventurous wildmenu
+	use({ "anuvyklack/pretty-fold.nvim" }) -- Foldtext customization and folded region preview in Neovim
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

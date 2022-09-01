@@ -17,17 +17,5 @@ require("modules").setup({
 
 require("core.gvariable").setup()
 
--- TODO: https://github.com/anuvyklack/pretty-fold.nvim
--- TODO: https://github.com/gaoDean/autolist.nvim
--- TODO: markdownlint
--- TODO: https://github.com/gbprod/yanky.nvim
 -- TODO: https://github.com/nvim-neorg/neorg
--- TODO: https://github.com/nvim-orgmode/orgmode
--- TODO: https://github.com/sindrets/diffview.nvim
--- TODO: https://github.com/ray-x/navigator.lua
--- TODO: https://github.com/kwkarlwang/bufjump.nvim
--- TODO: I want to create a plugin working for project template generation. And it also support build config for auto-build and quick-run.
--- TODO: https://rumpelsepp.org/blog/nvim-clipboard-through-ssh/
--- TODO: https://github.com/ojroques/vim-oscyank
 -- TODO: all in one package
--- TODO: https://github.com/justinhj/battery.nvim
