@@ -3,6 +3,7 @@ local M = {
 	crates = require("lazymods.crates"),
 	wilder = require("lazymods.wilder"),
 	dash = require("lazymods.dash"),
+    autolist = require("lazymods.autolist"),
 }
 
 return M
