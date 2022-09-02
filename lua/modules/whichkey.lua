@@ -147,27 +147,29 @@ local function markdown_helper()
 		default = "no",
 	}
 	local function on_confirm(input)
-		if vim.bo.ft ~= "markdown" then
-			if not input or #input == 0 then
-				return
-			else
-				input = string.lower(input)
-				if input == "y" or input == "yes" then
-					vim.bo.ft = "markdown"
-					if compile_once then
-						vim.cmd("PackerCompile")
-						compile_once = nil
-					end
-				else
-					return
+		if not input or #input == 0 then
+			return
+		else
+			input = string.lower(input)
+			if input == "y" or input == "yes" then
+				vim.bo.ft = "markdown"
+				if compile_once then
+					vim.cmd("PackerCompile")
+					compile_once = nil
 				end
+			else
+				return
 			end
 		end
 		vim.cmd("MarkdownPreviewToggle")
 	end
 
 	local do_func = function()
-		ainput(opts, on_confirm)
+		if vim.bo.ft == "markdown" then
+			vim.cmd("MarkdownPreviewToggle")
+		else
+			ainput(opts, on_confirm)
+		end
 	end
 
 	return do_func
