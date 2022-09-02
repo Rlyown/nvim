@@ -129,10 +129,15 @@ Install the follow dependencies:
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
   $ curl -s https://packagecloud.io/install/repositories/mrtazz/checkmake/script.deb.sh | sudo bash
   
+  # Mason plugin need venv support
+  # change the python version to your default version
+  $ PYTHON_VERSION=3.8
+  $ sudo apt install python${PYTHON_VERSION}-venv
+  
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
   # the virtualenv python path is set in the lua/core/gvariable.lua
-  $ pip3 install pynvim
+  $ pip3 install pynvim 
   
   # If you want delete file to trash bin directory by nvim-tree
   $ npm install --global trash-cli
