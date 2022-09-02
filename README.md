@@ -79,6 +79,8 @@ Install the follow dependencies:
     
     *Note*: Don't forget to change your terminal fonts.
     
+    (Optional) If you want to search program language api from [Dash](https://kapeli.com/dash), you can download it and set the application path in `lua/core/gvariable.lua`.
+    
 * On Ubuntu 20.04
 
   * Golang require >= 1.17
@@ -145,6 +147,13 @@ Install the follow dependencies:
   ```
   
   *Note*: Don't forget to change your terminal fonts.
+  
+  (Optional) If you want to search program language api from [Zeal](https://zealdocs.org/), you can download it and set the binary path in `lua/core/gvariable.lua`.
+  
+  ```sh
+  # Get zeal, an offline documentation browser
+  sudo apt-get install zeal
+  ```
 
 To set neovim as default editor, you can add these to `~/.bashrc` or `~/.zshrc`:
 
