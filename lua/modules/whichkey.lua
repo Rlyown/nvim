@@ -2,6 +2,7 @@ local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
 	return
 end
+local os = require("core.gvariable").os
 
 local setup = {
 	plugins = {
@@ -367,7 +368,16 @@ local n_mappings = {
 		-- },
 		["s"] = {
 			name = "Search",
-			a = { "<cmd>Telescope dash search<cr>", "API Search" },
+			a = {
+				function()
+					if os == "mac" then
+						vim.cmd("<cmd>Telescope dash search<cr>")
+					else
+						vim.cmd("<cmd>Zeavim<cr>")
+					end
+				end,
+				"API Search",
+			},
 			B = { "<cmd>Telescope file_browser<cr>", "File Browser" },
 			c = { "<cmd>Telescope commands<cr>", "Commands" },
 			C = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },

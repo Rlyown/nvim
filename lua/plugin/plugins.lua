@@ -1,5 +1,8 @@
 local fn = vim.fn
-local configs = require("core.gvariable").lazymod_configs
+local configs = require("lazymods.configs")
+local os = require("core.gvariable").os
+local dash_path = require("core.gvariable").dash_path
+local zeal_path = require("core.gvariable").zeal_path
 
 -- Automatically install packer
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -143,7 +146,12 @@ return packer.startup(function(use)
 	use({ "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" } }) -- An alternative sudo.vim for Vim and Neovim
 	use({ "phaazon/hop.nvim", branch = "v1" }) -- Neovim motions on speed
 	use({ "windwp/nvim-spectre" }) -- Find the enemy and replace them with dark power.
-	use({ "mrjones2014/dash.nvim", run = "make install", after = "telescope.nvim", config = configs.dash }) -- Search Dash.app from your Neovim fuzzy finder
+	if os == "mac" and vim.fn.isdirectory(dash_path) then
+		use({ "mrjones2014/dash.nvim", run = "make install", after = "telescope.nvim", config = configs.dash }) -- Search Dash.app from your Neovim fuzzy finder
+	end
+	if os == "unix" and vim.fn.executable(zeal_path) then
+		use({ "KabbAmine/zeavim.vim", cmd = { "Zeavim", "ZeavimV", "Docset" }, config = configs.zeavim })
+	end
 	use({ "gaoDean/autolist.nvim", ft = "markdown", config = configs.autolist })
 
 	-- Treesitter

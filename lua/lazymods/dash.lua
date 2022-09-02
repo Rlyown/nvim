@@ -1,7 +1,9 @@
+local dash_path = require("core.gvariable").dash_path
+
 return function()
 	require("dash").setup({
 		-- configure path to Dash.app if installed somewhere other than /Applications/Dash.app
-		dash_app_path = "/Applications/Dash.app",
+		dash_app_path = dash_path,
 		-- search engine to fall back to when Dash has no results, must be one of: 'ddg', 'duckduckgo', 'startpage', 'google'
 		search_engine = "ddg",
 		-- debounce while typing, in milliseconds

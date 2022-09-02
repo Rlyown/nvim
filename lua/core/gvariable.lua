@@ -6,11 +6,13 @@ if vim.fn.has("mac") == 1 then
 	helper.lldb_vscode = "/opt/homebrew/opt/llvm/bin/lldb-vscode"
 	-- Set the python3 path which installed pynvim
 	vim.g.python3_host_prog = "/opt/homebrew/bin/python3"
+	M.dash_path = "/Applications/Dash.app"
 elseif vim.fn.has("unix") == 1 then
 	M.os = "unix"
 	helper.lldb_vscode = "/usr/bin/lldb-vscode-14"
 	-- Set the python3 path which installed pynvim
 	vim.g.python3_host_prog = "/usr/bin/python3"
+	M.zeal_path = "zeal"
 else
 	M.os = "unsupport"
 	helper.lldb_vscode = "lldb-vscode"
@@ -27,7 +29,6 @@ M.debuggers = {
 }
 
 M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
-M.lazymod_configs = require("lazymods.configs")
 M.snippet_dir = vim.fn.stdpath("config") .. "/my-snippets"
 
 M.fn = {
