@@ -371,9 +371,9 @@ local n_mappings = {
 			a = {
 				function()
 					if os == "mac" then
-						vim.cmd("<cmd>Telescope dash search<cr>")
+						vim.cmd("Telescope dash search")
 					else
-						vim.cmd("<cmd>Zeavim<cr>")
+						vim.cmd("Zeavim")
 					end
 				end,
 				"API Search",
