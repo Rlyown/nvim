@@ -43,7 +43,8 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
 Install the follow dependencies:
 
-* On MacOS
+- <details><summary>On MacOS</summary>
+    <p>
 
     ```shell
     $ brew install neovim ripgrep fd fortune lua sqlite
@@ -68,22 +69,24 @@ Install the follow dependencies:
     # If you want delete file to trash bin directory by nvim-tree
     $ brew install trash
     ```
-    
+
     *Nerd Fonts* is needed to show icons. You can choose your favorite font or find icons in the  [https://www.nerdfonts.com](https://www.nerdfonts.com).
-    
+
     ```shell
     # Other nice fonts: Hack, Fira Code, Meslo
     $ brew tap homebrew/cask-fonts
     $ brew install --cask font-jetbrains-mono-nerd-font
     ```
-    
-    *Note*: Don't forget to change your terminal fonts.
-    
-    (Optional) If you want to search program language api from [Dash](https://kapeli.com/dash), you can download it and set the application path in `lua/core/gvariable.lua`.
-    
-* On Ubuntu 20.04
 
-  * Golang require >= 1.17
+    *Note*: Don't forget to change your terminal fonts.
+
+    (Optional) If you want to search program language api from [Dash](https://kapeli.com/dash), you can download it and set the application path in `lua/core/gvariable.lua`.
+
+    </p>
+    </details>
+
+- <details><summary>On Ubuntu 20.04</summary>
+  <p>
 
   ```shell
   # Install System denpendence
@@ -106,7 +109,7 @@ Install the follow dependencies:
   $ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
   
   # Install neovim
-  $ cargo install --git https://github.com/MordechaiHadad/bob.git
+  $ cargo install --git https://github.com/MordechaiHadad/bob.git -F bob/openssl
   $ bob install v0.7.0
   $ echo 'export PATH=$HOME/.local/share/neovim/bin:$PATH' >> ~/.bashrc
   $ source ~/.bashrc
@@ -123,11 +126,12 @@ Install the follow dependencies:
   
   # Tools for language support
   $ sudo apt-get update
-  $ sudo apt install -y  bear cmake nodejs gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev
+  $ sudo apt install -y  bear cmake gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
-  $ curl -s https://packagecloud.io/install/repositories/mrtazz/checkmake/script.deb.sh | sudo bash
+  $ git clone https://github.com/mrtazz/checkmake
+  $ cd checkmake && make
   
   # Mason plugin need venv support
   # change the python version to your default version
@@ -159,8 +163,103 @@ Install the follow dependencies:
   # Get zeal, an offline documentation browser
   sudo apt-get install zeal
   ```
+  
+  </p>
+  </details>
+  
+- <details><summary>On CentOS 8</summary>
+  <p>
 
-To set neovim as default editor, you can add these to `~/.bashrc` or `~/.zshrc`:
+    ```sh
+    # Install Golang
+    $ wget https://go.dev/dl/go1.18.linux-amd64.tar.gz 
+    $ sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
+    # If you want to make go-bin-path persistent, write it to your ~/.bashrc
+    $ export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH
+    
+    # Install Rust
+    $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    $ source $HOME/.cargo/env
+    
+    # Add Node source (node version >= 14)
+    $ curl -fsSL https://rpm.nodesource.com/setup_14.x | sudo bash -
+    
+    # Install neovim
+    # If version is too old, you can install it from https://github.com/MordechaiHadad/bob
+    $ sudo dnf install -y neovim
+    
+    # Install ripgrep
+    $ sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
+    $ sudo yum install ripgrep
+    
+    # Install fd-find
+    $ wget https://github.com/sharkdp/fd/releases/download/v8.4.0/fd-v8.4.0-x86_64-unknown-linux-gnu.tar.gz
+    $ tar xf fd-v*-x86_64-unknown-linux-gnu.tar.gz
+    $ chown -R root:root fd-v*-x86_64-unknown-linux-gnu
+    $ cd fd-v*-x86_64-unknown-linux-gnu
+    $ sudo cp fd /bin
+    $ gzip fd.1
+    $ chown root:root fd.1.gz
+    $ sudo cp fd.1.gz /usr/share/man/man1
+    $ sudo cp autocomplete/fd.bash /usr/share/bash-completion/completions/fd
+    $ source /usr/share/bash-completion/completions/fd
+    
+    # Install fortune-mod
+    $ sudo dnf install -y fortune-mod
+    
+    # Install compiledb to replace bear
+    $ pip3 install compiledb
+    
+    # Install yarn
+    $ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+    $ sudo rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
+    $ sudo yum install yarn
+    
+    # Install Package
+    $ sudo dnf install -y sqlite-devel sqlite boost-devel python3-devel
+    $ sudo npm install -g neovim
+    $ go install github.com/jesseduffield/lazygit@latest
+    $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
+    
+    # Install checkmake
+    $ wget https://github.com/jgm/pandoc/releases/download/2.19.2/pandoc-2.19.2-linux-amd64.tar.gz
+    $ tar -zxvf pandoc-2.19.2-linux-amd64.tar.gz
+    $ cd pandoc-2.19.2
+    $ sudo cp -r bin /usr/local && sudo cp -r share /usr/local
+    $ git clone https://github.com/mrtazz/checkmake
+    $ cd checkmake && make && make install
+    $ sudo cp -r usr /
+    
+    # Install neovim python support, and python debugger used by dap
+    # If want to deal with multi-version conflicts, you can set
+    # the virtualenv python path is set in the lua/core/gvariable.lua
+    $ pip3 install pynvim 
+    
+    # If you want delete file to trash bin directory by nvim-tree
+    $ npm install --global trash-cli
+    ```
+  
+  *Nerd Fonts* is needed to show icons. You can choose your favorite font or find icons in the  [https://www.nerdfonts.com](https://www.nerdfonts.com).
+  
+  ```shell
+  # Other nice fonts: Hack, Fira Code, Meslo
+  $ mkdir -p ~/.local/share/fonts
+  $ cd ~/.local/share/fonts && curl -fLo "JetBrains Mono NL Regular Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/complete/JetBrains%20Mono%20NL%20Regular%20Nerd%20Font%20Complete.ttf
+  ```
+
+  *Note*: Don't forget to change your terminal fonts.
+  
+  (Optional) If you want to search program language api from [Zeal](https://zealdocs.org/), you can download it and set the binary path in `lua/core/gvariable.lua`.
+  
+  ```sh
+  # Get zeal, an offline documentation browser
+  sudo apt-get install zeal 
+  ```
+  
+   </p>
+    </details>
+
+**Final Step（Necessary）**. To set neovim as default editor, you can add these to `~/.bashrc` or `~/.zshrc`:
 
 ```shell
 export VISUAL="nvim"

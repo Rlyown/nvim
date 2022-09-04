@@ -40,8 +40,8 @@ null_ls.setup({
 		diagnostics.checkmake,
 
 		-- markdown
-		diagnostics.markdownlint,
-		formatting.markdownlint,
+		-- diagnostics.markdownlint,
+		-- formatting.markdownlint,
 
 		-- python
 		formatting.black.with({ extra_args = { "--fast" } }),
