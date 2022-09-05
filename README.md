@@ -117,7 +117,7 @@ Install the follow dependencies:
   
   # Install main packages
   $ sudo apt update
-  $ sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.3
+  $ sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.3 pandoc
   
   # ote that the binary is called fdfind as the binary name fd is already used by another package. 
   # Make sure that $HOME/.local/bin is in your $PATH
@@ -130,8 +130,11 @@ Install the follow dependencies:
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
+
+  # Install checkmake
   $ git clone https://github.com/mrtazz/checkmake
-  $ cd checkmake && make
+  $ cd checkmake && make && make install
+  $ sudo cp -r usr /
   
   # Mason plugin need venv support
   # change the python version to your default version

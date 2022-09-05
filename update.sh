@@ -7,8 +7,13 @@ if [[ $? -ne 0 ]]; then
 
 		case $input in
 		[yY][eE][sS] | [yY])
+			git checkout main
 			git reset --hard
-			git pull origin main:main
+			git fetch origin main
+			git merge
+            if [[ $? -ne 0]]; then 
+                exit 1
+            fi
 			break
 			;;
 
