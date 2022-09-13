@@ -17,8 +17,12 @@ null_ls.setup({
 
 	-- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
 	sources = {
-		-- asm
+		-- format
 		formatting.asmfmt,
+		formatting.stylua,
+		formatting.prettier,
+		formatting.black.with({ extra_args = { "--fast" } }),
+		formatting.shfmt,
 
 		-- Disable it because command line arguments take precedence over .clang-format file
 		-- c/cpp
@@ -30,24 +34,6 @@ null_ls.setup({
 		-- 	},
 		-- }),
 
-		-- gitsigns
-		-- code_actions.gitsigns,
-
-		-- lua
-		formatting.stylua,
-
-		-- make
-		diagnostics.checkmake,
-
-		-- markdown
-		-- diagnostics.markdownlint,
-		-- formatting.markdownlint,
-
-		-- python
-		formatting.black.with({ extra_args = { "--fast" } }),
-		-- diagnostics.flake8
-
-		-- rust
 		-- formatting.rustfmt.with({
 		-- 	extra_args = function(params)
 		-- 		local Path = require("plenary.path")
@@ -66,7 +52,14 @@ null_ls.setup({
 		-- 	end,
 		-- }),
 
-		-- shell
-		formatting.shfmt,
+		-- code action
+		-- code_actions.gitsigns,
+
+		-- lint
+
+		-- diagnostics
+		-- diagnostics.markdownlint
+		diagnostics.checkmake,
+		-- diagnostics.flake8
 	},
 })
