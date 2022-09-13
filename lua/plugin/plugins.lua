@@ -71,7 +71,7 @@ return packer.startup(function(use)
 	use({ "nvim-telescope/telescope-dap.nvim" }) -- Integration for nvim-dap with telescope.nvim
 
 	-- Git
-	use({ "lewis6991/gitsigns.nvim" }) -- show git info in buffer
+	use({ "lewis6991/gitsigns.nvim", tag = "release" }) -- show git info in buffer
 	-- use("tpope/vim-fugitive") -- a git wrapper
 
 	-- LSP
