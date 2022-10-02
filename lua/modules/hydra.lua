@@ -100,7 +100,8 @@ local git_hydra = Hydra({
  ^ ^              _S_: stage buffer      ^ ^                 _/_: show base file
  ^
  ^ ^  _c_: checkout branch    _C_: checkout commit    _o_: open changed file
- ^ ^              ^ ^                    ^ ^                 _<esc>_
+ ^
+ _<Enter>_: lazygit    _n_: neogit       _D_: diffview       _<esc>_
 ]],
 	config = {
 		color = "pink",
@@ -165,7 +166,9 @@ local git_hydra = Hydra({
 		{ "c", "<cmd>Telescope git_branches<cr>", { exit = true } },
 		{ "C", "<cmd>Telescope git_commits<cr>", { exit = true } },
 		{ "o", "<cmd>Telescope git_status<cr>", { exit = true } },
-		{ "<Enter>", _LAZYGIT_TOGGLE, { exit = true } },
+		{ "<Enter>", "<cmd>lua _LAZYGIT_TOGGLE()<cr>", { exit = true } },
+		{ "n", "<cmd>Neogit<cr>", { exit = true } },
+		{ "D", "<cmd>DiffviewOpen<cr>", { exit = true } },
 		{ "<esc>", nil, { exit = true, nowait = true } },
 	},
 })

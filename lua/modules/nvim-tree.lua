@@ -51,7 +51,6 @@ nvim_tree.setup({
 	},
 	view = {
 		width = 30,
-		height = 30,
 		hide_root_folder = false,
 		side = "left",
 		preserve_window_proportions = false,
@@ -69,6 +68,17 @@ nvim_tree.setup({
 		},
 		number = false,
 		relativenumber = false,
+		float = {
+			enable = false,
+			open_win_config = {
+				relative = "editor",
+				border = "rounded",
+				width = 30,
+				height = 30,
+				row = 1,
+				col = 1,
+			},
+		},
 	},
 	renderer = {
 		indent_markers = {

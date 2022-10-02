@@ -5,6 +5,8 @@ local M = {
 	dash = require("lazymods.dash"),
 	zeavim = require("lazymods.zeavim"),
 	autolist = require("lazymods.autolist"),
+	neogit = require("lazymods.neogit"),
+	diffview = require("lazymods.diffview"),
 }
 
 return M

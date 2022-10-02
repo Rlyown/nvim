@@ -73,6 +73,13 @@ return packer.startup(function(use)
 	-- Git
 	use({ "lewis6991/gitsigns.nvim", tag = "release" }) -- show git info in buffer
 	-- use("tpope/vim-fugitive") -- a git wrapper
+	use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim", config = configs.neogit }) -- magit for neovim
+	use({
+		"sindrets/diffview.nvim",
+		requires = "nvim-lua/plenary.nvim",
+		cmd = { "Neogit", "DiffviewOpen", "DiffviewFileHistory", "DiffviewToggleFiles", "DiffviewFocusFiles" },
+		config = configs.diffview,
+	}) -- Single tabpage interface for easily cycling through diffs for all modified files for any git rev.
 
 	-- LSP
 	use({ -- It's important that you set up the plugins in the following order
@@ -171,7 +178,6 @@ return packer.startup(function(use)
 	use({ "lukas-reineke/indent-blankline.nvim" }) -- Indent guides for Neovim
 	use({ "SmiteshP/nvim-gps" }) -- Simple statusline component that show code context
 	use({ "mbbill/undotree", cmd = "UndotreeToggle" }) -- undo history visualizer
-	-- use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 	use({ "norcalli/nvim-colorizer.lua", ft = { "css", "javascript", "html" }, config = configs.colorizer }) -- The fastest Neovim colorizer.
 	use({
 		"folke/trouble.nvim",
