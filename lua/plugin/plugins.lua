@@ -59,9 +59,9 @@ return packer.startup(function(use)
 	use({ "hrsh7th/cmp-nvim-lsp" }) -- lsp completions
 	use({ "saadparwaiz1/cmp_luasnip" }) -- snippet completions
 	use({ "hrsh7th/cmp-nvim-lua" }) -- neovim's lua api completions
-	-- use({ "f3fora/cmp-spell" }) -- spell source for nvim-cmp
-	-- use "github/copilot.vim" -- gitHub Copilot
-	-- use "hrsh7th/cmp-copilot" -- this is a experimental product
+	use({ "f3fora/cmp-spell" }) -- spell source for nvim-cmp
+	use("github/copilot.vim") -- gitHub Copilot
+	use("hrsh7th/cmp-copilot") -- this is a experimental product
 	use({ "saecki/crates.nvim", tag = "v0.2.1", event = { "BufRead Cargo.toml" }, config = configs.crates }) -- helps managing crates.io dependencies
 
 	-- DAP

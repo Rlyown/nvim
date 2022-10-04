@@ -7,12 +7,14 @@ if vim.fn.has("mac") == 1 then
 	-- Set the python3 path which installed pynvim
 	vim.g.python3_host_prog = "/opt/homebrew/bin/python3"
 	M.dash_path = "/Applications/Dash.app"
+	M.node_path = "/opt/homebrew/opt/node@16/bin/node"
 elseif vim.fn.has("unix") == 1 then
 	M.os = "unix"
 	helper.lldb_vscode = "/usr/bin/lldb-vscode-14"
 	-- Set the python3 path which installed pynvim
 	vim.g.python3_host_prog = "/usr/bin/python3"
 	M.zeal_path = "zeal"
+	M.node_path = "/usr/bin/node"
 else
 	M.os = "unsupport"
 	helper.lldb_vscode = "lldb-vscode"

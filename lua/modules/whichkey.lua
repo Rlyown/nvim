@@ -283,6 +283,13 @@ local n_mappings = {
 		},
 		["h"] = { "<cmd>nohlsearch<CR>", "No Highlight Search" },
 		["l"] = {
+			a = {
+				function()
+					vim.b.copilot_enabled = true
+					vim.notify("Copilot is enabled", "info", { title = "Copilot" })
+				end,
+				"Force Enable Copilot",
+			},
 			c = {
 				"<cmd>Telescope lsp_document_diagnostics<cr>",
 				"Document Diagnostics",

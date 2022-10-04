@@ -86,6 +86,8 @@ cmp.setup({
 				buffer = "[Buffer]",
 				path = "[Path]",
 				nvim_lua = "[Nvim]",
+				spell = "[Abc]",
+				copilot = "[Cpt]",
 			})[entry.source.name]
 			return vim_item
 		end,
@@ -96,8 +98,13 @@ cmp.setup({
 		{ name = "buffer" },
 		{ name = "path" },
 		{ name = "nvim_lua" },
-		-- { name = "spell" },
-		-- { name = 'copilot' },
+		{
+			name = "spell",
+			option = {
+				keep_all_entries = false,
+			},
+		},
+		{ name = "copilot" },
 	},
 	confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,
@@ -150,7 +157,3 @@ cmp.event:on(
 		},
 	})
 )
-
--- enable cmp spell check
--- vim.opt.spell = true
--- vim.opt.spelllang = { "en_us" }
