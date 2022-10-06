@@ -82,7 +82,7 @@ local autocmd = vim.api.nvim_create_autocmd
 augroup("_CUSTOM_general_settings", { clear = true })
 autocmd("FileType", {
 	group = "_CUSTOM_general_settings",
-	pattern = { "qf", "help", "man", "lspinfo", "startuptime", "null-ls-info", "notify" },
+	pattern = { "qf", "help", "man", "lspinfo", "startuptime", "null-ls-info", "notify", "spectre_panel" },
 	command = "nnoremap <silent> <buffer> q :close<CR>",
 })
 autocmd("TextYankPost", {
@@ -145,7 +145,7 @@ autocmd("BufWritePre", {
 	pattern = "*",
 	callback = function()
 		if vim.g.custom_enable_auto_format then
-			vim.lsp.buf.formatting_sync()
+			vim.lsp.buf.format({ async = false })
 		end
 	end,
 	desc = "auto format",

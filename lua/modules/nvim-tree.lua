@@ -64,6 +64,7 @@ nvim_tree.setup({
 				{ key = "d", cb = tree_cb("trash") },
 				{ key = "D", cb = tree_cb("remove") },
 				{ key = "+", cb = tree_cb("cd") },
+				{ key = "M", action = "bulk_move" },
 			},
 		},
 		number = false,

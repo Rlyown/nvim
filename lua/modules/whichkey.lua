@@ -69,6 +69,10 @@ local setup = {
 		i = { "j", "k" },
 		v = { "j", "k" },
 	},
+	disable = {
+		buftypes = {},
+		filetypes = { "TelescopePrompt", "spectre_panel" },
+	},
 }
 
 local ainput = require("core.gvariable").fn.async_ui_input_wrap()
@@ -294,7 +298,7 @@ local n_mappings = {
 				"<cmd>Telescope lsp_document_diagnostics<cr>",
 				"Document Diagnostics",
 			},
-			f = { "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", "Format" },
+			f = { "<cmd>lua vim.lsp.buf.format({ async=false })<cr>", "Format" },
 			F = {
 				function()
 					if vim.g.custom_enable_auto_format then
@@ -335,6 +339,12 @@ local n_mappings = {
 			c = { "<cmd>HopChar1<cr>", "Char" },
 			l = { "<cmd>HopLine<cr>", "Line" },
 			w = { "<cmd>HopWord<cr>", "Word" },
+		},
+		["N"] = {
+			name = "Neorg",
+			n = { "<cmd>Neorg<cr>", "Neorg" },
+			k = { "<cmd>Neorg kanban toggle<cr>", "Kanban" },
+			t = { "<cmd>Neorg gtd_project_tags 1 1 1<cr>", "GTD Project Tags" },
 		},
 		["n"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
 		["o"] = {
@@ -401,6 +411,12 @@ local n_mappings = {
 			k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
 			m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
 			n = { "<cmd>Telescope notify theme=dropdown<cr>", "Notify" },
+			N = {
+				name = "Neorg",
+				a = { "<cmd>Telescope neorg find_aof_tasks<cr>", "Find AOF Tasks" },
+				c = { "<cmd>Telescope neorg find_context_tasks<cr>", "Context Tasks" },
+				p = { "<cmd>Telescope neorg find_project_tasks<cr>", "Project Tasks" },
+			},
 			r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
 			R = { "<cmd>Telescope registers<cr>", "Registers" },
 			s = { "<cmd>Telescope luasnip<cr>", "Luasnip" },

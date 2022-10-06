@@ -68,5 +68,5 @@ call wilder#set_option('renderer', wilder#renderer_mux({
       \ '/': s:wildmenu_renderer,
       \ 'substitute': s:wildmenu_renderer,
       \ }))
-    ]])
+     ]])
 end

@@ -71,7 +71,10 @@ return packer.startup(function(use)
 	use({ "nvim-telescope/telescope-dap.nvim" }) -- Integration for nvim-dap with telescope.nvim
 
 	-- Git
-	use({ "lewis6991/gitsigns.nvim", tag = "release" }) -- show git info in buffer
+	use({
+		"lewis6991/gitsigns.nvim",
+		--[[ tag = "release"  ]]
+	}) -- show git info in buffer
 	-- use("tpope/vim-fugitive") -- a git wrapper
 	use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim", config = configs.neogit }) -- magit for neovim
 	use({
@@ -98,6 +101,20 @@ return packer.startup(function(use)
 	use({ "simrat39/symbols-outline.nvim" }) -- A tree like view for symbols
 	use({ "ThePrimeagen/refactoring.nvim" }) -- The Refactoring library
 	use({ "lewis6991/spellsitter.nvim" }) -- Treesitter powered spellchecker
+	use({
+		"nvim-neorg/neorg",
+		-- tag = "*",
+		--[[ ft = "norg", ]]
+		run = ":Neorg sync-parsers", -- This is the important bit!
+		--[[ cmd = { "Neorg" }, ]]
+		--[[ after = "nvim-treesitter", -- You may want to specify Telescope here as well ]]
+		requires = {
+			"nvim-neorg/neorg-telescope",
+			"esquires/neorg-gtd-project-tags",
+			"max397574/neorg-contexts",
+			"max397574/neorg-kanban",
+		},
+	})
 
 	-- Project
 	-- use({ "ahmedkhalf/project.nvim" }) -- superior project management
@@ -196,6 +213,26 @@ return packer.startup(function(use)
 		config = configs.wilder,
 	}) -- A more adventurous wildmenu
 	use({ "anuvyklack/pretty-fold.nvim" }) -- Foldtext customization and folded region preview in Neovim
+	-- Packer
+	use({
+		"folke/noice.nvim",
+		--[[ event = "VimEnter", ]]
+		config = configs.noice,
+		requires = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
+	})
+	use({
+		"Pocco81/true-zen.nvim",
+		config = function()
+			require("true-zen").setup({
+				-- your config goes here
+				-- or just leave it empty :)
+			})
+		end,
+	})
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

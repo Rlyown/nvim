@@ -32,6 +32,7 @@ M.debuggers = {
 
 M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
 M.snippet_dir = vim.fn.stdpath("config") .. "/my-snippets"
+M.neorg_dir = "~/.local/state/nvim/neorg-notes"
 
 M.fn = {
 	["async_ui_input_wrap"] = function()

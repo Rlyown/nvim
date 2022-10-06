@@ -7,6 +7,7 @@ local M = {
 	autolist = require("lazymods.autolist"),
 	neogit = require("lazymods.neogit"),
 	diffview = require("lazymods.diffview"),
+	noice = require("lazymods.noice"),
 }
 
 return M
