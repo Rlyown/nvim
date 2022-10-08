@@ -410,6 +410,7 @@ local n_mappings = {
 			h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
 			k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
 			m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+			M = { "<cmd>Telescope noice<cr>", "Messages" },
 			n = { "<cmd>Telescope notify theme=dropdown<cr>", "Notify" },
 			N = {
 				name = "Neorg",
@@ -531,6 +532,7 @@ local n_mappings = {
 					v = { "<cmd>lua require('crates').show_versions_popup()<cr>", "Versions" },
 				},
 			},
+			n = { "<cmd>lua require('notify').dismiss()<cr>", "Dismiss All Notifications" },
 			p = {
 				name = "Packer",
 				c = { "<cmd>PackerCompile<cr>", "Compile" },
