@@ -88,6 +88,7 @@ cmp.setup({
 				nvim_lua = "[Nvim]",
 				spell = "[Abc]",
 				copilot = "[Cpt]",
+				neorg = "[Norg]",
 			})[entry.source.name]
 			return vim_item
 		end,
@@ -105,6 +106,7 @@ cmp.setup({
 			},
 		},
 		{ name = "copilot" },
+		{ name = "neorg" },
 	},
 	confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,

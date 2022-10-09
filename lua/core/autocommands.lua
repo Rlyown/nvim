@@ -144,6 +144,14 @@ autocmd("BufWritePre", {
 	group = "_CUSTOM_lsp",
 	pattern = "*",
 	callback = function()
+		local filter = {
+			norg = true,
+		}
+
+		if filter[vim.bo.filetype] then
+			return
+		end
+
 		if vim.g.custom_enable_auto_format then
 			vim.lsp.buf.format({ async = false })
 		end

@@ -47,6 +47,11 @@ require("neorg").setup({
 				zen_mode = "truezen",
 			},
 		},
+		["core.export"] = {
+			config = { -- Note that this table is optional and doesn't need to be provided
+				-- Configuration here
+			},
+		},
 		["core.integrations.telescope"] = {},
 		["external.gtd-project-tags"] = {},
 		["external.context"] = {},
