@@ -23,10 +23,10 @@ notify.setup({
 	render = "default",
 
 	-- Default timeout for notifications
-	timeout = 3000,
+	timeout = 1500,
 
 	-- Max number of columns for messages
-	max_width = 80,
+	max_width = 50,
 	-- Max number of lines for a message
 	max_height = 40,
 
@@ -125,7 +125,7 @@ vim.lsp.handlers["$/progress"] = function(_, result, ctx)
 		notif_data.notification = vim.notify(val.message and format_message(val.message) or "Complete", "info", {
 			icon = " ",
 			replace = notif_data.notification,
-			timeout = 3000,
+			timeout = 1500,
 		})
 
 		notif_data.spinner = nil
@@ -163,7 +163,7 @@ dap.listeners.before["event_progressEnd"]["progress-notifications"] = function(s
 	notif_data.notification = vim.notify(body.message and format_message(body.message) or "Complete", "info", {
 		icon = "?",
 		replace = notif_data.notification,
-		timeout = 3000,
+		timeout = 1500,
 	})
 	notif_data.spinner = nil
 end
