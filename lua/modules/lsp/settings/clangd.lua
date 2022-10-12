@@ -1,7 +1,7 @@
 -- this is used for fixing offsetEncoding conflict with null-ls
 -- relative issue: https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.offsetEncoding = { "utf-16" }
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.offsetEncoding = { "utf-16" }
 
 local llvm_path = require("core.gvariable").llvm_bin_path
 local os = require("core.gvariable").os
@@ -10,11 +10,8 @@ local query_driver = "--query-driver=/use/bin/clang,/usr/bin/clang++"
 
 if os == "mac" then
 	if vim.fn.isdirectory(llvm_path) then
-		query_driver = string.format(
-			"--query-driver=%s/clang,%s/clang++,/use/bin/clang,/usr/bin/clang++",
-			llvm_path,
-			llvm_path
-		)
+		query_driver =
+			string.format("--query-driver=%s/clang,%s/clang++,/use/bin/clang,/usr/bin/clang++", llvm_path, llvm_path)
 	else
 		query_driver = "--query-driver=/use/bin/clang,/usr/bin/clang++"
 	end
@@ -39,5 +36,5 @@ return {
 		"--pch-storage=disk",
 		-- "--log=verbose",
 	},
-	-- capabilities = capabilities,
+	capabilities = capabilities,
 }

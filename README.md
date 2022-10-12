@@ -110,10 +110,10 @@ Install the follow dependencies:
 
   # Install neovim
   $ cargo install --git https://github.com/MordechaiHadad/bob.git -F bob/openssl
-  $ bob install v0.7.0
+  $ bob install v0.8.0
   $ echo 'export PATH=$HOME/.local/share/neovim/bin:$PATH' >> ~/.bashrc
   $ source ~/.bashrc
-  $ bob use v0.7.0
+  $ bob use v0.8.0
 
   # Install main packages
   $ sudo apt update
