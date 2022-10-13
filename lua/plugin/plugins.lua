@@ -214,16 +214,16 @@ return packer.startup(function(use)
 	}) -- A more adventurous wildmenu
 	use({ "anuvyklack/pretty-fold.nvim" }) -- Foldtext customization and folded region preview in Neovim
 	-- Packer
-	use({
-		"folke/noice.nvim",
-		--[[ event = "VimEnter", ]]
-		config = configs.noice,
-		requires = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
-		},
-	})
+	--[[ use({ ]]
+	--[[ 	"folke/noice.nvim", ]]
+	--[[ 	 event = "VimEnter", ]]
+	--[[ 	config = configs.noice, ]]
+	--[[ 	requires = { ]]
+	--[[ 		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries ]]
+	--[[ 		"MunifTanjim/nui.nvim", ]]
+	--[[ 		"rcarriga/nvim-notify", ]]
+	--[[ 	}, ]]
+	--[[ }) ]]
 	use({
 		"Pocco81/true-zen.nvim",
 		config = function()
