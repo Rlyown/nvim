@@ -17,9 +17,4 @@ require("modules").setup({
 
 require("core.gvariable").setup()
 
--- TODO: https://github.com/nvim-neorg/neorg
 -- TODO: all in one package
--- TODO: https://github.com/krivahtoo/silicon.nvim
--- TODO: https://github.com/arjunmahishi/k8s.nvim
--- TODO: https://github.com/ibhagwan/smartyank.nvim
--- TODO: https://github.com/jbyuki/nabla.nvim

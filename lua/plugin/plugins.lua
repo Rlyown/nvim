@@ -63,6 +63,7 @@ return packer.startup(function(use)
 	use("github/copilot.vim") -- gitHub Copilot
 	use("hrsh7th/cmp-copilot") -- this is a experimental product
 	use({ "saecki/crates.nvim", tag = "v0.2.1", event = { "BufRead Cargo.toml" }, config = configs.crates }) -- helps managing crates.io dependencies
+	use({ "windwp/nvim-ts-autotag" })
 
 	-- DAP
 	use({ "mfussenegger/nvim-dap" }) -- Debug Adapter Protocol client implementation
@@ -115,6 +116,7 @@ return packer.startup(function(use)
 			"max397574/neorg-kanban",
 		},
 	})
+	use({ "andymass/vim-matchup" })
 
 	-- Project
 	-- use({ "ahmedkhalf/project.nvim" }) -- superior project management
@@ -177,6 +179,19 @@ return packer.startup(function(use)
 		use({ "KabbAmine/zeavim.vim", cmd = { "Zeavim", "ZeavimV", "Docset" }, config = configs.zeavim })
 	end
 	use({ "gaoDean/autolist.nvim", ft = "markdown", config = configs.autolist })
+	use({ "ibhagwan/smartyank.nvim" })
+	use({
+		"AckslD/nvim-neoclip.lua",
+		requires = {
+			-- you'll need at least one of these
+			-- {'nvim-telescope/telescope.nvim'},
+			-- {'ibhagwan/fzf-lua'},
+		},
+		config = function()
+			require("neoclip").setup()
+		end,
+	})
+	use({ "rainbowhxch/accelerated-jk.nvim" })
 
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- Nvim Treesitter configurations and abstraction layer
@@ -186,7 +201,7 @@ return packer.startup(function(use)
 	use({ "p00f/nvim-ts-rainbow" }) -- Rainbow parentheses
 
 	-- UI
-	use({ "psliwka/vim-smoothie" }) -- page scroll smoothly
+	use("karb94/neoscroll.nvim")
 	use({ "kyazdani42/nvim-web-devicons" }) -- a lua fork from vim-devicons
 	use({ "kyazdani42/nvim-tree.lua" }) -- file explorer
 	use({ "akinsho/bufferline.nvim" }) -- buffer line plugin
@@ -214,16 +229,15 @@ return packer.startup(function(use)
 	}) -- A more adventurous wildmenu
 	use({ "anuvyklack/pretty-fold.nvim" }) -- Foldtext customization and folded region preview in Neovim
 	-- Packer
-	--[[ use({ ]]
-	--[[ 	"folke/noice.nvim", ]]
-	--[[ 	 event = "VimEnter", ]]
-	--[[ 	config = configs.noice, ]]
-	--[[ 	requires = { ]]
-	--[[ 		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries ]]
-	--[[ 		"MunifTanjim/nui.nvim", ]]
-	--[[ 		"rcarriga/nvim-notify", ]]
-	--[[ 	}, ]]
-	--[[ }) ]]
+	use({
+		"folke/noice.nvim",
+		config = configs.noice,
+		requires = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
+	})
 	use({
 		"Pocco81/true-zen.nvim",
 		config = function()
@@ -233,6 +247,7 @@ return packer.startup(function(use)
 			})
 		end,
 	})
+	use("jbyuki/nabla.nvim")
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

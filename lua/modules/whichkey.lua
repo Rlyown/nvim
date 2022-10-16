@@ -422,6 +422,8 @@ local n_mappings = {
 			R = { "<cmd>Telescope registers<cr>", "Registers" },
 			s = { "<cmd>Telescope luasnip<cr>", "Luasnip" },
 			t = { "<cmd>Telescope tags<cr>", "Tags" },
+			y = { "<cmd>Telescope neoclip<cr>", "Yank History" },
+			Y = { "<cmd>Telescope macroscope<cr>", "Macroscope" },
 		},
 		["S"] = {
 			name = "Search & Replace",
@@ -531,7 +533,9 @@ local n_mappings = {
 					U = { "<cmd>lua require('crates').update_all_crates()<cr>", "Update All" },
 					v = { "<cmd>lua require('crates').show_versions_popup()<cr>", "Versions" },
 				},
+				n = {},
 			},
+			m = { ":lua require('nabla').popup()<CR>", "Math Equation" },
 			n = { "<cmd>lua require('notify').dismiss()<cr>", "Dismiss All Notifications" },
 			p = {
 				name = "Packer",

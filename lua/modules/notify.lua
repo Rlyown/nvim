@@ -47,6 +47,8 @@ notify.setup({
 	},
 })
 
+-- Similar plugin https://github.com/j-hui/fidget.nvim
+
 -- Utility functions shared between progress reports for LSP and DAP
 local client_notifs = {}
 

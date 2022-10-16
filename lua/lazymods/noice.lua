@@ -1,6 +1,8 @@
+-- 
 return function()
 	require("noice").setup({
 		cmdline = {
+			enabled = true,
 			view = "cmdline", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
 			opts = { buf_options = { filetype = "vim" } }, -- enable syntax highlighting in the cmdline
 			icons = {
@@ -12,7 +14,7 @@ return function()
 		popupmenu = {
 			enabled = false, -- disable if you use something like cmp-cmdline
 			---@type 'nui'|'cmp'
-			backend = "nui", -- backend to use to show regular cmdline completions
+			backend = "cmp", -- backend to use to show regular cmdline completions
 			-- You can specify options for nui under `config.views.popupmenu`
 		},
 		history = {
@@ -30,7 +32,36 @@ return function()
 		},
 		throttle = 1000 / 30, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
 		---@type table<string, NoiceViewOptions>
-		views = {}, -- @see the section on views below
+		views = {
+			cmdline_popup = {
+				position = {
+					row = 5,
+					col = "50%",
+				},
+				size = {
+					width = 60,
+					height = "auto",
+				},
+			},
+			popupmenu = {
+				relative = "editor",
+				position = {
+					row = 8,
+					col = "50%",
+				},
+				size = {
+					width = 60,
+					height = 10,
+				},
+				border = {
+					style = "rounded",
+					padding = { 0, 1 },
+				},
+				win_options = {
+					winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+				},
+			},
+		}, -- @see the section on views below
 		---@type NoiceRouteConfig[]
 		routes = {
 			{
@@ -40,8 +71,20 @@ return function()
 				},
 				view = "cmdline",
 			},
+			{
+				view = "notify",
+				filter = { event = "msg_showmode" },
+			},
 		}, -- @see the section on routes below
 		---@type table<string, NoiceFilter>
 		status = {}, --@see the section on statusline components below
+		hacks = {
+			-- due to https://github.com/neovim/neovim/issues/20416
+			-- messages are resent during a redraw. Noice detects this in most cases, but
+			-- some plugins (mostly vim plugns), can still cause loops.
+			-- When a loop is detected, Noice exits.
+			-- Enable this option to simply skip duplicate messages instead.
+			skip_duplicate_messages = true,
+		},
 	})
 end

@@ -98,3 +98,7 @@ keymap("v", "<leader><leader>lru", ":lua require('crates').upgrade_crates()<cr>"
 
 -- Copilot
 -- vim.cmd([[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")]])
+
+-- accelerated-jk
+vim.api.nvim_set_keymap("n", "j", "<Plug>(accelerated_jk_gj)", {})
+vim.api.nvim_set_keymap("n", "k", "<Plug>(accelerated_jk_gk)", {})

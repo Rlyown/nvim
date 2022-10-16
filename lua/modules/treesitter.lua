@@ -58,4 +58,12 @@ configs.setup({
 		}, -- table of hex strings
 		-- termcolors = {} -- table of colour name strings
 	},
+	matchup = {
+		enable = true, -- mandatory, false will disable the whole extension
+		--[[ disable = { "c", "ruby" }, -- optional, list of language that will be disabled ]]
+		-- [options]
+	},
+	autotag = {
+		enable = true,
+	},
 })
