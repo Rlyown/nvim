@@ -12,9 +12,9 @@ return function()
 			},
 		},
 		popupmenu = {
-			enabled = false, -- disable if you use something like cmp-cmdline
+			enabled = true, -- disable if you use something like cmp-cmdline
 			---@type 'nui'|'cmp'
-			backend = "cmp", -- backend to use to show regular cmdline completions
+			backend = "nui", -- backend to use to show regular cmdline completions
 			-- You can specify options for nui under `config.views.popupmenu`
 		},
 		history = {
@@ -32,38 +32,37 @@ return function()
 		},
 		throttle = 1000 / 30, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
 		---@type table<string, NoiceViewOptions>
-		views = {
-			cmdline_popup = {
-				position = {
-					row = 5,
-					col = "50%",
-				},
-				size = {
-					width = 60,
-					height = "auto",
-				},
-			},
-			popupmenu = {
-				relative = "editor",
-				position = {
-					row = 8,
-					col = "50%",
-				},
-				size = {
-					width = 60,
-					height = 10,
-				},
-				border = {
-					style = "rounded",
-					padding = { 0, 1 },
-				},
-				win_options = {
-					winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
-				},
-			},
-		}, -- @see the section on views below
+		views = {}, -- @see the section on views below
 		---@type NoiceRouteConfig[]
 		routes = {
+			{
+				view = "notify",
+				filter = { event = "msg_showmode" },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "written",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "^<$",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "not a git repository",
+				},
+				opts = { skip = true },
+			},
 			{
 				filter = {
 					event = "cmdline",
@@ -72,8 +71,11 @@ return function()
 				view = "cmdline",
 			},
 			{
-				view = "notify",
-				filter = { event = "msg_showmode" },
+				filter = {
+					event = "msg_show",
+					kind = "confirm_sub",
+				},
+				view = "cmdline",
 			},
 		}, -- @see the section on routes below
 		---@type table<string, NoiceFilter>
