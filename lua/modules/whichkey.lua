@@ -535,7 +535,7 @@ local n_mappings = {
 				},
 				n = {},
 			},
-			m = { ":lua require('nabla').popup()<CR>", "Math Equation" },
+			m = { ":lua require('nabla').popup()<CR>", "Show Math Equation" },
 			n = { "<cmd>lua require('notify').dismiss()<cr>", "Dismiss All Notifications" },
 			p = {
 				name = "Packer",
