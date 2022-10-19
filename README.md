@@ -109,11 +109,13 @@ Install the follow dependencies:
   $ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 
   # Install neovim
-  $ cargo install --git https://github.com/MordechaiHadad/bob.git -F bob/openssl
-  $ bob install v0.8.0
-  $ echo 'export PATH=$HOME/.local/share/neovim/bin:$PATH' >> ~/.bashrc
-  $ source ~/.bashrc
+  ## For Linux OpenSSL v1.1 and windows/macos users
+  $ cargo install --git https://github.com/MordechaiHadad/bob.git --features bob/openssl
+  ## For OpenSSL v3.0.+ users
+  $ cargo install --git https://github.com/MordechaiHadad/bob.git --features bob/rustls
   $ bob use v0.8.0
+  $ echo 'export PATH=$PATH:$HOME/.local/share/nvim/bin' >> ~/.bashrc
+  $ source ~/.bashrc
 
   # Install main packages
   $ sudo apt update
@@ -188,8 +190,13 @@ Install the follow dependencies:
   $ curl -fsSL https://rpm.nodesource.com/setup_14.x | sudo bash -
 
   # Install neovim
-  # If version is too old, you can install it from https://github.com/MordechaiHadad/bob
-  $ sudo dnf install -y neovim
+  ## For Linux OpenSSL v1.1 and windows/macos users
+  $ cargo install --git https://github.com/MordechaiHadad/bob.git --features bob/openssl
+  ## For OpenSSL v3.0.+ users
+  $ cargo install --git https://github.com/MordechaiHadad/bob.git --features bob/rustls
+  $ bob use v0.8.0
+  $ echo 'export PATH=$PATH:$HOME/.local/share/nvim/bin' >> ~/.bashrc
+  $ source ~/.bashrc
 
   # Install ripgrep
   $ sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
