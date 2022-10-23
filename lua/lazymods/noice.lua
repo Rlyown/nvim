@@ -77,6 +77,14 @@ return function()
 				},
 				view = "cmdline",
 			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "^Error running notification service: ...art/nvim-notify/lua/notify/service/buffer/highlights.lua:153: Invalid buffer id:",
+				},
+				opts = { skip = true },
+			},
 		}, -- @see the section on routes below
 		---@type table<string, NoiceFilter>
 		status = {}, --@see the section on statusline components below

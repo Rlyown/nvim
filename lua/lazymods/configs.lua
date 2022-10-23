@@ -8,6 +8,7 @@ local M = {
 	neogit = require("lazymods.neogit"),
 	diffview = require("lazymods.diffview"),
 	noice = require("lazymods.noice"),
+    neorg = require("lazymods.neorg"),
 }
 
 return M

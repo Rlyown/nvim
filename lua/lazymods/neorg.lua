@@ -1,3 +1,4 @@
+return function()
 local neorg_dir = require("core.gvariable").neorg_dir
 require("neorg").setup({
 	load = {
@@ -58,3 +59,4 @@ require("neorg").setup({
 		["external.kanban"] = {},
 	},
 })
+end

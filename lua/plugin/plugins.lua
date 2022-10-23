@@ -105,10 +105,10 @@ return packer.startup(function(use)
 	use({
 		"nvim-neorg/neorg",
 		-- tag = "*",
-		--[[ ft = "norg", ]]
-		run = ":Neorg sync-parsers", -- This is the important bit!
-		--[[ cmd = { "Neorg" }, ]]
-		--[[ after = "nvim-treesitter", -- You may want to specify Telescope here as well ]]
+		ft = "norg",
+		cmd = { "Neorg" },
+		after = "nvim-treesitter", -- You may want to specify Telescope here as well
+		config = configs.neorg,
 		requires = {
 			"nvim-neorg/neorg-telescope",
 			"esquires/neorg-gtd-project-tags",
@@ -178,7 +178,7 @@ return packer.startup(function(use)
 	if os == "unix" and vim.fn.executable(zeal_path) then
 		use({ "KabbAmine/zeavim.vim", cmd = { "Zeavim", "ZeavimV", "Docset" }, config = configs.zeavim })
 	end
-	use({ "gaoDean/autolist.nvim", ft = "markdown", config = configs.autolist })
+	use({ "gaoDean/autolist.nvim", ft = { "markdown", "norg", "txt" }, config = configs.autolist })
 	use({ "ibhagwan/smartyank.nvim" })
 	use({
 		"AckslD/nvim-neoclip.lua",
