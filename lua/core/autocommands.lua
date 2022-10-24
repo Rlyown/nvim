@@ -271,3 +271,13 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 		vim.cmd("PackerCompile")
 	end,
 })
+
+augroup("_CUSTOM_neorg", { clear = true })
+autocmd("FileType", {
+	group = "_CUSTOM_neorg",
+	pattern = "norg",
+	callback = function()
+		vim.api.nvim_buf_set_option(0, "shiftwidth", 2)
+		vim.api.nvim_buf_set_option(0, "tabstop", 2)
+	end,
+})
