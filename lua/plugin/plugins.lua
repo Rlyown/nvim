@@ -208,7 +208,10 @@ return packer.startup(function(use)
 	use({ "nvim-lualine/lualine.nvim" }) -- statusline plugin
 	use({ "goolord/alpha-nvim" }) -- a lua powered greeter
 	use({ "lukas-reineke/indent-blankline.nvim" }) -- Indent guides for Neovim
-	use({ "SmiteshP/nvim-gps" }) -- Simple statusline component that show code context
+	use({
+		"SmiteshP/nvim-navic",
+		requires = "neovim/nvim-lspconfig",
+	}) -- shows your current code context
 	use({ "mbbill/undotree", cmd = "UndotreeToggle" }) -- undo history visualizer
 	use({ "norcalli/nvim-colorizer.lua", ft = { "css", "javascript", "html" }, config = configs.colorizer }) -- The fastest Neovim colorizer.
 	use({

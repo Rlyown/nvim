@@ -83,6 +83,8 @@ local function lsp_keymaps(bufnr)
 	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({async=true})' ]])
 end
 
+local navic = require("nvim-navic")
+
 M.on_attach = function(client, bufnr)
 	if client.name == "tsserver" then
 		client.server_capabilities.document_formatting = false
@@ -92,6 +94,11 @@ M.on_attach = function(client, bufnr)
 	-- end
 	if client.name == "sumneko_lua" then
 		client.server_capabilities.document_formatting = false
+	end
+
+	-- navic
+	if client.server_capabilities.documentSymbolProvider then
+		navic.attach(client, bufnr)
 	end
 
 	lsp_keymaps(bufnr)

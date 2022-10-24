@@ -64,14 +64,6 @@ local location = {
 	padding = 0,
 }
 
-local function file_status()
-	if vim.bo.readonly then
-		return "[READ-ONLY ]"
-	else
-		return ""
-	end
-end
-
 -- cool function for progress
 local progress = function()
 	local current_line = vim.fn.line(".")
@@ -82,21 +74,14 @@ local progress = function()
 	return chars[index]
 end
 
-local spaces = function()
-	return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
-end
+local spaces = {
+	function()
+		return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+	end,
+}
 
-local function gps_content()
-	local gps_status_ok, gps = pcall(require, "nvim-gps")
-	if not gps_status_ok then
-		return
-	end
-	if gps.is_available() then
-		return gps.get_location()
-	else
-		return ""
-	end
-end
+local navic = require("nvim-navic")
+local navic_component = { navic.get_location, cond = navic.is_available }
 
 lualine.setup({
 	options = {
@@ -122,7 +107,7 @@ lualine.setup({
 	sections = {
 		lualine_a = { branch, diagnostics },
 		lualine_b = { mode },
-		lualine_c = { gps_content },
+		lualine_c = { navic_component },
 		-- lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_x = { diff, spaces, "encoding", filetype, filename },
 		lualine_y = { location },
@@ -137,5 +122,21 @@ lualine.setup({
 		lualine_z = {},
 	},
 	tabline = {},
+	winbar = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = {},
+		lualine_x = {},
+		lualine_y = {},
+		lualine_z = {},
+	},
+	inactive_winbar = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = {},
+		lualine_x = {},
+		lualine_y = {},
+		lualine_z = {},
+	},
 	extensions = { "toggleterm" },
 })
