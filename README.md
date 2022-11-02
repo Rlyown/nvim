@@ -51,24 +51,24 @@ Install the follow dependencies:
 
   ```shell
   $ brew install neovim ripgrep fd fortune lua sqlite
-    
+
   # Tools for language support
   # neovim-remote is not Required
   $ brew install llvm bear cmake lazygit golang rustup-init node@16 yarn gnu-sed boost checkmake
-    
+
   $ npm install -g neovim
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
   $ rustup-init
-    
+
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
   # the virtualenv python path is set in the lua/core/gvariable.lua
   $ pip3 install pynvim
-    
+
   # llvm should add to path manually
   # On Apple Sillcon
   $ echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
-    
+
   # If you want delete file to trash bin directory by nvim-tree
   $ brew install trash
   ```
@@ -94,63 +94,63 @@ Install the follow dependencies:
   ```shell
   # Install System denpendence
   $ sudo apt-get install software-properties-common curl gnupg git libreadline-dev
-  
+
   # Install Golang
   $ wget https://go.dev/dl/go1.18.linux-amd64.tar.gz
   $ sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
   # If you want to make go-bin-path persistent, write it to your ~/.bashrc
   $ export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH
-  
+
   # Install Rust
   $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   $ source $HOME/.cargo/env
-  
+
   # Install LLVM
   $ bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-  
+
   # add Node source (node version >= 14)
   $ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-  
+
   # Install neovim
   ## For Linux OpenSSL v1.1 and windows/macos users
-  $ cargo install --git https://github.com/MordechaiHadad/bob.git --features bob/openssl
+  $ cargo install --git https://github.com/MordechaiHadad/bob.git
   ## For OpenSSL v3.0.+ users
-  $ cargo install --git https://github.com/MordechaiHadad/bob.git --features bob/rustls
+  $ cargo install --git https://github.com/MordechaiHadad/bob.git
   $ bob use v0.8.0
   $ echo 'export PATH=$HOME/.local/share/nvim/bin:$PATH' >> ~/.bashrc
   $ source ~/.bashrc
-  
+
   # Install main packages
   $ sudo apt update
   $ sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.3 pandoc
-  
+
   # ote that the binary is called fdfind as the binary name fd is already used by another package.
   # Make sure that $HOME/.local/bin is in your $PATH
   $ mkdir -p ~/.local/bin
   $ ln -s $(which fdfind) ~/.local/bin/fd
-  
+
   # Tools for language support
   $ sudo apt-get update
   $ sudo apt install -y  bear cmake gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
-  
+
   # Install checkmake
   $ git clone https://github.com/mrtazz/checkmake
   $ cd checkmake && make && make install
   $ sudo cp -r usr /
-  
+
   # Mason plugin need venv support
   # change the python version to your default version
   $ PYTHON_VERSION=3.8
   $ sudo apt install python${PYTHON_VERSION}-venv
-  
+
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
   # the virtualenv python path is set in the lua/core/gvariable.lua
   $ pip3 install pynvim
-  
+
   # If you want delete file to trash bin directory by nvim-tree
   $ npm install --global trash-cli
   ```
@@ -184,27 +184,27 @@ Install the follow dependencies:
   $ sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
   # If you want to make go-bin-path persistent, write it to your ~/.bashrc
   $ export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH
-  
+
   # Install Rust
   $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   $ source $HOME/.cargo/env
-  
+
   # Add Node source (node version >= 14)
   $ curl -fsSL https://rpm.nodesource.com/setup_14.x | sudo bash -
-  
+
   # Install neovim
   ## For Linux OpenSSL v1.1 and windows/macos users
-  $ cargo install --git https://github.com/MordechaiHadad/bob.git --features bob/openssl
+  $ cargo install --git https://github.com/MordechaiHadad/bob.git
   ## For OpenSSL v3.0.+ users
-  $ cargo install --git https://github.com/MordechaiHadad/bob.git --features bob/rustls
+  $ cargo install --git https://github.com/MordechaiHadad/bob.git
   $ bob use v0.8.0
   $ echo 'export PATH=$HOME/.local/share/nvim/bin:$PATH' >> ~/.bashrc
   $ source ~/.bashrc
-  
+
   # Install ripgrep
   $ sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
   $ sudo yum install ripgrep
-  
+
   # Install fd-find
   $ wget https://github.com/sharkdp/fd/releases/download/v8.4.0/fd-v8.4.0-x86_64-unknown-linux-gnu.tar.gz
   $ tar xf fd-v*-x86_64-unknown-linux-gnu.tar.gz
@@ -216,24 +216,24 @@ Install the follow dependencies:
   $ sudo cp fd.1.gz /usr/share/man/man1
   $ sudo cp autocomplete/fd.bash /usr/share/bash-completion/completions/fd
   $ source /usr/share/bash-completion/completions/fd
-  
+
   # Install fortune-mod
   $ sudo dnf install -y fortune-mod
-  
+
   # Install compiledb to replace bear
   $ pip3 install compiledb
-  
+
   # Install yarn
   $ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
   $ sudo rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
   $ sudo yum install yarn
-  
+
   # Install Package
   $ sudo dnf install -y sqlite-devel sqlite boost-devel python3-devel
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
-  
+
   # Install checkmake
   $ wget https://github.com/jgm/pandoc/releases/download/2.19.2/pandoc-2.19.2-linux-amd64.tar.gz
   $ tar -zxvf pandoc-2.19.2-linux-amd64.tar.gz
@@ -242,12 +242,12 @@ Install the follow dependencies:
   $ git clone https://github.com/mrtazz/checkmake
   $ cd checkmake && make && make install
   $ sudo cp -r usr /
-  
+
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
   # the virtualenv python path is set in the lua/core/gvariable.lua
   $ pip3 install pynvim
-  
+
   # If you want delete file to trash bin directory by nvim-tree
   $ npm install --global trash-cli
   ```
