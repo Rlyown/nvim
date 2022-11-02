@@ -251,7 +251,6 @@ return packer.startup(function(use)
 		end,
 	})
 	use("jbyuki/nabla.nvim")
-	use("nvim-zh/colorful-winsep.nvim") -- Make your nvim window separators colorful
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
