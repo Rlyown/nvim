@@ -112,9 +112,6 @@ Install the follow dependencies:
   $ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 
   # Install neovim
-  ## For Linux OpenSSL v1.1 and windows/macos users
-  $ cargo install --git https://github.com/MordechaiHadad/bob.git
-  ## For OpenSSL v3.0.+ users
   $ cargo install --git https://github.com/MordechaiHadad/bob.git
   $ bob use v0.8.0
   $ echo 'export PATH=$HOME/.local/share/nvim/bin:$PATH' >> ~/.bashrc
@@ -193,9 +190,6 @@ Install the follow dependencies:
   $ curl -fsSL https://rpm.nodesource.com/setup_14.x | sudo bash -
 
   # Install neovim
-  ## For Linux OpenSSL v1.1 and windows/macos users
-  $ cargo install --git https://github.com/MordechaiHadad/bob.git
-  ## For OpenSSL v3.0.+ users
   $ cargo install --git https://github.com/MordechaiHadad/bob.git
   $ bob use v0.8.0
   $ echo 'export PATH=$HOME/.local/share/nvim/bin:$PATH' >> ~/.bashrc
