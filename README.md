@@ -105,11 +105,8 @@ Install the follow dependencies:
   $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   $ source $HOME/.cargo/env
 
-  # Install LLVM
-  $ bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-
   # add Node source (node version >= 14)
-  $ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+  $ curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt-get install -y nodejs
 
   # Install neovim
   $ cargo install --git https://github.com/MordechaiHadad/bob.git
@@ -119,7 +116,7 @@ Install the follow dependencies:
 
   # Install main packages
   $ sudo apt update
-  $ sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.3 pandoc
+  $ sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.
 
   # ote that the binary is called fdfind as the binary name fd is already used by another package.
   # Make sure that $HOME/.local/bin is in your $PATH
@@ -132,11 +129,6 @@ Install the follow dependencies:
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
-
-  # Install checkmake
-  $ git clone https://github.com/mrtazz/checkmake
-  $ cd checkmake && make && make install
-  $ sudo cp -r usr /
 
   # Mason plugin need venv support
   # change the python version to your default version
@@ -187,7 +179,7 @@ Install the follow dependencies:
   $ source $HOME/.cargo/env
 
   # Add Node source (node version >= 14)
-  $ curl -fsSL https://rpm.nodesource.com/setup_14.x | sudo bash -
+  $ curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
 
   # Install neovim
   $ cargo install --git https://github.com/MordechaiHadad/bob.git
@@ -195,21 +187,8 @@ Install the follow dependencies:
   $ echo 'export PATH=$HOME/.local/share/nvim/bin:$PATH' >> ~/.bashrc
   $ source ~/.bashrc
 
-  # Install ripgrep
-  $ sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
-  $ sudo yum install ripgrep
-
-  # Install fd-find
-  $ wget https://github.com/sharkdp/fd/releases/download/v8.4.0/fd-v8.4.0-x86_64-unknown-linux-gnu.tar.gz
-  $ tar xf fd-v*-x86_64-unknown-linux-gnu.tar.gz
-  $ chown -R root:root fd-v*-x86_64-unknown-linux-gnu
-  $ cd fd-v*-x86_64-unknown-linux-gnu
-  $ sudo cp fd /bin
-  $ gzip fd.1
-  $ chown root:root fd.1.gz
-  $ sudo cp fd.1.gz /usr/share/man/man1
-  $ sudo cp autocomplete/fd.bash /usr/share/bash-completion/completions/fd
-  $ source /usr/share/bash-completion/completions/fd
+  # Install ripgrep and fd
+  $ cargo install ripgrep fd-find
 
   # Install fortune-mod
   $ sudo dnf install -y fortune-mod
@@ -227,15 +206,6 @@ Install the follow dependencies:
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
-
-  # Install checkmake
-  $ wget https://github.com/jgm/pandoc/releases/download/2.19.2/pandoc-2.19.2-linux-amd64.tar.gz
-  $ tar -zxvf pandoc-2.19.2-linux-amd64.tar.gz
-  $ cd pandoc-2.19.2
-  $ sudo cp -r bin /usr/local && sudo cp -r share /usr/local
-  $ git clone https://github.com/mrtazz/checkmake
-  $ cd checkmake && make && make install
-  $ sudo cp -r usr /
 
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set

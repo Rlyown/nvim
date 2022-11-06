@@ -59,7 +59,6 @@ null_ls.setup({
 
 		-- diagnostics
 		-- diagnostics.markdownlint
-		diagnostics.checkmake,
 		-- diagnostics.flake8
 	},
 })
