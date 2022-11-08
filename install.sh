@@ -14,6 +14,7 @@ GOLANG=
 NODE=
 PYTHON=
 PIP=
+LLVM=
 CUR_SHELL_CONFIG=
 NEOVIM_VERSION=0.8.0
 
@@ -46,6 +47,7 @@ function help() {
     echo "             MacOS: Homebrew will be used to install dependencies"
 	echo "    -u     Update configuration files"
 	echo "    -c     Container mode."
+    echo "    -y     Assume yes to all prompts"
 }
 
 ##############################
@@ -56,11 +58,12 @@ function check_os() {
 		OS="mac"
 	elif [ "${PLATFORM}" == "linux" ]; then
         if [[ $CONTAINER == 1 ]]; then
-            local result=$(grep -o -E 'Red Hat|Ubuntu' /etc/issue | uniq | head -n 1)
+            local version_file=/etc/issue
         else
-            local result=$(grep -o -E 'Red Hat|Ubuntu' /proc/version | uniq | head -n 1)
+            local version_file=/proc/version
         fi
 
+        local result=$(grep -o -E 'Red Hat|Ubuntu' ${version_file} | uniq | head -n 1)
         case $result in
             "Red Hat")
                 OS="rhel"
@@ -89,13 +92,48 @@ function check_homebrew() {
         if ! command -v brew >/dev/null 2>&1; then
             errcho "Homebrew is not installed"
 
+            if [[ $ACCEPT -eq 1 ]]; then
+                install_homebrew
+            else
+                while true; do
+                    local input=$(read_input "Do you want to local install homebrew now? [y/n]: " "n")
+
+                    case $input in
+                    [yY][eE][sS] | [yY])
+                        install_homebrew
+                        HOMEBREW=$(command -v brew)
+                        break
+                        ;;
+
+                    [nN][oO] | [nN])
+                        exit 1
+                        ;;
+                    *)
+                        errcho "Invalid input..."
+                        ;;
+                    esac
+                done
+            fi
+        else
+            HOMEBREW=$(command -v brew)
+        fi
+    fi
+}
+
+function check_cargo() {
+    if ! command -v cargo &> /dev/null; then
+        errcho "cargo is not installed! Please install rust first."
+
+        if [[ $ACCEPT -eq 1 ]]; then
+            install_rust
+        else
             while true; do
-                local input=$(read_input "Do you want to local install homebrew now? [y/n]: " "n")
+                local input=$(read_input "Do you want to local install rust now? [y/n]: " "n")
 
                 case $input in
                 [yY][eE][sS] | [yY])
-                    install_homebrew
-                    HOMEBREW=$(command -v brew)
+                    install_rust
+                    CARGO=$(command -v cargo)
                     break
                     ;;
 
@@ -107,34 +145,7 @@ function check_homebrew() {
                     ;;
                 esac
             done
-        else
-            HOMEBREW=$(command -v brew)
         fi
-    fi
-}
-
-function check_cargo() {
-    if ! command -v cargo &> /dev/null; then
-        errcho "cargo is not installed! Please install rust first."
-
-		while true; do
-            local input=$(read_input "Do you want to local install rust now? [y/n]: " "n")
-
-            case $input in
-            [yY][eE][sS] | [yY])
-                install_rust
-                CARGO=$(command -v cargo)
-                break
-                ;;
-
-            [nN][oO] | [nN])
-                exit 1
-                ;;
-            *)
-                errcho "Invalid input..."
-                ;;
-            esac
-        done
     else
         CARGO=$(command -v cargo)
     fi
@@ -144,24 +155,28 @@ function check_go() {
     if ! command -v go &> /dev/null; then
         errcho "go is not installed! Please install go first."
 
-        while true; do
-            local input=$(read_input "Do you want to install go now? [y/n]: " "n")
+        if [[ $ACCEPT -eq 1 ]]; then
+            install_go
+        else
+            while true; do
+                local input=$(read_input "Do you want to local install go now? [y/n]: " "n")
 
-            case $input in
-            [yY][eE][sS] | [yY])
-                install_go
-                GOLANG=$(command -v go)
-                break
-                ;;
+                case $input in
+                [yY][eE][sS] | [yY])
+                    install_go
+                    GOLANG=$(command -v go)
+                    break
+                    ;;
 
-            [nN][oO] | [nN])
-                exit 1
-                ;;
-            *)
-                errcho "Invalid input..."
-                ;;
-            esac
-        done
+                [nN][oO] | [nN])
+                    exit 1
+                    ;;
+                *)
+                    errcho "Invalid input..."
+                    ;;
+                esac
+            done
+        fi
     else
         GOLANG=$(command -v go)
     fi
@@ -171,100 +186,148 @@ function check_node() {
     if ! command -v node &> /dev/null; then
         errcho "node is not installed! Please install node first."
 
-        while true; do
-            local input=$(read_input "Do you want to install node now? [y/n]: " "y")
+        if [[ $ACCEPT -eq 1 ]];then
+            install_node
+        else
+            while true; do
+                local input=$(read_input "Do you want to local install node now? [y/n]: " "n")
 
-            case $input in
-            [yY][eE][sS] | [yY])
-                install_node
-                NODE=$(command -v node)
-                break
-                ;;
+                case $input in
+                [yY][eE][sS] | [yY])
+                    install_node
+                    NODE=$(command -v node)
+                    break
+                    ;;
 
-            [nN][oO] | [nN])
-                exit 1
-                ;;
-            *)
-                errcho "Invalid input..."
-                ;;
-            esac
-        done
+                [nN][oO] | [nN])
+                    exit 1
+                    ;;
+                *)
+                    errcho "Invalid input..."
+                    ;;
+                esac
+            done
+        fi
     elif [[ ${$(node -v)%%.*} -gt 16 ]]; then
         errcho "node version is too high! Node 16.x is required for copilot!"
-        while true; do
-            local input=$(read_input "Do you want to install node 16.x now? [y/n]: " "n")
+        
+        if [[ $ACCEPT -eq 1 ]]; then
+            install_node16 0
+        else
+            while true; do
+                local input=$(read_input "Do you want to install node 16.x now? [y/n]: " "n")
 
-            case $input in
-            [yY][eE][sS] | [yY])
-                install_node16 0
-                NODE=$(command -v node)
-                break
-                ;;
+                case $input in
+                [yY][eE][sS] | [yY])
+                    install_node16 0
+                    NODE=$(command -v node)
+                    break
+                    ;;
 
-            [nN][oO] | [nN])
-                exit 1
-                ;;
-            *)
-                errcho "Invalid input..."
-                ;;
-            esac
-        done
+                [nN][oO] | [nN])
+                    exit 1
+                    ;;
+                *)
+                    errcho "Invalid input..."
+                    ;;
+                esac
+            done
+        fi
     else
         NODE=$(command -v node)
     fi
 }
 
 function check_python() {
-    if ! command -v python &> /dev/null; then
+    if ! command -v python3 &> /dev/null; then
         errcho "python is not installed! Please install python first."
 
-        while true; do
-            local input=$(read_input "Do you want to install python now? [y/n]: " "n")
+        if [[ $ACCEPT -eq 1 ]]; then
+            install_python
+        else
+            while true; do
+                local input=$(read_input "Do you want to local install python now? [y/n]: " "n")
 
-            case $input in
-            [yY][eE][sS] | [yY])
-                install_python
-                PYTHON=$(command -v python)
-                break
-                ;;
+                case $input in
+                [yY][eE][sS] | [yY])
+                    install_python
+                    PYTHON=$(command -v python3)
+                    break
+                    ;;
 
-            [nN][oO] | [nN])
-                exit 1
-                ;;
-            *)
-                errcho "Invalid input..."
-                ;;
-            esac
-        done
+                [nN][oO] | [nN])
+                    exit 1
+                    ;;
+                *)
+                    errcho "Invalid input..."
+                    ;;
+                esac
+            done
+        fi
     else
-        PYTHON=$(command -v python)
+        PYTHON=$(command -v python3)
     fi
 }
 
 function check_pip() {
-    if ! command -v pip &> /dev/null; then
+    if ! command -v pip3 &> /dev/null; then
         errcho "pip is not installed! Please install pip first."
 
-        while true; do
-            local input=$(read_input "Do you want to install pip now? [y/n]: " "n")
+        if [[ $ACCEPT -eq 1 ]]; then
+            install_pip
+        else
+            while true; do
+                local input=$(read_input "Do you want to local install pip now? [y/n]: " "n")
 
-            case $input in
-            [yY][eE][sS] | [yY])
-                install_pip
-                PIP=$(command -v pip)
-                break
-                ;;
+                case $input in
+                [yY][eE][sS] | [yY])
+                    install_pip
+                    PIP=$(command -v pip3)
+                    break
+                    ;;
 
-            [nN][oO] | [nN])
-                exit 1
-                ;;
-            *)
-                errcho "Invalid input..."
-                ;;
-            esac
-        done
+                [nN][oO] | [nN])
+                    exit 1
+                    ;;
+                *)
+                    errcho "Invalid input..."
+                    ;;
+                esac
+            done
+        fi
     else
-        PIP=$(command -v pip)
+        PIP=$(command -v pip3)
+    fi
+}
+
+function check_llvm() {
+    if ! command -v llvm-config &> /dev/null; then
+        errcho "llvm is not installed! Please install llvm first."
+
+        if [[ $ACCEPT -eq 1 ]]; then
+            install_llvm
+        else
+            while true; do
+                local input=$(read_input "Do you want to local install llvm now? [y/n]: " "n")
+
+                case $input in
+                [yY][eE][sS] | [yY])
+                    install_llvm
+                    LLVM=$(command -v llvm-config)
+                    break
+                    ;;
+
+                [nN][oO] | [nN])
+                    exit 1
+                    ;;
+                *)
+                    errcho "Invalid input..."
+                    ;;
+                esac
+            done
+        fi
+    else
+        LLVM=$(command -v llvm-config)
     fi
 }
 
@@ -276,9 +339,10 @@ function show_info() {
     echo_green "* Cargo: $CARGO"
     echo_green "* Golang: $GOLANG"
     echo_green "* Node: $NODE"
-    echo_green "* Python: $PYTHON"
+    echo_green "* Python3: $PYTHON"
     echo_green "* Shell config: $CUR_SHELL_CONFIG"
-    echo_green "* Pip: $PIP"
+    echo_green "* Pip3: $PIP"
+    echo_green "* LLVM: $LLVM"
 }
 
 function check_all() {
@@ -293,8 +357,6 @@ function check_all() {
 
 }
 
-
-
 ##############################
 # Update
 ##############################
@@ -308,31 +370,41 @@ function update() {
 	git pull origin main:main
 	if [[ $? -ne 0 ]]; then
 		errcho "Pull remote main error\!"
-		while true; do
-            local input=$(read_input "Do you want to force pull, and discard local changes? [Y/n]: ")
 
-			case $input in
-			[yY][eE][sS] | [yY])
-				git checkout main
-				git reset --hard
-				git fetch origin main
-				git merge
-				if [[ $? -ne 0 ]]; then
-					errcho "git merge remote main failed\!"
-					exit 1
-				fi
-				break
-				;;
+        if [[ $ACCEPT -eq 1 ]]; then
+            echo_green "Force update..."
+            errcho "Warning: Force update will discard all local changes!"
+            git checkout main
+            git reset --hard
+            git fetch origin main
+            git merge
+        else
+            while true; do
+                local input=$(read_input "Do you want to force pull, and discard local changes? [Y/n]: ")
 
-			[nN][oO] | [nN])
-				exit 0
-				;;
+                case $input in
+                [yY][eE][sS] | [yY])
+                    git checkout main
+                    git reset --hard
+                    git fetch origin main
+                    git merge
+                    if [[ $? -ne 0 ]]; then
+                        errcho "git merge remote main failed\!"
+                        exit 1
+                    fi
+                    break
+                    ;;
 
-			*)
-				errcho "Invalid input..."
-				;;
-			esac
-		done
+                [nN][oO] | [nN])
+                    exit 0
+                    ;;
+
+                *)
+                    errcho "Invalid input..."
+                    ;;
+                esac
+            done
+        fi
 	fi
 
 }
@@ -361,13 +433,17 @@ function install_homebrew() {
 
 function install_rust() {
     echo_green "Installing rust..."
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    if [[ $ACCEPT -eq 1 ]]; then
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    else
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    fi
     source $HOME/.cargo/env
 
     echo_green "Successfully installed rust to $HOME/.cargo !"
 }
 
-function install_golang() {
+function install_go() {
     echo_green "Installing golang..."
 
     if [[ "$OS" == "mac" ]]; then
@@ -492,6 +568,33 @@ function install_node() {
     fi
 }
 
+function install_llvm() {
+    echo_green "Installing llvm..."
+    local LLVM_DIR="llvm"
+
+    if [[ $ARCH == "x86_64" ]]; then
+        local arch="X86"
+    elif [[ $ARCH == "arm64" ]]; then
+        local arch="AArch64"
+    fi
+
+    git clone https://github.com/llvm/llvm-project.git /tmp/llvm-project
+    
+    pushd /tmp/llvm-project
+    cmake -S llvm -B build -G Ninja \
+        -DLLVM_ENABLE_PROJECTS="clang;lldb" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
+        -DLLVM_TARGETS_TO_BUILD=$arch \ 
+        -DCMAKE_INSTALL_PREFIX=$HOME/.local/${LLVM_DIR}
+    cmake --build build --target install
+
+    echo_green "Set llvm path to $HOME/.local/$LLVM_DIR in $CUR_SHELL_CONFIG"
+    echo 'export PATH=$HOME/.local/'$LLVM_DIR'/bin:$PATH' >> $CUR_SHELL_CONFIG
+    export PATH=$HOME/.local/$LLVM_DIR/bin:$PATH
+
+    echo_green "Successfully installed llvm to $HOME/.local/$LLVM_DIR !"
+}
 
 function install_bob() {
     echo_green "Installing neovim version control bob..."
@@ -572,16 +675,11 @@ function install_ubuntu() {
 }
 
 function install_rhel() {
-    # install yarn
-    curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
-    sudo rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
-    sudo yum install yarn
-
     sudo dnf install -y fortune-mod sqlite-devel sqlite boost-devel python3-devel
 
     cargo install ripgrep fd-find
     pip3 install compiledb pynvim --user
-    sudo npm install -g neovim trash-cli
+    sudo npm install -g neovim trash-cli yarn
     go install github.com/jesseduffield/lazygit@latest
     go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
 }
@@ -622,6 +720,7 @@ function install() {
 CONTAINER=0
 INSTALL=0
 UPDATE=0
+ACCEPT=0
 while getopts "hibuc" opt; do
 	case $opt in
 	h)
@@ -636,6 +735,8 @@ while getopts "hibuc" opt; do
 		;;
     c)
         CONTAINER=1
+    y)
+        ACCEPT=1
         ;;
 	*)
         errcho "Invalid option: -$OPTARG"
