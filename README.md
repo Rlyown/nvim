@@ -102,7 +102,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   ```shell
   # Install System denpendence
-  $ sudo apt-get install software-properties-common curl gnupg git libreadline-dev
+  $ sudo apt-get install software-properties-common curl gnupg git libreadline-dev openssl libssl-dev
 
   # Install Golang
   $ wget https://go.dev/dl/go1.18.linux-amd64.tar.gz
@@ -208,6 +208,9 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
   $ sudo rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
   $ sudo yum install yarn
+
+  # Install Openssl
+  $ sudo yum install -y openssl openssl-devel
 
   # Install neovim
   $ cargo install --git https://github.com/MordechaiHadad/bob.git
