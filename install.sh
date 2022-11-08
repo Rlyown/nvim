@@ -598,12 +598,14 @@ function install_llvm() {
 function install_bob() {
 	echo_green "Installing neovim version control bob..."
 
-	if [[ $OS == "mac" ]]; then
-		brew install openssl
-	elif [[ $OS == "rhel" ]]; then
-		sudo yum install -y openssl openssl-devel
-	elif [[ $OS == "ubuntu" ]]; then
-		sudo apt-get install -y openssl libssl-dev
+	if ! command -v openssl &>/dev/null; then
+		if [[ $OS == "mac" ]]; then
+			brew install openssl
+		elif [[ $OS == "rhel" ]]; then
+			sudo yum install -y openssl openssl-devel
+		elif [[ $OS == "ubuntu" ]]; then
+			sudo apt-get install -y openssl libssl-dev
+		fi
 	fi
 
 	cargo install --git https://github.com/MordechaiHadad/bob.git
