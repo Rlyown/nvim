@@ -51,7 +51,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 - [Python3](https://www.python.org/downloads/) with [pip](https://pip.pypa.io/en/stable/installation/) and `venv` (for some plugins)
 - [Nodejs](https://github.com/nodesource/distributions) 16 (for copilot.vim and some installations of dependencies)
 - [Golang](https://go.dev/doc/install) 1.18 or higher (for some installations of dependencies and developments)
-- [llbd_vscode](https://github.com/llvm/llvm-project) (for debug)
+- [lldb_vscode](https://github.com/llvm/llvm-project) (for debug)
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) (for markdown preview plugin)
 
 **Install the follow dependencies**:
@@ -118,7 +118,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt-get install -y nodejs
 
   # Install llvm
-  $ bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+  $ sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
   # Install neovim
   $ cargo install --git https://github.com/MordechaiHadad/bob.git
@@ -193,7 +193,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   # Add Node source (node version >= 14)
   $ curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
 
-  # Install llvm
+  # Compile and install llvm
   git clone https://github.com/llvm/llvm-project.git /tmp/llvm-project
   pushd /tmp/llvm-project
   cmake -S llvm -B build -G Ninja \

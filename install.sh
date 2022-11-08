@@ -26,7 +26,7 @@ function echo_green() {
 }
 
 function errcho() {
-	>&2 echo -e "\033[31m$1\033[0m"
+	echo >&2 -e "\033[31m$1\033[0m"
 }
 
 function read_input() {
@@ -42,11 +42,9 @@ function read_input() {
 function help() {
 	echo "Usage: $0 [options]"
 	echo "    -h     Show this help"
-	echo "    -i     Install. "
-    echo "             Linux: Language dependencies will try to be installed in \$HOME/.local, if not found in \$PATH"
-    echo "             MacOS: Homebrew will be used to install dependencies"
+    echo "    -i     Install (Require Privilege)"
 	echo "    -u     Update configuration files"
-	echo "    -c     Container mode."
+	echo "    -c     Container mode"
     echo "    -y     Assume yes to all prompts"
 }
 
@@ -212,14 +210,14 @@ function check_node() {
         errcho "node version is too high! Node 16.x is required for copilot!"
         
         if [[ $ACCEPT -eq 1 ]]; then
-            install_node16 0
+            install_node16
         else
             while true; do
                 local input=$(read_input "Do you want to install node 16.x now? [y/n]: " "n")
 
                 case $input in
                 [yY][eE][sS] | [yY])
-                    install_node16 0
+                    install_node16
                     NODE=$(command -v node)
                     break
                     ;;
@@ -457,49 +455,64 @@ function install_go() {
 
         local GO_VERSION="1.19.3"
         local GO_TAR="go${GO_VERSION}.${PLATFORM}-${arch}.tar.gz"
-        local GO_URL="https://golang.org/dl/$GO_TAR"
+        # local GO_URL="https://golang.org/dl/$GO_TAR"
+        local GO_URL="https://studygolang.com/dl/golang/$GO_TAR"
         local GO_DIR="go"
 
         wget -O $GO_TAR $GO_URL
-        tar -C $HOME/.local -xzf $GO_TAR
+        tar -C /usr/local -xzf $GO_TAR
         rm -rf $GO_TAR
 
         mkdir -p $HOME/go/bin
         echo_green "Set GOPATH to $HOME/go in $CUR_SHELL_CONFIG"
         echo 'export GOPATH=$HOME/go' >> $CUR_SHELL_CONFIG
-        echo 'export PATH=$HOME/.local/'$GO_DIR'/bin:$GOPATH/bin:$PATH' >> $CUR_SHELL_CONFIG
+        echo 'export PATH=/usr/local/'$GO_DIR'/bin:$GOPATH/bin:$PATH' >> $CUR_SHELL_CONFIG
 
         export GOPATH=$HOME/go
-        export PATH=$HOME/.local/$GO_DIR/bin:$GOPATH/bin:$PATH
+        export PATH=/usr/local/$GO_DIR/bin:$GOPATH/bin:$PATH
 
         echo_green "Successfully installed golang to $HOME/.local/$GO_DIR !"
     fi
 }
 
 function install_node16() {
-    echo_green "Installing node 16 for copilot..."
-    # https://github.com/nodesource/distributions
+    echo_green "Installing node 16 (local) for copilot..."
 
-    local VERSION="v16.13.0"
+    if [[ $OS == "mac" ]]; then
+        brew install node@16
+    else
+        local VERSION="v16.13.0"
 
-    if [[ $ARCH == "x86_64" ]]; then
-        local arch="x64"
-    elif [[ $ARCH == "aarch64" ]]; then
-        local arch="arm64"
-    fi
-    local DISTRO="$PLATFORM-$arch"
+        if [[ $ARCH == "x86_64" ]]; then
+            local arch="x64"
+        elif [[ $ARCH == "aarch64" ]]; then
+            local arch="arm64"
+        fi
+        local DISTRO="$PLATFORM-$arch"
 
-    mkdir -p $HOME/.local/node
-    wget -O $HOME/.local/node/node.tar.gz https://nodejs.org/dist/$VERSION/node-$VERSION-$DISTRO.tar.gz
-    tar -C $HOME/.local/node -xzf $HOME/.local/node/node.tar.gz
-    rm -rf $HOME/.local/node/node.tar.gz
+        mkdir -p $HOME/.local/node
+        wget -O $HOME/.local/node/node.tar.gz https://nodejs.org/dist/$VERSION/node-$VERSION-$DISTRO.tar.gz
+        tar -C $HOME/.local/node -xzf $HOME/.local/node/node.tar.gz
+        rm -rf $HOME/.local/node/node.tar.gz
 
-    if [[ $1 -eq 1 ]]; then
         echo_green "Set node path to $HOME/.local/node/node-$VERSION-$DISTRO in $CUR_SHELL_CONFIG"
         echo 'export PATH=$HOME/.local/node/node-$VERSION-$DISTRO/bin:$PATH' >> $CUR_SHELL_CONFIG
         export PATH=$HOME/.local/node/node-$VERSION-$DISTRO/bin:$PATH
+        echo_green "Successfully installed node to $HOME/.local/node/node-$VERSION-$DISTRO !"
     fi
-    echo_green "Successfully installed node to $HOME/.local/node/node-$VERSION-$DISTRO !"
+}
+
+function install_node() {
+    echo_green "Installing node 16..."
+
+    if [[ $OS == "mac" ]]; then
+        install_node16
+    elif [[ $OS == "rhel" ]]; then
+        curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
+    elif [[ $OS == "ubuntu" ]]; then
+        curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+        sudo apt-get install -y nodejs
+    fi
 }
 
 function install_python() {
@@ -507,33 +520,10 @@ function install_python() {
 
     if [[ "$OS" == "mac" ]]; then
         brew install python3
-    else
-        if [[ $ARCH == "x86_64" ]]; then
-            local arch="amd64"
-        elif [[ $ARCH == "aarch64" ]]; then
-            local arch="arm64"
-        fi
-
-        local PYTHON_VERSION="3.10.0"
-        local PYTHON_TAR="Python-$PYTHON_VERSION.tgz"
-        local PYTHON_URL="https://www.python.org/ftp/python/$PYTHON_VERSION/$PYTHON_TAR"
-        local PYTHON_DIR="Python-$PYTHON_VERSION"
-
-        wget -O $PYTHON_TAR $PYTHON_URL
-        tar -C $HOME/.local -xzf $PYTHON_TAR
-        rm -rf $PYTHON_TAR
-
-        cd $HOME/.local/$PYTHON_DIR
-        ./configure --prefix=$HOME/.local/$PYTHON_DIR
-        make
-        make install
-        cd -
-
-        echo_green "Set python path to $HOME/.local/$PYTHON_DIR in $CUR_SHELL_CONFIG"
-        echo 'export PATH=$HOME/.local/'$PYTHON_DIR'/bin:$PATH' >> $CUR_SHELL_CONFIG
-        export PATH=$HOME/.local/$PYTHON_DIR/bin:$PATH
-
-        echo_green "Successfully installed python to $HOME/.local/$PYTHON_DIR !"
+    elif [[ $OS == "rhel" ]]; then
+        sudo yum install -y python3
+    elif [[ $OS == "ubuntu" ]]; then
+        sudo apt-get install -y python3 python3-pip python3-venv
     fi
 }
 
@@ -558,42 +548,43 @@ function install_pip() {
     echo_green "Successfully installed pip3 to $HOME/.local/$PIP_DIR !"
 }
 
-function install_node() {
-    echo_green "Installing node 16..."
-
-    if [[ $OS == "mac" ]]; then
-        brew install node@16
-    else
-        install_node16 1
-    fi
-}
 
 function install_llvm() {
     echo_green "Installing llvm..."
-    local LLVM_DIR="llvm"
 
-    if [[ $ARCH == "x86_64" ]]; then
-        local arch="X86"
-    elif [[ $ARCH == "arm64" ]]; then
-        local arch="AArch64"
+    if [[ $OS == "mac" ]]; then
+        brew install llvm
+    elif [[ $OS == "rhel" ]]; then
+        local LLVM_DIR="llvm"
+
+        if [[ $ARCH == "x86_64" ]]; then
+            local arch="X86"
+        elif [[ $ARCH == "arm64" ]]; then
+            local arch="AArch64"
+        fi
+
+        git clone https://github.com/llvm/llvm-project.git /tmp/llvm-project
+        
+        pushd /tmp/llvm-project
+        cmake -S llvm -B build -G Ninja \
+            -DLLVM_ENABLE_PROJECTS="clang;lldb" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
+            -DLLVM_TARGETS_TO_BUILD=$arch \ 
+            -DCMAKE_INSTALL_PREFIX=$HOME/.local/${LLVM_DIR}
+        cmake --build build --target install
+
+        echo_green "Set llvm path to $HOME/.local/$LLVM_DIR in $CUR_SHELL_CONFIG"
+        echo 'export PATH=$HOME/.local/'$LLVM_DIR'/bin:$PATH' >> $CUR_SHELL_CONFIG
+        export PATH=$HOME/.local/$LLVM_DIR/bin:$PATH
+
+        echo_green "Successfully installed llvm to $HOME/.local/$LLVM_DIR !"
+    elif [[ $OS == "ubuntu" ]]; then
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 14
+        ln -s /usr/bin/lldb-vscode-14 /usr/bin/lldb-vscode
     fi
-
-    git clone https://github.com/llvm/llvm-project.git /tmp/llvm-project
-    
-    pushd /tmp/llvm-project
-    cmake -S llvm -B build -G Ninja \
-        -DLLVM_ENABLE_PROJECTS="clang;lldb" \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
-        -DLLVM_TARGETS_TO_BUILD=$arch \ 
-        -DCMAKE_INSTALL_PREFIX=$HOME/.local/${LLVM_DIR}
-    cmake --build build --target install
-
-    echo_green "Set llvm path to $HOME/.local/$LLVM_DIR in $CUR_SHELL_CONFIG"
-    echo 'export PATH=$HOME/.local/'$LLVM_DIR'/bin:$PATH' >> $CUR_SHELL_CONFIG
-    export PATH=$HOME/.local/$LLVM_DIR/bin:$PATH
-
-    echo_green "Successfully installed llvm to $HOME/.local/$LLVM_DIR !"
 }
 
 function install_bob() {
@@ -678,7 +669,7 @@ function install_rhel() {
     sudo dnf install -y fortune-mod sqlite-devel sqlite boost-devel python3-devel
 
     cargo install ripgrep fd-find
-    pip3 install compiledb pynvim --user
+    pip3 install compiledb pynvim
     sudo npm install -g neovim trash-cli yarn
     go install github.com/jesseduffield/lazygit@latest
     go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -721,7 +712,7 @@ CONTAINER=0
 INSTALL=0
 UPDATE=0
 ACCEPT=0
-while getopts "hibuc" opt; do
+while getopts "hibucy" opt; do
 	case $opt in
 	h)
 		help
@@ -735,6 +726,7 @@ while getopts "hibuc" opt; do
 		;;
     c)
         CONTAINER=1
+        ;;
     y)
         ACCEPT=1
         ;;
