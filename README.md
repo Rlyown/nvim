@@ -102,7 +102,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   ```shell
   # Install System denpendence
-  $ sudo apt-get install software-properties-common curl gnupg git libreadline-dev openssl libssl-dev
+  $ sudo apt-get install curl git openssl libssl-dev
 
   # Install Golang
   $ wget https://go.dev/dl/go1.18.linux-amd64.tar.gz
@@ -256,7 +256,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   ```sh
   # Get zeal, an offline documentation browser
-  sudo apt-get install zeal
+  sudo dnf install zeal
   ```
 
    </p>

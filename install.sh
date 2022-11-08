@@ -43,7 +43,7 @@ function read_input() {
 function help() {
 	echo "Usage: $0 [options]"
 	echo "    -h     Show this help"
-	echo "    -i     Install (Require Privilege)"
+	echo "    -i     Install"
 	echo "    -u     Update configuration files"
 	echo "    -c     Container mode"
 	echo "    -y     Assume yes to all prompts"
@@ -100,7 +100,7 @@ function check_homebrew() {
 					case $input in
 					[yY][eE][sS] | [yY])
 						install_homebrew
-						HOMEBREW=$(command -v brew)
+						HOMEBREW=$(which brew)
 						break
 						;;
 
@@ -132,7 +132,7 @@ function check_cargo() {
 				case $input in
 				[yY][eE][sS] | [yY])
 					install_rust
-					CARGO=$(command -v cargo)
+					CARGO=$(which cargo)
 					break
 					;;
 
@@ -163,7 +163,7 @@ function check_go() {
 				case $input in
 				[yY][eE][sS] | [yY])
 					install_go
-					GOLANG=$(command -v go)
+					GOLANG=$(which go)
 					break
 					;;
 
@@ -194,7 +194,7 @@ function check_node() {
 				case $input in
 				[yY][eE][sS] | [yY])
 					install_node
-					NODE=$(command -v node)
+					NODE=$(which node)
 					break
 					;;
 
@@ -207,7 +207,7 @@ function check_node() {
 				esac
 			done
 		fi
-	elif [[ $(node -v | grep -o v16 | uniq | head -n 1) == v16 ]]; then
+	elif [[ $(node -v | sed -r "s/v([0-9]+).[0-9]+.*/\1/g") -gt 16 ]]; then
 		errcho "node version is too high! Node 16.x is required for copilot!"
 
 		if [[ $ACCEPT -eq 1 ]]; then
@@ -219,7 +219,7 @@ function check_node() {
 				case $input in
 				[yY][eE][sS] | [yY])
 					install_node16
-					NODE=$(command -v node)
+					NODE=$(which node)
 					break
 					;;
 
@@ -250,7 +250,7 @@ function check_python() {
 				case $input in
 				[yY][eE][sS] | [yY])
 					install_python
-					PYTHON=$(command -v python3)
+					PYTHON=$(which python3)
 					break
 					;;
 
@@ -281,7 +281,7 @@ function check_pip() {
 				case $input in
 				[yY][eE][sS] | [yY])
 					install_pip
-					PIP=$(command -v pip3)
+					PIP=$(which pip3)
 					break
 					;;
 
@@ -312,7 +312,8 @@ function check_llvm() {
 				case $input in
 				[yY][eE][sS] | [yY])
 					install_llvm
-					LLVM=$(command -v llvm-config)
+					LLVM=$(which llvm-config)
+					LLVM=${LLVM:-$(which llvm-config-14)}
 					break
 					;;
 
@@ -327,6 +328,7 @@ function check_llvm() {
 		fi
 	else
 		LLVM=$(command -v llvm-config)
+		LLVM=${LLVM:-$(command -v llvm-config-14)}
 	fi
 }
 
@@ -342,6 +344,7 @@ function show_info() {
 	echo_green "* Shell config: $CUR_SHELL_CONFIG"
 	echo_green "* Pip3: $PIP"
 	echo_green "* LLVM: $LLVM"
+	echo_green "* Path: $PATH"
 }
 
 function check_all() {
@@ -533,22 +536,18 @@ function install_python() {
 function install_pip() {
 	echo_green "Installing pip3..."
 
-	if [[ $ARCH == "x86_64" ]]; then
-		local arch="amd64"
-	elif [[ $ARCH == "aarch64" ]]; then
-		local arch="arm64"
+	if [[ $OS == "ubuntu" ]]; then
+		sudo apt-get install -y python3-pip
+	else
+		local PIP_TAR="get-pip.py"
+		local PIP_URL="https://bootstrap.pypa.io/get-pip.py"
+
+		wget -O $PIP_TAR $PIP_URL
+		python3 $PIP_TAR
+		rm -rf $PIP_TAR
+
+		echo_green "Successfully installed pip3 to $HOME/.local/$PIP_DIR !"
 	fi
-
-	local PIP_VERSION="21.3.1"
-	local PIP_TAR="get-pip.py"
-	local PIP_URL="https://bootstrap.pypa.io/pip/$PIP_VERSION/$PIP_TAR"
-	local PIP_DIR="pip"
-
-	wget -O $PIP_TAR $PIP_URL
-	python3 $PIP_TAR
-	rm -rf $PIP_TAR
-
-	echo_green "Successfully installed pip3 to $HOME/.local/$PIP_DIR !"
 }
 
 function install_llvm() {
@@ -559,21 +558,28 @@ function install_llvm() {
 	elif [[ $OS == "rhel" ]]; then
 		local LLVM_DIR="llvm"
 
-		if [[ $ARCH == "x86_64" ]]; then
-			local arch="X86"
-		elif [[ $ARCH == "arm64" ]]; then
-			local arch="AArch64"
-		fi
-
-		git clone https://github.com/llvm/llvm-project.git /tmp/llvm-project
+		git clone --depth 1 --branch release/14.x https://github.com/llvm/llvm-project.git /tmp/llvm-project
 
 		pushd /tmp/llvm-project
 		cmake -S llvm -B build -G Ninja \
-			-DLLVM_ENABLE_PROJECTS="clang;lldb" \
 			-DCMAKE_BUILD_TYPE=Release \
+			-DLLVM_ENABLE_PROJECTS="clang;lldb" \
 			-DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
-			-DLLVM_TARGETS_TO_BUILD=$arch \ 
-		-DCMAKE_INSTALL_PREFIX=$HOME/.local/${LLVM_DIR}
+			-DLLVM_TARGETS_TO_BUILD=host \
+			-DLLVM_ENABLE_LLD=OFF \
+			-DBUILD_SHARED_LIBS=ON \
+			-DLLVM_ENABLE_ASSERTIONS=OFF \
+			-DLLVM_ENABLE_RTTI=ON \
+			-DLLVM_ENABLE_EH=ON \
+			-DLLVM_ENABLE_DUMP=OFF \
+			-DLLVM_ENABLE_CRASH_DUMPS=OFF \
+			-DLLVM_ENABLE_PDB=ON \
+			-DLLVM_BUILD_TOOLS=OFF \
+			-DLLVM_BUILD_UTILS=OFF \
+			-DLLVM_INCLUDE_BENCHMARKS=OFF \
+			-DLLVM_INCLUDE_TESTS=OFF \
+			-DLLVM_INCLUDE_DOCS=OFF \
+			-DCMAKE_INSTALL_PREFIX=$HOME/.local/${LLVM_DIR}
 		cmake --build build --target install
 
 		echo_green "Set llvm path to $HOME/.local/$LLVM_DIR in $CUR_SHELL_CONFIG"
@@ -710,8 +716,14 @@ function install() {
 
 	mkdir -p ~/.local/state/nvim/neorg-notes/work
 
-	echo_green "Installation complete! Placces restart your terminal."
-	echo_green "* NOTE: Don't forget to change your terminal fonts."
+	echo_green "Installation complete!!!"
+	echo_green "Follow steps to finish installation: "
+	echo_green "  1. Don't forget to change your terminal fonts."
+	echo_green "  2. Don't forget to check all paths in 'lua/core/gvariable.lua'."
+	echo_green "  3. (Optical) If you want to search program language api from 'Zeal', you can download it and set the binary path in 'lua/core/gvariable.lua'."
+	echo_green "  4. Placces restart your terminal."
+	echo_green "  5. Enjoy your neovim!"
+
 }
 
 ##############################
