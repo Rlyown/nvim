@@ -3,20 +3,20 @@
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.offsetEncoding = { "utf-16" }
 
-local llvm_path = require("core.gvariable").llvm_bin_path
 local os = require("core.gvariable").os
+local compiler = require("core.gvariable").compiler
 
-local query_driver = "--query-driver=/use/bin/clang,/usr/bin/clang++"
-
-if os == "mac" then
-	if vim.fn.isdirectory(llvm_path) then
-		query_driver =
-			string.format("--query-driver=%s/clang,%s/clang++,/use/bin/clang,/usr/bin/clang++", llvm_path, llvm_path)
-	else
-		query_driver = "--query-driver=/use/bin/clang,/usr/bin/clang++"
+local query_driver = "--query-driver="
+for cpr, cpr_path in pairs(compiler) do
+	if cpr_path ~= "" then
+		query_driver = query_driver .. cpr .. "=" .. cpr_path .. ","
 	end
-elseif os == "unix" then
-	query_driver = "--query-driver=/use/bin/clang,/usr/bin/clang++,/usr/bin/gcc,/usr/bin/g++"
+end
+
+if query_driver ~= "--query-driver=" then
+	query_driver = query_driver:sub(1, -2)
+else
+	query_driver = ""
 end
 
 -- .clang-tidy and .clang-format set by local file
