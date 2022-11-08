@@ -1,160 +1,38 @@
 local M = {}
 
-local helper = {}
-if vim.fn.has("mac") == 1 then
-	M.os = "mac"
-	helper.lldb_vscode = "/opt/homebrew/opt/llvm/bin/lldb-vscode"
-	-- Set the python3 path which installed pynvim
-	vim.g.python3_host_prog = "/opt/homebrew/bin/python3"
-	M.dash_path = "/Applications/Dash.app"
-	M.node_path = "/opt/homebrew/opt/node@16/bin/node"
-elseif vim.fn.has("unix") == 1 then
-	M.os = "unix"
-	helper.lldb_vscode = "/usr/bin/lldb-vscode-14"
-	-- Set the python3 path which installed pynvim
-	vim.g.python3_host_prog = "/usr/bin/python3"
-	M.zeal_path = "zeal"
-	M.node_path = "/usr/bin/node"
-else
-	M.os = "unsupport"
-	helper.lldb_vscode = "lldb-vscode"
-	-- Set the python3 path which installed pynvim
-	vim.g.python3_host_prog = "python3"
-end
+local system = require("core.gfunc").fn.system
+
+-- Set the python3 path which installed pynvim
+vim.g.python3_host_prog = system("command -v python3")
 
 -- path to debuggers
 M.debuggers = {
 	delve = "dlv",
 	--[[ codelldb = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension", ]]
 	debugpy = vim.g.python3_host_prog,
-	lldb_vscode = helper.lldb_vscode,
+	lldb_vscode = system("command -v lldb-vscode"),
 }
 
 M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
 M.snippet_dir = vim.fn.stdpath("config") .. "/my-snippets"
 M.neorg_dir = "~/.local/state/nvim/neorg-notes"
 
-M.fn = {
-	["async_ui_input_wrap"] = function()
-		local async = require("plenary.async")
+M.zeal_path = system("command -v zeal")
+M.node_path = system("command -v node")
 
-		return async.wrap(function(opts, callback)
-			vim.ui.input(opts, callback)
-		end, 2)
-	end,
-	["rev_table"] = function(t, islist)
-		local rev_t = {}
+if vim.fn.has("mac") == 1 then
+	M.os = "mac"
+	-- Set the python3 path which installed pynvim
+	M.dash_path = "/Applications/Dash.app"
+	M.node_path = "/opt/homebrew/opt/node@16/bin/node"
 
-		for k, name in pairs(t) do
-			if islist then
-				rev_t[name] = true
-			else
-				rev_t[name] = k
-			end
-		end
-		return rev_t
-	end,
-	["split"] = function(szFullString, szSeparator)
-		local nFindStartIndex = 1
-		local nSplitIndex = 1
-		local nSplitArray = {}
-		while true do
-			local nFindLastIndex = string.find(szFullString, szSeparator, nFindStartIndex)
-			if not nFindLastIndex then
-				nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, string.len(szFullString))
-				break
-			end
-			nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, nFindLastIndex - 1)
-			nFindStartIndex = nFindLastIndex + string.len(szSeparator)
-			nSplitIndex = nSplitIndex + 1
-		end
-		return nSplitArray
-	end,
-	["args_parse"] = function(szFullString, szSeparator)
-		local nFindStartIndex = 1
-		local nQuoteType = ""
-		local hasSlash = false
-		local lastSeparator = false
-		local nSplitArray = {}
-		local i = 1
+	M.debuggers.lldb_vscode = "/opt/homebrew/opt/llvm/bin/lldb-vscode"
+elseif vim.fn.has("unix") == 1 then
+	M.os = "unix"
+else
+	M.os = "unsupport"
+end
 
-		local msg = "Get Args:"
-		local format_template = "\n  [%d] %s"
-
-		if not szFullString or not szSeparator or #szSeparator > 1 or #szFullString == 0 then
-			return nSplitArray
-		end
-
-		while true do
-			local ch = szFullString:sub(i, i)
-			local byte = string.byte(ch)
-
-			if byte > 128 then
-				i = i + 3
-			else
-				if ch == '"' or ch == "'" then
-					lastSeparator = false
-					if hasSlash then
-						hasSlash = false
-					elseif nQuoteType == "" then
-						nQuoteType = ch
-						nFindStartIndex = i
-					elseif nQuoteType == ch then
-						nQuoteType = ""
-					end
-				elseif ch == "\\" then
-					lastSeparator = false
-					hasSlash = not hasSlash
-				elseif ch == szSeparator then
-					if i == 1 then
-						lastSeparator = true
-					elseif not lastSeparator then
-						if nQuoteType == "" then
-							lastSeparator = true
-							local start_ch = szFullString:sub(nFindStartIndex, nFindStartIndex)
-							if start_ch == '"' or start_ch == "'" then
-								nSplitArray[#nSplitArray + 1] = szFullString:sub(nFindStartIndex + 1, i - 2)
-								msg = msg .. string.format(format_template, #nSplitArray, nSplitArray[#nSplitArray])
-							else
-								nSplitArray[#nSplitArray + 1] = szFullString:sub(nFindStartIndex, i - 1)
-								msg = msg .. string.format(format_template, #nSplitArray, nSplitArray[#nSplitArray])
-							end
-						end
-					end
-				else
-					if lastSeparator then
-						nFindStartIndex = i
-					end
-					lastSeparator = false
-					if hasSlash then
-						hasSlash = false
-					end
-				end
-				i = i + 1
-			end
-
-			if i > #szFullString then
-				if not lastSeparator then
-					local start_ch = szFullString:sub(nFindStartIndex, nFindStartIndex)
-					if start_ch == '"' or start_ch == "'" then
-						nSplitArray[#nSplitArray + 1] = szFullString:sub(nFindStartIndex + 1, i - 2)
-						msg = msg .. string.format(format_template, #nSplitArray, nSplitArray[#nSplitArray])
-					else
-						nSplitArray[#nSplitArray + 1] = szFullString:sub(nFindStartIndex, i - 1)
-						msg = msg .. string.format(format_template, #nSplitArray, nSplitArray[#nSplitArray])
-					end
-				end
-				break
-			end
-		end
-		vim.notify(msg, "info", { title = "function args_parse" })
-		return nSplitArray
-	end,
-	["get_random_int"] = function(min, max)
-		math.randomseed(tonumber(tostring(os.time()):reverse():sub(1, 6)))
-		return math.random(min, max)
-	end,
-}
 M.symbol_map = {
 	Text = "",
 	Method = "",

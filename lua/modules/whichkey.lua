@@ -75,7 +75,7 @@ local setup = {
 	},
 }
 
-local ainput = require("core.gvariable").fn.async_ui_input_wrap()
+local ainput = require("core.gfunc").fn.async_ui_input_wrap()
 
 local function term_id_cmds(name, cmd_str)
 	local opts = {

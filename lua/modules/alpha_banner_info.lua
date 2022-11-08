@@ -101,7 +101,7 @@ M.banner = {
 	},
 }
 
-local get_random_int = require("core.gvariable").fn.get_random_int
+local get_random_int = require("core.gfunc").fn.get_random_int
 
 function M.get_random_banner()
 	return M.banner[get_random_int(1, #M.banner)]

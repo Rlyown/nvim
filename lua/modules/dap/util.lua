@@ -1,5 +1,5 @@
 local M = {}
-local args_parse = require("core.gvariable").fn.args_parse
+local args_parse = require("core.gfunc").fn.args_parse
 
 M.get_args = function()
 	local data_in = vim.fn.input("Set args(sep: space): ")

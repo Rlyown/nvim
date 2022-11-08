@@ -20,6 +20,7 @@ Configuration tree:
 │   ├── core
 │   │   ├── autocommands.lua    # autocommands configuration
 │   │   ├── gvariable.lua       # global variable set(the last one be called)
+│   │   ├── gfunc.lua           # global function definition
 │   │   ├── keymaps.lua         # vim-builtin keymap set
 │   │   └── options.lua         # vim option set
 │   ├── lazymods                # configurations for lazyload plugins
@@ -44,7 +45,16 @@ Make sure to remove or move your current `nvim` directory.
 $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 ```
 
-Install the follow dependencies:
+**Requirements**
+
+- [Rust](https://www.rust-lang.org/tools/install) (for some installations of dependencies)
+- [Python3](https://www.python.org/downloads/) with [pip](https://pip.pypa.io/en/stable/installation/) and `venv` (for some plugins)
+- [Nodejs](https://github.com/nodesource/distributions) 16 (for copilot.vim and some installations of dependencies)
+- [Golang](https://go.dev/doc/install) 1.18 or higher (for some installations of dependencies and developments)
+- [llbd_vscode](https://github.com/llvm/llvm-project) (for debug)
+- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) (for markdown preview plugin)
+
+**Install the follow dependencies**:
 
 - <details><summary>On MacOS</summary>
     <p>
@@ -53,8 +63,7 @@ Install the follow dependencies:
   $ brew install neovim ripgrep fd fortune lua sqlite
 
   # Tools for language support
-  # neovim-remote is not Required
-  $ brew install llvm bear cmake lazygit golang rustup-init node@16 yarn gnu-sed boost checkmake
+  $ brew install llvm bear cmake lazygit golang rustup-init node@16 yarn gnu-sed boost
 
   $ npm install -g neovim
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -108,6 +117,9 @@ Install the follow dependencies:
   # add Node source (node version >= 14)
   $ curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt-get install -y nodejs
 
+  # Install llvm
+  $ bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+
   # Install neovim
   $ cargo install --git https://github.com/MordechaiHadad/bob.git
   $ bob use v0.8.0
@@ -118,14 +130,14 @@ Install the follow dependencies:
   $ sudo apt update
   $ sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.
 
-  # ote that the binary is called fdfind as the binary name fd is already used by another package.
+  # Note that the binary is called fdfind as the binary name fd is already used by another package.
   # Make sure that $HOME/.local/bin is in your $PATH
   $ mkdir -p ~/.local/bin
   $ ln -s $(which fdfind) ~/.local/bin/fd
 
   # Tools for language support
   $ sudo apt-get update
-  $ sudo apt install -y  bear cmake gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev
+  $ sudo apt install -y bear cmake gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -181,6 +193,22 @@ Install the follow dependencies:
   # Add Node source (node version >= 14)
   $ curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
 
+  # Install llvm
+  git clone https://github.com/llvm/llvm-project.git /tmp/llvm-project
+  pushd /tmp/llvm-project
+  cmake -S llvm -B build -G Ninja \
+      -DLLVM_ENABLE_PROJECTS="clang;lldb" \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
+      -DLLVM_TARGETS_TO_BUILD=X86 \
+  cmake --build build --target install
+  popd
+
+  # Install yarn
+  $ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+  $ sudo rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
+  $ sudo yum install yarn
+
   # Install neovim
   $ cargo install --git https://github.com/MordechaiHadad/bob.git
   $ bob use v0.8.0
@@ -195,11 +223,6 @@ Install the follow dependencies:
 
   # Install compiledb to replace bear
   $ pip3 install compiledb
-
-  # Install yarn
-  $ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
-  $ sudo rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
-  $ sudo yum install yarn
 
   # Install Package
   $ sudo dnf install -y sqlite-devel sqlite boost-devel python3-devel

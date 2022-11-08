@@ -1,7 +1,7 @@
 local M = {}
 
 local modules_dir = require("core.gvariable").modules_dir
-local rev_table = require("core.gvariable").fn.rev_table
+local rev_table = require("core.gfunc").fn.rev_table
 
 function M.setup(user_conf)
 	local ignore = user_conf.ignore or {}
