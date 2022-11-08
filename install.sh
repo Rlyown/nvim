@@ -14,7 +14,7 @@ GOLANG=
 NODE=
 PYTHON=
 PIP=
-LLVM=
+LLDB_VSCODE=
 CUR_SHELL=
 CUR_SHELL_CONFIG=
 NEOVIM_VERSION=0.8.0
@@ -300,8 +300,8 @@ function check_pip() {
 }
 
 function check_llvm() {
-	if ! command -v llvm-config &>/dev/null; then
-		errcho "llvm is not installed! Please install llvm first."
+	if ! command -v lldb-vscode &>/dev/null; then
+		errcho "lldb-vscode is not installed! Please install llvm first."
 
 		if [[ $ACCEPT -eq 1 ]]; then
 			install_llvm
@@ -312,8 +312,8 @@ function check_llvm() {
 				case $input in
 				[yY][eE][sS] | [yY])
 					install_llvm
-					LLVM=$(which llvm-config)
-					LLVM=${LLVM:-$(which llvm-config-14)}
+					LLDB_VSCODE=$(which lldb-vscode)
+					LLDB_VSCODE=${LLDB_VSCODE:-$(which lldb-vscode-14)}
 					break
 					;;
 
@@ -327,8 +327,8 @@ function check_llvm() {
 			done
 		fi
 	else
-		LLVM=$(command -v llvm-config)
-		LLVM=${LLVM:-$(command -v llvm-config-14)}
+		LLDB_VSCODE=$(command -v lldb-vscode)
+		LLDB_VSCODE=${LLDB_VSCODE:-$(command -v lldb-vscode-14)}
 	fi
 }
 
@@ -343,7 +343,7 @@ function show_info() {
 	echo_green "* Python3: $PYTHON"
 	echo_green "* Shell config: $CUR_SHELL_CONFIG"
 	echo_green "* Pip3: $PIP"
-	echo_green "* LLVM: $LLVM"
+	echo_green "* LLDB_VSCODE: $LLDB_VSCODE"
 	echo_green "* Path: $PATH"
 }
 
@@ -720,10 +720,9 @@ function install() {
 	echo_green "Follow steps to finish installation: "
 	echo_green "  1. Don't forget to change your terminal fonts."
 	echo_green "  2. Don't forget to check all paths in 'lua/core/gvariable.lua'."
-	echo_green "  3. (Optical) If you want to search program language api from 'Zeal', you can download it and set the binary path in 'lua/core/gvariable.lua'."
-	echo_green "  4. Placces restart your terminal."
-	echo_green "  5. Enjoy your neovim!"
-
+	echo_green "  3. Placces restart your terminal."
+	echo_green "  4. Run 'nvim +checkhealth' to see plugins' diagnose problems."
+	echo_green "  4. (Optical) If you want to search program language api from 'Zeal', you can download it and set the binary path in 'lua/core/gvariable.lua'."
 }
 
 ##############################
