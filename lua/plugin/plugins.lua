@@ -197,7 +197,7 @@ return packer.startup(function(use)
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- Nvim Treesitter configurations and abstraction layer
 	use({ "JoosepAlviste/nvim-ts-context-commentstring" }) -- setting the commentstring based on the cursor location in a file.
 	use({ "romgrk/nvim-treesitter-context" }) -- show code context
-	-- use({ "nvim-treesitter/playground" }) -- View treesitter information directly in Neovim
+	use({ "nvim-treesitter/playground" }) -- View treesitter information directly in Neovim
 	use({ "p00f/nvim-ts-rainbow" }) -- Rainbow parentheses
 
 	-- UI
