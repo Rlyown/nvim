@@ -2,7 +2,8 @@
 
 My neovim config is inspired by [LunarVim/Neovim-from-scratch](https://github.com/LunarVim/Neovim-from-scratch) repository.
 
-- [Nvim](#nvim)
+- ## [Nvim](#nvim)
+  - [Quick start](#quick-start)
   - [Install](#install)
   - [Check Health](#check-health)
   - [Keymaps](#keymaps)
@@ -34,6 +35,16 @@ Configuration tree:
 ```
 
 This configuration mainly focus on programming with `C/Cpp`, `Golang`, `Rust` and `Python`.
+
+## Quick Start
+
+**WARNING**: This installation script may cause some problems, so please read it carefully before running it.
+
+```shell
+$ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
+$ cd ~/.config/nvim
+$ ./install.sh -i
+```
 
 ## Install
 
