@@ -659,7 +659,7 @@ function install_mac() {
 	go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
 
 	# install language server
-	npm install -g neovim
+	npm install -g neovim --registry=https://registry.npm.taobao.org
 	pip3 install pynvim
 }
 
@@ -676,7 +676,7 @@ function install_ubuntu() {
 	export PATH=$HOME/.local/bin:$PATH
 	echo 'export PATH=$HOME/.local/bin:$PATH' >>$CUR_SHELL_CONFIG
 
-	sudo npm install -g neovim trash-cli
+	sudo npm install -g neovim trash-cli --registry=https://registry.npm.taobao.org
 	go install github.com/jesseduffield/lazygit@latest
 	go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
 	pip3 install pynvim
@@ -687,7 +687,7 @@ function install_rhel() {
 
 	cargo install ripgrep fd-find
 	pip3 install compiledb pynvim
-	sudo npm install -g neovim trash-cli yarn
+	sudo npm install -g neovim trash-cli yarn --registry=https://registry.npm.taobao.org
 	go install github.com/jesseduffield/lazygit@latest
 	go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
 }
