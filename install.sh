@@ -698,6 +698,9 @@ function install() {
 	echo_green "Installing..."
 	install_neovim
 
+	export GO111MODULE=on
+	export GOPROXY=https://goproxy.cn
+
 	if [ "$OS" == "mac" ]; then
 		install_mac
 	elif [ "$OS" == "ubuntu" ]; then
