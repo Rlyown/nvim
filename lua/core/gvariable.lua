@@ -21,10 +21,10 @@ M.zeal_path = system("command -v zeal")
 M.node_path = system("command -v node")
 
 M.compiler = {
-	clang = system("command -v clang"),
-	clangpp = system("command -v clang++"),
-	gcc = system("command -v gcc"),
-	gpp = system("command -v g++"),
+	system("command -v clang"),
+	system("command -v clang++"),
+	system("command -v gcc"),
+	system("command -v g++"),
 }
 
 if vim.fn.has("mac") == 1 then

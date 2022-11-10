@@ -24,9 +24,8 @@ Configuration tree:
 │   │   ├── gfunc.lua           # global function definition
 │   │   ├── keymaps.lua         # vim-builtin keymap set
 │   │   └── options.lua         # vim option set
-│   ├── lazymods                # configurations for lazyload plugins
-│   │   └── configs.lua         # expose setup function
 │   ├── modules                 # plugins configuration
+│   │   └── configs.lua         # expose setup function
 │   └── plugin                  # plugin manager
 ├── my-snippets                 # customizer snippets
 ├── plugin                      # compiled plugin file location

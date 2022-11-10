@@ -1,4 +1,4 @@
-local configs = require("lazymods.configs")
+local configs = require("modules.configs")
 
 -- To get your imports ordered on save, like goimports does
 function _G.OrgImports(wait_ms)
@@ -129,7 +129,9 @@ augroup("_CUSTOM_auto_resize", { clear = true })
 autocmd("VimResized", {
 	group = "_CUSTOM_auto_resize",
 	pattern = "*",
-	command = "tabdo wincmd =",
+	callback = function()
+		require("bufresize").resize()
+	end,
 })
 
 augroup("_CUSTOM_alpha", { clear = true })

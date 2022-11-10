@@ -7,9 +7,9 @@ local os = require("core.gvariable").os
 local compiler = require("core.gvariable").compiler
 
 local query_driver = "--query-driver="
-for cpr, cpr_path in pairs(compiler) do
+for _, cpr_path in ipairs(compiler) do
 	if cpr_path ~= "" then
-		query_driver = query_driver .. cpr .. "=" .. cpr_path .. ","
+		query_driver = query_driver .. cpr_path .. ","
 	end
 end
 

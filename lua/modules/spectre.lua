@@ -1,3 +1,5 @@
-require("spectre").setup({
-	live_update = true,
-})
+return function()
+	require("spectre").setup({
+		live_update = true,
+	})
+end

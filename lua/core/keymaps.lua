@@ -66,7 +66,7 @@ keymap("v", "<leader>s", ":ToggleTermSendVisualSelection<cr>", opts)
 keymap("v", "<leader>Gc", ":GoChannelPeers<cr>", opts)
 keymap("v", "<leader>GR", ":GoRemoveTags<cr>", opts)
 keymap("v", "<leader>GT", ":GoAddTags<cr>", opts)
-keymap("v", "<leader>a", ":Telescope lsp_range_code_actions<cr>", opts)
+keymap("v", "<leader>a", "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", opts)
 
 -- Visual Block --
 -- Move text up and down
@@ -102,3 +102,12 @@ keymap("v", "<leader><leader>lru", ":lua require('crates').upgrade_crates()<cr>"
 -- accelerated-jk
 vim.api.nvim_set_keymap("n", "j", "<Plug>(accelerated_jk_gj)", {})
 vim.api.nvim_set_keymap("n", "k", "<Plug>(accelerated_jk_gk)", {})
+
+-- bufresize
+keymap("n", "<C-w><", "<C-w><<cmd>lua require('bufresize').register()<cr>", opts)
+keymap("n", "<C-w>>", "<C-w>><cmd>lua require('bufresize').register()<cr>", opts)
+keymap("n", "<C-w>+", "<C-w>+<cmd>lua require('bufresize').register()<cr>", opts)
+keymap("n", "<C-w>-", "<C-w>-<cmd>lua require('bufresize').register()<cr>", opts)
+keymap("n", "<C-w>_", "<C-w>_<cmd>lua require('bufresize').register()<cr>", opts)
+keymap("n", "<C-w>|", "<C-w>|<cmd>lua require('bufresize').register()<cr>", opts)
+keymap("n", "<C-w>=", "<C-w>=<cmd>lua require('bufresize').register()<cr>", opts)

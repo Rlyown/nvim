@@ -1,1 +1,3 @@
-require("pretty-fold").setup()
+return function()
+	require("pretty-fold").setup()
+end

@@ -1,13 +1,15 @@
-local status_ok, _ = pcall(require, "lspconfig")
-if not status_ok then
-	return
-end
+local M = {
+	lspconfig = function()
+		require("modules.lsp.handlers").setup()
+	end,
+	mason = require("modules.lsp.mason"),
+	mason_lspconfig = require("modules.lsp.mason-lspconfig"),
+	mason_tool_installer = require("modules.lsp.mason-tool-installer"),
+	null_ls = require("modules.lsp.null-ls"),
+	signature = require("modules.lsp.signature"),
+	lightbulb = require("modules.lsp.lightbulb"),
+	refactoring = require("modules.lsp.refactoring"),
+	go = require("modules.lsp.go"),
+}
 
-require("modules.lsp.mason")
-require("modules.lsp.mason-tool-installer")
-require("modules.lsp.handlers").setup()
-require("modules.lsp.null-ls")
-require("modules.lsp.signature")
-require("modules.lsp.lightbulb")
-require("modules.lsp.refactoring")
-require("modules.lsp.go")
+return M

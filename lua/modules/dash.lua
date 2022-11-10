@@ -1,6 +1,5 @@
-local dash_path = require("core.gvariable").dash_path
-
 return function()
+	local dash_path = require("core.gvariable").dash_path
 	require("dash").setup({
 		-- configure path to Dash.app if installed somewhere other than /Applications/Dash.app
 		dash_app_path = dash_path,
