@@ -275,7 +275,7 @@ return packer.startup(function(use)
 		cmd = { "TroubleToggle", "Trouble" },
 	}) -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
 	use({ "stevearc/dressing.nvim", config = configs.dressing }) -- Neovim plugin to improve the default vim.ui interfaces
-	use({ "rcarriga/nvim-notify", tag = "v3.7.3", config = configs.notify }) -- A fancy, configurable, notification manager for NeoVim
+	use({ "rcarriga/nvim-notify", config = configs.notify }) -- A fancy, configurable, notification manager for NeoVim
 	use({ "kwkarlwang/bufresize.nvim", module = "bufresize", opt = true }) -- Keep buffer dimensions in proportion when terminal window is resized
 	use({
 		"gelguy/wilder.nvim",
