@@ -8,6 +8,13 @@ M.fn = {
 			vim.ui.input(opts, callback)
 		end, 2)
 	end,
+	["async_ui_select_wrap"] = function()
+		local async = require("plenary.async")
+
+		return async.wrap(function(items, opts, callback)
+			vim.ui.select(items, opts, callback)
+		end, 3)
+	end,
 	["rev_table"] = function(t, islist)
 		local rev_t = {}
 

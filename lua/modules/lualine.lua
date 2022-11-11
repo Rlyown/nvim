@@ -1,5 +1,6 @@
 return function()
 	local lualine = require("lualine")
+	local ainput = require("core.gfunc").fn.async_ui_input_wrap()
 
 	local hide_in_width = function()
 		return vim.fn.winwidth(0) > 80
@@ -62,6 +63,22 @@ return function()
 		padding = 0,
 	}
 
+	local encoding = {
+		"encoding",
+		on_click = function()
+			local opts = {
+				prompt = "Enter the new encoding name:",
+				kind = "center",
+			}
+
+			local on_confirm = function(input)
+				vim.bo.fileencoding = input
+			end
+
+			ainput(opts, on_confirm)
+		end,
+	}
+
 	-- cool function for progress
 	local progress = function()
 		local current_line = vim.fn.line(".")
@@ -75,6 +92,17 @@ return function()
 	local spaces = {
 		function()
 			return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+		end,
+		on_click = function()
+			local opts = {
+				prompt = "Enter the new value of shift width:",
+				kind = "center",
+			}
+			local function on_confirm(input)
+				vim.bo.shiftwidth = tonumber(input)
+			end
+
+			ainput(opts, on_confirm)
 		end,
 	}
 
@@ -107,7 +135,7 @@ return function()
 			lualine_b = { mode },
 			lualine_c = { navic_component },
 			-- lualine_x = { "encoding", "fileformat", "filetype" },
-			lualine_x = { diff, spaces, "encoding", filetype, filename },
+			lualine_x = { diff, spaces, encoding, filetype, filename },
 			lualine_y = { location },
 			lualine_z = { progress },
 		},
