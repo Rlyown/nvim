@@ -5,5 +5,5 @@ return function()
 
 	-- set node path, if it has multi-versions
 	vim.g.copilot_node_command = node_path
-	vim.g.copilot_no_tab_map = false
+	vim.g.copilot_no_tab_map = true
 end
