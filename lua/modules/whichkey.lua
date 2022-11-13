@@ -199,9 +199,25 @@ return function()
 			},
 			["N"] = {
 				name = "Neorg",
-				n = { "<cmd>Neorg<cr>", "Neorg" },
-				k = { "<cmd>Neorg kanban toggle<cr>", "Kanban" },
+				a = { "<cmd>Neorg kanban toggle<cr>", "Kanban" },
+
+				i = helper.telescope_neorg_bind_helper("insert_link", "Insert Link"),
+				I = helper.telescope_neorg_bind_helper("insert_file_link", "Insert File Link"),
+
+				k = { "<cmd>Neorg keybind neorg<cr>", "Neorg mode Key" },
+				K = { "<cmd>Neorg keybind all", "All Neorg key" },
+
+				s = {
+					name = "Search",
+					c = helper.telescope_neorg_bind_helper("find_context_tasks", "Find Context Tasks"),
+					h = helper.telescope_neorg_bind_helper("search_headings", "Find Heading"),
+					l = helper.telescope_neorg_bind_helper("find_linkable", "Find Linkable"),
+					p = helper.telescope_neorg_bind_helper("find_project_tasks", "Find Project Tasks"),
+					P = helper.telescope_neorg_bind_helper("find_aof_project_tasks", "Find aof Project Tasks"),
+					t = helper.telescope_neorg_bind_helper("find_aof_tasks", "Find Aof Tasks"),
+				},
 				t = { "<cmd>Neorg gtd_project_tags 1 1 1<cr>", "GTD Project Tags" },
+				w = helper.telescope_neorg_bind_helper("switch_workspace", "Switch Workspace"),
 			},
 			["n"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
 			["o"] = {
@@ -267,12 +283,6 @@ return function()
 				n = {
 					"<cmd>lua require('telescope').extensions.notify.notify(require('telescope.themes').get_dropdown({}))<cr>",
 					"Notify",
-				},
-				N = {
-					name = "Neorg",
-					a = { "<cmd>lua require('telescope').extensions.neorg.find_aof_tasks()<cr>", "Find AOF Tasks" },
-					c = { "<cmd>lua require('telescope').extensions.neorg.find_context_tasks()<cr>", "Context Tasks" },
-					p = { "<cmd>lua require('telescope').extensions.neorg.find_project_tasks()<cr>", "Project Tasks" },
 				},
 				r = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "Open Recent File" },
 				R = { "<cmd>lua require('telescope.builtin').registers()<cr>", "Registers" },
@@ -419,6 +429,7 @@ return function()
 			},
 			d = "Goto Definition",
 			D = "Goto Declaration",
+			F = "Neorg Hop Link",
 			j = "Move Text Down",
 			i = "Goto Implementation",
 			k = "Move Text Up",

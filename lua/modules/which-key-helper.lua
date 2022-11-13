@@ -57,6 +57,12 @@ function M.term_multi_hv(name, rate, direction)
 	return { do_func, name }
 end
 
+function M.telescope_neorg_bind_helper(name, show_name)
+	local cmd_format = "<cmd>lua require('telescope').extensions.neorg.%s()<cr>"
+
+	return { string.format(cmd_format, name), show_name }
+end
+
 -- bufdelete.nvim plugin cannot kill terminal by Bdelete command
 function M.close_buffer()
 	local toggleterm_pattern = "^term://.*#toggleterm#%d+"
@@ -134,4 +140,5 @@ function M.filetype_check(ft_list)
 
 	return force
 end
+
 return M
