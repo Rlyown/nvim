@@ -66,7 +66,7 @@ return packer.startup(function(use)
 		module = "cmp",
 		event = "InsertEnter",
 	}) -- The completion plugin
-	use({ "github/copilot.vim", config = configs.copilot, event = "InsertEnter" }) -- gitHub Copilot
+	use({ "github/copilot.vim", event = "InsertEnter" }) -- gitHub Copilot
 	use({ "saecki/crates.nvim", tag = "*", event = { "BufRead Cargo.toml" }, config = configs.crates }) -- helps managing crates.io dependencies
 	use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" })
 

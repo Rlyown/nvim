@@ -96,6 +96,9 @@ function M.setup()
 		vim.notify = notify
 	end
 
+	-- vim variable setup
+	require("modules.copilot")()
+
 	-- If you want to toggle git-editor with current nvim instead of a nested one after ":terminal",
 	-- you can uncomment the following settings(tool "neovim-remote" is required):
 	-- if vim.fn.has("nvim") and vim.fn.executable("nvr") then
