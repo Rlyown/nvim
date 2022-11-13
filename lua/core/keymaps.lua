@@ -73,6 +73,17 @@ keymap("v", "<leader>a", "<Esc><cmd>lua require('telescope').extensions.refactor
 keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 
+-- Open Url
+-- netrw will be disabled if you use nvim-tree
+local os = require("core.gvariable").os
+if os == "mac" then
+	keymap("", "gx", '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
+elseif os == "unix" then
+	keymap("", "gx", '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
+else
+	keymap("", "gx", '<Cmd>lua print("Error: gx is not supported on this OS!")<CR>', opts)
+end
+
 -- Terminal --
 -- Better terminal navigation
 -- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
