@@ -47,5 +47,7 @@ return function()
 		top_down = true,
 	})
 
+	require("telescope").load_extension("notify")
+
 	-- Similar plugin https://github.com/j-hui/fidget.nvim
 end

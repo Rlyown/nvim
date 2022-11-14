@@ -67,4 +67,6 @@ return function()
 		},
 		routes = custom_routes, --- @see section on routes
 	})
+
+	require("telescope").load_extension("noice")
 end

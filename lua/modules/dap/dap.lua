@@ -101,5 +101,7 @@ return function()
 			})
 			notif_data.spinner = nil
 		end
+
+		require("telescope").load_extension("dap")
 	end
 end
