@@ -95,7 +95,7 @@ function check_homebrew() {
 				install_homebrew
 			else
 				while true; do
-					local input=$(read_input "Do you want to local install homebrew now? [y/n]: " "n")
+					local input=$(read_input "Do you want to install homebrew now? [y/n]: " "n")
 
 					case $input in
 					[yY][eE][sS] | [yY])
@@ -127,7 +127,7 @@ function check_cargo() {
 			install_rust
 		else
 			while true; do
-				local input=$(read_input "Do you want to local install rust now? [y/n]: " "n")
+				local input=$(read_input "Do you want to install rust now? [y/n]: " "n")
 
 				case $input in
 				[yY][eE][sS] | [yY])
@@ -158,7 +158,7 @@ function check_go() {
 			install_go
 		else
 			while true; do
-				local input=$(read_input "Do you want to local install go now? [y/n]: " "n")
+				local input=$(read_input "Do you want to install go now? [y/n]: " "n")
 
 				case $input in
 				[yY][eE][sS] | [yY])
@@ -189,7 +189,7 @@ function check_node() {
 			install_node
 		else
 			while true; do
-				local input=$(read_input "Do you want to local install node now? [y/n]: " "n")
+				local input=$(read_input "Do you want to install node now? [y/n]: " "n")
 
 				case $input in
 				[yY][eE][sS] | [yY])
@@ -245,7 +245,7 @@ function check_python() {
 			install_python
 		else
 			while true; do
-				local input=$(read_input "Do you want to local install python now? [y/n]: " "n")
+				local input=$(read_input "Do you want to install python now? [y/n]: " "n")
 
 				case $input in
 				[yY][eE][sS] | [yY])
@@ -276,7 +276,7 @@ function check_pip() {
 			install_pip
 		else
 			while true; do
-				local input=$(read_input "Do you want to local install pip now? [y/n]: " "n")
+				local input=$(read_input "Do you want to install pip now? [y/n]: " "n")
 
 				case $input in
 				[yY][eE][sS] | [yY])
@@ -307,7 +307,7 @@ function check_llvm() {
 			install_llvm
 		else
 			while true; do
-				local input=$(read_input "Do you want to local install llvm now? [y/n]: " "n")
+				local input=$(read_input "Do you want to install llvm now? [y/n]: " "n")
 
 				case $input in
 				[yY][eE][sS] | [yY])
@@ -331,6 +331,36 @@ function check_llvm() {
 		LLDB_VSCODE=${LLDB_VSCODE:-$(command -v lldb-vscode-14)}
 	fi
 }
+
+# function check_nvim() {
+# 	if ! command -v nvim &>/dev/null; then
+# 		errcho "nvim is not installed! Please install nvim first."
+#
+# 		if [[ $ACCEPT -eq 1 ]]; then
+# 			install_neovim
+# 		else
+# 			while true; do
+# 				local input=$(read_input "Do you want to install nvim now? [y/n]: " "n")
+#
+# 				case $input in
+# 				[yY][eE][sS] | [yY])
+# 					install_neovim
+# 					break
+# 					;;
+#
+# 				[nN][oO] | [nN])
+# 					exit 1
+# 					;;
+# 				*)
+# 					errcho "Invalid input..."
+# 					;;
+# 				esac
+# 			done
+# 		fi
+# 	elif [[ $(nvim --version | grep -o -E "$NEOVIM_VERSION") -ne $NEOVIM_VERSION ]]; then
+# 		install_neovim
+# 	fi
+# }
 
 function show_info() {
 	echo_green "Current configuration:"
@@ -357,8 +387,8 @@ function check_all() {
 	check_python
 	check_pip
 	check_llvm
+	check_nvim
 	show_info
-
 }
 
 ##############################
@@ -622,7 +652,11 @@ function install_neovim() {
 	if [ "$OS" == "mac" ]; then
 		brew install neovim
 	else
-		install_bob
+		if [[ $(cargo install --list | grep -o "MordechaiHadad/bob") == "MordechaiHadad/bob" ]]; then
+			echo_green "Bob has been installed! Skipping..."
+		else
+			install_bob
+		fi
 		bob use $NEOVIM_VERSION
 	fi
 }
@@ -663,7 +697,6 @@ function install_mac() {
 	pip3 install pynvim
 }
 
-# How to local install...
 function install_ubuntu() {
 	sudo apt update
 	sudo apt install -y ripgrep fd-find fortune-mod lua5.3 bear \
