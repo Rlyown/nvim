@@ -387,7 +387,6 @@ function check_all() {
 	check_python
 	check_pip
 	check_llvm
-	check_nvim
 	show_info
 }
 
