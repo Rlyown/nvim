@@ -17,7 +17,7 @@ PIP=
 LLDB_VSCODE=
 CUR_SHELL=
 CUR_SHELL_CONFIG=
-NEOVIM_VERSION=0.8.0
+NEOVIM_VERSION=0.8.1
 
 ##############################
 # Utils
@@ -639,10 +639,10 @@ function install_bob() {
 
 	cargo install --git https://github.com/MordechaiHadad/bob.git
 
-	echo_green "Set nvim to PATH in $CUR_SHELL_CONFIG"
-	echo 'export PATH=$HOME/.local/share/nvim/bin:$PATH' >>$CUR_SHELL_CONFIG
+	echo_green "Set neovim to PATH in $CUR_SHELL_CONFIG"
+	echo 'export PATH=$HOME/.local/share/neovim/bin:$PATH' >>$CUR_SHELL_CONFIG
 
-	export PATH=$HOME/.local/share/nvim/bin:$PATH
+	export PATH=$HOME/.local/share/neovim/bin:$PATH
 
 	echo_green "Successfully installed bob to $HOME/.cargo/bin !"
 }

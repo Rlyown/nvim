@@ -49,7 +49,7 @@ $ ./install.sh -i
 
 Make sure to remove or move your current `nvim` directory.
 
-**IMPORTANT** Configuration based on neovim v0.8.0.
+**IMPORTANT** Configuration based on neovim v0.8.1.
 
 ```shell
 $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
@@ -132,7 +132,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   # Install neovim
   $ cargo install --git https://github.com/MordechaiHadad/bob.git
-  $ bob use v0.8.0
+  $ bob use v0.8.1
   $ echo 'export PATH=$HOME/.local/share/nvim/bin:$PATH' >> ~/.bashrc
   $ source ~/.bashrc
 
@@ -224,7 +224,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   # Install neovim
   $ cargo install --git https://github.com/MordechaiHadad/bob.git
-  $ bob use v0.8.0
+  $ bob use v0.8.1
   $ echo 'export PATH=$HOME/.local/share/nvim/bin:$PATH' >> ~/.bashrc
   $ source ~/.bashrc
 
