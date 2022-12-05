@@ -700,11 +700,12 @@ function install_ubuntu() {
 	sudo apt update
 	sudo apt install -y ripgrep fd-find fortune-mod lua5.3 bear \
 		cmake gdb yarn libsqlite3-dev sqlite3 \
-		libboost-all-dev python3-dev python3-venv
+		libboost-all-dev python3-dev python3-venv bat exa
 
 	# rename fdfind to fd
 	mkdir -p ~/.local/bin
 	ln -s $(which fdfind) ~/.local/bin/fd
+	ln -s $(which batcat) ~/.local/bin/bat
 	export PATH=$HOME/.local/bin:$PATH
 	echo 'export PATH=$HOME/.local/bin:$PATH' >>$CUR_SHELL_CONFIG
 
@@ -715,7 +716,7 @@ function install_ubuntu() {
 }
 
 function install_rhel() {
-	sudo dnf install -y fortune-mod sqlite-devel sqlite boost-devel python3-devel
+	sudo dnf install -y fortune-mod sqlite-devel sqlite boost-devel python3-devel bat exa
 
 	cargo install ripgrep fd-find
 	pip3 install compiledb pynvim

@@ -171,6 +171,7 @@ return packer.startup(function(use)
 		"benfowler/telescope-luasnip.nvim",
 		after = "telescope-file-browser.nvim",
 	})
+	use({ "zane-/cder.nvim", after = "telescope-luasnip.nvim" })
 
 	-- Terminal
 	use({ "akinsho/toggleterm.nvim", config = configs.toggleterm }) -- easily manage multiple terminal windows

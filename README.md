@@ -73,7 +73,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ brew install neovim ripgrep fd fortune lua sqlite
 
   # Tools for language support
-  $ brew install llvm bear cmake lazygit golang rustup-init node@16 yarn gnu-sed boost
+  $ brew install llvm bear cmake lazygit golang rustup-init node@16 yarn gnu-sed boost exa bat
 
   $ npm install -g neovim
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
@@ -138,12 +138,13 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   # Install main packages
   $ sudo apt update
-  $ sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.
+  $ sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.4 exa bat
 
   # Note that the binary is called fdfind as the binary name fd is already used by another package.
   # Make sure that $HOME/.local/bin is in your $PATH
   $ mkdir -p ~/.local/bin
   $ ln -s $(which fdfind) ~/.local/bin/fd
+  $ ln -s /usr/bin/batcat ~/.local/bin/bat
 
   # Tools for language support
   $ sudo apt-get update
@@ -238,7 +239,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ pip3 install compiledb
 
   # Install Package
-  $ sudo dnf install -y sqlite-devel sqlite boost-devel python3-devel
+  $ sudo dnf install -y sqlite-devel sqlite boost-devel python3-devel bat exa
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
   $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest

@@ -102,6 +102,7 @@ return function()
 				T = { "<cmd>BufferLineSortByTabs<cr>", "Sort by Tabs" },
 			},
 			["c"] = { helper.close_buffer, "Close Buffer" },
+			["C"] = { "<cmd>lua require('telescope').extensions.cder.cder()<cr>", "Change Work Directory" },
 			["d"] = {
 				"<cmd>lua require('hydra').spawn('dap-hydra')<cr>",
 				"DAP",

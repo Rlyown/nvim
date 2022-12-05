@@ -134,11 +134,27 @@ return function()
 			dash = {
 				-- your config here
 			},
+			cder = {
+				previewer_command = "exa "
+					.. "-a "
+					.. "--color=always "
+					.. "-T "
+					.. "--level=3 "
+					.. "--icons "
+					.. "--git-ignore "
+					.. "--long "
+					.. "--no-permissions "
+					.. "--no-user "
+					.. "--no-filesize "
+					.. "--git "
+					.. "--ignore-glob=.git",
+			},
 		},
 	})
 
 	telescope.load_extension("fzf")
 	telescope.load_extension("frecency")
+	telescope.load_extension("cder")
 	--[[ telescope.load_extension("refactoring") ]]
 	--[[ telescope.load_extension("notify") ]]
 	--[[ telescope.load_extension("dap") ]]
