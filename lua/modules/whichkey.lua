@@ -357,7 +357,8 @@ return function()
 				c = { "<cmd>tabclose<cr>", "Close" },
 				n = { "<cmd>tabnew %<cr>", "New" },
 			},
-			["u"] = { "<cmd>UndotreeToggle<cr>", "Undotree" },
+			--[[ ["u"] = { "<cmd>UndotreeToggle<cr>", "Undotree" }, ]]
+			["u"] = { "<cmd>lua require('telescope').extensions.undo.undo()<cr>", "Undotree" },
 			["w"] = { "<cmd>w<cr>", "Save" },
 			["W"] = { "<cmd>SudaWrite<cr>", "Force Save" },
 			["x"] = {

@@ -172,6 +172,14 @@ return packer.startup(function(use)
 		after = "telescope-file-browser.nvim",
 	})
 	use({ "zane-/cder.nvim", after = "telescope-luasnip.nvim" })
+	use({
+		"debugloop/telescope-undo.nvim",
+		config = function()
+			require("telescope").load_extension("undo")
+			-- optional: vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
+		end,
+		after = "cder.nvim",
+	})
 
 	-- Terminal
 	use({ "akinsho/toggleterm.nvim", config = configs.toggleterm }) -- easily manage multiple terminal windows
@@ -266,7 +274,7 @@ return packer.startup(function(use)
 		after = "nvim-lspconfig",
 		config = configs.nvim_navic,
 	}) -- shows your current code context
-	use({ "mbbill/undotree", cmd = "UndotreeToggle", config = configs.undotree }) -- undo history visualizer
+	--[[ use({ "mbbill/undotree", cmd = "UndotreeToggle", config = configs.undotree }) -- undo history visualizer ]]
 	use({ "norcalli/nvim-colorizer.lua", ft = { "css", "javascript", "html" }, config = configs.colorizer }) -- The fastest Neovim colorizer.
 	use({
 		"folke/trouble.nvim",
