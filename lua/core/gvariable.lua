@@ -15,7 +15,7 @@ M.debuggers = {
 
 M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
 M.snippet_dir = vim.fn.stdpath("config") .. "/my-snippets"
-M.neorg_dir = "~/.local/state/nvim/neorg-notes"
+M.neorg_dir = vim.fn.stdpath("state") .. "/neorg-notes"
 
 M.zeal_path = system("command -v zeal")
 M.node_path = system("command -v node")

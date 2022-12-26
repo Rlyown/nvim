@@ -87,7 +87,6 @@ return function()
 	local n_mappings = {
 		["<leader>"] = {
 			["a"] = { "<cmd>Alpha<cr>", "Alpha" },
-			-- ["A"] = { "<cmd>ASToggle<cr>", "Autosave" },
 			["b"] = {
 				"<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
 				"Buffers",
@@ -200,13 +199,28 @@ return function()
 			},
 			["N"] = {
 				name = "Neorg",
-				a = { "<cmd>Neorg kanban toggle<cr>", "Kanban" },
-
+				g = {
+					name = "GTD",
+					u = "Undone",
+					p = "Pending",
+					d = "Done",
+					h = "On Hold",
+					c = "Cancelled",
+					r = "Recurring",
+					i = "Important",
+					n = "Next Task",
+				},
+				h = "Hop Link",
 				i = helper.telescope_neorg_bind_helper("insert_link", "Insert Link"),
 				I = helper.telescope_neorg_bind_helper("insert_file_link", "Insert File Link"),
 
 				k = { "<cmd>Neorg keybind neorg<cr>", "Neorg mode Key" },
 				K = { "<cmd>Neorg keybind all", "All Neorg key" },
+
+				m = { name = "mode", n = "Norg", h = "Traverse Heading" },
+				n = "New note",
+
+				o = "TOC Split",
 
 				s = {
 					name = "Search",
@@ -217,7 +231,6 @@ return function()
 					P = helper.telescope_neorg_bind_helper("find_aof_project_tasks", "Find aof Project Tasks"),
 					t = helper.telescope_neorg_bind_helper("find_aof_tasks", "Find Aof Tasks"),
 				},
-				t = { "<cmd>Neorg gtd_project_tags 1 1 1<cr>", "GTD Project Tags" },
 				w = helper.telescope_neorg_bind_helper("switch_workspace", "Switch Workspace"),
 			},
 			["n"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
@@ -383,8 +396,8 @@ return function()
 					name = "Language Specific",
 					c = {
 						name = "C/CPP",
-						t = { "<cmd>edit .clang-tidy | w<cr>", "Clang Tidy" },
-						f = { "<cmd>edit .clang-format | w<cr>", "Clang Format" },
+						t = { "<cmd>edit .clang-tidy<cr>", "Clang Tidy" },
+						f = { "<cmd>edit .clang-format<cr>", "Clang Format" },
 					},
 					r = {
 						name = "Rust Crate",

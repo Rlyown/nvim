@@ -151,7 +151,7 @@ return packer.startup(function(use)
 	use({ "L3MON4D3/LuaSnip", module = "luasnip" }) --snippet engine
 	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
 	use({ "vigoux/templar.nvim", config = configs.templar }) -- A dead simple template manager
-	-- use({ "glepnir/template.nvim" }) -- Quickly insert templates into file
+	use({ "cvigilv/esqueleto.nvim", config = configs.esqueleto })
 
 	-- Telescope
 	use({
@@ -251,6 +251,7 @@ return packer.startup(function(use)
 		after = "telescope",
 	})
 	use({ "rainbowhxch/accelerated-jk.nvim", config = configs.accelerated_jk })
+	-- Packer
 
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = configs.treesitter }) -- Nvim Treesitter configurations and abstraction layer

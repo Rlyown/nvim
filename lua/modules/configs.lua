@@ -18,6 +18,7 @@ local M = {
 	dash = require("modules.dash"),
 	diffview = require("modules.diffview"),
 	dressing = require("modules.dressing"),
+	esqueleto = require("modules.esqueleto"),
 	filetype = require("modules.filetype"),
 	gitsigns = require("modules.gitsigns"),
 	hop = require("modules.hop"),
