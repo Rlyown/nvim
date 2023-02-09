@@ -122,15 +122,12 @@ return packer.startup(function(use)
 	use({ "lewis6991/spellsitter.nvim", after = "nvim-treesitter" }) -- Treesitter powered spellchecker
 	use({
 		"nvim-neorg/neorg",
-		-- tag = "*",
+		tag = "*",
 		ft = "norg",
 		after = { "nvim-treesitter", "telescope" }, -- You may want to specify Telescope here as well
 		config = configs.neorg,
 		requires = {
 			"nvim-neorg/neorg-telescope",
-			"esquires/neorg-gtd-project-tags",
-			"max397574/neorg-contexts",
-			"max397574/neorg-kanban",
 			{
 				"Pocco81/true-zen.nvim",
 				config = function()
@@ -139,6 +136,7 @@ return packer.startup(function(use)
 				module = "true-zen",
 			},
 		},
+		run = ":Neorg sync-parsers",
 	})
 	use({ "andymass/vim-matchup" })
 
@@ -150,8 +148,9 @@ return packer.startup(function(use)
 	-- Snippets
 	use({ "L3MON4D3/LuaSnip", module = "luasnip" }) --snippet engine
 	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
-	use({ "vigoux/templar.nvim", config = configs.templar }) -- A dead simple template manager
-	use({ "cvigilv/esqueleto.nvim", config = configs.esqueleto })
+	--[[ use({ "vigoux/templar.nvim", config = configs.templar }) -- A dead simple template manager ]]
+	--[[ use({ "cvigilv/esqueleto.nvim", config = configs.esqueleto }) ]]
+	use({ "Rlyown/esqueleto.nvim", config = configs.esqueleto })
 
 	-- Telescope
 	use({
@@ -282,7 +281,6 @@ return packer.startup(function(use)
 		requires = "nvim-tree/nvim-web-devicons",
 		config = configs.trouble,
 		module = "trouble",
-		cmd = { "TroubleToggle", "Trouble" },
 	}) -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
 	use({ "stevearc/dressing.nvim", config = configs.dressing }) -- Neovim plugin to improve the default vim.ui interfaces
 	use({ "rcarriga/nvim-notify", config = configs.notify }) -- A fancy, configurable, notification manager for NeoVim
