@@ -50,6 +50,18 @@ return function()
 		"filetype",
 		colored = true, -- Displays filetype icon in color if set to true
 		icon_only = false, -- Display only an icon for filetype
+		on_click = function()
+			local opts = {
+				prompt = "Enter the new filetype:",
+				kind = "center",
+			}
+
+			local on_confirm = function(input)
+				vim.bo.ft = input
+			end
+
+			ainput(opts, on_confirm)
+		end,
 	}
 
 	local branch = {
