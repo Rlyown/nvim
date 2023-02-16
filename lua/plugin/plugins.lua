@@ -149,8 +149,9 @@ return packer.startup(function(use)
 	use({ "L3MON4D3/LuaSnip", module = "luasnip" }) --snippet engine
 	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
 	--[[ use({ "vigoux/templar.nvim", config = configs.templar }) -- A dead simple template manager ]]
-	--[[ use({ "cvigilv/esqueleto.nvim", config = configs.esqueleto }) ]]
-	use({ "Rlyown/esqueleto.nvim", config = configs.esqueleto })
+	use({ "cvigilv/esqueleto.nvim", config = configs.esqueleto })
+	--[[ use({ "Rlyown/esqueleto.nvim", config = configs.esqueleto }) ]]
+	-- My modified version
 
 	-- Telescope
 	use({
