@@ -10,7 +10,7 @@ return function()
 		"jsonls",
 		"ltex",
 		"rust_analyzer",
-		"sumneko_lua",
+		"lua_ls",
 		"taplo",
 		"pyright",
 		"yamlls",
