@@ -6,7 +6,34 @@ return function()
 			["core.defaults"] = {},
 			["core.keybinds"] = {
 				config = {
-					default_keybinds = false,
+					default_keybinds = true,
+					neorg_leader = "<Leader>N",
+					hook = function(keybinds)
+						local leader = keybinds.leader
+						-- Marks the task under the cursor as "undone"
+						keybinds.remap_key("norg", "n", "gtu", leader .. "gu")
+
+						-- Marks the task under the cursor as "pending"
+						keybinds.remap_key("norg", "n", "gtp", leader .. "gp")
+
+						-- Marks the task under the cursor as "done"
+						keybinds.remap_key("norg", "n", "gtd", leader .. "gd")
+
+						-- Marks the task under the cursor as "on_hold"
+						keybinds.remap_key("norg", "n", "gth", leader .. "gh")
+
+						-- Marks the task under the cursor as "cancelled"
+						keybinds.remap_key("norg", "n", "gtc", leader .. "gc")
+
+						-- Marks the task under the cursor as "recurring"
+						keybinds.remap_key("norg", "n", "gtr", leader .. "gr")
+
+						-- Marks the task under the cursor as "important"
+						keybinds.remap_key("norg", "n", "gti", leader .. "gi")
+
+						-- Switches the task under the cursor between a select few states
+						keybinds.remap_key("norg", "n", "<C-Space>", leader .. "gn")
+					end,
 				},
 			},
 			["core.norg.dirman"] = {

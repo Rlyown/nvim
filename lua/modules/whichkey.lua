@@ -208,19 +208,8 @@ return function()
 					c = "Cancelled",
 					r = "Recurring",
 					i = "Important",
-					n = "Next Task",
+					n = "Cycling Task",
 				},
-				h = "Hop Link",
-				i = helper.telescope_neorg_bind_helper("insert_link", "Insert Link"),
-				I = helper.telescope_neorg_bind_helper("insert_file_link", "Insert File Link"),
-
-				k = { "<cmd>Neorg keybind neorg<cr>", "Neorg mode Key" },
-				K = { "<cmd>Neorg keybind all", "All Neorg key" },
-
-				m = { name = "mode", n = "Norg", h = "Traverse Heading" },
-				n = "New note",
-
-				o = "TOC Split",
 
 				s = {
 					name = "Search",
