@@ -17,7 +17,7 @@ PIP=
 LLDB_VSCODE=
 CUR_SHELL=
 CUR_SHELL_CONFIG=
-NEOVIM_VERSION=0.8.1
+NEOVIM_VERSION=0.8.3
 
 ##############################
 # Utils
