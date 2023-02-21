@@ -55,7 +55,7 @@ require("lazy").setup({
 
 	-- DAP
 	{ "rcarriga/nvim-dap-ui", name = "dapui", config = configs.dap.dapui }, -- A UI for nvim-dap
-	{ "mfussenegger/nvim-dap", config = configs.dap.dap }, -- Debug Adapter Protocol client implementation
+	{ "mfussenegger/nvim-dap", config = configs.dap.dap, dependencies = { "dapui" } }, -- Debug Adapter Protocol client implementation
 	{ "theHamsta/nvim-dap-virtual-text", config = configs.dap.vtext }, -- show virtual text
 	{ "nvim-telescope/telescope-dap.nvim" }, -- Integration for nvim-dap with telescope.nvim
 

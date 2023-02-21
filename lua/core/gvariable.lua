@@ -99,8 +99,6 @@ function M.setup()
 	-- vim variable setup
 	require("modules.copilot")()
 
-	-- enable 24-bit colour
-	vim.opt.termguicolors = true
 	-- If you want to toggle git-editor with current nvim instead of a nested one after ":terminal",
 	-- you can uncomment the following settings(tool "neovim-remote" is required):
 	-- if vim.fn.has("nvim") and vim.fn.executable("nvr") then
