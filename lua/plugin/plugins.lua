@@ -342,4 +342,4 @@ require("lazy").setup({
 		},
 	},
 	{ "jbyuki/nabla.nvim" },
-})
+}, lazy_opts)
