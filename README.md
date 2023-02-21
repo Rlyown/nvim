@@ -27,7 +27,7 @@ Configuration tree:
 │   ├── modules                 # plugins configuration
 │   │   └── configs.lua         # expose setup function
 │   └── plugin                  # plugin manager
-├── my-snippets                 # customizer snippets
+├── snippets                 # customizer snippets
 ├── plugin                      # compiled plugin file location
 ├── spell                       # customizer dictionary
 └── templates                   # store some template file
