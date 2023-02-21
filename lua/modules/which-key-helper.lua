@@ -74,8 +74,6 @@ function M.close_buffer()
 end
 
 function M.markdown_helper()
-	local compile_once = true
-
 	local opts = {
 		prompt = "Current filetype isn't markdown. Do you want to change it and continue?[Y/n] ",
 		kind = "center",
@@ -88,10 +86,6 @@ function M.markdown_helper()
 			input = string.lower(input)
 			if input == "y" or input == "yes" then
 				vim.bo.ft = "markdown"
-				if compile_once then
-					vim.cmd("PackerCompile")
-					compile_once = false
-				end
 			else
 				return
 			end
@@ -136,6 +130,7 @@ function M.filetype_check(ft_list)
 			force = true
 		end
 	end
+
 	ainput(opts, on_confirm)
 
 	return force

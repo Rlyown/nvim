@@ -13,6 +13,7 @@ return function()
 		dashboard.button("r", "  Recently used files", ":lua require('telescope.builtin').oldfiles() <CR>"),
 		dashboard.button("t", "  Find text", ":lua require('telescope.builtin').live_grep() <CR>"),
 		dashboard.button("c", "  Configuration", ":cd ~/.config/nvim | e init.lua <CR>"),
+		dashboard.button("p", "  Plugins", ":Lazy profile<cr>"),
 		dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
 	}
 
