@@ -84,11 +84,16 @@ require("lazy").setup({
 		config = configs.lsp.mason_lspconfig,
 		dependencies = { "mason.nvim" },
 	},
-
 	{
 		"neovim/nvim-lspconfig", -- enable LSP
 		config = configs.lsp.lspconfig,
 		dependencies = { "mason-lspconfig.nvim" },
+	},
+	{
+		"folke/neoconf.nvim",
+		config = configs.neoconf,
+		cmd = "Neoconf",
+		dependencies = { "nvim-lspconfig" },
 	},
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -125,6 +130,10 @@ require("lazy").setup({
 	},
 
 	{ "andymass/vim-matchup" },
+	{
+		"gennaro-tedesco/nvim-jqx",
+		ft = { "json", "yaml" },
+	},
 
 	-- Project
 	-- use({ "ahmedkhalf/project.nvim" }) -- superior project management
@@ -182,7 +191,6 @@ require("lazy").setup({
 	}, -- tmux integration for nvim features pane movement and resizing from within nvim.
 
 	-- Tools
-	{ "wbthomason/packer.nvim" }, -- Have packer manage itself
 	{ "nvim-lua/popup.nvim" }, -- An implementation of the Popup API from vim in Neovim
 	{ "nvim-lua/plenary.nvim", priority = 2000 }, -- Useful lua functions used ny lots of plugins
 	{
@@ -208,7 +216,30 @@ require("lazy").setup({
 	{ "nathom/filetype.nvim", config = configs.filetype }, -- A faster version of filetype.vim
 	{ "dstein64/vim-startuptime", cmd = { "StartupTime" } }, -- A Vim plugin for profiling Vim's startup time
 	-- use({ "Pocco81/AutoSave.nvim" }) -- enable autosave
-	{ "AndrewRadev/splitjoin.vim" }, -- Switch between single-line and multiline forms of code
+	{
+		"bennypowers/splitjoin.nvim",
+		lazy = true,
+		keys = {
+			{
+				"gJ",
+				function()
+					require("splitjoin").join()
+				end,
+				desc = "Join the object under cursor",
+			},
+			{
+				"gS",
+				function()
+					require("splitjoin").split()
+				end,
+				desc = "Split the object under cursor",
+			},
+		},
+		opts = {
+			default_indent = "  ", -- default
+			languages = {}, -- see Options
+		},
+	},
 	{ "iamcco/markdown-preview.nvim", build = "cd app && yarn install ", ft = "markdown" }, -- markdown preview plugin
 	{ "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" } }, -- An alternative sudo.vim for Vim and Neovim
 	{

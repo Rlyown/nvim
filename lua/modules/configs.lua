@@ -27,6 +27,7 @@ local M = {
 	lualine = require("modules.lualine"),
 	navic = require("modules.navic"),
 	neoclip = require("modules.neoclip"),
+	neoconf = require("modules.neoconf"),
 	neogit = require("modules.neogit"),
 	neorg = require("modules.neorg"),
 	neoscroll = require("modules.neoscroll"),
