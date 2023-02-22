@@ -19,18 +19,19 @@ Configuration tree:
 ├── init.lua
 ├── lua
 │   ├── core
-│   │   ├── autocommands.lua    # autocommands configuration
-│   │   ├── gvariable.lua       # global variable set(the last one be called)
-│   │   ├── gfunc.lua           # global function definition
-│   │   ├── keymaps.lua         # vim-builtin keymap set
-│   │   └── options.lua         # vim option set
-│   ├── modules                 # plugins configuration
-│   │   └── configs.lua         # expose setup function
-│   └── plugin                  # plugin manager
-├── snippets                 # customizer snippets
-├── plugin                      # compiled plugin file location
-├── spell                       # customizer dictionary
-└── templates                   # store some template file
+│   │   ├── autocommands.lua        # autocommands configuration
+│   │   ├── gvariable.lua           # global variable set(the last one be called)
+│   │   ├── gfunc.lua               # global function definition
+│   │   ├── keymaps.lua             # vim-builtin keymap set
+│   │   └── options.lua             # vim option set
+│   ├── modules                     # plugins configuration
+│   │   └── configs.lua             # expose setup function
+│   └── plugin                      # plugin manager
+├── snippets                        # customizer snippets
+├── plugin                          # compiled plugin file location
+│   └── lazy-lock.json              # plugins' version control file
+├── spell                           # customizer dictionary
+└── templates                       # store some template file
 ```
 
 This configuration mainly focus on programming with `C/Cpp`, `Golang`, `Rust` and `Python`.
