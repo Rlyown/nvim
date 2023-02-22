@@ -45,4 +45,21 @@ return function()
 			max_type_length = nil, -- Can be integer or nil.
 		},
 	})
+
+	local dap = require("dap")
+	local dapui = require("dapui")
+
+	dap.listeners.after.event_initialized["dapui_config"] = function()
+		dapui.open()
+	end
+	dap.listeners.before.event_terminated["dapui_config"] = function()
+		dapui.close()
+		dap.repl.close()
+	end
+	dap.listeners.before.event_exited["dapui_config"] = function()
+		dapui.close()
+		dap.repl.close()
+	end
+
+	require("modules.dap.util").dap_signs_scheme(3)
 end

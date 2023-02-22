@@ -54,8 +54,8 @@ require("lazy").setup({
 	{ "windwp/nvim-ts-autotag" },
 
 	-- DAP
-	{ "rcarriga/nvim-dap-ui", name = "dapui", config = configs.dap.dapui }, -- A UI for nvim-dap
-	{ "mfussenegger/nvim-dap", config = configs.dap.dap, dependencies = { "dapui" } }, -- Debug Adapter Protocol client implementation
+	{ "mfussenegger/nvim-dap", config = configs.dap.dap }, -- Debug Adapter Protocol client implementation
+	{ "rcarriga/nvim-dap-ui", config = configs.dap.dapui, dependencies = { "nvim-dap" } }, -- A UI for nvim-dap
 	{ "theHamsta/nvim-dap-virtual-text", config = configs.dap.vtext }, -- show virtual text
 	{ "nvim-telescope/telescope-dap.nvim" }, -- Integration for nvim-dap with telescope.nvim
 
@@ -332,7 +332,7 @@ require("lazy").setup({
 		dependencies = {
 			{ "romgrk/fzy-lua-native", build = "make" },
 			-- NOTE: cpsm require compile manually, run `cd ~/.local/share/nvim/site/pack/packer/start/cpsm && ./install.sh`
-			{ "nixprime/cpsm", build = "PY3=ON ./install.sh" },
+			{ "nixprime/cpsm", build = "PY3=ON ./install.sh" }, -- TODO: Test if it work
 		},
 		config = configs.wilder,
 	}, -- A more adventurous wildmenu
