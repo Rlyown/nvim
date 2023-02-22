@@ -122,7 +122,6 @@ require("lazy").setup({
 		"nvim-neorg/neorg",
 		version = "*",
 		ft = "norg",
-		after = { "nvim-treesitter", "telescope" }, -- You may want to specify Telescope here as well
 		config = configs.neorg,
 		build = ":Neorg sync-parsers",
 		dependencies = {
