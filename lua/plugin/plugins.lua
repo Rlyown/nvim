@@ -86,6 +86,7 @@ require("lazy").setup({
 			"mason.nvim",
 			-- All of the following must setup before lspconfig
 			"neoconf.nvim",
+			"neodev.nvim",
 			"lsp_signature.nvim",
 		},
 	},
@@ -108,6 +109,7 @@ require("lazy").setup({
 	}, -- Install and upgrade third party tools automatically
 	{ "jose-elias-alvarez/null-ls.nvim", config = configs.lsp.null_ls }, -- for formatters and linters
 	{ "ray-x/lsp_signature.nvim", version = "*", config = configs.lsp.signature }, -- LSP signature hint as you type
+	{ "folke/neodev.nvim", config = configs.lsp.neodev },
 	{ "kosayoda/nvim-lightbulb", config = configs.lsp.lightbulb }, -- show lightbulb when code action is available
 	{ "fatih/vim-go", build = ":GoInstallBinaries", ft = "go", config = configs.lsp.go }, -- Go development plugin
 	{
