@@ -286,7 +286,9 @@ Finally, run `nvim` and wait for the plugins to be installed.
 # First time to run nvim
 $ nvim
 # Or Synchronize all plugins manually
-$ nvim +"Lazy sync"
+$ nvim --headless "+Lazy! sync" +qa
+# Or Synchronize all plugins with specific version
+$ nvim --headless "+Lazy! restore" +qa
 
 # cpsm plugin require manual compilation at first time
 # cpsm plugin is used for wilder.nvim plugin
