@@ -10,6 +10,7 @@ local M = {
 	lightbulb = require("modules.lsp.lightbulb"),
 	refactoring = require("modules.lsp.refactoring"),
 	go = require("modules.lsp.go"),
+	neodev = require("modules.lsp.neodev"),
 }
 
 return M

@@ -82,18 +82,24 @@ require("lazy").setup({
 
 		"williamboman/mason-lspconfig.nvim", -- Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim
 		config = configs.lsp.mason_lspconfig,
-		dependencies = { "mason.nvim" },
+		dependencies = {
+			"mason.nvim",
+			-- All of the following must setup before lspconfig
+			"neoconf.nvim",
+			"lsp_signature.nvim",
+		},
 	},
 	{
 		"neovim/nvim-lspconfig", -- enable LSP
 		config = configs.lsp.lspconfig,
-		dependencies = { "mason-lspconfig.nvim" },
+		dependencies = {
+			"mason-lspconfig.nvim",
+		},
 	},
 	{
 		"folke/neoconf.nvim",
 		config = configs.neoconf,
 		cmd = "Neoconf",
-		dependencies = { "nvim-lspconfig" },
 	},
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -101,8 +107,7 @@ require("lazy").setup({
 		dependencies = { "mason.nvim" },
 	}, -- Install and upgrade third party tools automatically
 	{ "jose-elias-alvarez/null-ls.nvim", config = configs.lsp.null_ls }, -- for formatters and linters
-	{ "ray-x/lsp_signature.nvim", version = "*", config = configs.lsp.signature, dependencies = { "nvim-lspconfig" } },
-	-- LSP signature hint as you type
+	{ "ray-x/lsp_signature.nvim", version = "*", config = configs.lsp.signature }, -- LSP signature hint as you type
 	{ "kosayoda/nvim-lightbulb", config = configs.lsp.lightbulb }, -- show lightbulb when code action is available
 	{ "fatih/vim-go", build = ":GoInstallBinaries", ft = "go", config = configs.lsp.go }, -- Go development plugin
 	{
