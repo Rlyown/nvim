@@ -290,10 +290,6 @@ $ nvim --headless "+Lazy! sync" +qa
 # Or Synchronize all plugins with specific version
 $ nvim --headless "+Lazy! restore" +qa
 
-# cpsm plugin require manual compilation at first time
-# cpsm plugin is used for wilder.nvim plugin
-$ cd ~/.local/share/nvim/site/pack/packer/start/cpsm && ./install.sh
-
 # create neorg default directory
 $ mkdir -p ~/.local/state/nvim/neorg-notes/work
 ```

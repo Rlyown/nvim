@@ -332,7 +332,7 @@ require("lazy").setup({
 		dependencies = {
 			{ "romgrk/fzy-lua-native", build = "make" },
 			-- NOTE: cpsm require compile manually, run `cd ~/.local/share/nvim/site/pack/packer/start/cpsm && ./install.sh`
-			{ "nixprime/cpsm", build = "PY3=ON ./install.sh" }, -- TODO: Test if it work
+			{ "nixprime/cpsm", build = "PY3=ON ./install.sh" },
 		},
 		config = configs.wilder,
 	}, -- A more adventurous wildmenu
