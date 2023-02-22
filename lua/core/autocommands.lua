@@ -256,9 +256,19 @@ autocmd("FileType", {
 
 augroup("_CUSTOM_compile", { clear = true })
 -- Create an autocmd User PackerCompileDone to update it every time packer is compiled
-autocmd("BufWritePost", {
+autocmd("User", {
 	group = "_CUSTOM_compile",
-	pattern = "catppuccin.lua",
+	pattern = "LazyDone",
+	callback = function()
+		vim.cmd("CatppuccinCompile")
+
+		vim.defer_fn(function()
+			vim.cmd("colorscheme catppuccin")
+		end, 50) -- Debounced for live reloading
+	end,
+})
+vim.api.nvim_create_autocmd("BufWritePost", {
+	pattern = { "catppuccin.lua" },
 	callback = function()
 		vim.cmd("CatppuccinCompile")
 	end,
