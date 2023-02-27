@@ -28,9 +28,15 @@ lazy_opts = {
 	},
 }
 
+local priorities = {
+	first = 2000,
+	second = 1000,
+	third = 500,
+}
+
 require("lazy").setup({
 	-- Colorschemes
-	{ "catppuccin/nvim", name = "catppuccin", config = configs.catppuccin, priority = 1000 },
+	{ "catppuccin/nvim", name = "catppuccin", config = configs.catppuccin, priority = priorities.second },
 
 	-- Completions
 	{
@@ -39,25 +45,46 @@ require("lazy").setup({
 		config = configs.cmp,
 		event = "InsertEnter",
 	}, -- The completion plugin
-	{ "hrsh7th/cmp-buffer" }, -- buffer completions
-	{ "hrsh7th/cmp-path" }, -- path completions
-	{ "hrsh7th/cmp-cmdline" }, -- cmdline completions
-	{ "hrsh7th/cmp-nvim-lsp" }, -- lsp completions
-	{ "saadparwaiz1/cmp_luasnip" }, -- snippet completions
-	{ "hrsh7th/cmp-nvim-lua" }, -- neovim's lua api completions
-	{ "f3fora/cmp-spell" }, -- spell source for nvim-cmp
-	{ "hrsh7th/cmp-copilot" }, -- this is a experimental product
+	{ "hrsh7th/cmp-buffer", dependencies = { "nvim-cmp" } }, -- buffer completions
+	{ "hrsh7th/cmp-path", dependencies = { "nvim-cmp" } }, -- path completions
+	{ "hrsh7th/cmp-cmdline", dependencies = { "nvim-cmp" } }, -- cmdline completions
+	{ "hrsh7th/cmp-nvim-lsp", dependencies = { "nvim-cmp" } }, -- lsp completions
+	{ "saadparwaiz1/cmp_luasnip", dependencies = { "nvim-cmp", "LuaSnip" } }, -- snippet completions
+	{ "hrsh7th/cmp-nvim-lua", dependencies = { "nvim-cmp" } }, -- neovim's lua api completions
+	{ "f3fora/cmp-spell", dependencies = { "nvim-cmp" } }, -- spell source for nvim-cmp
+	{ "hrsh7th/cmp-copilot", dependencies = { "nvim-cmp", "copilot.vim" } }, -- this is a experimental product
 
 	{ "github/copilot.vim", event = "InsertEnter" }, -- gitHub Copilot
 	{ "saecki/crates.nvim", version = "*", event = { "BufRead Cargo.toml" }, config = configs.crates },
 	-- helps managing crates.io dependencies
-	{ "windwp/nvim-ts-autotag" },
+	{
+		"windwp/nvim-ts-autotag",
+		ft = {
+			"html",
+			"javascript",
+			"typescript",
+			"javascriptreact",
+			"typescriptreact",
+			"svelte",
+			"vue",
+			"tsx",
+			"jsx",
+			"rescript",
+			"xml",
+			"php",
+			"markdown",
+			"glimmer",
+			"handlebars",
+			"hbs",
+		},
+		event = "InsertEnter",
+	},
 
 	-- DAP
-	{ "mfussenegger/nvim-dap", config = configs.dap.dap }, -- Debug Adapter Protocol client implementation
+	{ "mfussenegger/nvim-dap", config = configs.dap.dap, lazy = true }, -- Debug Adapter Protocol client implementation
 	{ "rcarriga/nvim-dap-ui", config = configs.dap.dapui, dependencies = { "nvim-dap" } }, -- A UI for nvim-dap
-	{ "theHamsta/nvim-dap-virtual-text", config = configs.dap.vtext }, -- show virtual text
-	{ "nvim-telescope/telescope-dap.nvim" }, -- Integration for nvim-dap with telescope.nvim
+	{ "theHamsta/nvim-dap-virtual-text", config = configs.dap.vtext, dependencies = { "nvim-dap" } }, -- show virtual text
+	{ "nvim-telescope/telescope-dap.nvim", dependencies = { "nvim-dap", "telescope" } }, -- Integration for nvim-dap with telescope.nvim
 
 	-- Git
 	{
@@ -115,26 +142,29 @@ require("lazy").setup({
 	{
 		"simrat39/symbols-outline.nvim",
 		config = configs.symbols_outline,
+		cmd = "SymbolsOutline",
 	}, -- A tree like view for symbols
-	{ "ThePrimeagen/refactoring.nvim" }, -- The Refactoring library
-	{ "lewis6991/spellsitter.nvim" }, -- Treesitter powered spellchecker
+	{ "ThePrimeagen/refactoring.nvim", dependencies = { "nvim-treesitter", "telescope" }, lazy = true }, -- The Refactoring library
+	{ "lewis6991/spellsitter.nvim", dependencies = { "nvim-treesitter" } }, -- Treesitter powered spellchecker
 	{
 		"nvim-neorg/neorg",
 		version = "*",
 		ft = "norg",
+		cmd = "Neorg",
 		config = configs.neorg,
 		build = ":Neorg sync-parsers",
 		dependencies = {
-			{ "nvim-neorg/neorg-telescope" },
 			{
 				"Pocco81/true-zen.nvim",
 				config = function()
 					require("true-zen").setup({})
 				end,
+				lazy = true,
 			},
 		},
 	},
 
+	{ "nvim-neorg/neorg-telescope", dependencies = { "neorg", "telescope" } },
 	{ "andymass/vim-matchup" },
 	{
 		"gennaro-tedesco/nvim-jqx",
@@ -148,8 +178,8 @@ require("lazy").setup({
 	-- Intelligently reopen files at your last edit position
 
 	-- Snippets
-	{ "L3MON4D3/LuaSnip" }, --snippet engine
-	{ "rafamadriz/friendly-snippets" }, -- a bunch of snippets to use
+	{ "L3MON4D3/LuaSnip", lazy = true }, --snippet engine
+	{ "rafamadriz/friendly-snippets", dependencies = { "LuaSnip" } }, -- a bunch of snippets to use
 	--[[ use({ "vigoux/templar.nvim", config = configs.templar }) -- A dead simple template manager ]]
 	{ "cvigilv/esqueleto.nvim", config = configs.esqueleto },
 	--[[ use({ "Rlyown/esqueleto.nvim", config = configs.esqueleto }) ]]
@@ -160,23 +190,26 @@ require("lazy").setup({
 		"nvim-telescope/telescope.nvim",
 		name = "telescope",
 		config = configs.telescope,
+		lazy = true,
 	}, -- Find, Filter, Preview, Pick.
-	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- FZF sorter for telescope
+	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", dependencies = { "telescope" } }, -- FZF sorter for telescope
 	{
 		"nvim-telescope/telescope-frecency.nvim",
-		dependencies = { "kkharji/sqlite.lua" },
+		dependencies = { "kkharji/sqlite.lua", "telescope" },
 	}, -- offers intelligent prioritization
-	{ "nvim-telescope/telescope-file-browser.nvim" }, -- File Browser extension
+	{ "nvim-telescope/telescope-file-browser.nvim", dependencies = { "telescope" } }, -- File Browser extension
 	{
 		"benfowler/telescope-luasnip.nvim",
+		dependencies = { "telescope", "LuaSnip" },
 	},
-	{ "zane-/cder.nvim" },
+	{ "zane-/cder.nvim", dependencies = { "telescope" } },
 	{
 		"debugloop/telescope-undo.nvim",
 		config = function()
 			require("telescope").load_extension("undo")
 			-- optional: vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
 		end,
+		dependencies = { "telescope" },
 	},
 
 	-- Terminal
@@ -197,8 +230,8 @@ require("lazy").setup({
 	}, -- tmux integration for nvim features pane movement and resizing from within nvim.
 
 	-- Tools
-	{ "nvim-lua/popup.nvim" }, -- An implementation of the Popup API from vim in Neovim
-	{ "nvim-lua/plenary.nvim", priority = 2000 }, -- Useful lua functions used ny lots of plugins
+	{ "nvim-lua/popup.nvim", priority = priorities.first }, -- An implementation of the Popup API from vim in Neovim
+	{ "nvim-lua/plenary.nvim", priority = priorities.first }, -- Useful lua functions used ny lots of plugins
 	{
 		"windwp/nvim-autopairs",
 		config = configs.autopairs,
@@ -208,7 +241,7 @@ require("lazy").setup({
 	{ "famiu/bufdelete.nvim", lazy = true },
 	-- delete buffers (close files) without closing your windows or messing up your layout
 	-- use({ "moll/vim-bbye", cmd = { "Bdelete", "Bwipeout", "Bdelete!", "Bwipeout!" } }) -- delete buffers (close files) without closing your windows or messing up your layout
-	{ "lewis6991/impatient.nvim", priority = 2000 }, -- Improve startup time for Neovim
+	{ "lewis6991/impatient.nvim", priority = priorities.first }, -- Improve startup time for Neovim
 	{ "folke/which-key.nvim", config = configs.whichkey }, -- Create key bindings that stick.
 	{
 		"anuvyklack/hydra.nvim",
@@ -252,8 +285,9 @@ require("lazy").setup({
 		"phaazon/hop.nvim",
 		branch = "v2",
 		config = configs.hop,
+		lazy = true,
 	}, -- Neovim motions on speed
-	{ "windwp/nvim-spectre" }, -- Find the enemy and replace them with dark power.
+	{ "windwp/nvim-spectre", lazy = true }, -- Find the enemy and replace them with dark power.
 	{
 		"mrjones2014/dash.nvim",
 		build = "make install",
@@ -299,11 +333,11 @@ require("lazy").setup({
 	-- setting the commentstring based on the cursor location in a file.
 	{ "romgrk/nvim-treesitter-context", config = configs.treesitter_context }, -- show code context
 	{ "nvim-treesitter/playground", cmd = { "TSPlaygroundToggle" } }, -- View treesitter information directly in Neovim
-	{ "p00f/nvim-ts-rainbow" }, -- Rainbow parentheses
+	{ "p00f/nvim-ts-rainbow", priority = priorities.second }, -- Rainbow parentheses
 
 	-- UI
 	{ "karb94/neoscroll.nvim", config = configs.neoscroll },
-	{ "nvim-tree/nvim-web-devicons" }, -- a lua fork from vim-devicons
+	{ "nvim-tree/nvim-web-devicons", priority = priorities.second }, -- a lua fork from vim-devicons
 	{ "nvim-tree/nvim-tree.lua", config = configs.nvim_tree }, -- file explorer
 	{ "akinsho/bufferline.nvim", config = configs.bufferline }, -- buffer line plugin
 	{ "nvim-lualine/lualine.nvim", config = configs.lualine }, -- statusline plugin
@@ -321,6 +355,7 @@ require("lazy").setup({
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = configs.trouble,
+		cmd = "TroubleToggle",
 	},
 	-- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
 	{ "stevearc/dressing.nvim", config = configs.dressing }, -- Neovim plugin to improve the default vim.ui interfaces
@@ -335,7 +370,7 @@ require("lazy").setup({
 		},
 		config = configs.wilder,
 	}, -- A more adventurous wildmenu
-	{ "anuvyklack/pretty-fold.nvim", config = configs.pretty_fold },
+	{ "anuvyklack/pretty-fold.nvim", config = configs.pretty_fold, priority = priorities.second },
 	-- Foldtext customization and folded region preview in Neovim
 	-- Packer
 	{
