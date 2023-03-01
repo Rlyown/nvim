@@ -288,8 +288,19 @@ function install() {
 
 	# install tools
 	brew install ripgrep fd fortune lua sqlite \
-		cmake lazygit yarn gnu-sed boost trash exa bat \
+		cmake lazygit yarn gnu-sed boost exa bat \
 		go python3 node@16 rust llvm neovim
+
+	# trash in homebrew is macos only
+	if [[ $PLATFORM == "darwin" ]]; then
+		brew install trash
+	else
+		if [ $CHINESE_MIRROR == 1 ]; then
+			npm install --global trash-cli --registry http://registry.cnpmjs.org
+		else
+			npm install --global trash-cli
+		fi
+	fi
 
 	# install language server
 	if [ $CHINESE_MIRROR == 1 ]; then
