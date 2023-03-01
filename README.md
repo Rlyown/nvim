@@ -6,6 +6,7 @@ My neovim config is inspired by [LunarVim/Neovim-from-scratch](https://github.co
   - [Quick start](#quick-start)
   - [Install](#install)
   - [Check Health](#check-health)
+  - [Tmux Integration](#tmux-integration)
   - [Keymaps](#keymaps)
   - [Plugins](#plugins)
   - [Test Startup](#test-startup)
@@ -271,14 +272,14 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
    </p>
     </details>
 
-**Final Step（Necessary）**. To set neovim as default editor, you can add these to `~/.bashrc` or `~/.zshrc`:
+**Optional Step**. To set neovim as default editor, you can add these to `~/.bashrc` or `~/.zshrc`:
 
 ```shell
 export VISUAL="nvim"
 export EDITOR="nvim"
 ```
 
-Finally, run `nvim` and wait for the plugins to be installed.
+**Final Step**. Run `nvim` and wait for the plugins to be installed.
 
 ```shell
 # First time to run nvim
@@ -303,6 +304,40 @@ Run `nvim` and type the following:
 ```
 
 You can see plugins' diagnose problems with your configuration or environment.
+
+## Tmux Integration
+
+If you want to have a better experience with tmux, you can add the following bindings to your `~/.tmux.conf`.
+
+```
+# To enable cycle-free navigation beyond nvim
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+
+bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h' { if -F '#{pane_at_left}' '' 'select-pane -L' }
+bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j' { if -F '#{pane_at_bottom}' '' 'select-pane -D' }
+bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k' { if -F '#{pane_at_top}' '' 'select-pane -U' }
+bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l' { if -F '#{pane_at_right}' '' 'select-pane -R' }
+
+bind-key -T copy-mode-vi 'C-h' if -F '#{pane_at_left}' '' 'select-pane -L'
+bind-key -T copy-mode-vi 'C-j' if -F '#{pane_at_bottom}' '' 'select-pane -D'
+bind-key -T copy-mode-vi 'C-k' if -F '#{pane_at_top}' '' 'select-pane -U'
+bind-key -T copy-mode-vi 'C-l' if -F '#{pane_at_right}' '' 'select-pane -R'
+
+# To resize the window
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+
+bind -n 'M-h' if-shell "$is_vim" 'send-keys M-h' 'resize-pane -L 1'
+bind -n 'M-j' if-shell "$is_vim" 'send-keys M-j' 'resize-pane -D 1'
+bind -n 'M-k' if-shell "$is_vim" 'send-keys M-k' 'resize-pane -U 1'
+bind -n 'M-l' if-shell "$is_vim" 'send-keys M-l' 'resize-pane -R 1'
+
+bind-key -T copy-mode-vi M-h resize-pane -L 1
+bind-key -T copy-mode-vi M-j resize-pane -D 1
+bind-key -T copy-mode-vi M-k resize-pane -U 1
+bind-key -T copy-mode-vi M-l resize-pane -R 1
+```
+
+For more detail refer to [usage of tmux.nvim](https://github.com/aserowy/tmux.nvim#usage).
 
 ## Keymaps
 
