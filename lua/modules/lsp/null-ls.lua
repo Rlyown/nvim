@@ -51,6 +51,7 @@ return function()
 
 			-- code action
 			-- code_actions.gitsigns,
+			code_actions.shellcheck,
 
 			-- lint
 
