@@ -74,11 +74,9 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ brew install neovim ripgrep fd fortune lua sqlite
 
   # Tools for language support
-  $ brew install llvm bear cmake lazygit golang rustup-init node@16 yarn gnu-sed boost exa bat
+  $ brew install llvm bear cmake lazygit golang node@16 yarn gnu-sed boost exa bat rust python3
 
   $ npm install -g neovim
-  $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
-  $ rustup-init
 
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
@@ -88,6 +86,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   # llvm should add to path manually
   # On Apple Sillcon
   $ echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
+  $ echo 'export PATH="$HOME/go/bin:/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
 
   # If you want delete file to trash bin directory by nvim-tree
   $ brew install trash
@@ -152,7 +151,6 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ sudo apt install -y bear cmake gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
-  $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
 
   # Mason plugin need venv support
   # change the python version to your default version
@@ -243,7 +241,6 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ sudo dnf install -y sqlite-devel sqlite boost-devel python3-devel bat exa
   $ sudo npm install -g neovim
   $ go install github.com/jesseduffield/lazygit@latest
-  $ go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
 
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
