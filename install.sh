@@ -106,7 +106,11 @@ function check_homebrew() {
 
 				case $input in
 				[yY][eE][sS] | [yY])
-					install_homebrew
+					if [[ $CHINESE_MIRROR == 1 ]]; then
+						install_homebrew_chinese_mirror
+					else
+						install_homebrew
+					fi
 					HOMEBREW=$(which brew)
 					break
 					;;
@@ -145,6 +149,63 @@ function check() {
 ##############################
 # Install
 ##############################
+function install_homebrew_chinese_mirror() {
+	echo "Installing Homebrew..."
+
+	export HOMEBREW_INSTALL_FROM_API=1
+	export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
+	export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
+	export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+	export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+
+	git clone --depth=1 https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/install.git brew-install
+
+	if [ "${OS}" == "mac" ]; then
+		if [[ $ACCEPT -eq 1 ]]; then
+			NONINTERACTIVE=1 /bin/bash brew-install/install.sh
+		else
+			/bin/bash brew-install/install.sh
+		fi
+		test -r ~/.bash_profile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.bash_profile
+		test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
+		HOMEBREW=/opt/homebrew/bin/brew
+	elif [ "${OS}" == "ubuntu" ]; then
+		if [[ $ACCEPT -eq 1 ]]; then
+			NONINTERACTIVE=1 /bin/bash brew-install/install.sh
+		else
+			/bin/bash brew-install/install.sh
+		fi
+
+		# shellcheck disable=2046
+		test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+		# shellcheck disable=2046
+		test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+		test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+		echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+		test -r ~/.zprofile && echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >>~/.zprofile
+		HOMEBREW=/home/linuxbrew/.liinuxbrew/bin/brew
+	elif [ "${OS}" == "rhel" ]; then
+		sudo yum groupinstall 'Development Tools'
+		sudo yum install curl file git
+
+		if [[ $ACCEPT -eq 1 ]]; then
+			NONINTERACTIVE=1 /bin/bash brew-install/install.sh
+		else
+			/bin/bash brew-install/install.sh
+		fi
+
+		test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+		test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+		test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+		echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+		test -r ~/.zprofile && echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >>~/.zprofile
+		HOMEBREW=/home/linuxbrew/.liinuxbrew/bin/brew
+	fi
+
+	rm -rf brew-install
+	echo_green "Homebrew installed successfully"
+}
+
 function install_homebrew() {
 	echo "Installing Homebrew..."
 	if [ "${OS}" == "mac" ]; then
@@ -214,18 +275,30 @@ function install() {
 
 	echo_green "Installing..."
 
-	export GO111MODULE=on
-	export GOPROXY=https://goproxy.cn
+	# export GO111MODULE=on
+	# export GOPROXY=https://goproxy.cn
+
+	if [ $CHINESE_MIRROR == 1 ]; then
+		export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
+		export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
+		export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+		export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+		export HOMEBREW_PIP_INDEX_URL="https://pypi.tuna.tsinghua.edu.cn/simple"
+	fi
 
 	# install tools
 	brew install ripgrep fd fortune lua sqlite \
 		cmake lazygit yarn gnu-sed boost trash exa bat \
 		go python3 node@16 rust llvm neovim
-	go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
 
 	# install language server
-	npm install -g neovim
-	pip3 install pynvim
+	if [ $CHINESE_MIRROR == 1 ]; then
+		npm install -g neovim --registry http://registry.cnpmjs.org
+		pip3 install pynvim -i https://pypi.tuna.tsinghua.edu.cn/simple
+	else
+		npm install -g neovim
+		pip3 install pynvim
+	fi
 
 	install_fonts
 
@@ -310,6 +383,7 @@ function help() {
 	echo "    -u     Update configuration files"
 	echo "    -U     Update configuration files and dependencies application"
 	echo "    -c     Container mode"
+	echo "    -m     Use chinese mirror"
 	echo "    -y     Assume yes to all prompts"
 }
 
@@ -320,7 +394,8 @@ CONTAINER=0
 INSTALL=0
 UPDATE=0
 ACCEPT=0
-while getopts "hibucy" opt; do
+CHINESE_MIRROR=0
+while getopts "hibucym" opt; do
 	case $opt in
 	h)
 		help
@@ -341,6 +416,9 @@ while getopts "hibucy" opt; do
 		;;
 	y)
 		ACCEPT=1
+		;;
+	m)
+		CHINESE_MIRROR=1
 		;;
 	*)
 		errcho "Invalid option: -$OPTARG"
