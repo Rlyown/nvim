@@ -154,19 +154,21 @@ function install_homebrew() {
 			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 		fi
 		HOMEBREW=/opt/homebrew/bin/brew
-	elif ["${OS}" == "ubuntu"]; then
+	elif [ "${OS}" == "ubuntu" ]; then
 		if [[ $ACCEPT -eq 1 ]]; then
 			NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 		else
 			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 		fi
 
+		# shellcheck disable=2046
 		test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+		# shellcheck disable=2046
 		test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 		test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
 		echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
 		HOMEBREW=/home/linuxbrew/.liinuxbrew/bin/brew
-	elif ["${OS}" == "rhel"]; then
+	elif [ "${OS}" == "rhel" ]; then
 		sudo yum groupinstall 'Development Tools'
 		sudo yum install curl file git
 
@@ -211,7 +213,6 @@ function install() {
 	check
 
 	echo_green "Installing..."
-	install_neovim
 
 	export GO111MODULE=on
 	export GOPROXY=https://goproxy.cn
