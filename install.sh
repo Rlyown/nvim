@@ -146,14 +146,20 @@ function check() {
 # Install
 ##############################
 function install_homebrew() {
+    echo "Installing Homebrew..."
 	if [ "${OS}" == "mac" ]; then
-		if ! command -v brew &>/dev/null; then
-			echo "Installing Homebrew..."
-			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-		fi
+        if [[ $ACCEPT -eq 1 ]]; then
+           NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        else
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
         HOMEBREW=/opt/homebrew/bin/brew
     elseif ["${OS}" == "ubuntu"]; then
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+        if [[ $ACCEPT -eq 1 ]]; then
+           NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        else
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
 
         test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
         test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
@@ -164,7 +170,11 @@ function install_homebrew() {
         sudo yum groupinstall 'Development Tools'
         sudo yum install curl file git
 
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+        if [[ $ACCEPT -eq 1 ]]; then
+           NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        else
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
 
         test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
         test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
@@ -210,7 +220,7 @@ function install() {
 	# install tools
 	brew install ripgrep fd fortune lua sqlite \
 		cmake lazygit yarn gnu-sed boost trash exa bat \
-        go python3 node16 rust llvm14 neovim
+        go python3 node@16 rust llvm neovim
 	go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
 
 	# install language server
