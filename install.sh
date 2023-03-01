@@ -55,136 +55,135 @@ function check_os() {
 			;;
 		*)
 			errcho "Your OS (${OS}) is not test."
-            while true; do
-                local input=$(read_input "Do you want to continue? [y/n]: " "n")
+			while true; do
+				local input=$(read_input "Do you want to continue? [y/n]: " "n")
 
-                case $input in
-                [yY][eE][sS] | [yY])
-                    break
-                    ;;
+				case $input in
+				[yY][eE][sS] | [yY])
+					break
+					;;
 
-                [nN][oO] | [nN])
-                    exit 1
-                    ;;
-                *)
-                    errcho "Invalid input..."
-                    ;;
-                esac
-            done
+				[nN][oO] | [nN])
+					exit 1
+					;;
+				*)
+					errcho "Invalid input..."
+					;;
+				esac
+			done
 			;;
 		esac
 	else
 		errcho "Your platform (${PLATFORM}) is not test."
-        while true; do
-            local input=$(read_input "Do you want to continue? [y/n]: " "n")
+		while true; do
+			local input=$(read_input "Do you want to continue? [y/n]: " "n")
 
-            case $input in
-            [yY][eE][sS] | [yY])
-                break
-                ;;
+			case $input in
+			[yY][eE][sS] | [yY])
+				break
+				;;
 
-            [nN][oO] | [nN])
-                exit 1
-                ;;
-            *)
-                errcho "Invalid input..."
-                ;;
-            esac
-        done
+			[nN][oO] | [nN])
+				exit 1
+				;;
+			*)
+				errcho "Invalid input..."
+				;;
+			esac
+		done
 	fi
 }
 
 function check_homebrew() {
-    if ! command -v brew >/dev/null 2>&1; then
-        errcho "Homebrew is not installed! Please install homebrew first."
+	if ! command -v brew >/dev/null 2>&1; then
+		errcho "Homebrew is not installed! Please install homebrew first."
 
-        if [[ $ACCEPT -eq 1 ]]; then
-            install_homebrew
-        else
-            while true; do
-                local input=$(read_input "Do you want to install homebrew now? [y/n]: " "n")
+		if [[ $ACCEPT -eq 1 ]]; then
+			install_homebrew
+		else
+			while true; do
+				local input=$(read_input "Do you want to install homebrew now? [y/n]: " "n")
 
-                case $input in
-                [yY][eE][sS] | [yY])
-                    install_homebrew
-                    HOMEBREW=$(which brew)
-                    break
-                    ;;
+				case $input in
+				[yY][eE][sS] | [yY])
+					install_homebrew
+					HOMEBREW=$(which brew)
+					break
+					;;
 
-                [nN][oO] | [nN])
-                    exit 1
-                    ;;
-                *)
-                    errcho "Invalid input..."
-                    ;;
-                esac
-            done
-        fi
-    else
-        HOMEBREW=$(command -v brew)
-    fi
+				[nN][oO] | [nN])
+					exit 1
+					;;
+				*)
+					errcho "Invalid input..."
+					;;
+				esac
+			done
+		fi
+	else
+		HOMEBREW=$(command -v brew)
+	fi
 }
 
 function show_info() {
-    echo_green "OS: ${OS}"
-    echo_green "Platform: ${PLATFORM}"
-    echo_green "Architecture: ${ARCH}"
-    echo_green "Shell: ${CUR_SHELL}"
-    echo_green "Shell config: ${CUR_SHELL_CONFIG}"
-    echo_green "Homebrew: ${HOMEBREW}"
-    echo
+	echo_green "OS: ${OS}"
+	echo_green "Platform: ${PLATFORM}"
+	echo_green "Architecture: ${ARCH}"
+	echo_green "Shell: ${CUR_SHELL}"
+	echo_green "Shell config: ${CUR_SHELL_CONFIG}"
+	echo_green "Homebrew: ${HOMEBREW}"
+	echo
 }
 
 function check() {
-    check_os
-    check_homebrew
+	check_os
+	check_homebrew
 
-    show_info
+	show_info
 }
 
 ##############################
 # Install
 ##############################
 function install_homebrew() {
-    echo "Installing Homebrew..."
+	echo "Installing Homebrew..."
 	if [ "${OS}" == "mac" ]; then
-        if [[ $ACCEPT -eq 1 ]]; then
-           NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        else
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        fi
-        HOMEBREW=/opt/homebrew/bin/brew
-    elseif ["${OS}" == "ubuntu"]; then
-        if [[ $ACCEPT -eq 1 ]]; then
-           NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        else
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        fi
+		if [[ $ACCEPT -eq 1 ]]; then
+			NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+		else
+			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+		fi
+		HOMEBREW=/opt/homebrew/bin/brew
+	elif ["${OS}" == "ubuntu"]; then
+		if [[ $ACCEPT -eq 1 ]]; then
+			NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+		else
+			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+		fi
 
-        test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-        test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-        test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
-        echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
-        HOMEBREW=/home/linuxbrew/.liinuxbrew/bin/brew
-    elseif ["${OS}" == "rhel"]; then
-        sudo yum groupinstall 'Development Tools'
-        sudo yum install curl file git
+		test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+		test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+		test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+		echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+		HOMEBREW=/home/linuxbrew/.liinuxbrew/bin/brew
+	elif ["${OS}" == "rhel"]; then
+		sudo yum groupinstall 'Development Tools'
+		sudo yum install curl file git
 
-        if [[ $ACCEPT -eq 1 ]]; then
-           NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        else
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        fi
+		if [[ $ACCEPT -eq 1 ]]; then
+			NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+		else
+			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+		fi
 
-        test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-        test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-        test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
-        echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
-        HOMEBREW=/home/linuxbrew/.liinuxbrew/bin/brew
+		test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+		test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+		test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+		echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+		HOMEBREW=/home/linuxbrew/.liinuxbrew/bin/brew
 	fi
-    echo_green "Homebrew installed successfully"
+	echo_green "Homebrew installed successfully"
 }
-
 
 ##############################
 # Installation
@@ -196,7 +195,7 @@ function install_fonts() {
 		brew tap homebrew/cask-fonts
 		brew install --cask font-jetbrains-mono-nerd-font
 
-        echo_green "JetBrains Mono Nerd Font is installed successfully"
+		echo_green "JetBrains Mono Nerd Font is installed successfully"
 	else
 		mkdir -p ~/.local/share/fonts
 
@@ -204,12 +203,12 @@ function install_fonts() {
 		curl -fLo "JetBrains Mono NL Regular Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/complete/JetBrains%20Mono%20NL%20Regular%20Nerd%20Font%20Complete.ttf
 		popd
 
-        echo_green "JetBrains Mono Nerd Font is installed successfully in ~/.local/share/fonts"
+		echo_green "JetBrains Mono Nerd Font is installed successfully in ~/.local/share/fonts"
 	fi
 }
 
 function install() {
-    check
+	check
 
 	echo_green "Installing..."
 	install_neovim
@@ -220,7 +219,7 @@ function install() {
 	# install tools
 	brew install ripgrep fd fortune lua sqlite \
 		cmake lazygit yarn gnu-sed boost trash exa bat \
-        go python3 node@16 rust llvm neovim
+		go python3 node@16 rust llvm neovim
 	go install github.com/klauspost/asmfmt/cmd/asmfmt@latest
 
 	# install language server
@@ -234,8 +233,8 @@ function install() {
 	echo 'export VISUAL="nvim"' >>$CUR_SHELL_CONFIG
 	echo 'export EDITOR="nvim"' >>$CUR_SHELL_CONFIG
 
-    # Sync neovim remote package version
-    nvim --headless "+Lazy! restore" +qa
+	# Sync neovim remote package version
+	nvim --headless "+Lazy! restore" +qa
 
 	mkdir -p ~/.local/state/nvim/neorg-notes/work
 
@@ -265,8 +264,8 @@ function update() {
 			git fetch origin main
 			git merge
 
-            # Sync neovim remote package version
-            nvim --headless "+Lazy! restore" +qa
+			# Sync neovim remote package version
+			nvim --headless "+Lazy! restore" +qa
 		else
 			while true; do
 				local input=$(read_input "Do you want to force pull, and discard local changes? [Y/n]: ")
@@ -281,8 +280,8 @@ function update() {
 						errcho "git merge remote main failed\!"
 						exit 1
 					fi
-                    # Sync neovim remote package version
-                    nvim --headless "+Lazy! restore" +qa
+					# Sync neovim remote package version
+					nvim --headless "+Lazy! restore" +qa
 					break
 					;;
 
@@ -332,10 +331,10 @@ while getopts "hibucy" opt; do
 	u)
 		UPDATE=1
 		;;
-    U)
-        UPDATE=1
-        INSTALL=1
-        ;;
+	U)
+		UPDATE=1
+		INSTALL=1
+		;;
 	c)
 		CONTAINER=1
 		;;
