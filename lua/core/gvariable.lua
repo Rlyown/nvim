@@ -28,14 +28,25 @@ M.compiler = {
 }
 
 if vim.fn.has("mac") == 1 then
+	local arch = require("jit").arch
+	local homebrew_prefix = ""
+
+	if arch == "x64" then
+		homebrew_prefix = "/usr/local/"
+	elseif arch == "arm64" then
+		homebrew_prefix = "/opt/homebrew"
+	end
+
 	M.os = "mac"
 	-- Set the python3 path which installed pynvim
 	M.dash_path = "/Applications/Dash.app"
-	M.node_path = "/opt/homebrew/opt/node@16/bin/node"
+	M.node_path = homebrew_prefix .. "/opt/node@16/bin/node"
 
-	M.debuggers.lldb_vscode = "/opt/homebrew/opt/llvm/bin/lldb-vscode"
+	M.debuggers.lldb_vscode = homebrew_prefix .. "/opt/llvm/bin/lldb-vscode"
 elseif vim.fn.has("unix") == 1 then
 	M.os = "unix"
+	M.node_path = "/home/linuxbrew/.linuxbrew/opt/node@16/bin/node"
+	M.debuggers.lldb_vscode = "/home/linuxbrew/.linuxbrew/opt/llvm/bin/lldb-vscode"
 else
 	M.os = "unsupport"
 end
