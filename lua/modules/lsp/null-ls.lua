@@ -57,6 +57,7 @@ return function()
 			-- diagnostics
 			-- diagnostics.markdownlint
 			-- diagnostics.flake8
+			diagnostics.shellcheck,
 		},
 	})
 end

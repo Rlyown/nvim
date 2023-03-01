@@ -6,6 +6,7 @@ return function()
 		ensure_installed = {
 			-- Lint
 			--[[ "markdownlint", ]]
+			"shellcheck",
 
 			-- Format
 			"stylua",
