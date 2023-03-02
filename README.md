@@ -59,6 +59,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
 **Requirements**
 
+- [Homebrew](https://brew.sh/) (for packages' installation in MacOS or Linux)
 - [Rust](https://www.rust-lang.org/tools/install) (for some installations of dependencies)
 - [Python3](https://www.python.org/downloads/) with [pip](https://pip.pypa.io/en/stable/installation/) and `venv` (for some plugins)
 - [Nodejs](https://github.com/nodesource/distributions) 16 (for copilot.vim and some installations of dependencies)
@@ -66,16 +67,33 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 - [lldb_vscode](https://github.com/llvm/llvm-project) (for debug)
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) (for markdown preview plugin)
 
-**Install the follow dependencies**:
+**Install with following Steps**:
+
+**Provision**. Assume that the current environment has `Homebrew`. If not, you can install it by following command:
+
+```shell
+# For MacOS
+xcode-select --install
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# For Linux
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
+```
+
+**First Step**. Install the necessary packages, including environments in requirements.
 
 - <details><summary>On MacOS</summary>
-    <p>
+  <p>
 
   ```shell
-  $ brew install neovim ripgrep fd fortune lua sqlite
-
-  # Tools for language support
-  $ brew install llvm bear cmake lazygit golang node@16 yarn gnu-sed boost exa bat rust python3
+  $ brew install ripgrep fd fortune lua sqlite \
+  	cmake lazygit yarn gnu-sed boost exa bat \
+  	go python3 node@16 rust llvm neovim npm bear
 
   $ npm install -g neovim
 
@@ -105,58 +123,18 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   (Optional) If you want to search program language api from [Dash](https://kapeli.com/dash), you can download it and set the application path in `lua/core/gvariable.lua`.
 
-    </p>
-    </details>
+  </p>
+  </details>
 
-- <details><summary>On Ubuntu 20.04</summary>
+- <details><summary>On Linux</summary>
   <p>
 
   ```shell
-  # Install System denpendence
-  $ sudo apt-get install curl git openssl libssl-dev
+  $ brew install ripgrep fd fortune lua sqlite \
+  	cmake lazygit yarn gnu-sed boost exa bat \
+  	go python3 node@16 rust llvm neovim npm bear
 
-  # Install Golang
-  $ wget https://go.dev/dl/go1.18.linux-amd64.tar.gz
-  $ sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
-  # If you want to make go-bin-path persistent, write it to your ~/.bashrc
-  $ export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH
-
-  # Install Rust
-  $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  $ source $HOME/.cargo/env
-
-  # add Node source (node version >= 14)
-  $ curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt-get install -y nodejs
-
-  # Install llvm
-  $ sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-
-  # Install neovim
-  $ cargo install --git https://github.com/MordechaiHadad/bob.git
-  $ bob use v0.8.1
-  $ echo 'export PATH=$HOME/.local/share/nvim/bin:$PATH' >> ~/.bashrc
-  $ source ~/.bashrc
-
-  # Install main packages
-  $ sudo apt update
-  $ sudo apt install -y neovim ripgrep fd-find fortune-mod lua5.4 exa bat
-
-  # Note that the binary is called fdfind as the binary name fd is already used by another package.
-  # Make sure that $HOME/.local/bin is in your $PATH
-  $ mkdir -p ~/.local/bin
-  $ ln -s $(which fdfind) ~/.local/bin/fd
-  $ ln -s /usr/bin/batcat ~/.local/bin/bat
-
-  # Tools for language support
-  $ sudo apt-get update
-  $ sudo apt install -y bear cmake gdb yarn python3-pip libsqlite3-dev sqlite3 libboost-all-dev python3-dev
-  $ sudo npm install -g neovim
-  $ go install github.com/jesseduffield/lazygit@latest
-
-  # Mason plugin need venv support
-  # change the python version to your default version
-  $ PYTHON_VERSION=3.8
-  $ sudo apt install python${PYTHON_VERSION}-venv
+  $ npm install -g neovim
 
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
@@ -186,91 +164,6 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   </p>
   </details>
-
-- <details><summary>On CentOS 8</summary>
-  <p>
-
-  ```sh
-  # Install Golang
-  $ wget https://go.dev/dl/go1.18.linux-amd64.tar.gz
-  $ sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
-  # If you want to make go-bin-path persistent, write it to your ~/.bashrc
-  $ export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH
-
-  # Install Rust
-  $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  $ source $HOME/.cargo/env
-
-  # Add Node source (node version >= 14)
-  $ curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
-
-  # Compile and install llvm
-  git clone https://github.com/llvm/llvm-project.git /tmp/llvm-project
-  pushd /tmp/llvm-project
-  cmake -S llvm -B build -G Ninja \
-      -DLLVM_ENABLE_PROJECTS="clang;lldb" \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
-      -DLLVM_TARGETS_TO_BUILD=X86 \
-  cmake --build build --target install
-  popd
-
-  # Install yarn
-  $ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
-  $ sudo rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
-  $ sudo yum install yarn
-
-  # Install Openssl
-  $ sudo yum install -y openssl openssl-devel
-
-  # Install neovim
-  $ cargo install --git https://github.com/MordechaiHadad/bob.git
-  $ bob use v0.8.1
-  $ echo 'export PATH=$HOME/.local/share/nvim/bin:$PATH' >> ~/.bashrc
-  $ source ~/.bashrc
-
-  # Install ripgrep and fd
-  $ cargo install ripgrep fd-find
-
-  # Install fortune-mod
-  $ sudo dnf install -y fortune-mod
-
-  # Install compiledb to replace bear
-  $ pip3 install compiledb
-
-  # Install Package
-  $ sudo dnf install -y sqlite-devel sqlite boost-devel python3-devel bat exa
-  $ sudo npm install -g neovim
-  $ go install github.com/jesseduffield/lazygit@latest
-
-  # Install neovim python support, and python debugger used by dap
-  # If want to deal with multi-version conflicts, you can set
-  # the virtualenv python path is set in the lua/core/gvariable.lua
-  $ pip3 install pynvim
-
-  # If you want delete file to trash bin directory by nvim-tree
-  $ npm install --global trash-cli
-  ```
-
-  _Nerd Fonts_ is needed to show icons. You can choose your favorite font or find icons in the [https://www.nerdfonts.com](https://www.nerdfonts.com).
-
-  ```shell
-  # Other nice fonts: Hack, Fira Code, Meslo
-  $ mkdir -p ~/.local/share/fonts
-  $ cd ~/.local/share/fonts && curl -fLo "JetBrains Mono NL Regular Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/complete/JetBrains%20Mono%20NL%20Regular%20Nerd%20Font%20Complete.ttf
-  ```
-
-  _Note_: Don't forget to change your terminal fonts.
-
-  (Optional) If you want to search program language api from [Zeal](https://zealdocs.org/), you can download it and set the binary path in `lua/core/gvariable.lua`.
-
-  ```sh
-  # Get zeal, an offline documentation browser
-  sudo dnf install zeal
-  ```
-
-   </p>
-    </details>
 
 **Optional Step**. To set neovim as default editor, you can add these to `~/.bashrc` or `~/.zshrc`:
 
@@ -491,3 +384,7 @@ $ vim-startuptime -vimpath nvim
 - [Getting started using Lua in Neovim](https://github.com/nanotee/nvim-lua-guide)
 
 - [Snippets in Visual Studio Code](https://code.visualstudio.com/docs/editor/userdefinedsnippets)
+
+```
+
+```

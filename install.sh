@@ -238,9 +238,7 @@ function install_homebrew() {
 			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 		fi
 
-		# shellcheck disable=2046
 		test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-		# shellcheck disable=2046
 		test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 		test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
 		echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
@@ -307,7 +305,7 @@ function install() {
 	# install tools
 	brew install ripgrep fd fortune lua sqlite \
 		cmake lazygit yarn gnu-sed boost exa bat \
-		go python3 node@16 rust llvm neovim npm
+		go python3 node@16 rust llvm neovim npm bear
 
 	HOMEBREW_BIN_PATH=$(dirname ${HOMEBREW})
 	# trash in homebrew is macos only
