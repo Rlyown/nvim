@@ -175,7 +175,12 @@ function install_homebrew_chinese_mirror() {
 		fi
 		test -r ~/.bash_profile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.bash_profile
 		test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
-		HOMEBREW=/opt/homebrew/bin/brew
+
+		if [[ $ARCH == "arm64" ]]; then
+			HOMEBREW=/usr/local/bin/brew
+		else
+			HOMEBREW=/opt/homebrew/bin/brew
+		fi
 	elif [ "${OS}" == "ubuntu" ]; then
 		if [[ $ACCEPT -eq 1 ]]; then
 			NONINTERACTIVE=1 /bin/bash brew-install/install.sh
@@ -221,7 +226,11 @@ function install_homebrew() {
 		else
 			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 		fi
-		HOMEBREW=/opt/homebrew/bin/brew
+		if [[ $ARCH == "arm64" ]]; then
+			HOMEBREW=/usr/local/bin/brew
+		else
+			HOMEBREW=/opt/homebrew/bin/brew
+		fi
 	elif [ "${OS}" == "ubuntu" ]; then
 		if [[ $ACCEPT -eq 1 ]]; then
 			NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -300,27 +309,25 @@ function install() {
 		cmake lazygit yarn gnu-sed boost exa bat \
 		go python3 node@16 rust llvm neovim
 
+	HOMEBREW_BIN_PATH=$(dirname ${HOMEBREW})
 	# trash in homebrew is macos only
 	if [[ $PLATFORM == "darwin" ]]; then
 		brew install trash
 	else
 		if [ $CHINESE_MIRROR == 1 ]; then
-			npm install --global trash-cli --registry $NPM_MIRROR
+			"${HOMEBREW_BIN_PATH}/npm" install --global trash-cli --registry $NPM_MIRROR
 		else
-			npm install --global trash-cli
+			"${HOMEBREW_BIN_PATH}/npm" install --global trash-cli
 		fi
 	fi
 
-	# install language server
 	if [ $CHINESE_MIRROR == 1 ]; then
-		npm install -g neovim --registry $NPM_MIRROR
-		pip3 install pynvim -i $PYTHON_MIRROR
+		"${HOMEBREW_BIN_PATH}/npm" install -g neovim --registry $NPM_MIRROR
+		"${HOMEBREW_BIN_PATH}/pip3" install pynvim -i $PYTHON_MIRROR
 	else
-		npm install -g neovim
-		pip3 install pynvim
+		"${HOMEBREW_BIN_PATH}/npm" install -g neovim
+		"${HOMEBREW_BIN_PATH}/pip3" install pynvim
 	fi
-
-	install_fonts
 
 	export VISUAL="nvim"
 	export EDITOR="nvim"
