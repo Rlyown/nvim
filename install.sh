@@ -11,9 +11,10 @@ PLATFORM=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 OS=
 HOMEBREW=
-CUR_SHELL=$(echo $SHELL | xargs basename)
-CUR_SHELL_CONFIG="$HOME/.${CUR_SHELL}rc"
-
+CUR_SHELL=
+CUR_SHELL_CONFIG=
+NPM_MIRROR=https://registry.npmmirror.com
+PYTHON_MIRROR=https://pypi.tuna.tsinghua.edu.cn/simple
 ##############################
 # Utils
 ##############################
@@ -94,6 +95,11 @@ function check_os() {
 	fi
 }
 
+function check_shell() {
+	CUR_SHELL=$(echo $SHELL | xargs basename)
+	CUR_SHELL_CONFIG="$HOME/.${CUR_SHELL}rc"
+}
+
 function check_homebrew() {
 	if ! command -v brew >/dev/null 2>&1; then
 		errcho "Homebrew is not installed! Please install homebrew first."
@@ -141,6 +147,7 @@ function show_info() {
 
 function check() {
 	check_os
+	check_shell
 	check_homebrew
 
 	show_info
@@ -228,6 +235,7 @@ function install_homebrew() {
 		test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 		test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
 		echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+		test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
 		HOMEBREW=/home/linuxbrew/.liinuxbrew/bin/brew
 	elif [ "${OS}" == "rhel" ]; then
 		sudo yum groupinstall 'Development Tools'
@@ -243,6 +251,7 @@ function install_homebrew() {
 		test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 		test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
 		echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+		test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
 		HOMEBREW=/home/linuxbrew/.liinuxbrew/bin/brew
 	fi
 	echo_green "Homebrew installed successfully"
@@ -296,7 +305,7 @@ function install() {
 		brew install trash
 	else
 		if [ $CHINESE_MIRROR == 1 ]; then
-			npm install --global trash-cli --registry http://registry.cnpmjs.org
+			npm install --global trash-cli --registry $NPM_MIRROR
 		else
 			npm install --global trash-cli
 		fi
@@ -304,8 +313,8 @@ function install() {
 
 	# install language server
 	if [ $CHINESE_MIRROR == 1 ]; then
-		npm install -g neovim --registry http://registry.cnpmjs.org
-		pip3 install pynvim -i https://pypi.tuna.tsinghua.edu.cn/simple
+		npm install -g neovim --registry $NPM_MIRROR
+		pip3 install pynvim -i $PYTHON_MIRROR
 	else
 		npm install -g neovim
 		pip3 install pynvim
@@ -330,6 +339,7 @@ function install() {
 	echo_green "  3. Placces restart your terminal."
 	echo_green "  4. Run 'nvim +checkhealth' to see plugins' diagnose problems."
 	echo_green "  5. (Optical) If you want to search program language api from 'Zeal' in Linux or 'Dash' in MacOS, you can download it and set the binary path in 'lua/core/gvariable.lua'."
+	echo_green "  6. (Optical) If you want to have a better experience with 'tmux', you can refer to [Tmux Integration] in README."
 }
 
 ##############################
@@ -380,6 +390,8 @@ function update() {
 				esac
 			done
 		fi
+	else
+		nvim --headless "+Lazy! restore" +qa
 	fi
 
 }
