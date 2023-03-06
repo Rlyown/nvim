@@ -33,6 +33,10 @@ function read_input() {
 	echo "$input"
 }
 
+function nvim_plugins_sync() {
+	nvim --headless "+Lazy! restore | MasonToolsUpdate" +qa
+}
+
 ##############################
 # Check
 ##############################
@@ -333,7 +337,7 @@ function install() {
 	echo 'export EDITOR="nvim"' >>$CUR_SHELL_CONFIG
 
 	# Sync neovim remote package version
-	nvim --headless "+Lazy! restore" +qa
+	nvim_plugins_sync
 
 	mkdir -p ~/.local/state/nvim/neorg-notes/work
 
@@ -365,7 +369,7 @@ function update() {
 			git merge
 
 			# Sync neovim remote package version
-			nvim --headless "+Lazy! restore" +qa
+			nvim_plugins_sync
 		else
 			while true; do
 				local input=$(read_input "Do you want to force pull, and discard local changes? [Y/n]: ")
@@ -381,7 +385,7 @@ function update() {
 						exit 1
 					fi
 					# Sync neovim remote package version
-					nvim --headless "+Lazy! restore" +qa
+					nvim_plugins_sync
 					break
 					;;
 
@@ -396,7 +400,7 @@ function update() {
 			done
 		fi
 	else
-		nvim --headless "+Lazy! restore" +qa
+		nvim_plugins_sync
 	fi
 
 }
