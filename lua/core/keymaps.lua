@@ -59,15 +59,6 @@ keymap("v", "K", ":m .-2<CR>==", opts)
 -- paste and replace
 keymap("v", "p", '"_dP', opts)
 
--- plugins
-keymap("v", "<leader>l", ":ToggleTermSendVisualLines<cr>", opts)
-keymap("v", "<leader>r", ":SnipRun<cr>", opts)
-keymap("v", "<leader>s", ":ToggleTermSendVisualSelection<cr>", opts)
-keymap("v", "<leader>Gc", ":GoChannelPeers<cr>", opts)
-keymap("v", "<leader>GR", ":GoRemoveTags<cr>", opts)
-keymap("v", "<leader>GT", ":GoAddTags<cr>", opts)
-keymap("v", "<leader>a", "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", opts)
-
 -- Visual Block --
 -- Move text up and down
 keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
@@ -90,8 +81,18 @@ end
 -- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+keymap("v", "<leader>l", ":ToggleTermSendVisualLines<cr>", opts)
+keymap("v", "<leader>s", ":ToggleTermSendVisualSelection<cr>", opts)
 
--- Hop plugin
+-- vim-go
+keymap("v", "<leader>Gc", ":GoChannelPeers<cr>", opts)
+keymap("v", "<leader>GR", ":GoRemoveTags<cr>", opts)
+keymap("v", "<leader>GT", ":GoAddTags<cr>", opts)
+
+-- refactoring
+keymap("v", "<leader>a", "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", opts)
+
+-- Hop
 keymap("v", "<leader>mb", ":HopChar2<cr>", opts)
 keymap("v", "<leader>mc", ":HopChar1<cr>", opts)
 keymap("v", "<leader>ml", ":HopLine<cr>", opts)
@@ -100,25 +101,12 @@ keymap("v", "<leader>mw", ":HopWord<cr>", opts)
 -- Dap plugin
 -- keymap("v", "<leader>d", ':lua require("dapui").eval()', opts)
 
--- spectre plugin
+-- spectre
 keymap("v", "<leader>S", "<cmd>lua require('spectre').open_visual()<CR>", opts)
 
--- crate plugin
+-- crate
 keymap("v", "<leader><leader>lru", ":lua require('crates').update_crates()<cr>", opts)
 keymap("v", "<leader><leader>lru", ":lua require('crates').upgrade_crates()<cr>", opts)
 
 -- Copilot
 -- vim.cmd([[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")]])
-
--- accelerated-jk
-vim.api.nvim_set_keymap("n", "j", "<Plug>(accelerated_jk_gj)", {})
-vim.api.nvim_set_keymap("n", "k", "<Plug>(accelerated_jk_gk)", {})
-
--- bufresize
-keymap("n", "<C-w><", "<C-w><<cmd>lua require('bufresize').register()<cr>", opts)
-keymap("n", "<C-w>>", "<C-w>><cmd>lua require('bufresize').register()<cr>", opts)
-keymap("n", "<C-w>+", "<C-w>+<cmd>lua require('bufresize').register()<cr>", opts)
-keymap("n", "<C-w>-", "<C-w>-<cmd>lua require('bufresize').register()<cr>", opts)
-keymap("n", "<C-w>_", "<C-w>_<cmd>lua require('bufresize').register()<cr>", opts)
-keymap("n", "<C-w>|", "<C-w>|<cmd>lua require('bufresize').register()<cr>", opts)
-keymap("n", "<C-w>=", "<C-w>=<cmd>lua require('bufresize').register()<cr>", opts)

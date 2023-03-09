@@ -34,6 +34,8 @@ local priorities = {
 	third = 500,
 }
 
+local key_opts = { noremap = true, silent = true }
+
 require("lazy").setup({
 	-- Colorschemes
 	{ "catppuccin/nvim", name = "catppuccin", config = configs.catppuccin, priority = priorities.second },
@@ -55,7 +57,12 @@ require("lazy").setup({
 	{ "hrsh7th/cmp-copilot", dependencies = { "nvim-cmp", "copilot.vim" } }, -- this is a experimental product
 
 	{ "github/copilot.vim", event = "InsertEnter" }, -- gitHub Copilot
-	{ "saecki/crates.nvim", version = "*", event = { "BufRead Cargo.toml" }, config = configs.crates },
+	{
+		"saecki/crates.nvim",
+		version = "*",
+		event = { "BufRead Cargo.toml" },
+		config = configs.crates,
+	},
 	-- helps managing crates.io dependencies
 	{
 		"windwp/nvim-ts-autotag",
@@ -139,13 +146,22 @@ require("lazy").setup({
 	{ "ray-x/lsp_signature.nvim", version = "*", config = configs.lsp.signature }, -- LSP signature hint as you type
 	{ "folke/neodev.nvim", config = configs.lsp.neodev },
 	{ "kosayoda/nvim-lightbulb", config = configs.lsp.lightbulb }, -- show lightbulb when code action is available
-	{ "fatih/vim-go", build = ":GoInstallBinaries", ft = "go", config = configs.lsp.go }, -- Go development plugin
+	{
+		"fatih/vim-go",
+		build = ":GoInstallBinaries",
+		ft = "go",
+		config = configs.lsp.go,
+	}, -- Go development plugin
 	{
 		"simrat39/symbols-outline.nvim",
 		config = configs.symbols_outline,
 		cmd = "SymbolsOutline",
 	}, -- A tree like view for symbols
-	{ "ThePrimeagen/refactoring.nvim", dependencies = { "nvim-treesitter", "telescope" }, lazy = true }, -- The Refactoring library
+	{
+		"ThePrimeagen/refactoring.nvim",
+		dependencies = { "nvim-treesitter", "telescope" },
+		lazy = true,
+	}, -- The Refactoring library
 	{ "lewis6991/spellsitter.nvim", dependencies = { "nvim-treesitter" } }, -- Treesitter powered spellchecker
 	{
 		"nvim-neorg/neorg",
@@ -215,7 +231,10 @@ require("lazy").setup({
 	},
 
 	-- Terminal
-	{ "akinsho/toggleterm.nvim", config = configs.toggleterm }, -- easily manage multiple terminal windows
+	{
+		"akinsho/toggleterm.nvim",
+		config = configs.toggleterm,
+	}, -- easily manage multiple terminal windows
 	{
 		"sakhnik/nvim-gdb",
 		build = "bash ./install.sh",
@@ -267,6 +286,8 @@ require("lazy").setup({
 					require("splitjoin").join()
 				end,
 				desc = "Join the object under cursor",
+				noremap = true,
+				silent = true,
 			},
 			{
 				"gS",
@@ -274,6 +295,8 @@ require("lazy").setup({
 					require("splitjoin").split()
 				end,
 				desc = "Split the object under cursor",
+				noremap = true,
+				silent = true,
 			},
 		},
 		opts = {
@@ -289,7 +312,10 @@ require("lazy").setup({
 		config = configs.hop,
 		lazy = true,
 	}, -- Neovim motions on speed
-	{ "windwp/nvim-spectre", lazy = true }, -- Find the enemy and replace them with dark power.
+	{
+		"windwp/nvim-spectre",
+		lazy = true,
+	}, -- Find the enemy and replace them with dark power.
 	{
 		"mrjones2014/dash.nvim",
 		build = "make install",
@@ -325,8 +351,39 @@ require("lazy").setup({
 		},
 		config = configs.neoclip,
 	},
-	{ "rainbowhxch/accelerated-jk.nvim", config = configs.accelerated_jk },
-	-- Packer
+	{
+		"rainbowhxch/accelerated-jk.nvim",
+		config = configs.accelerated_jk,
+		keys = {
+			{ "j", "<Plug>(accelerated_jk_gj)" },
+			{ "k", "<Plug>(accelerated_jk_gk)" },
+		},
+	},
+	{
+		"cbochs/portal.nvim",
+		-- Optional dependencies
+		dependencies = {
+			"cbochs/grapple.nvim",
+			"ThePrimeagen/harpoon",
+		},
+		config = configs.portal,
+		keys = {
+			{
+				"<C-o>",
+				"<cmd>Portal jumplist backward<cr>",
+				desc = "Jump to previous location in jumplist",
+				noremap = true,
+				silent = true,
+			},
+			{
+				"<C-i>",
+				"<cmd>Portal jumplist forward<cr>",
+				desc = "Jump to next location in jumplist",
+				noremap = true,
+				silent = true,
+			},
+		},
+	},
 
 	-- Treesitter
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = configs.treesitter },
@@ -361,7 +418,19 @@ require("lazy").setup({
 	-- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
 	{ "stevearc/dressing.nvim", config = configs.dressing }, -- Neovim plugin to improve the default vim.ui interfaces
 	{ "rcarriga/nvim-notify", config = configs.notify }, -- A fancy, configurable, notification manager for NeoVim
-	{ "kwkarlwang/bufresize.nvim", lazy = true }, -- Keep buffer dimensions in proportion when terminal window is resized
+	{
+		"kwkarlwang/bufresize.nvim",
+		lazy = true,
+		keys = {
+			{ "<C-w><", "<C-w><<cmd>lua require('bufresize').register()<cr>", noremap = true, silent = true },
+			{ "<C-w>>", "<C-w>><cmd>lua require('bufresize').register()<cr>", noremap = true, silent = true },
+			{ "<C-w>+", "<C-w>+<cmd>lua require('bufresize').register()<cr>", noremap = true, silent = true },
+			{ "<C-w>-", "<C-w>-<cmd>lua require('bufresize').register()<cr>", noremap = true, silent = true },
+			{ "<C-w>_", "<C-w>_<cmd>lua require('bufresize').register()<cr>", noremap = true, silent = true },
+			{ "<C-w>|", "<C-w>|<cmd>lua require('bufresize').register()<cr>", noremap = true, silent = true },
+			{ "<C-w>=", "<C-w>=<cmd>lua require('bufresize').register()<cr>", noremap = true, silent = true },
+		},
+	}, -- Keep buffer dimensions in proportion when terminal window is resized
 	{
 		"gelguy/wilder.nvim",
 		dependencies = {
