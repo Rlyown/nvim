@@ -41,6 +41,8 @@ local M = {
     pretty_fold = require("modules.pretty_fold"),
     session_manager = require("modules.session_manager"),
     smartyank = require("modules.smartyank"),
+    sniprun = require("modules.sniprun"),
+
     spectre = require("modules.spectre"),
     spellsitter = require("modules.spellsitter"),
     symbols_outline = require("modules.symbols_outline"),

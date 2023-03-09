@@ -384,6 +384,12 @@ require("lazy").setup({
 			},
 		},
 	},
+	{
+		"michaelb/sniprun",
+		build = "bash ./install.sh 1", -- force compile install for macos m1
+		cmd = "SnipRun",
+		config = configs.sniprun,
+	},
 
 	-- Treesitter
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = configs.treesitter },

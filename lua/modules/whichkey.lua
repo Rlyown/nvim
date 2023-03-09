@@ -250,6 +250,12 @@ return function()
 				"<cmd>lua require('hydra').spawn('resize-hydra')<cr>",
 				"Resize Window",
 			},
+			["R"] = {
+				name = "SnipRun",
+				c = { "<cmd>lua require’sniprun.display’.close_all()<cr>", "Clear" },
+				r = { "<cmd>lua require’sniprun’.run()<cr>", "Run" },
+				s = { "<cmd>lua require’sniprun’.reset()<cr>", "Stop" },
+			},
 			["s"] = {
 				name = "Search",
 				a = {
