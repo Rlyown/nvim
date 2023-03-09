@@ -68,11 +68,11 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 -- netrw will be disabled if you use nvim-tree
 local os = require("core.gvariable").os
 if os == "mac" then
-	keymap("", "gx", '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
+    keymap("", "gx", '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
 elseif os == "unix" then
-	keymap("", "gx", '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
+    keymap("", "gx", '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
 else
-	keymap("", "gx", '<Cmd>lua print("Error: gx is not supported on this OS!")<CR>', opts)
+    keymap("", "gx", '<Cmd>lua print("Error: gx is not supported on this OS!")<CR>', opts)
 end
 
 -- Terminal --
@@ -109,4 +109,4 @@ keymap("v", "<leader><leader>lru", ":lua require('crates').update_crates()<cr>",
 keymap("v", "<leader><leader>lru", ":lua require('crates').upgrade_crates()<cr>", opts)
 
 -- Copilot
--- vim.cmd([[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")]])
+--[[ vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true }) ]]
