@@ -2,8 +2,6 @@
 
 set -e
 
-# TODO: use homebrew to install dependencies in all platform
-
 ##############################
 # Variables
 ##############################
