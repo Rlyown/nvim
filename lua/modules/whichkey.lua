@@ -104,7 +104,7 @@ return function()
 			["C"] = { "<cmd>lua require('telescope').extensions.cder.cder()<cr>", "Change Work Directory" },
 			["d"] = {
 				"<cmd>lua require('hydra').spawn('dap-hydra')<cr>",
-				"DAP",
+				"Debug",
 			},
 			["e"] = { "<cmd>edit<cr>", "Reopen" },
 			["E"] = { "<cmd>SudaRead<cr>", "Sudo Reopen" },
@@ -116,35 +116,6 @@ return function()
 			["g"] = {
 				"<cmd>lua require('hydra').spawn('git-hydra')<cr>",
 				"Git",
-			},
-			["G"] = {
-				name = "Golang",
-				a = { "<cmd>GoAlternate<cr>", "Alternate" },
-				b = { "<cmd>GoBuild<cr>", "Build" },
-				B = { "<cmd>GoCoverageBrowser<cr>", "Coverage Browser" },
-				c = { "<cmd>GoTestCompile<cr>", "Compile Test" },
-				C = { "<cmd>GoCoverageToggle<cr>", "Coverage" },
-				D = { "<cmd>GoDeps<cr>", "Dependence" },
-				f = { "<cmd>GoTestFunc<cr>", "Function Test" },
-				F = { "<cmd>GoFiles<cr>", "Files" },
-				I = { "<cmd>GoInstallBinaries<cr>", "Install Binaries" },
-				r = { "<cmd>GoRun<cr>", "Run" },
-				R = {
-					function()
-						local s = vim.fn.input("Input GoRemoveTags Optional Args: ")
-						vim.cmd(string.format("GoRemoveTags %s", s))
-					end,
-					"Remove Tags",
-				},
-				t = { "<cmd>GoTest<cr>", "Test" },
-				T = {
-					function()
-						local s = vim.fn.input("Input GoAddTags Optional Args: ")
-						vim.cmd(string.format("GoAddTags %s", s))
-					end,
-					"Add Tags",
-				},
-				U = { "<cmd>GoUpdateBinaries<cr>", "Update Binaries" },
 			},
 			["h"] = { "<cmd>nohlsearch<CR>", "No Highlight Search" },
 			["l"] = {
@@ -506,12 +477,6 @@ return function()
 			-- r = "SnipRun",
 			s = "ToggleTermSendVisualSelection",
 			S = "Search & Replace",
-			G = {
-				name = "Golang",
-				c = "GoChannelPeers",
-				R = "GoRemoveTags",
-				T = "GoAddTags",
-			},
 			["<leader>"] = {
 				l = {
 					name = "Language Specific",

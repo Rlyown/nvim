@@ -68,11 +68,11 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 -- netrw will be disabled if you use nvim-tree
 local os = require("core.gvariable").os
 if os == "mac" then
-    keymap("", "gx", '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
+	keymap("", "gx", '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
 elseif os == "unix" then
-    keymap("", "gx", '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
+	keymap("", "gx", '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
 else
-    keymap("", "gx", '<Cmd>lua print("Error: gx is not supported on this OS!")<CR>', opts)
+	keymap("", "gx", '<Cmd>lua print("Error: gx is not supported on this OS!")<CR>', opts)
 end
 
 -- Terminal --
@@ -83,11 +83,6 @@ end
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 keymap("v", "<leader>l", ":ToggleTermSendVisualLines<cr>", opts)
 keymap("v", "<leader>s", ":ToggleTermSendVisualSelection<cr>", opts)
-
--- vim-go
-keymap("v", "<leader>Gc", ":GoChannelPeers<cr>", opts)
-keymap("v", "<leader>GR", ":GoRemoveTags<cr>", opts)
-keymap("v", "<leader>GT", ":GoAddTags<cr>", opts)
 
 -- refactoring
 keymap("v", "<leader>a", "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", opts)

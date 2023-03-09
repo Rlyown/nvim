@@ -20,18 +20,16 @@ return function()
 		},
 		hint = [[
  _b_: breakpoint      _f_: step out         _o_: repl        _w_: condition bp
- _c_: continue        _g_: get session      _p_: pause       _x_: dapui         
- _C_: run to cursor   _y_: count bp         _q_: close                          
- _d_: disconnect      _v_: log bp           _R_: rerun                          
+ _c_: run/continue    _g_: get session      _p_: pause       _x_: dapui         
+ _C_: run to cursor   _y_: count bp         _v_: log bp      _R_: rerun
  _e_: exception bp    _n_: step over        _s_: step into                      
  ^
- ^ ^              ^ ^                                   ^ ^            _<Esc>_
+ ^ ^              ^ ^                       _q_: disconnect              _<Esc>_
 ]],
 		heads = {
 			{ "b", "<cmd>lua require'dap'.toggle_breakpoint()<CR>" },
 			{ "c", "<cmd>lua require'dap'.continue()<CR>" },
 			{ "C", "<cmd>lua require'dap'.run_to_cursor()<cr>" },
-			{ "d", "<cmd>lua require'dap'.disconnect()<cr>", { exit = true } },
 			{
 				"e",
 				"<cmd>lua require'dap'.set_exception_breakpoints('default', { breakMode = 'userUnhandled' })<cr>",
@@ -41,7 +39,7 @@ return function()
 			{ "n", "<cmd>lua require'dap'.step_over()<CR>" },
 			{ "o", "<cmd>lua require'dap'.repl.toggle()<CR>" },
 			{ "p", "<cmd>lua require'dap'.pause.toggle()<cr>" },
-			{ "q", "<cmd>lua require'dap'.close()<cr>", { exit = true } },
+			{ "q", "<cmd>lua require'dap'.disconnect()<cr>", { exit = true } },
 			{ "R", "<cmd>lua require'dap'.run_last()<CR>" },
 			{ "s", "<cmd>lua require'dap'.step_into()<CR>" },
 			{
