@@ -413,7 +413,7 @@ function help() {
 	echo "    -u     Update configuration files"
 	echo "    -U     Update configuration files and dependencies application"
 	echo "    -c     Container mode"
-	echo "    -m     Use chinese mirror"
+	echo "    -m     Use Chinese mirror"
 	echo "    -y     Assume yes to all prompts"
 }
 
