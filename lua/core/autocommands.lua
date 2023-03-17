@@ -206,17 +206,6 @@ autocmd("FileType", {
 	end,
 })
 
-augroup("_CUSTOM_wilder", { clear = true })
-autocmd("CmdlineEnter", {
-	group = "_CUSTOM_wilder",
-	pattern = "*",
-	once = true,
-	callback = function()
-		configs.wilder()
-		vim.cmd([[call g:wilder#main#start()]])
-	end,
-})
-
 augroup("_CUSTOM_terminal", { clear = true })
 autocmd("TermOpen", {
 	group = "_CUSTOM_terminal",

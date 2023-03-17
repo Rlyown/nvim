@@ -47,15 +47,15 @@ return function()
 
 	require("noice").setup({
 		cmdline = {
-			view = "cmdline", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
+			view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
 		},
 		popupmenu = {
-			enabled = false, -- enables the Noice popupmenu UI
+			enabled = true, -- enables the Noice popupmenu UI
 			backend = "cmp",
 		},
 		lsp = {
 			hover = {
-				enabled = false,
+				enabled = true,
 			},
 			signature = {
 				enabled = false,
@@ -63,9 +63,40 @@ return function()
 		},
 		---@type NoicePresets
 		presets = {
-			bottom_search = true, -- use a classic bottom cmdline for search
+			bottom_search = false, -- use a classic bottom cmdline for search
+			command_palette = true,
 		},
 		routes = custom_routes, --- @see section on routes
+		views = {
+			cmdline_popup = {
+				position = {
+					row = 5,
+					col = "50%",
+				},
+				size = {
+					width = 60,
+					height = "auto",
+				},
+			},
+			popupmenu = {
+				relative = "editor",
+				position = {
+					row = 8,
+					col = "50%",
+				},
+				size = {
+					width = 60,
+					height = 10,
+				},
+				border = {
+					style = "rounded",
+					padding = { 0, 1 },
+				},
+				win_options = {
+					winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+				},
+			},
+		},
 	})
 
 	require("telescope").load_extension("noice")
