@@ -86,7 +86,7 @@
   "smartyank.nvim": { "branch": "master", "commit": "7e3905578f646503525b2f7018b8afd17861018c" },
   "sniprun": { "branch": "master", "commit": "01dff2b4a15b06d6b9d65838708b5b080a070d5c" },
   "spellsitter.nvim": { "branch": "master", "commit": "4af8640d9d706447e78c13150ef7475ea2c16b30" },
-  "splitjoin.nvim": { "branch": "main", "commit": "396597a7b0e0f4e5b9e2c39ef4684363f7bd3d28" },
+  "splitjoin.nvim": { "branch": "main", "commit": "48a0ec75cbdcff094ce703799d4be3b96998d7b1" },
   "sqlite.lua": { "branch": "master", "commit": "5162c8e2cc580f66ffe4bb4a7ae97a412596faba" },
   "suda.vim": { "branch": "master", "commit": "08abd39dfe1cee681b8ce3e7321da5fa03e045c1" },
   "symbols-outline.nvim": { "branch": "master", "commit": "512791925d57a61c545bc303356e8a8f7869763c" },
