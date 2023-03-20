@@ -311,14 +311,9 @@ function install() {
 
 	HOMEBREW_BIN_PATH=$(dirname ${HOMEBREW})
 	# trash in homebrew is macos only
+	# linux use 'gio trash'
 	if [[ $PLATFORM == "darwin" ]]; then
 		brew install trash
-	else
-		if [ $CHINESE_MIRROR == 1 ]; then
-			"${HOMEBREW_BIN_PATH}/npm" install --global trash-cli --registry $NPM_MIRROR
-		else
-			"${HOMEBREW_BIN_PATH}/npm" install --global trash-cli
-		fi
 	fi
 
 	if [ $CHINESE_MIRROR == 1 ]; then
