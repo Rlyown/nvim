@@ -9,8 +9,6 @@ if vim.fn.has("mac") == 1 then
 	elseif arch == "arm64" then
 		M.homebrew_prefix = "/opt/homebrew"
 	end
-
-	M.dash_path = "/Applications/Dash.app"
 elseif vim.fn.has("unix") == 1 then
 	M.os = "unix"
 	M.homebrew_prefix = "/home/linuxbrew/.linuxbrew"
@@ -36,7 +34,6 @@ M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
 M.snippet_dir = vim.fn.stdpath("config") .. "/snippets"
 M.neorg_dir = vim.fn.stdpath("state") .. "/neorg-notes"
 
-M.zeal_path = system("command -v zeal")
 M.node_path = M.homebrew_prefix .. "/opt/node@16/bin/node"
 
 M.compiler = {

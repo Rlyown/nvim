@@ -95,19 +95,19 @@ test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zpr
   $ brew install ripgrep fd fortune lua sqlite \
   	cmake lazygit yarn gnu-sed boost exa bat \
   	go python3 node@16 rust llvm neovim npm bear
-  
+
   $ npm install -g neovim
-  
+
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
   # the virtualenv python path is set in the lua/core/gvariable.lua
   $ pip3 install pynvim
-  
+
   # llvm should add to path manually
   # On Apple Sillcon
   $ echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
   $ echo 'export PATH="$HOME/go/bin:/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
-  
+
   # If you want delete file to trash bin directory by nvim-tree
   $ brew install trash
   ```
@@ -122,8 +122,6 @@ test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zpr
 
   _Note_: Don't forget to change your terminal fonts.
 
-  (Optional) If you want to search program language api from [Dash](https://kapeli.com/dash), you can download it and set the application path in `lua/core/gvariable.lua`.
-
   </p>
   </details>
 
@@ -134,14 +132,14 @@ test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zpr
   $ brew install ripgrep fd fortune lua sqlite \
   	cmake lazygit yarn gnu-sed boost exa bat \
   	go python3 node@16 rust llvm neovim npm bear
-  
+
   $ npm install -g neovim
-  
+
   # Install neovim python support, and python debugger used by dap
   # If want to deal with multi-version conflicts, you can set
   # the virtualenv python path is set in the lua/core/gvariable.lua
   $ pip3 install pynvim
-  
+
   # If you want delete file to trash bin directory by nvim-tree
   $ npm install --global trash-cli
   ```
@@ -155,13 +153,6 @@ test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zpr
   ```
 
   _Note_: Don't forget to change your terminal fonts.
-
-  (Optional) If you want to search program language api from [Zeal](https://zealdocs.org/), you can download it and set the binary path in `lua/core/gvariable.lua`.
-
-  ```sh
-  # Get zeal, an offline documentation browser
-  sudo apt-get install zeal
-  ```
 
   </p>
   </details>
@@ -385,4 +376,3 @@ $ vim-startuptime -vimpath nvim
 - [Getting started using Lua in Neovim](https://github.com/nanotee/nvim-lua-guide)
 
 - [Snippets in Visual Studio Code](https://code.visualstudio.com/docs/editor/userdefinedsnippets)
-

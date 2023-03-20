@@ -326,29 +326,6 @@ require("lazy").setup({
 		"windwp/nvim-spectre",
 		lazy = true,
 	}, -- Find the enemy and replace them with dark power.
-	{
-		"mrjones2014/dash.nvim",
-		build = "make install",
-		config = configs.dash,
-		cond = function()
-			if os == "mac" and vim.fn.isdirectory(dash_path) then
-				return true
-			end
-			return false
-		end,
-	}, -- Search Dash.app from your Neovim fuzzy finder
-	{
-		"KabbAmine/zeavim.vim",
-		cmd = { "Zeavim", "ZeavimV", "Docset" },
-		config = configs.zeavim,
-		cond = function()
-			if os == "unix" and vim.fn.executable(zeal_path) then
-				return true
-			end
-			return false
-		end,
-	},
-	--[[ end ]]
 	{ "gaoDean/autolist.nvim", ft = { "markdown", "norg", "txt" }, config = configs.autolist },
 	{ "ibhagwan/smartyank.nvim", config = configs.smartyank },
 	{

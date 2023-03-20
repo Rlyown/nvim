@@ -286,16 +286,6 @@ return function()
 			},
 			["s"] = {
 				name = "Search",
-				a = {
-					function()
-						if os == "mac" then
-							vim.cmd("lua require('telescope').extensions.dash.search()")
-						else
-							vim.cmd("Zeavim")
-						end
-					end,
-					"API Search",
-				},
 				B = { "<cmd>lua require('telescope').extensions.file_browser.file_browser()<cr>", "File Browser" },
 				c = { "<cmd>lua require('telescope.builtin').commands()<cr>", "Commands" },
 				C = { "<cmd>lua require('telescope.builtin').colorscheme()<cr>", "Colorscheme" },
