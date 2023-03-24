@@ -66,14 +66,14 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 
 -- Open Url
 -- netrw will be disabled if you use nvim-tree
-local os = require("core.gvariable").os
-if os == "mac" then
-	keymap("", "gx", '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
-elseif os == "unix" then
-	keymap("", "gx", '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', opts)
-else
-	keymap("", "gx", '<Cmd>lua print("Error: gx is not supported on this OS!")<CR>', opts)
-end
+--[[ local os = require("core.gvariable").os ]]
+--[[ if os == "mac" then ]]
+--[[ 	keymap("", "gx", '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', opts) ]]
+--[[ elseif os == "unix" then ]]
+--[[ 	keymap("", "gx", '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', opts) ]]
+--[[ else ]]
+--[[ 	keymap("", "gx", '<Cmd>lua print("Error: gx is not supported on this OS!")<CR>', opts) ]]
+--[[ end ]]
 
 -- Terminal --
 -- Better terminal navigation
