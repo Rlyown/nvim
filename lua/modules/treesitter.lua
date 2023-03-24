@@ -37,24 +37,16 @@ return function()
 			},
 		},
 		rainbow = {
-			enable = true,
-			-- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-			extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-			max_file_lines = 3000, -- Do not enable for files with more than n lines, int
-			-- Colors will be changed by catppuccin plugin.
-			-- Disable option in catppuccin to custom it.
-			colors = {
-				"#CCFFFF",
-				"#0066CC",
-				"#CCFFCC",
-				"#6666CC",
-				"#EE9999",
-				"#99EE99",
-				"#996633",
-				-- "#696900",
-				-- "#EFBF8F",
-			}, -- table of hex strings
-			-- termcolors = {} -- table of colour name strings
+			-- TODO: disable it for large file
+			rainbow = {
+				enable = true,
+				-- list of languages you want to disable the plugin for
+				-- disable = { "jsx", "cpp" },
+				-- Which query to use for finding delimiters
+				query = "rainbow-parens",
+				-- Highlight the entire buffer all at once
+				strategy = require("ts-rainbow").strategy.global,
+			},
 		},
 		matchup = {
 			enable = true, -- mandatory, false will disable the whole extension
