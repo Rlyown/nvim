@@ -388,7 +388,7 @@ require("lazy").setup({
 	-- setting the commentstring based on the cursor location in a file.
 	{ "romgrk/nvim-treesitter-context", config = configs.treesitter_context }, -- show code context
 	{ "nvim-treesitter/playground", cmd = { "TSPlaygroundToggle" } }, -- View treesitter information directly in Neovim
-	{ "HiPhish/nvim-ts-rainbow2", priority = priorities.second }, -- Rainbow parentheses
+	{ "HiPhish/nvim-ts-rainbow2" }, -- Rainbow parentheses
 
 	-- UI
 	{ "karb94/neoscroll.nvim", config = configs.neoscroll },
