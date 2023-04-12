@@ -156,6 +156,12 @@ require("lazy").setup({
 		ft = { "go", "gomod" },
 		build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
 	},
+	{
+		"linux-cultist/venv-selector.nvim",
+		dependencies = { "neovim/nvim-lspconfig", "telescope" },
+		config = configs.venv_selector,
+		event = "VeryLazy", -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
+	},
 
 	{
 		"simrat39/symbols-outline.nvim",

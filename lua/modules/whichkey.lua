@@ -201,6 +201,10 @@ return function()
 						a = { "<cmd>GoCodeAction<cr>", "Code Action" },
 					},
 				},
+				p = {
+					name = "Python",
+					v = { "<cmd>VenvSelect<cr>", "VenvSelect" },
+				},
 				r = {
 					name = "Rust Crate",
 					d = { "<cmd>lua require('crates').open_documentation()<cr>", "Documentation" },

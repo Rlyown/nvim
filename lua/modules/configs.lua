@@ -53,6 +53,7 @@ local M = {
 	treesitter = require("modules.treesitter"),
 	trouble = require("modules.trouble"),
 	undotree = require("modules.undotree"),
+    venv_selector = require("modules.venv-selector"),
 	whichkey = require("modules.whichkey"),
 }
 
