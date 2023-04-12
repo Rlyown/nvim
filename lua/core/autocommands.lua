@@ -253,3 +253,13 @@ autocmd("FileType", {
 		vim.api.nvim_buf_set_option(0, "tabstop", 2)
 	end,
 })
+
+-- Only enable conceal for these filetypes.
+augroup("_CUSTOM_conceal", { clear = true })
+autocmd("FileType", {
+	group = "_CUSTOM_conceal",
+	pattern = { "norg", "markdown" },
+	callback = function()
+		vim.opt_local.conceallevel = 3
+	end,
+})
