@@ -11,6 +11,7 @@ local M = {
 	refactoring = require("modules.lsp.refactoring"),
 	go = require("modules.lsp.go"),
 	neodev = require("modules.lsp.neodev"),
+	vimtex = require("modules.lsp.vimtex"),
 }
 
 return M

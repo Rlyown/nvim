@@ -7,6 +7,7 @@ My neovim config is inspired by [LunarVim/Neovim-from-scratch](https://github.co
   - [Install](#install)
   - [Check Health](#check-health)
   - [Tmux Integration](#tmux-integration)
+  - [Latex Integration](#latex-integration)
   - [Keymaps](#keymaps)
   - [Plugins](#plugins)
   - [Test Startup](#test-startup)
@@ -52,7 +53,7 @@ $ nvim
 
 Make sure to remove or move your current `nvim` directory.
 
-**IMPORTANT** Configuration based on neovim v0.9.0.
+**IMPORTANT** Configuration based on neovim v0.9.3.
 
 ```shell
 $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
@@ -223,6 +224,15 @@ bind-key -T copy-mode-vi M-l resize-pane -R 1
 ```
 
 For more detail refer to [usage of tmux.nvim](https://github.com/aserowy/tmux.nvim#usage).
+
+## Latex Integration
+
+If you want to use latex, you can install [Skim](https://skim-app.sourceforge.io/) and [VimTeX](https://github.com/lervag/vimtex).
+
+VimTex has been installed by default. It only will be activated when executable `latexmk` be detected.
+You can install Skim with `brew install --cask skim`, and install Tex Live with `brew install --cask mactex-no-gui` in MacOS.
+
+For more detail refer to [Setup Skim PDF reader with VimTeX in Mac OS](https://dr563105.github.io/blog/skim-vimtex-setup/).
 
 ## Keymaps
 

@@ -68,4 +68,6 @@ vim.cmd("set whichwrap+=<,>,[,],h,l") -- enable this key to go next/before line 
 vim.cmd([[set iskeyword+=-]]) -- set word to keyword
 vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
 vim.cmd([[set cinoptions=g0,:0,N-s,(0]]) -- set c/cpp indent options
-vim.cmd([[filetype indent on]]) -- auto indent for different filetype
+-- vim.cmd([[filetype plugin indent on]]) -- auto indent for different filetype
+vim.g.do_filetype_lua = 1
+vim.g.did_load_filetypes = 0

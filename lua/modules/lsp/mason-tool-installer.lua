@@ -13,6 +13,7 @@ return function()
 			"black",
 			"shfmt",
 			"prettier",
+			"latexindent",
 
 			-- DAP
 			--[[ "codelldb", ]]

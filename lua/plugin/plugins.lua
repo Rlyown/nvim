@@ -145,6 +145,13 @@ require("lazy").setup({
 	{ "folke/neodev.nvim", config = configs.lsp.neodev },
 	{ "kosayoda/nvim-lightbulb", config = configs.lsp.lightbulb }, -- show lightbulb when code action is available
 	{
+		"lervag/vimtex",
+		config = configs.lsp.vimtex,
+		cond = function()
+			return vim.fn.executable("latexmk")
+		end,
+	},
+	{
 		"ray-x/go.nvim",
 		dependencies = { -- optional packages
 			"ray-x/guihua.lua",
@@ -284,9 +291,9 @@ require("lazy").setup({
 	-- use({ "tpope/vim-surround" }) -- all about "surroundings": parentheses, brackets, quotes, XML tags, and more
 	{ "kylechui/nvim-surround", config = configs.nvim_surround },
 	-- Add/change/delete surrounding delimiter pairs with ease
-	{ "nathom/filetype.nvim", config = configs.filetype }, -- A faster version of filetype.vim
 	{ "dstein64/vim-startuptime", cmd = { "StartupTime" } }, -- A Vim plugin for profiling Vim's startup time
 	-- use({ "Pocco81/AutoSave.nvim" }) -- enable autosave
+	{ "RaafatTurki/hex.nvim", config = configs.hex },
 	{
 		"bennypowers/splitjoin.nvim",
 		lazy = true,
@@ -444,4 +451,12 @@ require("lazy").setup({
 		},
 	},
 	{ "jbyuki/nabla.nvim" },
+
+	-- Others
+	{
+		"alanfortlink/blackjack.nvim",
+		opts = {
+			scores_path = "/tmp/blackjack_scores.json",
+		},
+	},
 }, lazy_opts)

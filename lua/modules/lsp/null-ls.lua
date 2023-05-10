@@ -20,6 +20,7 @@ return function()
 			formatting.prettier,
 			formatting.black.with({ extra_args = { "--fast" } }),
 			formatting.shfmt,
+			formatting.latexindent,
 
 			-- Disable it because command line arguments take precedence over .clang-format file
 			-- c/cpp

@@ -18,8 +18,8 @@ local M = {
 	diffview = require("modules.diffview"),
 	dressing = require("modules.dressing"),
 	esqueleto = require("modules.esqueleto"),
-	filetype = require("modules.filetype"),
 	gitsigns = require("modules.gitsigns"),
+	hex = require("modules.hex"),
 	hop = require("modules.hop"),
 	hydra = require("modules.hydra"),
 	indentline = require("modules.indentline"),
@@ -53,7 +53,7 @@ local M = {
 	treesitter = require("modules.treesitter"),
 	trouble = require("modules.trouble"),
 	undotree = require("modules.undotree"),
-    venv_selector = require("modules.venv-selector"),
+	venv_selector = require("modules.venv-selector"),
 	whichkey = require("modules.whichkey"),
 }
 
