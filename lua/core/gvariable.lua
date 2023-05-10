@@ -34,7 +34,7 @@ M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
 M.snippet_dir = vim.fn.stdpath("config") .. "/snippets"
 M.neorg_dir = vim.fn.stdpath("state") .. "/neorg-notes"
 
-M.node_path = M.homebrew_prefix .. "/opt/node@16/bin/node"
+M.node_path = M.homebrew_prefix .. "/opt/node/bin/node"
 
 M.compiler = {
 	system("command -v clang"),
