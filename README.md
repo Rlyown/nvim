@@ -228,11 +228,10 @@ For more detail refer to [usage of tmux.nvim](https://github.com/aserowy/tmux.nv
 ## Latex Integration
 
 If you want to use latex, you can install [Skim](https://skim-app.sourceforge.io/) and [VimTeX](https://github.com/lervag/vimtex).
-
 VimTex has been installed by default. It only will be activated when executable `latexmk` be detected.
 You can install Skim with `brew install --cask skim`, and install Tex Live with `brew install --cask mactex-no-gui` in MacOS.
 
-For more detail refer to [Setup Skim PDF reader with VimTeX in Mac OS](https://dr563105.github.io/blog/skim-vimtex-setup/).
+For more detail refer to [Setting Up a PDF Reader for Writing LaTeX with Vim](https://www.ejmastnak.com/tutorials/vim-latex/pdf-reader/).
 
 ## Keymaps
 

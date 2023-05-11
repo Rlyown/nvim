@@ -152,7 +152,7 @@ require("lazy").setup({
 	{
 		"lervag/vimtex",
 		config = configs.lsp.vimtex,
-		ft = { "tex", "plaintex", "bib" },
+		priority = priorities.second,
 		cond = function()
 			return vim.fn.executable("latexmk")
 		end,
