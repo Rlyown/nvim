@@ -66,13 +66,14 @@ return function()
 				-- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
 				vim_item.menu = ({
 					luasnip = "[Snippet]",
-					nvim_lsp = "[LSP]",
+					nvim_lsp = "[Lsp]",
 					buffer = "[Buffer]",
 					path = "[Path]",
 					nvim_lua = "[Nvim]",
 					spell = "[Abc]",
 					copilot = "[Cpt]",
 					neorg = "[Norg]",
+					-- omni = (vim.inspect(vim_item.menu):gsub('%"', "")),
 				})[entry.source.name]
 				return vim_item
 			end,
@@ -91,6 +92,7 @@ return function()
 			},
 			{ name = "copilot" },
 			{ name = "neorg" },
+			-- { name = "omni" },
 		},
 		confirm_opts = {
 			behavior = cmp.ConfirmBehavior.Replace,

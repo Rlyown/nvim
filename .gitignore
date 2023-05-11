@@ -42,3 +42,6 @@ luac.out
 
 /plugin/*
 !/plugin/lazy-lock.json
+
+# latex indent log
+indent.log

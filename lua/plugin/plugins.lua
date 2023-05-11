@@ -31,7 +31,12 @@ local priorities = {
 
 require("lazy").setup({
 	-- Colorschemes
-	{ "catppuccin/nvim", name = "catppuccin", config = configs.catppuccin, priority = priorities.second },
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		config = configs.catppuccin,
+		priority = priorities.second,
+	},
 
 	-- Completions
 	{
@@ -54,7 +59,8 @@ require("lazy").setup({
 		dependencies = { "nvim-cmp" },
 		init = configs.copilot, -- it must be run before copilot.vim
 	}, -- gitHub Copilot
-
+	-- { "kdheepak/cmp-latex-symbols", dependencies = { "nvim-cmp" } },
+	-- { "hrsh7th/cmp-omni", dependencies = { "nvim-cmp" } }, -- NOTE: It need replace lsp.omnifunc with vimtex's
 	{
 		"saecki/crates.nvim",
 		version = "*",
@@ -111,7 +117,6 @@ require("lazy").setup({
 		config = configs.lsp.mason,
 	},
 	{
-
 		"williamboman/mason-lspconfig.nvim", -- Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim
 		config = configs.lsp.mason_lspconfig,
 		dependencies = {
@@ -147,7 +152,7 @@ require("lazy").setup({
 	{
 		"lervag/vimtex",
 		config = configs.lsp.vimtex,
-		ft = { "tex" },
+		ft = { "tex", "plaintex", "bib" },
 		cond = function()
 			return vim.fn.executable("latexmk")
 		end,

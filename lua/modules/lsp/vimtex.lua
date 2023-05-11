@@ -1,4 +1,6 @@
 return function()
+	-- Use texlab to replace with
+	vim.g.vimtex_complete_enabled = 0
 	vim.g.tex_flavor = "latex" -- Default tex file format
 	vim.g.vimtex_view_method = "skim"
 	-- allows forward search after every successful compilation
