@@ -7,5 +7,3 @@ require("core.options")
 require("core.autocommands")
 
 require("core.gvariable").setup()
-
--- TODO: disable all plugins if very large file opened

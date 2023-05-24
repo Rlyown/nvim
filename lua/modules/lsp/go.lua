@@ -31,7 +31,7 @@ return function()
 		lsp_diag_hdlr = true, -- hook lsp diag handler
 		lsp_diag_underline = true,
 		-- virtual text setup
-		lsp_diag_virtual_text = { space = 0, prefix = "" },
+		lsp_diag_virtual_text = { space = 0, prefix = "" },
 		lsp_diag_signs = true,
 		lsp_diag_update_in_insert = false,
 		lsp_document_formatting = true,
@@ -51,7 +51,7 @@ return function()
 			-- default: false
 			show_variable_name = true,
 			-- prefix for parameter hints
-			parameter_hints_prefix = " ",
+			parameter_hints_prefix = " ",
 			show_parameter_hints = true,
 			-- prefix for all the other hints (type, chaining)
 			other_hints_prefix = "=> ",
@@ -87,7 +87,8 @@ return function()
 		run_in_floaterm = false, -- set to true to run in float window. :GoTermClose closes the floatterm
 		-- float term recommend if you use richgo/ginkgo with terminal color
 
-		floaterm = { -- position
+		floaterm = {
+			-- position
 			posititon = "auto", -- one of {`top`, `bottom`, `left`, `right`, `center`, `auto`}
 			width = 0.45, -- width of float window if not auto
 			height = 0.98, -- height of float window if not auto

@@ -457,6 +457,7 @@ require("lazy").setup({
 		},
 	},
 	{ "jbyuki/nabla.nvim" },
+	-- { "LunarVim/bigfile.nvim", config = configs.bigfile },
 
 	-- Others
 	{

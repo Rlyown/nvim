@@ -45,3 +45,4 @@ luac.out
 
 # latex indent log
 indent.log
+.luarc.json

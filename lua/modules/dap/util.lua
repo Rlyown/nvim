@@ -13,7 +13,7 @@ end
 -- Change line number color to fix it.
 M.dap_signs_scheme = function(num)
 	if num == 1 then
-		vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DiagnosticSignHint", linehl = "", numhl = "" })
+		vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DiagnosticSignHint", linehl = "", numhl = "" })
 		vim.fn.sign_define(
 			"DapBreakpointCondition",
 			{ text = "", texthl = "DiagnosticSignHint", linehl = "", numhl = "" }

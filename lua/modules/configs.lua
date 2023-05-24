@@ -8,6 +8,7 @@ local M = {
 	alpha = require("modules.alpha"),
 	autolist = require("modules.autolist"),
 	autopairs = require("modules.autopairs"),
+	bigfile = require("modules.bigfile"),
 	bufferline = require("modules.bufferline"),
 	catppuccin = require("modules.catppuccin"),
 	cmp = require("modules.cmp"),
@@ -41,7 +42,6 @@ local M = {
 	session_manager = require("modules.session_manager"),
 	smartyank = require("modules.smartyank"),
 	sniprun = require("modules.sniprun"),
-
 	spectre = require("modules.spectre"),
 	spellsitter = require("modules.spellsitter"),
 	symbols_outline = require("modules.symbols_outline"),
