@@ -74,7 +74,6 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 --[[ else ]]
 --[[ 	keymap("", "gx", '<Cmd>lua print("Error: gx is not supported on this OS!")<CR>', opts) ]]
 --[[ end ]]
-
 -- Terminal --
 -- Better terminal navigation
 -- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
@@ -102,6 +101,5 @@ keymap("v", "<leader>S", "<cmd>lua require('spectre').open_visual()<CR>", opts)
 -- crate
 keymap("v", "<leader><leader>lru", ":lua require('crates').update_crates()<cr>", opts)
 keymap("v", "<leader><leader>lru", ":lua require('crates').upgrade_crates()<cr>", opts)
-
 -- Copilot
---[[ vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true }) ]]
+vim.cmd([[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")]])

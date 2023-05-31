@@ -220,6 +220,7 @@ require("lazy").setup({
 
 	-- Snippets
 	{ "L3MON4D3/LuaSnip", lazy = true }, --snippet engine
+	{ "evesdropper/luasnip-latex-snippets.nvim", dependencies = { "LuaSnip" } },
 	{ "rafamadriz/friendly-snippets", dependencies = { "LuaSnip" } }, -- a bunch of snippets to use
 	--[[ use({ "vigoux/templar.nvim", config = configs.templar }) -- A dead simple template manager ]]
 	{ "cvigilv/esqueleto.nvim", config = configs.esqueleto },
