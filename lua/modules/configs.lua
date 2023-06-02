@@ -55,6 +55,7 @@ local M = {
 	undotree = require("modules.undotree"),
 	venv_selector = require("modules.venv-selector"),
 	whichkey = require("modules.whichkey"),
+	zfvimim = require("modules.zfvimim"),
 }
 
 return M

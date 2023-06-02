@@ -451,6 +451,7 @@ require("lazy").setup({
 	{
 		"folke/noice.nvim",
 		config = configs.noice,
+		enabled = true,
 		dependencies = {
 			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
 			"MunifTanjim/nui.nvim",
@@ -465,6 +466,14 @@ require("lazy").setup({
 		"alanfortlink/blackjack.nvim",
 		opts = {
 			scores_path = "/tmp/blackjack_scores.json",
+		},
+	},
+	{
+		"ZSaberLv0/ZFVimIM", -- Vim input method
+		config = configs.zfvimim,
+		dependencies = {
+			"ZSaberLv0/ZFVimJob",
+			"ZSaberLv0/ZFVimIM_openapi",
 		},
 	},
 }, lazy_opts)

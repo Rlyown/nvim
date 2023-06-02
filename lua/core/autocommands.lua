@@ -263,3 +263,19 @@ autocmd("FileType", {
 		vim.opt_local.conceallevel = 3
 	end,
 })
+
+augroup("_CUSTOM_VimIM", { clear = true })
+autocmd("User", {
+	group = "_CUSTOM_VimIM",
+	pattern = "ZFVimIM_event_OnEnable",
+	callback = function()
+		require("noice").cmd("disable")
+	end,
+})
+autocmd("User", {
+	group = "_CUSTOM_VimIM",
+	pattern = "ZFVimIM_event_OnDisable",
+	callback = function()
+		require("noice").cmd("enable")
+	end,
+})

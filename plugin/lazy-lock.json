@@ -1,6 +1,9 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "e1fe53117aab24c378d5e6deaad786789c360123" },
   "LuaSnip": { "branch": "master", "commit": "51ebb4b6637290e1b8e0fb0d6f38b605d3c24940" },
+  "ZFVimIM": { "branch": "master", "commit": "d405f703dd1fc020a206c4ffe6a392c8e6910515" },
+  "ZFVimIM_openapi": { "branch": "master", "commit": "bba447c36819ab3f63b9ce67d5a24361e885eee0" },
+  "ZFVimJob": { "branch": "master", "commit": "6a417e9fd46dbce206eebd2575e5c430718cd75d" },
   "accelerated-jk.nvim": { "branch": "main", "commit": "8fb5dad4ccc1811766cebf16b544038aeeb7806f" },
   "alpha-nvim": { "branch": "main", "commit": "1838ae926e8d49fe5330d1498ee8289ae2c340bc" },
   "autolist.nvim": { "branch": "main", "commit": "0936e384b10315f65b8ef3bf1be938314d23a528" },

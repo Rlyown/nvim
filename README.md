@@ -8,6 +8,7 @@ My neovim config is inspired by [LunarVim/Neovim-from-scratch](https://github.co
   - [Check Health](#check-health)
   - [Tmux Integration](#tmux-integration)
   - [Latex Integration](#latex-integration)
+  - [Different Input Method](#Different-Input-Method)
   - [Keymaps](#keymaps)
   - [Plugins](#plugins)
   - [Test Startup](#test-startup)
@@ -233,106 +234,117 @@ You can install Skim with `brew install --cask skim`, and install Tex Live with 
 
 For more detail refer to [Setting Up a PDF Reader for Writing LaTeX with Vim](https://www.ejmastnak.com/tutorials/vim-latex/pdf-reader/).
 
+## Different Input Method
+
+In my configuration, [ZFVimIM](https://github.com/ZSaberLv0/ZFVimIM) has been installed by default to support Chinese. You can just press `;;` to switch between English and Chinese without changing input method on your computer or remote server.
+
+For more detail or other languages refer to [ZFVimIM](https://github.com/ZSaberLv0/ZFVimIM).
+
 ## Keymaps
 
 Leader key is comma(`,`) key. You can just press `<leader>` or `<leader><leader>` to see most keybindings.
 
-| Plugin          | Mode             | Key                   | Description                                                                                  |
-| --------------- | ---------------- | --------------------- | -------------------------------------------------------------------------------------------- |
-| Vim-builtin     | normal           | `<C-h>`               | move left window                                                                             |
-| Vim-builtin     | normal           | `<C-l>`               | move right window                                                                            |
-| Vim-builtin     | normal           | `<C-k>`               | move up window                                                                               |
-| Vim-builtin     | normal           | `<C-j>`               | move down window                                                                             |
-| Vim-builtin     | normal           | `<C-n>`/`L`           | next buffer                                                                                  |
-| Vim-builtin     | normal           | `<C-p>`/`H`           | prev buffer                                                                                  |
-| Vim-builtin     | normal           | `<leader><leader>lt`  | copy `.clang-tidy` from template directory to your current location                          |
-| Vim-builtin     | normal           | `<leader><leader>lf`  | copy `.clang-format` from template directory to your current location                        |
-| Vim-builtin     | normal           | `gt`                  | next tab                                                                                     |
-| Vim-builtin     | normal           | `gT`                  | prev tab                                                                                     |
-| Vim-builtin     | normal           | `jk`                  | same as `<esc>`                                                                              |
-| Vim-builtin     | normal           | `gj`                  | move text down                                                                               |
-| Vim-builtin     | normal           | `gk`                  | move text up                                                                                 |
-| Vim-builtin     | visual           | `gT`                  | prev tab                                                                                     |
-| Vim-builtin     | visual           | `J`                   | move text down                                                                               |
-| Vim-builtin     | visual           | `K`                   | move text up                                                                                 |
-| Vim-builtin     | visual           | `p`                   | paste and replace                                                                            |
-| Vim-builtin     | visual-block     | `J`                   | move text down                                                                               |
-| Vim-builtin     | visual-block     | `K`                   | move text up                                                                                 |
-| LSP             | normal           | `ga`                  | code action                                                                                  |
-| LSP             | normal           | `gD`                  | goto declaration                                                                             |
-| LSP             | normal           | `gd`                  | goto definition                                                                              |
-| LSP             | normal           | `K`                   | hover                                                                                        |
-| LSP             | normal           | `gi`                  | goto implementation                                                                          |
-| LSP             | normal           | `gh`                  | signature help                                                                               |
-| LSP             | normal           | `gr`                  | references                                                                                   |
-| LSP             | normal           | `[d`                  | goto prev                                                                                    |
-| LSP             | normal           | `]d`                  | goto declaration                                                                             |
-| LSP             | normal           | `gl`                  | show current diagnostic                                                                      |
-| LSP             | normal           | `gq`                  | show diagnostic list                                                                         |
-| which-key       | normal           | `'`                   | show marks                                                                                   |
-| which-key       | normal           | `"`                   | show Registers                                                                               |
-| which-key       | insert           | `<C-r>`               | show Registers                                                                               |
-| which-key       | map-view         | `<C-u>`               | scroll up                                                                                    |
-| which-key       | map-view         | `<C-d>`               | scroll down                                                                                  |
-| which-key       | map-view         | `<bs>`                | go up one level                                                                              |
-| which-key       | map-view         | `<esc>`               | cancel and close                                                                             |
-| nvim-cmp        | cmp-view         | `<C-k>`/`<S-Tab>`     | select prev item                                                                             |
-| nvim-cmp        | cmp-view         | `<C-j>`/`<Tab>`       | select next item                                                                             |
-| nvim-cmp        | cmp-view         | `<C-b>`               | scroll docs up                                                                               |
-| nvim-cmp        | cmp-view         | `<C-f>`               | scroll docs down                                                                             |
-| nvim-cmp        | cmp-view         | `<C-space>`           | invoke complete                                                                              |
-| nvim-cmp        | cmp-view         | `<C-y>`               | disable                                                                                      |
-| nvim-cmp        | cmp-view         | `<C-e>`               | close                                                                                        |
-| nvim-cmp        | cmp-view         | `<CR>`                | comfirm                                                                                      |
-| luasnip         | snip             | `<Tab>`               | expand or jump next                                                                          |
-| luasnip         | snip             | `<S-Tab>`             | jump prev                                                                                    |
-| Comment.nvim    | normal           | `gcc`                 | line comment                                                                                 |
-| Comment.nvim    | normal           | `gbc`                 | block comment                                                                                |
-| Comment.nvim    | visual           | `gc`                  | line comment                                                                                 |
-| Comment.nvim    | visual           | `gb`                  | block comment                                                                                |
-| nvim-tree       | tree-view        | `?`                   | show help                                                                                    |
-| Telescope       | telescope-normal | `?`                   | which key                                                                                    |
-| Telescope       | telescope-insert | `<C-_>`               | which key                                                                                    |
-| undotree        | undotree-view    | `?`                   | show help                                                                                    |
-| vim-surround    | normal           | `cs<old><new>`        | change old surround char to new                                                              |
-| vim-surround    | normal           | `cst<new>`            | change full circle to new                                                                    |
-| vim-surround    | normal           | `ds<chr>`             | delete surround char                                                                         |
-| vim-surround    | normal           | `ys<motion><chr>`     | add surround to a motion                                                                     |
-| vim-surround    | visual           | `S<chr>`              | add surround char to visual selection                                                        |
-| vim-startuptime | startup-view     | `K`                   | get additional information                                                                   |
-| vim-startuptime | startup-view     | `gf`                  | load the corresponding file in a new split                                                   |
-| splitjoin       | normal           | `gS`                  | split a one-liner into multiple lines                                                        |
-| splitjoin       | normal           | `gJ`                  | (with the cursor on the first line of a block) to join a block into a single-line statement. |
-| terminal        | terminal-insert  | `jk`                  | escape terminal insert mode                                                                  |
-| terminal        | normal           | `i`                   | go back to terminal insert mode                                                              |
-| terminal        | terminal-insert  | `<C-h>`               | move to left window                                                                          |
-| terminal        | terminal-insert  | `<C-j>`               | move to down window                                                                          |
-| terminal        | terminal-insert  | `<C-k>`               | move to up window                                                                            |
-| terminal        | terminal-insert  | `<C-l>`               | move to right window                                                                         |
-| trouble.nvim    | quickfix-view    | `q`                   | close the list                                                                               |
-| trouble.nvim    | quickfix-view    | `<esc>`               | cancel the preview and get back to your last window / buffer / cursor                        |
-| trouble.nvim    | quickfix-view    | `<cr>`/`<tab>`        | jump to the diagnostic or open / close folds                                                 |
-| trouble.nvim    | quickfix-view    | `<c-x>`               | open buffer in new split                                                                     |
-| trouble.nvim    | quickfix-view    | `<c-v>`               | open buffer in new vsplit                                                                    |
-| trouble.nvim    | quickfix-view    | `<c-t>`               | open buffer in new tab                                                                       |
-| trouble.nvim    | quickfix-view    | `o`                   | jump to the diagnostic and close the list                                                    |
-| trouble.nvim    | quickfix-view    | `m`                   | toggle between "workspace" and "document" diagnostics mode                                   |
-| trouble.nvim    | quickfix-view    | `P`                   | toggle auto_preview                                                                          |
-| trouble.nvim    | quickfix-view    | `K`                   | opens a small popup with the full multiline message                                          |
-| trouble.nvim    | quickfix-view    | `p`                   | preview the diagnostic location                                                              |
-| trouble.nvim    | quickfix-view    | `zM`/`zm`             | close all folds                                                                              |
-| trouble.nvim    | quickfix-view    | `zR`/`zr`             | open all folds                                                                               |
-| trouble.nvim    | quickfix-view    | `zA`/`za`             | toggle fold of current file                                                                  |
-| trouble.nvim    | quickfix-view    | `k`                   | preview item                                                                                 |
-| trouble.nvim    | quickfix-view    | `j`                   | next item                                                                                    |
-| nvim-dap        | Normal           | `<leader>d`           | see all the keybindings about debugger                                                       |
-| nvim-dap-ui     | dapui-view       | `<cr>`/`<2-LeftMouse` | expand children                                                                              |
-| nvim-dap-ui     | dapui-view       | `o`                   | jump to the location                                                                         |
-| nvim-dap-ui     | dapui-view       | `e`                   | edit the value of a variable                                                                 |
-| nvim-dap-ui     | dapui-view       | `d`                   | remove the watched expression.                                                               |
-| nvim-dap-ui     | dapui-view       | `r`                   | send to REPL                                                                                 |
-| nvim-dap-ui     | dapui-view       | `<space>`             | enable/disable the selected breakpoint, or toggle displaying subtle frames                   |
-| Nvim-gdb        | buf-normal       | `<space>`             | set/unset breakpoint                                                                         |
+| Plugin          | Mode             | Key                     | Description                                                                                  |
+| --------------- | ---------------- | ----------------------- | -------------------------------------------------------------------------------------------- |
+| Vim-builtin     | normal           | `<C-h>`                 | move left window                                                                             |
+| Vim-builtin     | normal           | `<C-l>`                 | move right window                                                                            |
+| Vim-builtin     | normal           | `<C-k>`                 | move up window                                                                               |
+| Vim-builtin     | normal           | `<C-j>`                 | move down window                                                                             |
+| Vim-builtin     | normal           | `<C-n>`/`L`             | next buffer                                                                                  |
+| Vim-builtin     | normal           | `<C-p>`/`H`             | prev buffer                                                                                  |
+| Vim-builtin     | normal           | `<leader><leader>lt`    | copy `.clang-tidy` from template directory to your current location                          |
+| Vim-builtin     | normal           | `<leader><leader>lf`    | copy `.clang-format` from template directory to your current location                        |
+| Vim-builtin     | normal           | `gt`                    | next tab                                                                                     |
+| Vim-builtin     | normal           | `gT`                    | prev tab                                                                                     |
+| Vim-builtin     | normal           | `jk`                    | same as `<esc>`                                                                              |
+| Vim-builtin     | normal           | `gj`                    | move text down                                                                               |
+| Vim-builtin     | normal           | `gk`                    | move text up                                                                                 |
+| Vim-builtin     | visual           | `gT`                    | prev tab                                                                                     |
+| Vim-builtin     | visual           | `J`                     | move text down                                                                               |
+| Vim-builtin     | visual           | `K`                     | move text up                                                                                 |
+| Vim-builtin     | visual           | `p`                     | paste and replace                                                                            |
+| Vim-builtin     | visual-block     | `J`                     | move text down                                                                               |
+| Vim-builtin     | visual-block     | `K`                     | move text up                                                                                 |
+| LSP             | normal           | `ga`                    | code action                                                                                  |
+| LSP             | normal           | `gD`                    | goto declaration                                                                             |
+| LSP             | normal           | `gd`                    | goto definition                                                                              |
+| LSP             | normal           | `K`                     | hover                                                                                        |
+| LSP             | normal           | `gi`                    | goto implementation                                                                          |
+| LSP             | normal           | `gh`                    | signature help                                                                               |
+| LSP             | normal           | `gr`                    | references                                                                                   |
+| LSP             | normal           | `[d`                    | goto prev                                                                                    |
+| LSP             | normal           | `]d`                    | goto declaration                                                                             |
+| LSP             | normal           | `gl`                    | show current diagnostic                                                                      |
+| LSP             | normal           | `gq`                    | show diagnostic list                                                                         |
+| which-key       | normal           | `'`                     | show marks                                                                                   |
+| which-key       | normal           | `"`                     | show Registers                                                                               |
+| which-key       | insert           | `<C-r>`                 | show Registers                                                                               |
+| which-key       | map-view         | `<C-u>`                 | scroll up                                                                                    |
+| which-key       | map-view         | `<C-d>`                 | scroll down                                                                                  |
+| which-key       | map-view         | `<bs>`                  | go up one level                                                                              |
+| which-key       | map-view         | `<esc>`                 | cancel and close                                                                             |
+| nvim-cmp        | cmp-view         | `<C-k>`/`<S-Tab>`       | select prev item                                                                             |
+| nvim-cmp        | cmp-view         | `<C-j>`/`<Tab>`         | select next item                                                                             |
+| nvim-cmp        | cmp-view         | `<C-b>`                 | scroll docs up                                                                               |
+| nvim-cmp        | cmp-view         | `<C-f>`                 | scroll docs down                                                                             |
+| nvim-cmp        | cmp-view         | `<C-space>`             | invoke complete                                                                              |
+| nvim-cmp        | cmp-view         | `<C-y>`                 | disable                                                                                      |
+| nvim-cmp        | cmp-view         | `<C-e>`                 | close                                                                                        |
+| nvim-cmp        | cmp-view         | `<CR>`                  | comfirm                                                                                      |
+| luasnip         | snip             | `<Tab>`                 | expand or jump next                                                                          |
+| luasnip         | snip             | `<S-Tab>`               | jump prev                                                                                    |
+| Comment.nvim    | normal           | `gcc`                   | line comment                                                                                 |
+| Comment.nvim    | normal           | `gbc`                   | block comment                                                                                |
+| Comment.nvim    | visual           | `gc`                    | line comment                                                                                 |
+| Comment.nvim    | visual           | `gb`                    | block comment                                                                                |
+| nvim-tree       | tree-view        | `?`                     | show help                                                                                    |
+| Telescope       | telescope-normal | `?`                     | which key                                                                                    |
+| Telescope       | telescope-insert | `<C-_>`                 | which key                                                                                    |
+| undotree        | undotree-view    | `?`                     | show help                                                                                    |
+| vim-surround    | normal           | `cs<old><new>`          | change old surround char to new                                                              |
+| vim-surround    | normal           | `cst<new>`              | change full circle to new                                                                    |
+| vim-surround    | normal           | `ds<chr>`               | delete surround char                                                                         |
+| vim-surround    | normal           | `ys<motion><chr>`       | add surround to a motion                                                                     |
+| vim-surround    | visual           | `S<chr>`                | add surround char to visual selection                                                        |
+| vim-startuptime | startup-view     | `K`                     | get additional information                                                                   |
+| vim-startuptime | startup-view     | `gf`                    | load the corresponding file in a new split                                                   |
+| splitjoin       | normal           | `gS`                    | split a one-liner into multiple lines                                                        |
+| splitjoin       | normal           | `gJ`                    | (with the cursor on the first line of a block) to join a block into a single-line statement. |
+| terminal        | terminal-insert  | `jk`                    | escape terminal insert mode                                                                  |
+| terminal        | normal           | `i`                     | go back to terminal insert mode                                                              |
+| terminal        | terminal-insert  | `<C-h>`                 | move to left window                                                                          |
+| terminal        | terminal-insert  | `<C-j>`                 | move to down window                                                                          |
+| terminal        | terminal-insert  | `<C-k>`                 | move to up window                                                                            |
+| terminal        | terminal-insert  | `<C-l>`                 | move to right window                                                                         |
+| trouble.nvim    | quickfix-view    | `q`                     | close the list                                                                               |
+| trouble.nvim    | quickfix-view    | `<esc>`                 | cancel the preview and get back to your last window / buffer / cursor                        |
+| trouble.nvim    | quickfix-view    | `<cr>`/`<tab>`          | jump to the diagnostic or open / close folds                                                 |
+| trouble.nvim    | quickfix-view    | `<c-x>`                 | open buffer in new split                                                                     |
+| trouble.nvim    | quickfix-view    | `<c-v>`                 | open buffer in new vsplit                                                                    |
+| trouble.nvim    | quickfix-view    | `<c-t>`                 | open buffer in new tab                                                                       |
+| trouble.nvim    | quickfix-view    | `o`                     | jump to the diagnostic and close the list                                                    |
+| trouble.nvim    | quickfix-view    | `m`                     | toggle between "workspace" and "document" diagnostics mode                                   |
+| trouble.nvim    | quickfix-view    | `P`                     | toggle auto_preview                                                                          |
+| trouble.nvim    | quickfix-view    | `K`                     | opens a small popup with the full multiline message                                          |
+| trouble.nvim    | quickfix-view    | `p`                     | preview the diagnostic location                                                              |
+| trouble.nvim    | quickfix-view    | `zM`/`zm`               | close all folds                                                                              |
+| trouble.nvim    | quickfix-view    | `zR`/`zr`               | open all folds                                                                               |
+| trouble.nvim    | quickfix-view    | `zA`/`za`               | toggle fold of current file                                                                  |
+| trouble.nvim    | quickfix-view    | `k`                     | preview item                                                                                 |
+| trouble.nvim    | quickfix-view    | `j`                     | next item                                                                                    |
+| nvim-dap        | Normal           | `<leader>d`             | see all the keybindings about debugger                                                       |
+| nvim-dap-ui     | dapui-view       | `<cr>`/`<2-LeftMouse`   | expand children                                                                              |
+| nvim-dap-ui     | dapui-view       | `o`                     | jump to the location                                                                         |
+| nvim-dap-ui     | dapui-view       | `e`                     | edit the value of a variable                                                                 |
+| nvim-dap-ui     | dapui-view       | `d`                     | remove the watched expression.                                                               |
+| nvim-dap-ui     | dapui-view       | `r`                     | send to REPL                                                                                 |
+| nvim-dap-ui     | dapui-view       | `<space>`               | enable/disable the selected breakpoint, or toggle displaying subtle frames                   |
+| Nvim-gdb        | buf-normal       | `<space>`               | set/unset breakpoint                                                                         |
+| ZFVimIM         | normal/insert    | `;;`                    | enable other language input method. (Only Chinese configured)                                |
+| ZFVimIM         | normal/insert    | `;:`                    | switch input db                                                                              |
+| ZFVimIM         | insert           | `-`/`+`                 | scroll page                                                                                  |
+| ZFVimIM         | insert           | `<space>`/`0-9`/`[`/`]` | choose word (first/position/head/tail)                                                       |
+| ZFVimIM         | insert           | `;,`/`;.`               | add or remove user word                                                                      |
 
 If you want to enter a new expression at `DAP Watches`, just enter insert mode and you will see a prompt appear, and press enter to submit. For more details about `dap-ui`, you can click [https://github.com/rcarriga/nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui).
 
