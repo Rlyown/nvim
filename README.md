@@ -62,7 +62,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
 **Requirements**
 
-- [Homebrew](https://brew.sh/) (for packages' installation in MacOS or Linux)
+- [Homebrew](https://brew.sh/) (for packages' installation in MacOS or Linux, **but only for single user**)
 - [Rust](https://www.rust-lang.org/tools/install) (for some installations of dependencies)
 - [Python3](https://www.python.org/downloads/) with [pip](https://pip.pypa.io/en/stable/installation/) and `venv` (for some plugins)
 - [Nodejs](https://github.com/nodesource/distributions) 16 (for copilot.vim and some installations of dependencies)
