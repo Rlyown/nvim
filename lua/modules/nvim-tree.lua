@@ -3,6 +3,11 @@ return function()
 
 	local api = require("nvim-tree.api")
 
+	local trash_cmd = "gio trash"
+	if require("core.gvariable").os == "mac" then
+		trash_cmd = "trash"
+	end
+
 	local on_attach = function(bufnr)
 		local opts = function(desc)
 			return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
@@ -169,7 +174,7 @@ return function()
 			},
 		},
 		trash = {
-			cmd = "trash",
+			cmd = trash_cmd,
 			require_confirm = true,
 		},
 		actions = {

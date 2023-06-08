@@ -41,7 +41,7 @@ This configuration mainly focus on programming with `C/Cpp`, `Golang`, `Rust` an
 
 ## Quick Start
 
-**WARNING**: This installation script is only tested in `MacOS (Apple Silicon)`, `CentOS 8` and `Ubuntu 20.04`. Please read it carefully before running it.
+**WARNING**: The script uses the `Homebrew` to install dependencies. Please read it carefully before running it.
 
 ```shell
 $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
@@ -72,21 +72,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
 **Install with following Steps**:
 
-**Provision**. Assume that the current environment has `Homebrew`. If not, you can install it by following command:
-
-```shell
-# For MacOS
-xcode-select --install
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# For Linux
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
-echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
-test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
-```
+**NOTE**: For the Linux platform, the `Homebrew` is not necessary, you can install these packages through the tools provided by your current Linux distribution manually.
 
 **First Step**. Install the necessary packages, including environments in requirements.
 
@@ -94,21 +80,15 @@ test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zpr
   <p>
 
   ```shell
-  $ brew install ripgrep fd fortune lua sqlite \
-  	cmake lazygit yarn gnu-sed boost exa bat \
-  	go python3 node@16 rust llvm neovim npm bear
+  # Runtime
+  $ brew install neovim go python3 node@16 rust llvm lua yarn npm
 
+  # Packages
+  $ brew install ripgrep fd fortune sqlite lazygit gnu-sed boost exa bat bear
+
+  # Neovim client for plugins
   $ npm install -g neovim
-
-  # Install neovim python support, and python debugger used by dap
-  # If want to deal with multi-version conflicts, you can set
-  # the virtualenv python path is set in the lua/core/gvariable.lua
   $ pip3 install pynvim
-
-  # llvm should add to path manually
-  # On Apple Sillcon
-  $ echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
-  $ echo 'export PATH="$HOME/go/bin:/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
 
   # If you want delete file to trash bin directory by nvim-tree
   $ brew install trash
@@ -130,20 +110,18 @@ test -r ~/.zprofile && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zpr
 - <details><summary>On Linux</summary>
   <p>
 
+  **NOTE**:
+
   ```shell
-  $ brew install ripgrep fd fortune lua sqlite \
-  	cmake lazygit yarn gnu-sed boost exa bat \
-  	go python3 node@16 rust llvm neovim npm bear
+  # Runtime
+  $ brew install neovim go python3 node@16 rust llvm lua yarn npm
 
+  # Packages
+  $ brew install ripgrep fd fortune sqlite lazygit boost exa bat bear
+
+  # Neovim client for plugins
   $ npm install -g neovim
-
-  # Install neovim python support, and python debugger used by dap
-  # If want to deal with multi-version conflicts, you can set
-  # the virtualenv python path is set in the lua/core/gvariable.lua
   $ pip3 install pynvim
-
-  # If you want delete file to trash bin directory by nvim-tree
-  $ npm install --global trash-cli
   ```
 
   _Nerd Fonts_ is needed to show icons. You can choose your favorite font or find icons in the [https://www.nerdfonts.com](https://www.nerdfonts.com).
