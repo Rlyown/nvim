@@ -129,7 +129,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   ```shell
   # Other nice fonts: Hack, Fira Code, Meslo
   $ mkdir -p ~/.local/share/fonts
-  $ cd ~/.local/share/fonts && curl -fLo "JetBrains Mono NL Regular Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/complete/JetBrains%20Mono%20NL%20Regular%20Nerd%20Font%20Complete.ttf
+  $ cd ~/.local/share/fonts && curl -fLo "JetBrains Mono NL Regular Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFontMono-Regular.ttf
   ```
 
   _Note_: Don't forget to change your terminal fonts.
