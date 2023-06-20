@@ -335,7 +335,6 @@ require("lazy").setup({
 		"phaazon/hop.nvim",
 		branch = "v2",
 		config = configs.hop,
-		lazy = true,
 	}, -- Neovim motions on speed
 	{
 		"windwp/nvim-spectre",
