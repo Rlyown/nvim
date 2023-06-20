@@ -180,7 +180,6 @@ autocmd("BufRead", {
 -- 	command = [[ let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)')) ]],
 -- })
 
--- Remove it, because it will make
 -- augroup("_CUSTOM_auto_close", { clear = true })
 -- autocmd("BufEnter", {
 -- 	group = "_CUSTOM_auto_close",
