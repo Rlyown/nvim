@@ -31,7 +31,9 @@ local priorities = {
 
 -- TODO: remove useless plugin
 require("lazy").setup({
+	----------------------------------------------------------------------------------------------
 	-- Colorschemes
+	----------------------------------------------------------------------------------------------
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
@@ -39,7 +41,9 @@ require("lazy").setup({
 		priority = priorities.second,
 	},
 
+	----------------------------------------------------------------------------------------------
 	-- Completions
+	----------------------------------------------------------------------------------------------
 	{
 		"hrsh7th/nvim-cmp",
 
@@ -93,13 +97,17 @@ require("lazy").setup({
 		event = "InsertEnter",
 	},
 
+	----------------------------------------------------------------------------------------------
 	-- DAP
+	----------------------------------------------------------------------------------------------
 	{ "mfussenegger/nvim-dap", config = configs.dap.dap, lazy = true }, -- Debug Adapter Protocol client implementation
 	{ "rcarriga/nvim-dap-ui", config = configs.dap.dapui, dependencies = { "nvim-dap" } }, -- A UI for nvim-dap
 	{ "theHamsta/nvim-dap-virtual-text", config = configs.dap.vtext, dependencies = { "nvim-dap" } }, -- show virtual text
 	{ "nvim-telescope/telescope-dap.nvim", dependencies = { "nvim-dap", "telescope" } }, -- Integration for nvim-dap with telescope.nvim
 
+	----------------------------------------------------------------------------------------------
 	-- Git
+	----------------------------------------------------------------------------------------------
 	{
 		"lewis6991/gitsigns.nvim",
 		config = configs.gitsigns,
@@ -113,7 +121,9 @@ require("lazy").setup({
 		config = configs.diffview,
 	}, -- Single tabpage interface for easily cycling through diffs for all modified files for any git rev.
 
+	----------------------------------------------------------------------------------------------
 	-- LSP
+	----------------------------------------------------------------------------------------------
 	{
 		"williamboman/mason.nvim", -- Portable package manager for Neovim that runs everywhere Neovim runs.
 		config = configs.lsp.mason,
@@ -214,13 +224,17 @@ require("lazy").setup({
 		ft = { "json", "yaml" },
 	},
 
+	----------------------------------------------------------------------------------------------
 	-- Project
+	----------------------------------------------------------------------------------------------
 	-- use({ "ahmedkhalf/project.nvim" }) -- superior project management
 	{ "Shatur/neovim-session-manager", config = configs.session_manager }, -- A simple wrapper around :mksession
 	{ "ethanholz/nvim-lastplace", config = configs.nvim_lastplace },
 	-- Intelligently reopen files at your last edit position
 
+	----------------------------------------------------------------------------------------------
 	-- Snippets
+	----------------------------------------------------------------------------------------------
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = { "rafamadriz/friendly-snippets" },
@@ -231,7 +245,9 @@ require("lazy").setup({
 	--[[ use({ "Rlyown/esqueleto.nvim", config = configs.esqueleto }) ]]
 	-- My modified version
 
+	----------------------------------------------------------------------------------------------
 	-- Telescope
+	----------------------------------------------------------------------------------------------
 	{
 		"nvim-telescope/telescope.nvim",
 		name = "telescope",
@@ -259,7 +275,9 @@ require("lazy").setup({
 		dependencies = { "telescope" },
 	},
 
+	----------------------------------------------------------------------------------------------
 	-- Terminal
+	----------------------------------------------------------------------------------------------
 	{
 		"akinsho/toggleterm.nvim",
 		config = configs.toggleterm,
@@ -279,7 +297,9 @@ require("lazy").setup({
 		end,
 	}, -- tmux integration for nvim features pane movement and resizing from within nvim.
 
+	----------------------------------------------------------------------------------------------
 	-- Tools
+	----------------------------------------------------------------------------------------------
 	{ "nvim-lua/popup.nvim", priority = priorities.first }, -- An implementation of the Popup API from vim in Neovim
 	{ "nvim-lua/plenary.nvim", priority = priorities.first }, -- Useful lua functions used ny lots of plugins
 	{
@@ -405,7 +425,9 @@ require("lazy").setup({
 		config = configs.vim_visual_multi,
 	}, -- Multiple cursors plugin for vim/neovim
 
+	----------------------------------------------------------------------------------------------
 	-- Treesitter
+	----------------------------------------------------------------------------------------------
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = configs.treesitter },
 	-- Nvim Treesitter configurations and abstraction layer
 	{ "JoosepAlviste/nvim-ts-context-commentstring" },
@@ -465,7 +487,9 @@ require("lazy").setup({
 	{ "jbyuki/nabla.nvim" },
 	-- { "LunarVim/bigfile.nvim", config = configs.bigfile },
 
+	----------------------------------------------------------------------------------------------
 	-- Others
+	----------------------------------------------------------------------------------------------
 	{
 		"alanfortlink/blackjack.nvim",
 		opts = {
