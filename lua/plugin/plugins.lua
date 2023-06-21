@@ -47,7 +47,8 @@ require("lazy").setup({
 		event = "InsertEnter",
 	}, -- The completion plugin
 	{ "hrsh7th/cmp-buffer", dependencies = { "nvim-cmp" } }, -- buffer completions
-	{ "hrsh7th/cmp-path", dependencies = { "nvim-cmp" } }, -- path completions
+	-- { "hrsh7th/cmp-path", dependencies = { "nvim-cmp" } }, -- path completions
+	{ "tzachar/cmp-fuzzy-path", dependencies = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim" } },
 	{ "hrsh7th/cmp-cmdline", dependencies = { "nvim-cmp" } }, -- cmdline completions
 	{ "hrsh7th/cmp-nvim-lsp", dependencies = { "nvim-cmp" } }, -- lsp completions
 	{ "saadparwaiz1/cmp_luasnip", dependencies = { "nvim-cmp", "LuaSnip" } }, -- snippet completions
