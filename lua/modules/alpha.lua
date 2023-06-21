@@ -20,6 +20,11 @@ return function()
 	local function footer()
 		-- NOTE: requires the fortune-mod package to work
 		local handle = io.popen("fortune")
+		if not handle then
+			return [[The Second Law of Thermodynamics:
+	If you think things are in a mess now, just wait!
+		-- Jim Warner]]
+		end
 		local fortune = handle:read("*a")
 		handle:close()
 		return fortune

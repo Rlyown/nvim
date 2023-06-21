@@ -54,6 +54,7 @@ local M = {
 	trouble = require("modules.trouble"),
 	undotree = require("modules.undotree"),
 	venv_selector = require("modules.venv-selector"),
+	vim_visual_multi = require("modules.vim_visual_multi"),
 	whichkey = require("modules.whichkey"),
 	zfvimim = require("modules.zfvimim"),
 }

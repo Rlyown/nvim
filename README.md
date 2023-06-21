@@ -68,9 +68,9 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 - [Rust](https://www.rust-lang.org/tools/install) (for some installations of dependencies)
 - [Python3](https://www.python.org/downloads/) with [pip](https://pip.pypa.io/en/stable/installation/) and `venv` (for some plugins)
 - [Nodejs](https://github.com/nodesource/distributions) 16 (for copilot.vim and some installations of dependencies)
-- [Golang](https://go.dev/doc/install) 1.18 or higher (for some installations of dependencies and developments)
-- [lldb_vscode](https://github.com/llvm/llvm-project) (for debug)
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) (for markdown preview plugin)
+- [Llvm](https://github.com/llvm/llvm-project) (for debug tool)
+- [Golang](https://go.dev/doc/install) 1.18 or higher (for some installations of dependencies and developments)
 
 **Install with following Steps**:
 
@@ -86,11 +86,10 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ brew install neovim go python3 node@16 rust llvm lua yarn npm
 
   # Packages
-  $ brew install ripgrep fd fortune sqlite lazygit gnu-sed boost exa bat bear
+  $ brew install ripgrep fd lazygit gnu-sed exa bat
 
-  # Neovim client for plugins
-  $ npm install -g neovim
-  $ pip3 install pynvim
+  # Optional Packages
+  $ brew install fortune bear llvm
 
   # If you want delete file to trash bin directory by nvim-tree
   $ brew install trash
@@ -119,11 +118,10 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ brew install neovim go python3 node@16 rust llvm lua yarn npm
 
   # Packages
-  $ brew install ripgrep fd fortune sqlite lazygit boost exa bat bear
+  $ brew install ripgrep fd lazygit exa bat
 
-  # Neovim client for plugins
-  $ npm install -g neovim
-  $ pip3 install pynvim
+  # Optional Packages
+  $ brew install fortune bear
   ```
 
   _Nerd Fonts_ is needed to show icons. You can choose your favorite font or find icons in the [https://www.nerdfonts.com](https://www.nerdfonts.com).
