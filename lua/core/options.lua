@@ -52,7 +52,7 @@ local options = {
     foldlevel = 99,
     --[[ foldcolumn = "1", ]]
     foldlevelstart = 99,
-    spell = true,  -- enable spell check, spellfile will set in gvariable.lua
+    spell = false, -- enable spell check, spellfile will set in gvariable.lua
     spelllang = "en", -- set language
     jumpoptions = "stack",
 }

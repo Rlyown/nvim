@@ -1,6 +1,5 @@
 return function()
 	local which_key = require("which-key")
-	local os = require("core.gvariable").os
 	local helper = require("modules.which-key-helper")
 
 	local setup = {
@@ -365,7 +364,7 @@ return function()
 					d = { "<cmd>lua _DLV_DEBUG_TOGGLE()<cr>", "Delve" },
 					g = {
 						function()
-							if filetype_check({ "c", "cpp", "rust" }) then
+							if helper.filetype_check({ "c", "cpp", "rust" }) then
 								local prog = vim.fn.input("Path to program: ", vim.fn.getcwd(), "file")
 								vim.cmd(string.format("GdbStart gdb %s", prog))
 							end
@@ -491,10 +490,12 @@ return function()
 		["["] = {
 			d = "Prev Diagnostic",
 			z = "Current Fold Begin",
+			c = "Diff Backward",
 		},
 		["]"] = {
 			d = "Next Diagnostic",
 			z = "Current Fold End",
+			c = "Diff Forward",
 		},
 	}
 
