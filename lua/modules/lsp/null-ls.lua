@@ -16,7 +16,6 @@ return function()
 		-- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
 		sources = {
 			-- format
-			formatting.stylua,
 			formatting.prettier,
 			formatting.black.with({ extra_args = { "--fast" } }),
 			formatting.shfmt,
