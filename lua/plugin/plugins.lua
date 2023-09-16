@@ -87,13 +87,22 @@ require("lazy").setup({
         "lewis6991/gitsigns.nvim",
         config = configs.gitsigns,
         --[[ version = "release"  ]]
-    },                                                              -- show git info in buffer
-    { "TimUntersberger/neogit",          config = configs.neogit }, -- magit for neovim
+    }, -- show git info in buffer
     {
         "sindrets/diffview.nvim",
         cmd = { "Neogit", "DiffviewOpen", "DiffviewFileHistory", "DiffviewToggleFiles", "DiffviewFocusFiles" },
         config = configs.diffview,
     }, -- Single tabpage interface for easily cycling through diffs for all modified files for any git rev.
+    {
+        "TimUntersberger/neogit",
+        config = configs.neogit,
+        dependencies = {
+            "nvim-lua/plenary.nvim",         -- required
+            "nvim-telescope/telescope.nvim", -- optional
+            "sindrets/diffview.nvim",        -- optional
+            "ibhagwan/fzf-lua",              -- optional
+        },
+    },                                       -- magit for neovim
 
     ----------------------------------------------------------------------------------------------
     -- LSP
