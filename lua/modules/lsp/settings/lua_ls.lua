@@ -16,8 +16,7 @@ return {
                 },
             },
             format = {
-                enable = false,
-                -- Put format options here
+                enable = true,                -- Put format options here
                 defaultConfig = {
                     indent_style = "space",
                     indent_size = "4",

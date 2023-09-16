@@ -1,3 +1,3 @@
 return function()
-	require("accelerated-jk").setup()
+    require("accelerated-jk").setup()
 end

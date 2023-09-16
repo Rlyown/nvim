@@ -1,5 +1,5 @@
 return function()
-	local comment = require("Comment")
+    local comment = require("Comment")
 
-	comment.setup({})
+    comment.setup({})
 end

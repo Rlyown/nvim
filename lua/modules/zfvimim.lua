@@ -1,5 +1,5 @@
 return function()
-	vim.cmd([[
+    vim.cmd([[
         let g:ZFVimIM_openapi_enable=1
         let g:ZFVimIM_openapi_word_type='sentence'
         let g:ZFVimIM_symbolMap = {

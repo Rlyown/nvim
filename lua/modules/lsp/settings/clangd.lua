@@ -8,33 +8,33 @@ local compiler = require("core.gvariable").compiler
 
 local query_driver = "--query-driver="
 for _, cpr_path in ipairs(compiler) do
-	if cpr_path ~= "" then
-		query_driver = query_driver .. cpr_path .. ","
-	end
+    if cpr_path ~= "" then
+        query_driver = query_driver .. cpr_path .. ","
+    end
 end
 
 if query_driver ~= "--query-driver=" then
-	query_driver = query_driver:sub(1, -2)
+    query_driver = query_driver:sub(1, -2)
 else
-	query_driver = ""
+    query_driver = ""
 end
 
 -- .clang-tidy and .clang-format set by local file
 return {
-	cmd = {
-		"clangd",
-		-- "--fallback-style=llvm",
-		"--background-index",
-		"--compile-commands-dir=build",
-		"-j=2",
-		"--clang-tidy",
-		"--all-scopes-completion",
-		"--header-insertion=iwyu",
-		"--completion-style=detailed",
-		query_driver,
-		"--inlay-hints",
-		"--pch-storage=disk",
-		-- "--log=verbose",
-	},
-	capabilities = capabilities,
+    cmd = {
+        "clangd",
+        -- "--fallback-style=llvm",
+        "--background-index",
+        "--compile-commands-dir=build",
+        "-j=2",
+        "--clang-tidy",
+        "--all-scopes-completion",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        query_driver,
+        "--inlay-hints",
+        "--pch-storage=disk",
+        -- "--log=verbose",
+    },
+    capabilities = capabilities,
 }

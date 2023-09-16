@@ -1,4 +1,4 @@
 return function()
-	local crates = require("crates")
-	crates.setup({})
+    local crates = require("crates")
+    crates.setup({})
 end

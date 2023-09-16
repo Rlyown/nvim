@@ -1,64 +1,64 @@
 return function()
-	local null_ls = require("null-ls")
+    local null_ls = require("null-ls")
 
-	local code_actions = null_ls.builtins.code_actions
-	-- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
-	local formatting = null_ls.builtins.formatting
-	-- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-	local diagnostics = null_ls.builtins.diagnostics
+    local code_actions = null_ls.builtins.code_actions
+    -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
+    local formatting = null_ls.builtins.formatting
+    -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
+    local diagnostics = null_ls.builtins.diagnostics
 
-	null_ls.setup({
-		debug = false,
-		-- on_init = function(new_client, _)
-		-- 	new_client.offset_encoding = "utf-8"
-		-- end,
+    null_ls.setup({
+        debug = false,
+        -- on_init = function(new_client, _)
+        -- 	new_client.offset_encoding = "utf-8"
+        -- end,
 
-		-- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
-		sources = {
-			-- format
-			formatting.prettier,
-			formatting.black.with({ extra_args = { "--fast" } }),
-			formatting.shfmt,
-			formatting.latexindent,
+        -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
+        sources = {
+            -- format
+            formatting.prettier,
+            formatting.black.with({ extra_args = { "--fast" } }),
+            formatting.shfmt,
+            formatting.latexindent,
 
-			-- Disable it because command line arguments take precedence over .clang-format file
-			-- c/cpp
-			-- formatting.clang_format.with({
-			-- 	extra_args = {
-			-- 		"--sort-includes",
-			-- 		"-style",
-			-- 		"{BasedOnStyle: google, IndentWidth: 4}",
-			-- 	},
-			-- }),
+            -- Disable it because command line arguments take precedence over .clang-format file
+            -- c/cpp
+            -- formatting.clang_format.with({
+            -- 	extra_args = {
+            -- 		"--sort-includes",
+            -- 		"-style",
+            -- 		"{BasedOnStyle: google, IndentWidth: 4}",
+            -- 	},
+            -- }),
 
-			-- formatting.rustfmt.with({
-			-- 	extra_args = function(params)
-			-- 		local Path = require("plenary.path")
-			-- 		local cargo_toml = Path:new(params.root .. "/" .. "Cargo.toml")
-			--
-			-- 		if cargo_toml:exists() and cargo_toml:is_file() then
-			-- 			for _, line in ipairs(cargo_toml:readlines()) do
-			-- 				local edition = line:match([[^edition%s*=%s*%"(%d+)%"]])
-			-- 				if edition then
-			-- 					return { "--edition=" .. edition }
-			-- 				end
-			-- 			end
-			-- 		end
-			-- 		-- default edition when we don't find `Cargo.toml` or the `edition` in it.
-			-- 		return { "--edition=2021" }
-			-- 	end,
-			-- }),
+            -- formatting.rustfmt.with({
+            -- 	extra_args = function(params)
+            -- 		local Path = require("plenary.path")
+            -- 		local cargo_toml = Path:new(params.root .. "/" .. "Cargo.toml")
+            --
+            -- 		if cargo_toml:exists() and cargo_toml:is_file() then
+            -- 			for _, line in ipairs(cargo_toml:readlines()) do
+            -- 				local edition = line:match([[^edition%s*=%s*%"(%d+)%"]])
+            -- 				if edition then
+            -- 					return { "--edition=" .. edition }
+            -- 				end
+            -- 			end
+            -- 		end
+            -- 		-- default edition when we don't find `Cargo.toml` or the `edition` in it.
+            -- 		return { "--edition=2021" }
+            -- 	end,
+            -- }),
 
-			-- code action
-			-- code_actions.gitsigns,
-			code_actions.shellcheck,
+            -- code action
+            -- code_actions.gitsigns,
+            code_actions.shellcheck,
 
-			-- lint
+            -- lint
 
-			-- diagnostics
-			-- diagnostics.markdownlint
-			-- diagnostics.flake8
-			diagnostics.shellcheck,
-		},
-	})
+            -- diagnostics
+            -- diagnostics.markdownlint
+            -- diagnostics.flake8
+            diagnostics.shellcheck,
+        },
+    })
 end
