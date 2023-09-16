@@ -87,8 +87,8 @@ require("lazy").setup({
         "lewis6991/gitsigns.nvim",
         config = configs.gitsigns,
         --[[ version = "release"  ]]
-    }, -- show git info in buffer
-    -- { "TimUntersberger/neogit", config = configs.neogit }, -- magit for neovim
+    },                                                              -- show git info in buffer
+    { "TimUntersberger/neogit",          config = configs.neogit }, -- magit for neovim
     {
         "sindrets/diffview.nvim",
         cmd = { "Neogit", "DiffviewOpen", "DiffviewFileHistory", "DiffviewToggleFiles", "DiffviewFocusFiles" },
@@ -109,7 +109,7 @@ require("lazy").setup({
             "mason.nvim",
             -- All of the following must setup before lspconfig
             -- "neoconf.nvim",
-            -- "neodev.nvim",
+            "neodev.nvim",
             "lsp_signature.nvim",
         },
     },
@@ -133,7 +133,7 @@ require("lazy").setup({
     },                                                                                                    -- Install and upgrade third party tools automatically
     { "jose-elias-alvarez/null-ls.nvim", config = configs.lsp.null_ls },                                  -- for formatters and linters
     { "ray-x/lsp_signature.nvim",        version = "*",                 config = configs.lsp.signature }, -- LSP signature hint as you type
-    -- { "folke/neodev.nvim", config = configs.lsp.neodev },
+    { "folke/neodev.nvim",               config = configs.lsp.neodev },
     { "kosayoda/nvim-lightbulb",         config = configs.lsp.lightbulb },                                -- show lightbulb when code action is available
     {
         "lervag/vimtex",
