@@ -409,11 +409,11 @@ require("lazy").setup({
         config = configs.nvim_tree,
         cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
         event = "User DirOpened",
-    },                                                                      -- file explorer
-    { "akinsho/bufferline.nvim",             config = configs.bufferline }, -- buffer line plugin
-    { "nvim-lualine/lualine.nvim",           config = configs.lualine },    -- statusline plugin
-    { "goolord/alpha-nvim",                  config = configs.alpha },      -- a lua powered greeter
-    { "lukas-reineke/indent-blankline.nvim", config = configs.indentline }, -- Indent guides for Neovim
+    },                                                                                    -- file explorer
+    { "akinsho/bufferline.nvim",             config = configs.bufferline },               -- buffer line plugin
+    { "nvim-lualine/lualine.nvim",           config = configs.lualine },                  -- statusline plugin
+    { "goolord/alpha-nvim",                  config = configs.alpha },                    -- a lua powered greeter
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl",               config = configs.indentline }, -- Indent guides for Neovim
     {
         "SmiteshP/nvim-navic",
         dependencies = { "neovim/nvim-lspconfig" },
