@@ -306,7 +306,7 @@ function install() {
 
 	# install tools
 	brew install ripgrep fd fortune lua sqlite \
-		cmake lazygit yarn gnu-sed boost exa bat \
+		cmake lazygit yarn gnu-sed boost \
 		go python3 node@16 rust llvm neovim npm bear
 
 	HOMEBREW_BIN_PATH=$(dirname ${HOMEBREW})

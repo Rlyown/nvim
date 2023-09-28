@@ -120,34 +120,8 @@ return function()
                     -- ["conf"]    = vim.fn.expand("~/.config"),
                 },
             },
-            file_browser = {
-                theme = "dropdown",
-                mappings = {
-                    ["i"] = {
-                        -- your custom insert mode mappings
-                    },
-                    ["n"] = {
-                        -- your custom normal mode mappings
-                    },
-                },
-            },
             dash = {
                 -- your config here
-            },
-            cder = {
-                previewer_command = "exa "
-                    .. "-a "
-                    .. "--color=always "
-                    .. "-T "
-                    .. "--level=3 "
-                    .. "--icons "
-                    .. "--git-ignore "
-                    .. "--long "
-                    .. "--no-permissions "
-                    .. "--no-user "
-                    .. "--no-filesize "
-                    .. "--git "
-                    .. "--ignore-glob=.git",
             },
             undo = {
                 side_by_side = true,
@@ -161,15 +135,10 @@ return function()
 
     telescope.load_extension("fzf")
     telescope.load_extension("frecency")
-    telescope.load_extension("cder")
     --[[ telescope.load_extension("refactoring") ]]
     --[[ telescope.load_extension("notify") ]]
     --[[ telescope.load_extension("dap") ]]
     --[[ telescope.load_extension("noice") ]]
     --[[ telescope.load_extension("neoclip") ]]
     --[[ telescope.load_extension("macroscope") ]]
-
-    local file_browser = telescope.load_extension("file_browser")
-    -- Telescope has deprecated file_browser, but some plugins still use it.
-    require("telescope.builtin").file_browser = file_browser.file_browser
 end

@@ -33,10 +33,6 @@ return function()
         automatic_installation = false,
     })
 
-    -- require("neoconf").setup({
-    --     -- override any of the default settings here
-    -- })
-
     local function get_config_path(server_name)
         return string.format("modules.lsp.settings.%s", server_name)
     end

@@ -1,5 +1,3 @@
-local configs = require("modules.configs")
-
 -- Related issue: https://github.com/L3MON4D3/LuaSnip/issues/258
 function _G.leave_snippet()
     if
@@ -251,4 +249,16 @@ autocmd("User", {
     callback = function()
         require("noice").cmd("enable")
     end,
+})
+
+augroup("_CUSTOM_big_file", { clear = true })
+autocmd("BufRead", {
+    group = "_CUSTOM_big_file",
+    pattern = "*",
+    callback = function()
+        local disable_func = require("core.gfunc").fn.diable_check_buf
+        if disable_func("vim-illuminate", "illuminate") then
+            vim.cmd("IlluminatePauseBuf")
+        end
+    end
 })

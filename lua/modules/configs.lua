@@ -1,6 +1,5 @@
 local M = {
     -- Dirs
-    dap = require("modules.dap"),
     lsp = require("modules.lsp"),
 
     -- Plugins
@@ -12,7 +11,6 @@ local M = {
     bufferline = require("modules.bufferline"),
     catppuccin = require("modules.catppuccin"),
     cmp = require("modules.cmp"),
-    colorizer = require("modules.colorizer"),
     comment = require("modules.comment"),
     copilot = require("modules.copilot"),
     crates = require("modules.crates"),
@@ -27,7 +25,6 @@ local M = {
     lualine = require("modules.lualine"),
     navic = require("modules.navic"),
     neoclip = require("modules.neoclip"),
-    neoconf = require("modules.neoconf"),
     neogit = require("modules.neogit"),
     neorg = require("modules.neorg"),
     neoscroll = require("modules.neoscroll"),
@@ -52,9 +49,12 @@ local M = {
     treesitter = require("modules.treesitter"),
     trouble = require("modules.trouble"),
     undotree = require("modules.undotree"),
-    venv_selector = require("modules.venv-selector"),
+    vim_illuminate = require("modules.vim-illuminate"),
     whichkey = require("modules.whichkey"),
     zfvimim = require("modules.zfvimim"),
 }
+
+
+
 
 return M

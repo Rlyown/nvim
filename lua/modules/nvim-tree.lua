@@ -120,7 +120,6 @@ return function()
         },
         view = {
             width = 30,
-            hide_root_folder = false,
             side = "left",
             preserve_window_proportions = false,
             number = false,
@@ -138,6 +137,7 @@ return function()
             },
         },
         renderer = {
+            root_folder_label = ":~",
             indent_markers = {
                 enable = true,
                 icons = {

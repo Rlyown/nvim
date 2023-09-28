@@ -86,7 +86,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ brew install neovim go python3 node@16 rust llvm lua yarn npm
 
   # Packages
-  $ brew install ripgrep fd lazygit gnu-sed exa bat
+  $ brew install ripgrep fd lazygit gnu-sed
 
   # Optional Packages
   $ brew install fortune bear llvm
