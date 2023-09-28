@@ -256,7 +256,7 @@ autocmd("BufRead", {
     group = "_CUSTOM_big_file",
     pattern = "*",
     callback = function()
-        local disable_func = require("core.gfunc").fn.diable_check_buf
+        local disable_func = require("core.gfunc").fn.disable_check_buf
         if disable_func("Big File", "illuminate,TSContext") then
             vim.cmd("IlluminatePauseBuf")
             vim.cmd("TSContextDisable")

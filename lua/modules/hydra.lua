@@ -128,9 +128,7 @@ return function()
     -- local motion_hydra = Hydra({})
 
     Hydra.spawn = function(head)
-        if head == "dap-hydra" then
-            dap_hydra:activate()
-        elseif head == "git-hydra" then
+        if head == "git-hydra" then
             git_hydra:activate()
         elseif head == "resize-hydra" then
             resize_hydra:activate()

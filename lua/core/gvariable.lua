@@ -20,7 +20,7 @@ end
 local system = require("core.gfunc").fn.system
 
 -- Set the python3 path which installed pynvim
-vim.g.python3_host_prog = system("command -v python3")
+vim.g.python3_host_prog = "python3"
 
 -- path to debuggers
 M.debuggers = {
@@ -34,13 +34,13 @@ M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
 M.snippet_dir = vim.fn.stdpath("config") .. "/snippets"
 M.neorg_dir = vim.fn.stdpath("state") .. "/neorg-notes"
 
-M.node_path = system("command -v node")
+M.node_path = "node"
 
 M.compiler = {
-    system("command -v clang"),
-    system("command -v clang++"),
-    system("command -v gcc"),
-    system("command -v g++"),
+    "clang",
+    "clang++",
+    "gcc",
+    "g++",
 }
 
 M.symbol_map = {

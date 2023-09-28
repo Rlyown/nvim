@@ -1,6 +1,6 @@
 return function()
     local configs = require("nvim-treesitter.configs")
-    local disable_func = require("core.gfunc").fn.diable_check_buf
+    local disable_func = require("core.gfunc").fn.disable_check_buf
 
 
     configs.setup({

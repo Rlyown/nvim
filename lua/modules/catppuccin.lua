@@ -43,10 +43,6 @@ return function()
                 custom_bg = "NONE",
             },
         },
-        compile = {
-            enabled = true,
-            path = vim.fn.stdpath("config") .. "/plugin",
-            suffix = "_compiled",
-        },
+        compile_path = vim.fn.stdpath "cache" .. "/catppuccin"
     })
 end

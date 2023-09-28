@@ -343,7 +343,6 @@ return function()
                 Q = { "<cmd>q<cr>", "Finish" },
                 s = {
                     name = "Specific",
-                    d = { "<cmd>lua _DLV_DEBUG_TOGGLE()<cr>", "Delve" },
                     g = {
                         function()
                             if helper.filetype_check({ "c", "cpp", "rust" }) then
@@ -353,7 +352,7 @@ return function()
                         end,
                         "GDB",
                     },
-                    G = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "Lazygit" },
+                    G = { helper.lazygit_toggle, "Lazygit" },
                     l = {
                         function()
                             if helper.filetype_check({ "c", "cpp", "rust" }) then
@@ -363,7 +362,6 @@ return function()
                         end,
                         "LLDB",
                     },
-                    p = { "<cmd>lua _PYTHON3_TOGGLE()<cr>", "Python3" },
                     r = {
                         function()
                             if helper.filetype_check("rust") then

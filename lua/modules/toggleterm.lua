@@ -26,26 +26,4 @@ return function()
     }
 
     toggleterm.setup(float_cfg)
-
-    -- Create custom terminals
-    local Terminal = require("toggleterm.terminal").Terminal
-
-    -- Setup nvim as default editor for lazygit
-    local lazygit = Terminal:new({
-        cmd = [[VISUAL="nvim" EDITOR="nvim" lazygit]],
-        hidden = true,
-    })
-    function _G._LAZYGIT_TOGGLE()
-        lazygit:toggle()
-    end
-
-    local python3 = Terminal:new({ cmd = "python3", hidden = true })
-    function _G._PYTHON3_TOGGLE()
-        python3:toggle()
-    end
-
-    local dlv_debug = Terminal:new({ cmd = "dlv debug", hidden = true })
-    function _G._DLV_DEBUG_TOGGLE()
-        dlv_debug:toggle()
-    end
 end

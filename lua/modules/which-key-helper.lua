@@ -136,4 +136,13 @@ function M.filetype_check(ft_list)
     return force
 end
 
+function M.lazygit_toggle()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local lazygit = Terminal:new({
+        cmd = [[VISUAL="nvim" EDITOR="nvim" lazygit]],
+        hidden = true,
+    })
+    lazygit:toggle()
+end
+
 return M
