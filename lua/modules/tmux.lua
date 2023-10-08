@@ -6,6 +6,7 @@ return function()
             -- enables copy sync. by default, all registers are synchronized.
             -- to control which registers are synced, see the `sync_*` options.
             enable = true,
+            redirect_to_clipboard = true,
         },
         navigation = {
             -- enables default keybindings (C-hjkl) for normal mode

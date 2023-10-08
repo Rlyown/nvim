@@ -351,6 +351,23 @@ require("lazy").setup({
     {
         "ibhagwan/smartyank.nvim",
         config = configs.smartyank,
+        enabled = false
+    },
+    {
+        "ojroques/nvim-osc52",
+        event = "BufReadPre",
+        opts = { silent = true },
+        init = function()
+            local au_copy = function()
+                if vim.v.event.operator == "y" and vim.v.event.regname == "+" then
+                    require("osc52").copy_register("+")
+                end
+                if vim.v.event.operator == "y" and vim.v.event.regname == "" then
+                    require("osc52").copy_register("")
+                end
+            end
+            api.nvim_create_autocmd("TextYankPost", { callback = au_copy })
+        end,
     },
     {
         "rainbowhxch/accelerated-jk.nvim",
@@ -409,10 +426,10 @@ require("lazy").setup({
         config = configs.nvim_tree,
         cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
         event = "User DirOpened",
-    },                                                                                    -- file explorer
-    { "akinsho/bufferline.nvim",             config = configs.bufferline },               -- buffer line plugin
-    { "nvim-lualine/lualine.nvim",           config = configs.lualine },                  -- statusline plugin
-    { "goolord/alpha-nvim",                  config = configs.alpha },                    -- a lua powered greeter
+    },                                                                                                  -- file explorer
+    { "akinsho/bufferline.nvim",             config = configs.bufferline },                             -- buffer line plugin
+    { "nvim-lualine/lualine.nvim",           config = configs.lualine },                                -- statusline plugin
+    { "goolord/alpha-nvim",                  config = configs.alpha },                                  -- a lua powered greeter
     { "lukas-reineke/indent-blankline.nvim", main = "ibl",               config = configs.indentline }, -- Indent guides for Neovim
     {
         "SmiteshP/nvim-navic",
