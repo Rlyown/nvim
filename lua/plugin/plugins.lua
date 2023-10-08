@@ -366,7 +366,7 @@ require("lazy").setup({
                     require("osc52").copy_register("")
                 end
             end
-            api.nvim_create_autocmd("TextYankPost", { callback = au_copy })
+            vim.api.nvim_create_autocmd("TextYankPost", { callback = au_copy })
         end,
     },
     {
