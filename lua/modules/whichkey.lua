@@ -269,17 +269,6 @@ return function()
                 w = helper.telescope_neorg_bind_helper("switch_workspace", "Switch Workspace"),
             },
             ["n"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-            ["o"] = {
-                name = "Open(MacOS Only)",
-                m = {
-                    function()
-                        vim.cmd(
-                            string.format('silent exec "!open -a /Applications/Typora.app %s"', vim.fn.expand("%:p"))
-                        )
-                    end,
-                    "Typora",
-                },
-            },
             ["O"] = { "<cmd>SymbolsOutline<cr>", "Code OutLine" },
             -- ["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
             ["p"] = {

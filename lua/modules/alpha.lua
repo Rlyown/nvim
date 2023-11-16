@@ -7,10 +7,10 @@ return function()
     dashboard.section.header.val = get_banner()
     dashboard.section.buttons.val = {
         dashboard.button("a", "  Agenda", ":Neorg workspace work<CR>"),
-        dashboard.button("f", "󰈞  Find file", ":lua require('telescope.builtin').find_files()<CR>"),
+        dashboard.button("f", "  Find file", ":lua require('telescope.builtin').find_files()<CR>"),
         dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
         dashboard.button("s", "  Select Session", ":SessionManager load_session<CR>"),
-        dashboard.button("r", "󱋡  Recently used files", ":lua require('telescope.builtin').oldfiles() <CR>"),
+        dashboard.button("r", "  Recently used files", ":lua require('telescope.builtin').oldfiles() <CR>"),
         dashboard.button("t", "  Find text", ":lua require('telescope.builtin').live_grep() <CR>"),
         dashboard.button("c", "  Configuration", ":cd ~/.config/nvim | e init.lua <CR>"),
         dashboard.button("p", "  Plugins", ":Lazy profile<cr>"),
