@@ -16,8 +16,8 @@ return function()
 
             -- DAP
             --[[ "codelldb", ]]
-            "debugpy",
-            "delve",
+            -- "debugpy",
+            -- "delve",
         },
 
         -- if set to true this will check each tool for updates. If updates

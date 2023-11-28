@@ -101,5 +101,6 @@ keymap("v", "<leader>S", "<cmd>lua require('spectre').open_visual()<CR>", opts)
 -- crate
 keymap("v", "<leader><leader>lru", ":lua require('crates').update_crates()<cr>", opts)
 keymap("v", "<leader><leader>lru", ":lua require('crates').upgrade_crates()<cr>", opts)
+
 -- Copilot
 vim.cmd([[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")]])
