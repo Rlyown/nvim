@@ -97,5 +97,5 @@ return function()
     }
 
     local leader = vim.g.mapleader
-    vim.g.vimtex_mappings_prefix = leader .. "Lt"
+    vim.g.vimtex_mappings_prefix = leader .. "lt"
 end

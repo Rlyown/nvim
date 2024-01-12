@@ -112,7 +112,8 @@ return function()
                 "Git",
             },
             ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight Search" },
-            ["l"] = {
+            ["L"] = {
+                "LSP",
                 a = {
                     function()
                         vim.b.copilot_enabled = true
@@ -154,7 +155,7 @@ return function()
                     "Workspace Symbols",
                 },
             },
-            ["L"] = {
+            ["l"] = {
                 name = "Language Specific",
                 c = {
                     name = "C/CPP",
