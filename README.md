@@ -324,7 +324,7 @@ Leader key is comma(`,`) key. You can just press `<leader>` or `<leader><leader>
 | ZFVimIM         | insert           | `<space>`/`0-9`/`[`/`]` | choose word (first/position/head/tail)                                                       |
 | ZFVimIM         | insert           | `;,`/`;.`               | add or remove user word                                                                      |
 
-If you want to enter a new expression at `DAP Watches`, just enter insert mode and you will see a prompt appear, and press enter to submit. For more details about `dap-ui`, you can click [https://github.com/rcarriga/nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui).
+<!-- If you want to enter a new expression at `DAP Watches`, just enter insert mode and you will see a prompt appear, and press enter to submit. For more details about `dap-ui`, you can click [https://github.com/rcarriga/nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui). -->
 
 ## Plugins
 
