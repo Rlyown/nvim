@@ -96,6 +96,10 @@ return function()
         },
     }
 
+    vim.g.vimtex_compiler_latexmk = {
+        ["out_dir"] = "build",
+    }
+
     local leader = vim.g.mapleader
     vim.g.vimtex_mappings_prefix = leader .. "lt"
 end
