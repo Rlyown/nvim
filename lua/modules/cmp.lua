@@ -73,28 +73,30 @@ return function()
                     spell = "[Abc]",
                     copilot = "[Cpt]",
                     neorg = "[Norg]",
-                    -- omni = (vim.inspect(vim_item.menu):gsub('%"', "")),
+                    vimtex = vim_item.menu,
                 })[entry.source.name]
                 return vim_item
             end,
         },
         sources = {
-            { name = "copilot",    priority = 10 },
-            { name = "nvim_lsp",   priority = 9 },
-            { name = "luasnip",    priority = 8 },
-            { name = "neorg",      priority = 7 },
-            { name = "nvim_lua",   priority = 6 },
-            { name = "buffer",     priority = 5 },
-            -- { name = "path", priority = 4 },
-            { name = "fuzzy_path", priority = 4 },
-            {
-                name = "spell",
-                option = {
-                    keep_all_entries = false,
-                },
-                priority = 3,
-            },
-            -- { name = "omni" },
+            -- { name = "omni",       trigger_characters = { "{", "\\" } },
+            { name = "vimtex",   priority = 11 },
+            { name = "copilot",  priority = 10 },
+            { name = "nvim_lsp", priority = 9 },
+            { name = "luasnip",  priority = 8 },
+            { name = "neorg",    priority = 7 },
+            { name = "nvim_lua", priority = 6 },
+            { name = "buffer",   priority = 5 },
+            { name = "path",     priority = 4 },
+            -- { name = "fuzzy_path", priority = 4 },
+            -- {
+            --     name = "spell",
+            --     option = {
+            --         keep_all_entries = false,
+            --     },
+            --     priority = 3,
+            -- },
+
         },
         sorting = {
             priority_weight = 1.0,
@@ -138,8 +140,8 @@ return function()
     cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-            -- { name = "path" },
-            { name = "fuzzy_path", option = { fd_timeout_msec = 1500 } },
+            { name = "path" },
+            -- { name = "fuzzy_path", option = { fd_timeout_msec = 1500 } },
         }, {
             {
                 name = "cmdline",

@@ -8,7 +8,7 @@ return function()
         "dockerls",
         "gopls",
         "jsonls",
-        "ltex",
+        -- "ltex",
         "texlab",
         "rust_analyzer",
         "lua_ls",

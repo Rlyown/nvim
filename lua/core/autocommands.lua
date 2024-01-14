@@ -263,3 +263,12 @@ autocmd("BufRead", {
         end
     end
 })
+
+augroup("_CUSTOM_VimTeX", { clear = true })
+autocmd("BufWritePost", {
+    group = "_CUSTOM_VimTeX",
+    pattern = "*.tex",
+    callback = function()
+        vim.cmd("call vimtex#toc#refresh()")
+    end,
+})

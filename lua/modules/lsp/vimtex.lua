@@ -1,6 +1,6 @@
 return function()
-    -- Use texlab to replace with
-    vim.g.vimtex_complete_enabled = 0
+    -- Not use texlab to replace with
+    vim.g.vimtex_complete_enabled = 1
     vim.g.tex_flavor = "latex" -- Default tex file format
     vim.g.vimtex_view_method = "skim"
     -- allows forward search after every successful compilation
@@ -11,7 +11,6 @@ return function()
     vim.g.vimtex_indent_bib_enabled = 0
     vim.g.vimtex_indent_enabled = 0
 
-    vim.g.vimtex_complete_enabled = 0
     -- Disable imaps (using Ultisnips)
     vim.g.vimtex_imaps_enabled = 0
     -- Do not open pdfviwer on compile
@@ -96,9 +95,35 @@ return function()
         },
     }
 
+    vim.g.vimtex_compiler_method = "latexmk"
     vim.g.vimtex_compiler_latexmk = {
-        ["out_dir"] = "build",
+        executable = "latexmk",
+        continus = 1,
+        out_dir = "build/release",
+        aux_dir = "build/aux",
+        options = {
+            "-quiet",
+            "-file-line-error",
+            "-shell-escape",
+            "-synctex=1",
+            "-interaction=nonstopmode",
+        },
+        callback = 1,
+        hooks = {},
     }
+
+    vim.g.vimtex_toc_config = {
+        name = "TOC",
+        layers = {
+            "content",
+            "label",
+        },
+        split_width = 40,
+        todo_sorted = 0,
+        show_help = 0,
+        split_pos = "vert leftabove",
+    }
+
 
     local leader = vim.g.mapleader
     vim.g.vimtex_mappings_prefix = leader .. "lt"

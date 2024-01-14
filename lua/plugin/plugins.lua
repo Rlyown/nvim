@@ -49,25 +49,27 @@ require("lazy").setup({
 
         config = configs.cmp,
         event = { "InsertEnter", "CmdlineEnter" },
-        dependencies = {
-            "cmp-buffer",
-            "cmp-fuzzy-path",
-            "cmp-cmdline",
-            "cmp-nvim-lsp",
-            "cmp_luasnip",
-            "cmp-nvim-lua",
-            "cmp-copilot"
-        },
-        lazy = true
-    },                                                                                        -- The completion plugin
-    { "hrsh7th/cmp-buffer",       lazy = true },                                              -- buffer completions
-    { "tzachar/cmp-fuzzy-path",   dependencies = { { "tzachar/fuzzy.nvim" } }, lazy = true },
-    { "hrsh7th/cmp-cmdline",      lazy = true },                                              -- cmdline completions
-    { "hrsh7th/cmp-nvim-lsp",     lazy = true, },                                             -- lsp completions
-    { "saadparwaiz1/cmp_luasnip", dependencies = { "LuaSnip" },                lazy = true }, -- snippet completions
-    { "hrsh7th/cmp-nvim-lua",     lazy = true },                                              -- neovim's lua api completions
+        -- dependencies = {
+        --     "cmp-buffer",
+        --     "cmp-fuzzy-path",
+        --     "cmp-cmdline",
+        --     "cmp-nvim-lsp",
+        --     "cmp_luasnip",
+        --     "cmp-nvim-lua",
+        --     "cmp-copilot",
+        -- },
+    },                                                             -- The completion plugin
+    { "hrsh7th/cmp-buffer", },                                     -- buffer completions
+    { "hrsh7th/cmp-path", },                                       -- path completions
+    -- { "tzachar/cmp-fuzzy-path",   dependencies = { { "tzachar/fuzzy.nvim" } }, },
+    { "hrsh7th/cmp-cmdline", },                                    -- cmdline completions
+    { "hrsh7th/cmp-nvim-lsp", },                                   -- lsp completions
+    { "saadparwaiz1/cmp_luasnip", dependencies = { "LuaSnip" }, }, -- snippet completions
+    { "hrsh7th/cmp-nvim-lua", },                                   -- neovim's lua api completions
+    { "micangl/cmp-vimtex" },
+    -- { "hrsh7th/cmp-omni" },
     -- { "f3fora/cmp-spell",         dependencies = { "nvim-cmp" } },                -- spell source for nvim-cmp
-    { "hrsh7th/cmp-copilot",      dependencies = { "copilot.vim" },            lazy = true }, -- this is a experimental product
+    { "hrsh7th/cmp-copilot",      dependencies = { "copilot.vim" } }, -- this is a experimental product
     {
         "github/copilot.vim",
         event = "InsertEnter",
