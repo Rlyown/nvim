@@ -419,7 +419,9 @@ require("lazy").setup({
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate",                config = configs.treesitter }, -- Nvim Treesitter configurations and abstraction layer
     { "romgrk/nvim-treesitter-context",  config = configs.treesitter_context },                             -- show code context
 
+    ----------------------------------------------------------------------------------------------
     -- UI
+    ----------------------------------------------------------------------------------------------
     { "RRethy/vim-illuminate",           config = configs.vim_illuminate }, -- Highlight other uses of the word under the cursor
     { "karb94/neoscroll.nvim",           config = configs.neoscroll },
     { "nvim-tree/nvim-web-devicons",     lazy = true },                     -- a lua fork from vim-devicons
@@ -473,6 +475,17 @@ require("lazy").setup({
             "rcarriga/nvim-notify",
         },
         event = "VeryLazy",
+    },
+    {
+        "andrewferrier/wrapping.nvim",
+        config = function()
+            require("wrapping").setup({
+                create_commands = false,
+                create_keymaps = false,
+                notify_on_switch = true,
+                auto_set_mode_heuristically = false,
+            })
+        end,
     },
 
     ----------------------------------------------------------------------------------------------

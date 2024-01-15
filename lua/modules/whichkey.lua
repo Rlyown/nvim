@@ -36,7 +36,7 @@ return function()
         icons = {
             breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
             separator = "➜", -- symbol used between a key and it's label
-            group = "+",      -- symbol prepended to a group
+            group = "+", -- symbol prepended to a group
         },
         popup_mappings = {
             scroll_down = "<c-d>", -- binding to scroll down inside the popup
@@ -453,11 +453,13 @@ return function()
             d = "Prev Diagnostic",
             z = "Current Fold Begin",
             c = "Diff Backward",
+            w = { [[ <cmd>lua require('wrapping').soft_wrap_mode()<cr> ]], "soft wrap mode" },
         },
         ["]"] = {
             d = "Next Diagnostic",
             z = "Current Fold End",
             c = "Diff Forward",
+            w = { [[ <cmd>lua require('wrapping').hard_wrap_mode()<cr> ]], "hard wrap mode" },
         },
     }
 
