@@ -5,6 +5,7 @@ return function()
             filter = { event = "msg_showmode" },
         },
         {
+            -- Avoid written messages
             filter = {
                 event = "msg_show",
                 kind = "",
@@ -12,22 +13,23 @@ return function()
             },
             opts = { skip = true },
         },
-        {
-            filter = {
-                event = "msg_show",
-                kind = "",
-                find = "^<$",
-            },
-            opts = { skip = true },
-        },
-        {
-            filter = {
-                event = "msg_show",
-                kind = "",
-                find = "not a git repository",
-            },
-            opts = { skip = true },
-        },
+        -- {
+        --     filter = {
+        --         event = "msg_show",
+        --         kind = "",
+        --         find = "^<$",
+        --     },
+        --     opts = { skip = true },
+        -- },
+        -- {
+        --     -- Avoid git repo check messages
+        --     filter = {
+        --         event = "msg_show",
+        --         kind = "",
+        --         find = "not a git repository",
+        --     },
+        --     opts = { skip = true },
+        -- },
         {
             filter = {
                 event = "msg_show",
@@ -35,15 +37,23 @@ return function()
             },
             view = "cmdline",
         },
+        -- {
+        --     filter = {
+        --         event = "msg_show",
+        --         kind = "",
+        --         find =
+        --         "^Error running notification service: ...art/nvim-notify/lua/notify/service/buffer/highlights.lua:153: Invalid buffer id:",
+        --     },
+        --     opts = { skip = true },
+        -- },
         {
+            -- skil all
             filter = {
                 event = "msg_show",
                 kind = "",
-                find =
-                "^Error running notification service: ...art/nvim-notify/lua/notify/service/buffer/highlights.lua:153: Invalid buffer id:",
             },
             opts = { skip = true },
-        },
+        }
     }
 
     require("noice").setup({
