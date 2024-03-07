@@ -163,17 +163,24 @@ M.fn = {
             max_lines = lines
         end
 
-        local filetype = vim.filetype.match({ buf = bufnr })
-        local file_contents = vim.fn.readfile(vim.api.nvim_buf_get_name(bufnr))
-        local file_length = #file_contents
 
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
-        if ok and stats and stats.size > max_filesize then
-            return true
-        end
+        if ok and stats then
+            if stats.size > max_filesize then
+                return true
+            end
 
-        if file_length > max_lines then
-            return true
+            if stats.size == 0 then
+                return false
+            end
+
+            local filetype = vim.filetype.match({ buf = bufnr })
+            local file_contents = vim.fn.readfile(vim.api.nvim_buf_get_name(bufnr))
+            local file_length = #file_contents
+
+            if file_length > max_lines then
+                return true
+            end
         end
 
         return false
