@@ -7,7 +7,6 @@ local M = {
     alpha = require("modules.alpha"),
     autolist = require("modules.autolist"),
     autopairs = require("modules.autopairs"),
-    bigfile = require("modules.bigfile"),
     bufferline = require("modules.bufferline"),
     catppuccin = require("modules.catppuccin"),
     cmp = require("modules.cmp"),
