@@ -251,18 +251,6 @@ autocmd("User", {
     end,
 })
 
-augroup("_CUSTOM_big_file", { clear = true })
-autocmd("BufRead", {
-    group = "_CUSTOM_big_file",
-    pattern = "*",
-    callback = function()
-        local disable_func = require("core.gfunc").fn.disable_check_buf
-        if disable_func("Big File", "illuminate,TSContext") then
-            vim.cmd("IlluminatePauseBuf")
-            vim.cmd("TSContextDisable")
-        end
-    end
-})
 
 augroup("_CUSTOM_VimTeX", { clear = true })
 autocmd("BufWritePost", {

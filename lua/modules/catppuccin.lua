@@ -73,6 +73,7 @@ return function()
                 enabled = true,
                 custom_bg = "NONE",
             },
+            semantic_tokens = true
         },
         compile_path = vim.fn.stdpath "cache" .. "/catppuccin"
     })
