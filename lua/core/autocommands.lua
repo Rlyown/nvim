@@ -251,6 +251,53 @@ autocmd("User", {
     end,
 })
 
+local function disable_lsp(bufnr)
+    vim.api.nvim_create_autocmd({ "LspAttach" }, {
+        buffer = bufnr,
+        callback = function(args)
+            vim.schedule(function()
+                vim.lsp.buf_detach_client(bufnr, args.data.client_id)
+            end)
+        end,
+    })
+end
+
+augroup("_CUSTOM_big_file", { clear = true })
+autocmd("BufReadPre", {
+    group = "_CUSTOM_big_file",
+    pattern = "*",
+    callback = function(args)
+        local disable_func = require("core.gfunc").fn.disable_check_buf
+        local bufnr = args.buf
+        if disable_func(bufnr) then
+            vim.cmd("IlluminatePauseBuf")
+            vim.cmd("TSContextDisable")
+            local ok, indent_blankline = pcall(require, "indent_blankline.commands")
+            if ok then
+                indent_blankline.disable()
+            end
+        end
+
+        if (disable_func(bufnr, 5 * 1024 * 1024, 50000)) then
+            -- disable LSP
+            disable_lsp(bufnr)
+
+            -- disable syntax
+            vim.cmd "syntax clear"
+            vim.opt_local.syntax = "OFF"
+
+            -- disable filetype
+            vim.opt_local.filetype = ""
+
+            -- disable vim options
+            vim.opt_local.swapfile = false
+            vim.opt_local.foldmethod = "manual"
+            vim.opt_local.undolevels = -1
+            vim.opt_local.undoreload = 0
+            vim.opt_local.list = false
+        end
+    end
+})
 
 augroup("_CUSTOM_VimTeX", { clear = true })
 autocmd("BufWritePost", {

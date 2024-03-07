@@ -53,11 +53,14 @@ return function()
         },                                      -- one of "all", or a list of languages
         sync_install = false,                   -- install languages synchronously (only applied to `ensure_installed`)
         ignore_install = { "swift", "phpdoc" }, -- List of parsers to ignore installing
-        autopairs = {
-            enable = true,
-        },
         highlight = {
-            enable = true, -- false will disable the whole extension
+            enable = true,                      -- false will disable the whole extension
+            disable = function(lang, buf)
+                if disable_func(buf) then
+                    return true
+                end
+                return false
+            end,
             additional_vim_regex_highlighting = true,
         },
         indent = {
@@ -68,17 +71,19 @@ return function()
                 elseif lang == "yaml" then
                     return true
                 else
-                    return false
+                    return disable_func(buf)
                 end
             end
-        },
-        context_commentstring = {
-            enable = true,
-            enable_autocmd = false,
         },
         matchup = {
             enable = true, -- mandatory, false will disable the whole extension
             --[[ disable = { "c", "ruby" }, -- optional, list of language that will be disabled ]]
+            disable = function(lang, buf)
+                if disable_func(buf) then
+                    return true
+                end
+                return false
+            end,
         },
     })
 end

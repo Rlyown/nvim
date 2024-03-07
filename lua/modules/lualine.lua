@@ -122,8 +122,10 @@ return function()
     local navic_component = function()
         local disable_func = require("core.gfunc").fn.disable_check_buf
 
-        if (not disable_func("nvim-navic", "navic")) and navic.is_available() then
+        if (not disable_func(0)) and navic.is_available() then
             return navic.get_location()
+        else
+            return ""
         end
     end
 
