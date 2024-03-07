@@ -411,7 +411,6 @@ require("lazy").setup({
         event = { "BufEnter" },
         config = true, -- default settings
     },
-    { "LunarVim/bigfile.nvim",           config = true, },
 
     ----------------------------------------------------------------------------------------------
     -- Treesitter

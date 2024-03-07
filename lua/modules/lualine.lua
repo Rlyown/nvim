@@ -40,8 +40,8 @@ return function()
         shorting_target = 30, -- Shortens path to leave 40 spaces in the window
         -- for other components. (terrible name, any suggestions?)
         symbols = {
-            modified = "",         -- Text to show when the file is modified.
-            readonly = " ",     -- Text to show when the file is non-modifiable or readonly.
+            modified = "", -- Text to show when the file is modified.
+            readonly = " ", -- Text to show when the file is non-modifiable or readonly.
             unnamed = "[No Name]", -- Text to show for unnamed buffers.
         },
     }
@@ -122,8 +122,10 @@ return function()
     local navic_component = function()
         local disable_func = require("core.gfunc").fn.disable_check_buf
 
-        if (not disable_func("nvim-navic", "navic")) and navic.is_available() then
+        if (not disable_func(0)) and navic.is_available() then
             return navic.get_location()
+        else
+            return ""
         end
     end
 

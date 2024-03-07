@@ -55,19 +55,10 @@ return function()
         },                                      -- one of "all", or a list of languages
         sync_install = false,                   -- install languages synchronously (only applied to `ensure_installed`)
         ignore_install = { "swift", "phpdoc" }, -- List of parsers to ignore installing
-        autopairs = {
-            enable = true,
-            disable = function(lang, buf)
-                if disable_func("nvim-treesitter", "autopairs", buf) then
-                    return true
-                end
-                return false
-            end
-        },
         highlight = {
-            enable = true, -- false will disable the whole extension
+            enable = true,                      -- false will disable the whole extension
             disable = function(lang, buf)
-                if disable_func("nvim-treesitter", "highlight", buf) then
+                if disable_func(buf) then
                     return true
                 end
                 return false
@@ -82,25 +73,15 @@ return function()
                 elseif lang == "yaml" then
                     return true
                 else
-                    return disable_func("nvim-treesitter", "indent", buf)
+                    return disable_func(buf)
                 end
             end
-        },
-        context_commentstring = {
-            enable = true,
-            enable_autocmd = false,
-            disable = function(lang, buf)
-                if disable_func("nvim-treesitter", "context_commentstring", buf) then
-                    return true
-                end
-                return false
-            end,
         },
         matchup = {
             enable = true, -- mandatory, false will disable the whole extension
             --[[ disable = { "c", "ruby" }, -- optional, list of language that will be disabled ]]
             disable = function(lang, buf)
-                if disable_func("nvim-treesitter", "matchup", buf) then
+                if disable_func(buf) then
                     return true
                 end
                 return false

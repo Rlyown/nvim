@@ -145,27 +145,38 @@ M.fn = {
         end
         return command_info
     end,
-    ["disable_check_buf"] = function(title, item, buf, limit)
-        local t_buf = 0
+    ["disable_check_buf"] = function(buf, size, lines)
+        local bufnr = 0
         if buf ~= nil then
-            t_buf = buf
+            bufnr = buf
         end
 
-        local max_filesize = 100 * 1024 -- 100KB
-        if limit ~= nil then
-            max_filesize = limit
+
+        local max_filesize = 1 * 1024 * 1024 -- 1MB
+        if size ~= nil then
+            max_filesize = size
         end
 
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(t_buf))
+
+        local max_lines = 10000
+        if lines ~= nil then
+            max_lines = lines
+        end
+
+        local filetype = vim.filetype.match({ buf = bufnr })
+        local file_contents = vim.fn.readfile(vim.api.nvim_buf_get_name(bufnr))
+        local file_length = #file_contents
+
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
         if ok and stats and stats.size > max_filesize then
-            -- vim.notify(
-            --     string.format("The file size %d exceeds the limit %d, disable %s", stats.size, max_filesize, item),
-            --     ---@diagnostic disable-next-line: param-type-mismatch
-            --     "info",
-            --     { title = title }
-            -- )
             return true
         end
+
+        if file_length > max_lines then
+            return true
+        end
+
+        return false
     end,
 }
 return M

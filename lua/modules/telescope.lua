@@ -119,6 +119,7 @@ return function()
                 workspaces = {
                     -- ["conf"]    = vim.fn.expand("~/.config"),
                 },
+                db_safe_mode = false,
             },
             dash = {
                 -- your config here
