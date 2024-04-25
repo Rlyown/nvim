@@ -187,15 +187,15 @@ require("lazy").setup({
         lazy = true
     }, -- A tree like view for symbols
 
-    {
-        "nvim-neorg/neorg",
-        build = ":Neorg sync-parsers",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = configs.neorg,
-        ft = "norg",
-        cmd = "Neorg",
-        lazy = true,
-    },
+    -- {
+    --     "nvim-neorg/neorg",
+    --     build = ":Neorg sync-parsers",
+    --     dependencies = { "nvim-lua/plenary.nvim" },
+    --     config = configs.neorg,
+    --     ft = "norg",
+    --     cmd = "Neorg",
+    --     lazy = true,
+    -- },
 
     { "nvim-neorg/neorg-telescope", dependencies = { "neorg", "telescope" }, lazy = true },
     { "andymass/vim-matchup",       lazy = true,                             keys = { "%" } },

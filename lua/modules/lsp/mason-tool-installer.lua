@@ -7,6 +7,7 @@ return function()
             --[[ "markdownlint", ]]
             "shellcheck",
             "vim-language-server",
+            "cmakelang",
 
             -- Format
             "black",

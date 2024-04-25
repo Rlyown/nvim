@@ -16,6 +16,7 @@ return function()
         "pyright",
         "yamlls",
         "lemminx",
+        -- "mesonlsp",
     }
 
     require("mason-lspconfig").setup({
