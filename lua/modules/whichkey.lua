@@ -270,7 +270,7 @@ return function()
             --     w = helper.telescope_neorg_bind_helper("switch_workspace", "Switch Workspace"),
             -- },
             ["n"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-            ["O"] = { "<cmd>SymbolsOutline<cr>", "Code OutLine" },
+            ["o"] = { "<cmd>SymbolsOutline<cr>", "Code OutLine" },
             -- ["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
             ["p"] = {
                 name = "Session",

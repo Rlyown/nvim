@@ -1,3 +1,4 @@
+-- TODO: none-ls.nvim
 return function()
     local null_ls = require("null-ls")
 
@@ -19,7 +20,6 @@ return function()
             formatting.prettier,
             formatting.black.with({ extra_args = { "--fast" } }),
             formatting.shfmt,
-            formatting.latexindent,
 
             -- Disable it because command line arguments take precedence over .clang-format file
             -- c/cpp
@@ -51,14 +51,12 @@ return function()
 
             -- code action
             -- code_actions.gitsigns,
-            code_actions.shellcheck,
 
             -- lint
 
             -- diagnostics
             -- diagnostics.markdownlint
             -- diagnostics.flake8
-            diagnostics.shellcheck,
         },
     })
 end

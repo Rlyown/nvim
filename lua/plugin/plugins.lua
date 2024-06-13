@@ -149,7 +149,7 @@ require("lazy").setup({
         lazy = true,
     }, -- Install and upgrade third party tools automatically
     {
-        "jose-elias-alvarez/null-ls.nvim",
+        "nvimtools/none-ls.nvim",
         config = configs.lsp.null_ls,
         event = "BufRead",
         cmd = { "NullLsInfo", "NullLsLog" }

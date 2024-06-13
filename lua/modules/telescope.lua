@@ -5,11 +5,11 @@ return function()
     local themes = require("telescope.themes")
 
     local qlist = function()
-        local trouble_status_ok, trouble = pcall(require, "trouble.providers.telescope")
+        local trouble_status_ok, trouble = pcall(require, "trouble.sources.telescope")
         if not trouble_status_ok then
             return actions.send_to_qflist + actions.open_qflist
         else
-            return trouble.open_with_trouble
+            return trouble.open
         end
     end
 
