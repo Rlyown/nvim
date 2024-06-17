@@ -69,13 +69,28 @@ require("lazy").setup({
     { "micangl/cmp-vimtex" },
     -- { "hrsh7th/cmp-omni" },
     -- { "f3fora/cmp-spell",         dependencies = { "nvim-cmp" } },                -- spell source for nvim-cmp
-    { "hrsh7th/cmp-copilot",      dependencies = { "copilot.vim" } }, -- this is a experimental product
+    -- { "hrsh7th/cmp-copilot",      dependencies = { "copilot.vim" } }, -- this is a experimental product
+    -- {
+    --     "github/copilot.vim",
+    --     event = "InsertEnter",
+    --     init = configs.copilot, -- it must be run before copilot.vim
+    --     lazy = true
+    -- },                          -- gitHub Copilot
+
     {
-        "github/copilot.vim",
+        "zbirenbaum/copilot-cmp",
+        config = function()
+            require("copilot_cmp").setup()
+        end,
+        dependencies = { "copilot.lua" },
+    },
+    {
+        "zbirenbaum/copilot.lua",
         event = "InsertEnter",
-        init = configs.copilot, -- it must be run before copilot.vim
+        init = configs.copilot.init,
+        config = configs.copilot.config,
         lazy = true
-    },                          -- gitHub Copilot
+    },
     {
         "saecki/crates.nvim",
         event = { "BufRead Cargo.toml" },

@@ -78,6 +78,7 @@ M.symbol_map = {
     Boolean = "",
     Array = "",
     Object = "⦿",
+    Copilot = "",
 }
 
 -- This function will be called at the end of init.lua
