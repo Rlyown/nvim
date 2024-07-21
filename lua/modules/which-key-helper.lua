@@ -2,7 +2,7 @@ local M = {}
 
 local ainput = require("core.gfunc").fn.async_ui_input_wrap()
 
-function M.term_id_cmds(name, cmd_str)
+function M.term_id_cmds(cmd_str)
     local opts = {
         prompt = "Input Terminal ID:",
         kind = "center",
@@ -22,10 +22,10 @@ function M.term_id_cmds(name, cmd_str)
         ainput(opts, on_confirm)
     end
 
-    return { do_func, name }
+    return do_func
 end
 
-function M.term_multi_hv(name, rate, direction)
+function M.term_multi_hv(rate, direction)
     local opts = {
         prompt = "Input Terminal ID:",
         kind = "center",
@@ -54,7 +54,7 @@ function M.term_multi_hv(name, rate, direction)
         ainput(opts, on_confirm)
     end
 
-    return { do_func, name }
+    return do_func
 end
 
 function M.telescope_neorg_bind_helper(name, show_name)

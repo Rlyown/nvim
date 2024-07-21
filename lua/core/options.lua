@@ -60,6 +60,7 @@ local options = {
 vim.opt.shortmess:append("c") -- enable short message with flag "c"
 
 for k, v in pairs(options) do
+    -- vim.api.nvim_set_option_value(k, v, {})
     vim.opt[k] = v
 end
 

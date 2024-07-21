@@ -113,17 +113,17 @@ require("lazy").setup({
         config = configs.diffview,
         lazy = true
     }, -- Single tabpage interface for easily cycling through diffs for all modified files for any git rev.
-    {
-        "TimUntersberger/neogit",
-        config = configs.neogit,
-        dependencies = {
-            "nvim-lua/plenary.nvim",  -- required
-            "telescope",              -- optional
-            "sindrets/diffview.nvim", -- optional
-        },
-        cmd = { "Neogit", "NeogitResetState" },
-        lazy = true
-    }, -- magit for neovim
+    -- {
+    --     "TimUntersberger/neogit",
+    --     config = configs.neogit,
+    --     dependencies = {
+    --         "nvim-lua/plenary.nvim",  -- required
+    --         "telescope",              -- optional
+    --         "sindrets/diffview.nvim", -- optional
+    --     },
+    --     cmd = { "Neogit", "NeogitResetState" },
+    --     lazy = true
+    -- }, -- magit for neovim
 
     ----------------------------------------------------------------------------------------------
     -- LSP
@@ -211,6 +211,14 @@ require("lazy").setup({
     --     cmd = "Neorg",
     --     lazy = true,
     -- },
+    {
+        "nvim-neorg/neorg",
+        lazy = true, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+        ft = "norg",
+        cmd = "Neorg",
+        version = "*", -- Pin Neorg to the latest stable release
+        config = configs.neorg,
+    },
 
     { "nvim-neorg/neorg-telescope", dependencies = { "neorg", "telescope" }, lazy = true },
     { "andymass/vim-matchup",       lazy = true,                             keys = { "%" } },
@@ -342,6 +350,7 @@ require("lazy").setup({
     { "lewis6991/impatient.nvim", priority = priorities.first }, -- Improve startup time for Neovim
     {
         "folke/which-key.nvim",
+        event = "VeryLazy",
         config = configs.whichkey,
     }, -- Create key bindings that stick.
     {
