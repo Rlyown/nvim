@@ -54,7 +54,7 @@ $ nvim
 
 Make sure to remove or move your current `nvim` directory.
 
-**IMPORTANT** Configuration based on neovim v0.9.2.
+**IMPORTANT** Configuration based on neovim v0.10.0.
 
 ```shell
 $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
