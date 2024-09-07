@@ -247,6 +247,11 @@ require("lazy").setup({
 
     { "nvim-neorg/neorg-telescope", dependencies = { "neorg", "telescope" }, lazy = true },
     { "andymass/vim-matchup",       lazy = true,                             keys = { "%" } },
+    {
+        'mrcjkb/rustaceanvim',
+        version = '^5', -- Recommended
+        lazy = false,   -- This plugin is already lazy
+    },
 
     ----------------------------------------------------------------------------------------------
     -- Project

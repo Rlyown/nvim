@@ -47,6 +47,8 @@ M.dap = {
             -- if buffer type is go
             if vim.bo.ft == "go" then
                 vim.cmd("GoDebug")
+            elseif vim.bo.ft == "rust" then
+                vim.cmd.RustLsp('debuggables')
             else
                 require('dap').continue()
             end
@@ -257,45 +259,103 @@ M.lang = {
 
     -- Rust
     { "<leader>lr",   group = "Rust" },
-    { "<leader>lrd",  "<cmd>lua require('crates').open_documentation()<cr>",  desc = "Documentation" },
-    { "<leader>lrf",  "<cmd>lua require('crates').show_features_popup()<cr>", desc = "Features" },
-    { "<leader>lrg",  "<cmd>lua require('crates').open_repository()<cr>",     desc = "Repository" },
-    { "<leader>lrh",  "<cmd>lua require('crates').open_homepage()<cr>",       desc = "Homepage" },
-    { "<leader>lri",  "<cmd>lua require('crates').upgrade_crate()<cr>",       desc = "Upgrade" },
-    { "<leader>lrI",  "<cmd>lua require('crates').upgrade_all_crates()<cr>",  desc = "Upgrade All" },
-    { "<leader>lro",  "<cmd>lua require('crates').toggle()<cr>",              desc = "Toggle" },
-    { "<leader>lrp",  "<cmd>lua require('crates').open_crates_io()<cr>",      desc = "Creates.io" },
-    { "<leader>lrr",  "<cmd>lua require('crates').reload()<cr>",              desc = "Reload" },
-    { "<leader>lru",  "<cmd>lua require('crates').update_crate()<cr>",        desc = "Update" },
-    { "<leader>lrU",  "<cmd>lua require('crates').update_all_crates()<cr>",   desc = "Update All" },
-    { "<leader>lrv",  "<cmd>lua require('crates').show_versions_popup()<cr>", desc = "Versions" },
+    { "<leader>lrc",  group = "Crates" },
+    { "<leader>lrcd", "<cmd>lua require('crates').open_documentation()<cr>",  desc = "Documentation" },
+    { "<leader>lrcf", "<cmd>lua require('crates').show_features_popup()<cr>", desc = "Features" },
+    { "<leader>lrcg", "<cmd>lua require('crates').open_repository()<cr>",     desc = "Repository" },
+    { "<leader>lrch", "<cmd>lua require('crates').open_homepage()<cr>",       desc = "Homepage" },
+    { "<leader>lrci", "<cmd>lua require('crates').upgrade_crate()<cr>",       desc = "Upgrade" },
+    { "<leader>lrcI", "<cmd>lua require('crates').upgrade_all_crates()<cr>",  desc = "Upgrade All" },
+    { "<leader>lrco", "<cmd>lua require('crates').toggle()<cr>",              desc = "Toggle" },
+    { "<leader>lrcp", "<cmd>lua require('crates').open_crates_io()<cr>",      desc = "Creates.io" },
+    { "<leader>lrcr", "<cmd>lua require('crates').reload()<cr>",              desc = "Reload" },
+    { "<leader>lrcu", "<cmd>lua require('crates').update_crate()<cr>",        desc = "Update" },
+    { "<leader>lrcU", "<cmd>lua require('crates').update_all_crates()<cr>",   desc = "Update All" },
+    { "<leader>lrcv", "<cmd>lua require('crates').show_versions_popup()<cr>", desc = "Versions" },
+
+    {
+        "<leader>lrr",
+        function()
+            vim.cmd.RustLsp('runnables')
+        end,
+        desc = "Run"
+    },
+    {
+        "<leader>lrm",
+        function()
+            vim.cmd.RustLsp('expandMacro')
+        end,
+        desc = " Expand Macro"
+    },
+    {
+        "<leader>lrM",
+        function()
+            vim.cmd.RustLsp('rebuildProcMacros')
+        end,
+        desc = "Rebuild Proc Macros"
+    },
+    {
+        "<leader>lra",
+        function()
+            vim.cmd.RustLsp('codeAction')
+        end,
+        desc = "Code Action"
+    },
+    {
+        "<leader>lre",
+        function()
+            vim.cmd.RustLsp('explainError')
+        end,
+        desc = "Explain Error"
+    },
+    {
+        "<leader>lrD",
+        function()
+            vim.cmd.RustLsp('renderDiagnostic')
+        end,
+        desc = "Render Diagnostic"
+    },
+    {
+        "<leader>lrC",
+        function()
+            vim.cmd.RustLsp('openCargo')
+        end,
+        desc = "Open Cargo"
+    },
+    {
+        "<leader>lrs",
+        function()
+            vim.cmd.RustLsp('openDocs')
+        end,
+        desc = "Doc current symbol"
+    },
 
     -- Latex
-    { "<leader>lt",   group = "Latex" },
-    { "<leader>lti",  "<plug>(vimtex-info)",                                  desc = "Info" },
-    { "<leader>ltI",  "<plug>(vimtex-info-full)",                             desc = "Info Full" },
-    { "<leader>ltt",  "<plug>(vimtex-toc-open)",                              desc = "Toc Open" },
-    { "<leader>ltT",  "<plug>(vimtex-toc-toggle)",                            desc = "Toc Toggle" },
-    { "<leader>ltq",  "<plug>(vimtex-log)",                                   desc = "Log" },
-    { "<leader>ltv",  "<plug>(vimtex-view)",                                  desc = "View" },
-    { "<leader>ltr",  "<plug>(vimtex-reverse-search)",                        desc = "Reverse Search" },
-    { "<leader>ltl",  "<plug>(vimtex-compile)",                               desc = "Compile" },
-    { "<leader>ltk",  "<plug>(vimtex-stop)",                                  desc = "Stop" },
-    { "<leader>ltK",  "<plug>(vimtex-stop-all)",                              desc = "Stop All" },
-    { "<leader>lte",  "<plug>(vimtex-errors)",                                desc = "Errors" },
-    { "<leader>lto",  "<plug>(vimtex-compile-output)",                        desc = "Compile Output" },
-    { "<leader>ltg",  "<plug>(vimtex-status)",                                desc = "Status" },
-    { "<leader>ltG",  "<plug>(vimtex-status-all)",                            desc = "Status All" },
-    { "<leader>ltc",  "<plug>(vimtex-clean)",                                 desc = "Clean" },
-    { "<leader>ltC",  "<plug>(vimtex-clean-full)",                            desc = "Clean Full" },
-    { "<leader>ltm",  "<plug>(vimtex-imaps-list)",                            desc = "Imaps List" },
-    { "<leader>ltx",  "<plug>(vimtex-reload)",                                desc = "Reload" },
-    { "<leader>ltX",  "<plug>(vimtex-reload-state)",                          desc = "Reload State" },
-    { "<leader>lts",  "<plug>(vimtex-toggle-main)",                           desc = "Toggle Main" },
-    { "<leader>lta",  "<plug>(vimtex-context-menu)",                          desc = "Context Menu" },
+    { "<leader>lt",  group = "Latex" },
+    { "<leader>lti", "<plug>(vimtex-info)",           desc = "Info" },
+    { "<leader>ltI", "<plug>(vimtex-info-full)",      desc = "Info Full" },
+    { "<leader>ltt", "<plug>(vimtex-toc-open)",       desc = "Toc Open" },
+    { "<leader>ltT", "<plug>(vimtex-toc-toggle)",     desc = "Toc Toggle" },
+    { "<leader>ltq", "<plug>(vimtex-log)",            desc = "Log" },
+    { "<leader>ltv", "<plug>(vimtex-view)",           desc = "View" },
+    { "<leader>ltr", "<plug>(vimtex-reverse-search)", desc = "Reverse Search" },
+    { "<leader>ltl", "<plug>(vimtex-compile)",        desc = "Compile" },
+    { "<leader>ltk", "<plug>(vimtex-stop)",           desc = "Stop" },
+    { "<leader>ltK", "<plug>(vimtex-stop-all)",       desc = "Stop All" },
+    { "<leader>lte", "<plug>(vimtex-errors)",         desc = "Errors" },
+    { "<leader>lto", "<plug>(vimtex-compile-output)", desc = "Compile Output" },
+    { "<leader>ltg", "<plug>(vimtex-status)",         desc = "Status" },
+    { "<leader>ltG", "<plug>(vimtex-status-all)",     desc = "Status All" },
+    { "<leader>ltc", "<plug>(vimtex-clean)",          desc = "Clean" },
+    { "<leader>ltC", "<plug>(vimtex-clean-full)",     desc = "Clean Full" },
+    { "<leader>ltm", "<plug>(vimtex-imaps-list)",     desc = "Imaps List" },
+    { "<leader>ltx", "<plug>(vimtex-reload)",         desc = "Reload" },
+    { "<leader>ltX", "<plug>(vimtex-reload-state)",   desc = "Reload State" },
+    { "<leader>lts", "<plug>(vimtex-toggle-main)",    desc = "Toggle Main" },
+    { "<leader>lta", "<plug>(vimtex-context-menu)",   desc = "Context Menu" },
 
     -- Markdown
-    { "<leader>lm",   helper.markdown_helper(),                               desc = "Markdown Preview" },
+    { "<leader>lm",  helper.markdown_helper(),        desc = "Markdown Preview" },
 }
 
 M.lazy = {

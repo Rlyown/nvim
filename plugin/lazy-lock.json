@@ -79,6 +79,7 @@
   "popup.nvim": { "branch": "master", "commit": "b7404d35d5d3548a82149238289fa71f7f6de4ac" },
   "portal.nvim": { "branch": "main", "commit": "77d9d53fec945bfa407d5fd7120f1b4f117450ed" },
   "pretty-fold.nvim": { "branch": "master", "commit": "a7d8b424abe0eedf50116c460fbe6dfd5783b1d5" },
+  "rustaceanvim": { "branch": "master", "commit": "3fd3e5c187ad7155d8bf1a689fa5b651407ab22e" },
   "sqlite.lua": { "branch": "master", "commit": "d0ffd703b56d090d213b497ed4eb840495f14a11" },
   "suda.vim": { "branch": "master", "commit": "b97fab52f9cdeabe2bbb5eb98d82356899f30829" },
   "symbols-outline.nvim": { "branch": "master", "commit": "564ee65dfc9024bdde73a6621820866987cbb256" },

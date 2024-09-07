@@ -12,6 +12,7 @@ local M = {
     go = require("modules.lsp.go"),
     neodev = require("modules.lsp.neodev"),
     vimtex = require("modules.lsp.vimtex"),
+    rust = require("modules.lsp.rust"),
 }
 
 return M

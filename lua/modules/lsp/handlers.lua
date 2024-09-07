@@ -3,9 +3,9 @@ local M = {}
 M.setup = function()
     local signs = {
         { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn",  text = "" },
-        { name = "DiagnosticSignHint",  text = "" },
-        { name = "DiagnosticSignInfo",  text = "" },
+        { name = "DiagnosticSignWarn", text = "" },
+        { name = "DiagnosticSignHint", text = "" },
+        { name = "DiagnosticSignInfo", text = "" },
     }
 
     for _, sign in ipairs(signs) do
@@ -61,6 +61,7 @@ end
 
 local function lsp_keymaps(bufnr)
     local opts = { noremap = true, silent = true }
+
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
@@ -69,7 +70,8 @@ local function lsp_keymaps(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gR", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>TroubleToggle lsp_references<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>',
+        opts)
     vim.api.nvim_buf_set_keymap(
         bufnr,
         "n",
@@ -77,7 +79,8 @@ local function lsp_keymaps(bufnr)
         '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>',
         opts
     )
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>',
+        opts)
     -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gq", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
     vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({async=true})' ]])

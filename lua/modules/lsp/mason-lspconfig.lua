@@ -49,11 +49,13 @@ return function()
                 capabilities = require("modules.lsp.handlers").capabilities,
             }
 
+            -- ignore setup
             if server_name == "rust_analyzer" then
                 -- enable auto-import
-                opts.capabilities.textDocument.completion.completionItem.resolveSupport = {
-                    properties = { "documentation", "detail", "additionalTextEdits" },
-                }
+                -- opts.capabilities.textDocument.completion.completionItem.resolveSupport = {
+                --     properties = { "documentation", "detail", "additionalTextEdits" },
+                -- }
+                return
             end
 
             -- if detected server config file, automatically load it.
@@ -68,8 +70,8 @@ return function()
         end,
         -- Next, you can provide targeted overrides for specific servers.
         -- For example, a handler override for the `rust_analyzer`:
-        --[[ ["rust_analyzer"] = function() ]]
-        --[[ 	require("rust-tools").setup({}) ]]
-        --[[ end, ]]
+        ["rust_analyzer"] = function()
+
+        end,
     })
 end
