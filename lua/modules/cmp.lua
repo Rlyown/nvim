@@ -24,6 +24,10 @@ return function()
     local symbals = require("core.gvariable").symbol_map
 
     cmp.setup({
+        enabled = function()
+            return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+                or require("cmp_dap").is_dap_buffer()
+        end,
         snippet = {
             expand = function(args)
                 luasnip.lsp_expand(args.body) -- For `luasnip` users.
@@ -156,6 +160,13 @@ return function()
                 },
             },
         }),
+    })
+
+    -- dap
+    require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+        sources = {
+            { name = "dap" },
+        },
     })
 
     local autopairs = require("nvim-autopairs.completion.cmp")

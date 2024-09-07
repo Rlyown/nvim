@@ -1,6 +1,7 @@
 local M = {
     -- Dirs
     lsp = require("modules.lsp"),
+    dap = require("modules.dap"),
 
     -- Plugins
     accelerated_jk = require("modules.accelerated-jk"),

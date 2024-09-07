@@ -1,6 +1,35 @@
 return function()
     local Hydra = require("hydra")
 
+    local dap_hydra = Hydra({
+        name = "Debug Adapter Protocol",
+        mode = { "n" },
+        body = "<leader>ds",
+        hint = [[
+_c_: continue
+_n_: next
+_o_: step out
+_i_: step into
+_q_: terminate
+_<esc>_
+            ]],
+        config = {
+            color = "pink",
+            hint = {
+                position = "middle-right",
+                border = "rounded",
+            },
+        },
+        heads = {
+            { 'c',     function() require('dap').continue() end, },
+            { 'n',     function() require('dap').step_over() end, },
+            { 'o',     function() require('dap').step_into() end, },
+            { 'i',     function() require('dap').step_out() end, },
+            { 'q',     function() require('dap').terminate() end, { exit = true } },
+            { '<esc>', nil,                                       { exit = true, nowait = true } },
+        }
+    })
+
     local resize_hydra = Hydra({
         name = "Resize Window",
         mode = { "n" },
@@ -124,14 +153,13 @@ return function()
         },
     })
 
-    -- TODO: set hydra for [ and ] shortcut
-    -- local motion_hydra = Hydra({})
-
     Hydra.spawn = function(head)
         if head == "git-hydra" then
             git_hydra:activate()
         elseif head == "resize-hydra" then
             resize_hydra:activate()
+        elseif head == "dap-hydra" then
+            dap_hydra:activate()
         end
     end
 end

@@ -98,6 +98,34 @@ require("lazy").setup({
         lazy = true
     }, -- helps managing crates.io dependencies
 
+
+    ----------------------------------------------------------------------------------------------
+    -- DAP
+    ----------------------------------------------------------------------------------------------
+    {
+        'mfussenegger/nvim-dap',
+        config = configs.dap.dap
+    },
+    {
+        'theHamsta/nvim-dap-virtual-text',
+        dependencies = { 'mfussenegger/nvim-dap' },
+        config = configs.dap.vtext
+    },
+    {
+        "rcarriga/nvim-dap-ui",
+        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+        config = configs.dap.dapui
+    },
+    {
+        'rcarriga/cmp-dap',
+        dependencies = { "mfussenegger/nvim-dap", "hrsh7th/nvim-cmp" },
+    },
+    {
+        'nvim-telescope/telescope-dap.nvim',
+        dependencies = { "mfussenegger/nvim-dap", "telescope" },
+    },
+    { "LiadOz/nvim-dap-repl-highlights" },
+
     ----------------------------------------------------------------------------------------------
     -- Git
     ----------------------------------------------------------------------------------------------
@@ -168,8 +196,8 @@ require("lazy").setup({
         config = configs.lsp.null_ls,
         event = "BufRead",
         cmd = { "NullLsInfo", "NullLsLog" }
-    },                                                                                                -- for formatters and linters
-    { "ray-x/lsp_signature.nvim",   config = configs.lsp.signature,          event = "InsertEnter" }, -- LSP signature hint as you type
+    },                                                                                           -- for formatters and linters
+    { "ray-x/lsp_signature.nvim",       config = configs.lsp.signature, event = "InsertEnter" }, -- LSP signature hint as you type
     -- { "folke/neodev.nvim",               config = configs.lsp.neodev },
     -- { "kosayoda/nvim-lightbulb",         config = configs.lsp.lightbulb },                                -- show lightbulb when code action is available
     {
@@ -202,15 +230,6 @@ require("lazy").setup({
         lazy = true
     }, -- A tree like view for symbols
 
-    -- {
-    --     "nvim-neorg/neorg",
-    --     build = ":Neorg sync-parsers",
-    --     dependencies = { "nvim-lua/plenary.nvim" },
-    --     config = configs.neorg,
-    --     ft = "norg",
-    --     cmd = "Neorg",
-    --     lazy = true,
-    -- },
     {
         "nvim-neorg/neorg",
         lazy = true, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
@@ -249,7 +268,7 @@ require("lazy").setup({
         event = "InsertEnter",
     }, --snippet engine
     { "evesdropper/luasnip-latex-snippets.nvim", dependencies = { "LuaSnip" }, ft = { "tex", "bib" } },
-    { "cvigilv/esqueleto.nvim",                  config = configs.esqueleto,   cmd = "Esqueleto",    event = "BufRead" },
+    { "cvigilv/esqueleto.nvim",                  config = configs.esqueleto, },
 
     ----------------------------------------------------------------------------------------------
     -- Telescope

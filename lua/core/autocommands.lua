@@ -170,15 +170,15 @@ autocmd("BufRead", {
 -- 	command = [[ let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)')) ]],
 -- })
 
-augroup("_CUSTOM_auto_close", { clear = true })
-autocmd("WinClosed", {
-    group = "_CUSTOM_auto_close",
-    callback = function()
-        local winnr = tonumber(vim.fn.expand("<amatch>"))
-        vim.schedule_wrap(tab_win_closed(winnr))
-    end,
-    nested = true,
-})
+-- augroup("_CUSTOM_auto_close", { clear = true })
+-- autocmd("WinClosed", {
+--     group = "_CUSTOM_auto_close",
+--     callback = function()
+--         local winnr = tonumber(vim.fn.expand("<amatch>"))
+--         vim.schedule_wrap(tab_win_closed(winnr))
+--     end,
+--     nested = true,
+-- })
 
 -- stop snippets when you leave to normal mode
 augroup("_CUSTOM_luasnip", { clear = true })

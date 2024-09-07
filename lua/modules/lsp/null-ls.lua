@@ -18,7 +18,7 @@ return function()
         sources = {
             -- format
             formatting.prettier,
-            formatting.black.with({ extra_args = { "--fast" } }),
+            formatting.black,
             formatting.shfmt,
 
             -- Disable it because command line arguments take precedence over .clang-format file

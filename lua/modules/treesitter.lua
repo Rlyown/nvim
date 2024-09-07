@@ -2,6 +2,8 @@ return function()
     local configs = require("nvim-treesitter.configs")
     local disable_func = require("core.gfunc").fn.disable_check_buf
 
+    require('nvim-dap-repl-highlights').setup()
+
     configs.setup({
         ensure_installed = {
             "bash",
@@ -12,6 +14,7 @@ return function()
             "cpp",
             "csv",
             -- "cuda",
+            'dap_repl',
             "diff",
             "dockerfile",
             "dot",

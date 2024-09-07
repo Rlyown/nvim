@@ -34,7 +34,51 @@ M.comment = {
     { "gb",  mode = "v",             desc = "Block Comment" },
 }
 
--- M.dap = {}
+M.dap = {
+    {
+        "<leader>d",
+        group = "Dugger"
+    },
+
+    { "<leader>da", ":RunScriptWithArgs ",                                                                       desc = "Run with Args", },
+    {
+        '<Leader>dc',
+        function()
+            -- if buffer type is go
+            if vim.bo.ft == "go" then
+                vim.cmd("GoDebug")
+            else
+                require('dap').continue()
+            end
+        end,
+        desc = "Run/Continue"
+    },
+    { '<Leader>db', function() require('dap').toggle_breakpoint() end,                                           desc = "Toggle Breakpoint" },
+    { '<Leader>dm', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, desc = "Log Point" },
+    { '<Leader>dR', function() require('dap').repl.toggle() end,                                                 desc = "Toggle Repl" },
+    { '<Leader>dr', function() require('dap').run_last() end,                                                    desc = "Rerun" },
+    { '<Leader>dK', function() require('dap.ui.widgets').hover() end,                                            desc = "Hover" },
+    { '<Leader>dp', function() require('dap.ui.widgets').preview() end,                                          desc = "preview" },
+    {
+        '<leader>dq',
+        function()
+            require('dap').terminate()
+        end,
+        desc = "Terminate"
+    },
+
+    {
+        "<leader>ds",
+        function()
+            require("hydra").spawn("dap-hydra")
+        end,
+        desc = "Step Mode",
+    },
+    -- { '<leader>dsn', function() require('dap').step_over() end, desc = "Step Over" },
+    -- { '<leader>dsi', function() require('dap').step_into() end, desc = "Step Into" },
+    -- { '<leader>dso', function() require('dap').step_out() end,  desc = "Step Out" },
+
+}
 
 M.edit = {
     { "<leader>e", "<cmd>edit<cr>",      desc = "Reopen" },
@@ -315,15 +359,23 @@ M.search = {
         "<cmd>lua require('telescope').extensions.notify.notify(require('telescope.themes').get_dropdown({}))<cr>",
         desc = "Notify",
     },
-    { "<leader>sr", "<cmd>lua require('telescope.builtin').oldfiles()<cr>",              desc = "Open Recent File" },
-    { "<leader>sR", "<cmd>lua require('telescope.builtin').registers()<cr>",             desc = "Registers" },
-    { "<leader>ss", "<cmd>lua require('telescope').extensions.luasnip.luasnip()<cr>",    desc = "Luasnip" },
-    { "<leader>st", "<cmd>lua require('telescope.builtin').tags()<cr>",                  desc = "Tags" },
-    { "<leader>sy", "<cmd>lua require('telescope').extensions.neoclip.default()<cr>",    desc = "Yank History" },
-    { "<leader>sY", "<cmd>lua require('telescope').extensions.macroscope.default()<cr>", desc = "Macroscope" },
+    { "<leader>sr",  "<cmd>lua require('telescope.builtin').oldfiles()<cr>",                desc = "Open Recent File" },
+    { "<leader>sR",  "<cmd>lua require('telescope.builtin').registers()<cr>",               desc = "Registers" },
+    { "<leader>ss",  "<cmd>lua require('telescope').extensions.luasnip.luasnip()<cr>",      desc = "Luasnip" },
+    { "<leader>st",  "<cmd>lua require('telescope.builtin').tags()<cr>",                    desc = "Tags" },
+    { "<leader>sy",  "<cmd>lua require('telescope').extensions.neoclip.default()<cr>",      desc = "Yank History" },
+    { "<leader>sY",  "<cmd>lua require('telescope').extensions.macroscope.default()<cr>",   desc = "Macroscope" },
 
     -- Spectre
-    { "<leader>S",  "<cmd>lua require('spectre').open()<CR>",                            desc = "Search & Replace" },
+    { "<leader>S",   "<cmd>lua require('spectre').open()<CR>",                              desc = "Search & Replace" },
+
+    -- dap
+    { "<leader>sd",  group = "Dap" },
+    { "<leader>sdc", "<cmd>lua require 'telescope'.extensions.dap.commands {}<cr>",         desc = "Commands" },
+    { "<leader>sdC", "<cmd>lua require 'telescope'.extensions.dap.configurations {}<cr>",   desc = "Configs" },
+    { "<leader>sdb", "<cmd>lua require 'telescope'.extensions.dap.list_breakpoints {}<cr>", desc = "Breakpoints" },
+    { "<leader>sdv", "<cmd>lua require 'telescope'.extensions.dap.variables {}<cr>",        desc = "Variables" },
+    { "<leader>sdf", "<cmd>lua require 'telescope'.extensions.dap.frames {}<cr>",           desc = "Frames" },
 }
 
 M.splitJoin = {

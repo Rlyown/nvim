@@ -71,21 +71,21 @@ return function()
         gopls_remote_auto = true, -- add -remote=auto to gopls
         gocoverage_sign = "█",
         sign_priority = 5,        -- change to a higher number to override other signs
-        dap_debug = false,        -- set to false to disable dap
+        dap_debug = true,         -- set to false to disable dap
         dap_debug_keymap = false, -- true: use keymap for debugger defined in go/dap.lua
         -- false: do not use keymap in go/dap.lua.  you must define your own.
         -- windows: use visual studio keymap
-        dap_debug_gui = false,                                         -- bool|table put your dap-ui setup here set to false to disable
-        dap_debug_vt = { enabled_commands = true, all_frames = true }, -- bool|table put your dap-virtual-text setup here set to false to disable
+        dap_debug_gui = false,    -- bool|table put your dap-ui setup here set to false to disable
+        dap_debug_vt = false,     -- bool|table put your dap-virtual-text setup here set to false to disable
 
-        dap_port = 38697,                                              -- can be set to a number, if set to -1 go.nvim will pickup a random port
-        dap_timeout = 15,                                              --  see dap option initialize_timeout_sec = 15,
-        dap_retries = 20,                                              -- see dap option max_retries
-        build_tags = "tag1,tag2",                                      -- set default build tags
-        textobjects = true,                                            -- enable default text jobects through treesittter-text-objects
-        test_runner = "go",                                            -- one of {`go`, `richgo`, `dlv`, `ginkgo`, `gotestsum`}
-        verbose_tests = true,                                          -- set to add verbose flag to tests deprecated, see '-v' option
-        run_in_floaterm = false,                                       -- set to true to run in float window. :GoTermClose closes the floatterm
+        dap_port = 38697,         -- can be set to a number, if set to -1 go.nvim will pickup a random port
+        dap_timeout = 15,         --  see dap option initialize_timeout_sec = 15,
+        dap_retries = 20,         -- see dap option max_retries
+        build_tags = "tag1,tag2", -- set default build tags
+        textobjects = true,       -- enable default text jobects through treesittter-text-objects
+        test_runner = "go",       -- one of {`go`, `richgo`, `dlv`, `ginkgo`, `gotestsum`}
+        verbose_tests = true,     -- set to add verbose flag to tests deprecated, see '-v' option
+        run_in_floaterm = false,  -- set to true to run in float window. :GoTermClose closes the floatterm
         -- float term recommend if you use richgo/ginkgo with terminal color
 
         floaterm = {
