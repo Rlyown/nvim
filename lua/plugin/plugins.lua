@@ -125,6 +125,12 @@ require("lazy").setup({
         dependencies = { "mfussenegger/nvim-dap", "telescope" },
     },
     { "LiadOz/nvim-dap-repl-highlights" },
+    {
+        "mfussenegger/nvim-dap-python",
+        config = function()
+            require("dap-python").setup(vim.fn.stdpath('data') .. '/mason/packages/debugpy/venv/bin/python')
+        end,
+    },
 
     ----------------------------------------------------------------------------------------------
     -- Git
