@@ -427,7 +427,28 @@ M.search = {
     { "<leader>sY",  "<cmd>lua require('telescope').extensions.macroscope.default()<cr>",   desc = "Macroscope" },
 
     -- Spectre
-    { "<leader>S",   "<cmd>lua require('spectre').open()<CR>",                              desc = "Search & Replace" },
+    { "<leader>S",   group = "Search & Replace" },
+    { "<leader>Sr",  "<cmd>lua require('spectre').toggle()<CR>",                            desc = "Search Plane" },
+    { "<leader>Sw",  "<cmd>lua require('spectre').open_visual({select_word=true})<CR>",     desc = "Search Current Word" },
+    { '<leader>S[',  desc = 'next query' },
+    { '<leader>S]',  desc = 'previous query' },
+    { "<leader>SD",  desc = "toggle item" },
+    { "<leader>Sq",  desc = "send all items to quickfix" },
+    { "<leader>Sc",  desc = "input replace command" },
+    { "<leader>So",  desc = "show options" },
+    { "<leader>SL",  desc = "replace current line" },
+    { "<leader>SR",  desc = "replace all" },
+    { "<leader>Sv",  desc = "change result view mode" },
+    { "<leader>Sl",  desc = "repeat last search" },
+    { '<leader>Sp',  desc = 'pick template', },
+    { '<leader>Sd',  desc = 'delete line', },
+
+    { "<leader>St",  group = "Option" },
+    { "<leader>Sts", desc = "use sed to replace" },
+    { "<leader>Sto", desc = "use oxi to replace" },
+    { "<leader>Stu", desc = "update when vim writes to file" },
+    { "<leader>Sti", desc = "toggle ignore case" },
+    { "<leader>Sth", desc = "toggle search hidden" },
 
     -- dap
     { "<leader>sd",  group = "Dap" },
