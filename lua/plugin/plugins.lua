@@ -184,7 +184,15 @@ require("lazy").setup({
     },
     {
         "neovim/nvim-lspconfig", -- enable LSP
-        config = configs.lsp.lspconfig,
+        config = function()
+            local lsp_handler = require("modules.lsp.handlers")
+            lsp_handler.setup()
+            vim.g.rustaceanvim = {
+                server = {
+                    on_attach = lsp_handler.on_attach,
+                }
+            }
+        end,
         dependencies = {
             "mason-lspconfig.nvim",
         },
