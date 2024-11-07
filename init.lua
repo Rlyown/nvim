@@ -9,5 +9,3 @@ require("core.autocommands")
 require("core.gvariable").setup()
 
 -- TODO: make a appImage version
-
--- TODO: setup dap

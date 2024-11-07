@@ -64,22 +64,20 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
 - [Neovim](https://neovim.io/)
 - [Lua](https://www.lua.org/) (for neovim runtime)
-- [Homebrew](https://brew.sh/) (for packages' installation in MacOS or Linux, **but only for single user**)
 - [Rust](https://www.rust-lang.org/tools/install) (for some installations of dependencies)
 - [Python3](https://www.python.org/downloads/) with [pip](https://pip.pypa.io/en/stable/installation/) and `venv` (for some plugins)
-- [Nodejs](https://github.com/nodesource/distributions) 16 (for copilot.vim and some installations of dependencies)
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) (for markdown preview plugin)
-- [Llvm](https://github.com/llvm/llvm-project) (for debug tool)
 - [Golang](https://go.dev/doc/install) 1.18 or higher (for some installations of dependencies and developments)
+- [Homebrew](https://brew.sh/) (for packages' installation in MacOS or Linux, **but only for single user**)
 
 **Install with following Steps**:
-
-**NOTE**: For the Linux platform, the `Homebrew` is not necessary, you can install these packages through the tools provided by your current Linux distribution manually.
 
 **First Step**. Install the necessary packages, including environments in requirements.
 
 - <details><summary>On MacOS</summary>
   <p>
+
+  **NOTE**: `Homebrew` is not necessary, you can install these packages through the tools provided by your current package-manager manually.
 
   ```shell
   # Runtime
@@ -108,17 +106,23 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   </p>
   </details>
 
-- <details><summary>On Linux</summary>
+- <details><summary>On Ubuntu</summary>
   <p>
 
   **NOTE**:
 
   ```shell
-  # Runtime
-  $ brew install neovim go python3 node@16 rust llvm lua yarn npm
+  $ sudo snap install --classic nvim go rustup node
+  $ sudo apt install lua5.3 ripgrep fd-find bat
 
-  # Packages
-  $ brew install ripgrep fd lazygit exa bat
+  $ mkdir -p ~/.local/bin
+  $ ln -s $(which fdfind) ~/.local/bin/fd
+  $ export PATH=$HOME/.local/bin:$PATH
+
+  # Make sure `~/go/bin` in your $PATH
+  $ go install github.com/jesseduffield/lazygit@latest
+
+  $ cargo install exa
 
   # Optional Packages
   $ brew install fortune bear
