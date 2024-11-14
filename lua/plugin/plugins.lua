@@ -506,8 +506,7 @@ require("lazy").setup({
         "folke/trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = configs.trouble,
-        lazy = true,
-        cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TroubleRefresh" }
+        cmd = { "Trouble", "TroubleToggle" }
 
     },                                                                   -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
     { "stevearc/dressing.nvim", config = configs.dressing },             -- Neovim plugin to improve the default vim.ui interfaces
