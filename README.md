@@ -115,7 +115,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   ```shell
   $ sudo snap install --classic nvim go rustup node
-  $ sudo apt install lua5.3 ripgrep fd-find bat
+  $ sudo apt install lua5.3 ripgrep fd-find
 
   $ mkdir -p ~/.local/bin
   $ ln -s $(which fdfind) ~/.local/bin/fd
@@ -124,11 +124,10 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   # Make sure `~/go/bin` in your $PATH
   $ go install github.com/jesseduffield/lazygit@latest
 
-  $ cargo install exa
+  $ cargo install exa bat tree-sitter-cli
 
   # Optional Packages
   $ sudo apt install fortune bear
-  $ sudo npm install -g tree-sitter-cli
   ```
 
   _Nerd Fonts_ is needed to show icons. You can choose your favorite font or find icons in the [https://www.nerdfonts.com](https://www.nerdfonts.com).
