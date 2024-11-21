@@ -202,8 +202,6 @@ require("lazy").setup({
         "WhoIsSethDaniel/mason-tool-installer.nvim",
         config = configs.lsp.mason_tool_installer,
         dependencies = { "mason.nvim" },
-        cmd = { "MasonToolInstall", "MasonToolUpdate", "MasonToolClean" },
-        lazy = true,
     }, -- Install and upgrade third party tools automatically
     {
         "nvimtools/none-ls.nvim",
@@ -222,7 +220,8 @@ require("lazy").setup({
             return vim.fn.executable("latexmk")
         end,
         ft = { "tex", "bib" },
-        lazy = true
+        lazy = true,
+        enabled = false
     },
     {
         "ray-x/go.nvim",
