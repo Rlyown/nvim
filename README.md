@@ -81,16 +81,18 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   ```shell
   # Runtime
-  $ brew install neovim go python3 node@16 rust llvm lua yarn npm
+  $ brew install neovim go python3 node@16 rust lua yarn npm
 
   # Packages
   $ brew install ripgrep fd lazygit gnu-sed
 
   # Optional Packages
   $ brew install fortune bear llvm
+  $ npm install -g tree-sitter-cli
 
   # If you want delete file to trash bin directory by nvim-tree
   $ brew install trash
+
   ```
 
   _Nerd Fonts_ is needed to show icons. You can choose your favorite font or find icons in the [https://www.nerdfonts.com](https://www.nerdfonts.com).
@@ -125,7 +127,8 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ cargo install exa
 
   # Optional Packages
-  $ brew install fortune bear
+  $ sudo apt install fortune bear
+  $ sudo npm install -g tree-sitter-cli
   ```
 
   _Nerd Fonts_ is needed to show icons. You can choose your favorite font or find icons in the [https://www.nerdfonts.com](https://www.nerdfonts.com).
