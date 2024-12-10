@@ -539,12 +539,12 @@ M.undo = {
 
 M.trouble = {
     { "<leader>x",  group = "Trouble" },
-    { "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",  desc = "Document Diagnostics" },
-    { "<leader>xl", "<cmd>TroubleToggle loclist",                   desc = "LocList" },
-    { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",              desc = "Quickfix" },
-    { "<leader>xr", "<cmd>TroubleToggle lsp_references<cr>",        desc = "References" },
-    { "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics" },
-    { "<leader>xx", "<cmd>TroubleToggle<cr>",                       desc = "Trouble" },
+    { "<leader>xd", "<cmd>Trouble document_diagnostics<cr>",  desc = "Document Diagnostics" },
+    { "<leader>xl", "<cmd>Trouble loclist",                   desc = "LocList" },
+    { "<leader>xq", "<cmd>Trouble quickfix<cr>",              desc = "Quickfix" },
+    { "<leader>xr", "<cmd>Trouble lsp_references<cr>",        desc = "References" },
+    { "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", desc = "Workspace Diagnostics" },
+    { "<leader>xx", "<cmd>Trouble<cr>",                       desc = "Trouble" },
 }
 
 M.wrapping = {
