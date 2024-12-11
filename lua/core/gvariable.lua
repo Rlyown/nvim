@@ -2,33 +2,16 @@ local M = {}
 
 if vim.fn.has("mac") == 1 then
     M.os = "mac"
-
-    local arch = require("jit").arch
-    if arch == "x64" then
-        M.homebrew_prefix = "/usr/local"
-    elseif arch == "arm64" then
-        M.homebrew_prefix = "/opt/homebrew"
-    end
 elseif vim.fn.has("unix") == 1 then
     M.os = "unix"
-    M.homebrew_prefix = "/home/linuxbrew/.linuxbrew"
 else
     M.os = "unsupport"
-    M.homebrew_prefix = ""
 end
 
 local system = require("core.gfunc").fn.system
 
 -- Set the python3 path which installed pynvim
 vim.g.python3_host_prog = "python3"
-
--- path to debuggers
-M.debuggers = {
-    delve = "dlv",
-    --[[ codelldb = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension", ]]
-    debugpy = vim.g.python3_host_prog,
-    lldb_vscode = M.homebrew_prefix .. "/opt/llvm/bin/lldb-vscode",
-}
 
 M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
 M.snippet_dir = vim.fn.stdpath("config") .. "/snippets"

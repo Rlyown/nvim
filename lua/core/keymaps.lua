@@ -9,7 +9,7 @@ local keymap = vim.api.nvim_set_keymap
 local leaderKey = ","
 keymap("", leaderKey, "<Nop>", opts)
 vim.g.mapleader = leaderKey
-vim.g.maplocalleader = leaderKey
+vim.g.maplocalleader = " "
 
 -- Modes
 --   normal_mode = "n",

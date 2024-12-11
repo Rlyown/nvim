@@ -208,8 +208,8 @@ require("lazy").setup({
         config = configs.lsp.null_ls,
         event = "BufRead",
         cmd = { "NullLsInfo", "NullLsLog" }
-    },                                                                                           -- for formatters and linters
-    { "ray-x/lsp_signature.nvim",       config = configs.lsp.signature, event = "InsertEnter" }, -- LSP signature hint as you type
+    }, -- for formatters and linters
+    -- { "ray-x/lsp_signature.nvim",       config = configs.lsp.signature, event = "InsertEnter" }, -- LSP signature hint as you type
     -- { "folke/neodev.nvim",               config = configs.lsp.neodev },
     -- { "kosayoda/nvim-lightbulb",         config = configs.lsp.lightbulb },                                -- show lightbulb when code action is available
     {
@@ -250,10 +250,11 @@ require("lazy").setup({
         cmd = "Neorg",
         version = "*", -- Pin Neorg to the latest stable release
         config = configs.neorg,
+        enabled = false
     },
 
-    { "nvim-neorg/neorg-telescope", dependencies = { "neorg", "telescope" }, lazy = true },
-    { "andymass/vim-matchup",       lazy = true,                             keys = { "%" } },
+    { "nvim-neorg/neorg-telescope",     dependencies = { "neorg", "telescope" }, lazy = true },
+    { "andymass/vim-matchup",           lazy = true,                             keys = { "%" } },
     {
         'mrcjkb/rustaceanvim',
         version = '^5', -- Recommended
@@ -282,9 +283,9 @@ require("lazy").setup({
     ----------------------------------------------------------------------------------------------
     {
         "L3MON4D3/LuaSnip",
-        dependencies = { "rafamadriz/friendly-snippets" },
-        event = "InsertEnter",
-    }, --snippet engine
+        version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+        build = "make install_jsregexp",
+    },                    --snippet engine
     { "evesdropper/luasnip-latex-snippets.nvim", dependencies = { "LuaSnip" }, ft = { "tex", "bib" } },
     { "cvigilv/esqueleto.nvim",                  config = configs.esqueleto, },
 
@@ -407,10 +408,21 @@ require("lazy").setup({
         config = configs.hop,
         cmd = { "HopWord", "HopLine", "HopChar1", "HopChar2", "HopPattern" },
     }, -- Neovim motions on speed
+    -- {
+    --     "windwp/nvim-spectre",
+    --     config = configs.spectre
+    -- }, -- Find the enemy and replace them with dark power.
     {
-        "windwp/nvim-spectre",
-        event = "BufRead",
-    }, -- Find the enemy and replace them with dark power.
+        'MagicDuck/grug-far.nvim',
+        config = function()
+            require('grug-far').setup({
+                -- options, see Configuration section below
+                -- there are no required options atm
+                -- engine = 'ripgrep' is default, but 'astgrep' can be specified
+            });
+        end
+    },
+
     {
         "ibhagwan/smartyank.nvim",
         config = configs.smartyank,

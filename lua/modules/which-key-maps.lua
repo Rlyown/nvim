@@ -22,16 +22,16 @@ M.buffer = {
 }
 
 M.comment = {
-    { "gc",  group = "Line Comment" },
+    { "gc",  group = "Line Comment",  remap = false },
     { "gcA", desc = "Line End" },
     { "gcc", desc = "Current Line" },
     { "gcO", desc = "Line Above " },
     { "gco", desc = "Line Below " },
-    { "gb",  group = "Block Comment" },
+    { "gb",  group = "Block Comment", remap = false },
     { "gbc", desc = "Current Line" },
 
-    { "gc",  mode = "v",             desc = "Line Comment" },
-    { "gb",  mode = "v",             desc = "Block Comment" },
+    { "gc",  mode = "v",              desc = "Line Comment" },
+    { "gb",  mode = "v",              desc = "Block Comment" },
 }
 
 M.dap = {
@@ -427,21 +427,7 @@ M.search = {
     { "<leader>sY",  "<cmd>lua require('telescope').extensions.macroscope.default()<cr>",   desc = "Macroscope" },
 
     -- Spectre
-    { "<leader>S",   group = "Search & Replace" },
-    { "<leader>Sr",  "<cmd>lua require('spectre').toggle()<CR>",                            desc = "Search Plane" },
-    { "<leader>Sw",  "<cmd>lua require('spectre').open_visual({select_word=true})<CR>",     desc = "Search Current Word" },
-    { '<leader>S[',  desc = 'next query' },
-    { '<leader>S]',  desc = 'previous query' },
-    { "<leader>SD",  desc = "toggle item" },
-    { "<leader>Sq",  desc = "send all items to quickfix" },
-    { "<leader>Sc",  desc = "input replace command" },
-    { "<leader>So",  desc = "show options" },
-    { "<leader>SL",  desc = "replace current line" },
-    { "<leader>SR",  desc = "replace all" },
-    { "<leader>Sv",  desc = "change result view mode" },
-    { "<leader>Sl",  desc = "repeat last search" },
-    { '<leader>Sp',  desc = 'pick template', },
-    { '<leader>Sd',  desc = 'delete line', },
+    { "<leader>S",   "<cmd>GrugFar<cr>",                                                    desc = "Search & Replace" },
 
     { "<leader>St",  group = "Option" },
     { "<leader>Sts", desc = "use sed to replace" },
