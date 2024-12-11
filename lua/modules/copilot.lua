@@ -17,7 +17,12 @@ M.config = function()
     require("copilot").setup({
         suggestion = { enabled = false },
         panel = { enabled = false },
-        copilot_node_command = M.node_path
+        copilot_node_command = M.node_path,
+        filetypes = {
+            ["grug-far"] = false,
+            ["grug-far-history"] = false,
+            ["grug-far-help"] = false,
+        }
     })
 end
 
