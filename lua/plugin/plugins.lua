@@ -49,33 +49,14 @@ require("lazy").setup({
 
         config = configs.cmp,
         event = { "InsertEnter", "CmdlineEnter" },
-        -- dependencies = {
-        --     "cmp-buffer",
-        --     "cmp-fuzzy-path",
-        --     "cmp-cmdline",
-        --     "cmp-nvim-lsp",
-        --     "cmp_luasnip",
-        --     "cmp-nvim-lua",
-        --     "cmp-copilot",
-        -- },
     },                                                             -- The completion plugin
     { "hrsh7th/cmp-buffer", },                                     -- buffer completions
     { "hrsh7th/cmp-path", },                                       -- path completions
-    -- { "tzachar/cmp-fuzzy-path",   dependencies = { { "tzachar/fuzzy.nvim" } }, },
     { "hrsh7th/cmp-cmdline", },                                    -- cmdline completions
     { "hrsh7th/cmp-nvim-lsp", },                                   -- lsp completions
     { "saadparwaiz1/cmp_luasnip", dependencies = { "LuaSnip" }, }, -- snippet completions
     { "hrsh7th/cmp-nvim-lua", },                                   -- neovim's lua api completions
     { "micangl/cmp-vimtex" },
-    -- { "hrsh7th/cmp-omni" },
-    -- { "f3fora/cmp-spell",         dependencies = { "nvim-cmp" } },                -- spell source for nvim-cmp
-    -- { "hrsh7th/cmp-copilot",      dependencies = { "copilot.vim" } }, -- this is a experimental product
-    -- {
-    --     "github/copilot.vim",
-    --     event = "InsertEnter",
-    --     init = configs.copilot, -- it must be run before copilot.vim
-    --     lazy = true
-    -- },                          -- gitHub Copilot
 
     {
         "zbirenbaum/copilot-cmp",
@@ -206,12 +187,7 @@ require("lazy").setup({
     {
         "nvimtools/none-ls.nvim",
         config = configs.lsp.null_ls,
-        event = "BufRead",
-        cmd = { "NullLsInfo", "NullLsLog" }
     }, -- for formatters and linters
-    -- { "ray-x/lsp_signature.nvim",       config = configs.lsp.signature, event = "InsertEnter" }, -- LSP signature hint as you type
-    -- { "folke/neodev.nvim",               config = configs.lsp.neodev },
-    -- { "kosayoda/nvim-lightbulb",         config = configs.lsp.lightbulb },                                -- show lightbulb when code action is available
     {
         "lervag/vimtex",
         config = configs.lsp.vimtex,
@@ -408,10 +384,6 @@ require("lazy").setup({
         config = configs.hop,
         cmd = { "HopWord", "HopLine", "HopChar1", "HopChar2", "HopPattern" },
     }, -- Neovim motions on speed
-    -- {
-    --     "windwp/nvim-spectre",
-    --     config = configs.spectre
-    -- }, -- Find the enemy and replace them with dark power.
     {
         'MagicDuck/grug-far.nvim',
         config = function()
