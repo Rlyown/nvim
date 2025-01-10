@@ -56,7 +56,7 @@ require("lazy").setup({
     { "hrsh7th/cmp-nvim-lsp", },                                   -- lsp completions
     { "saadparwaiz1/cmp_luasnip", dependencies = { "LuaSnip" }, }, -- snippet completions
     { "hrsh7th/cmp-nvim-lua", },                                   -- neovim's lua api completions
-    { "micangl/cmp-vimtex" },
+    { "micangl/cmp-vimtex", },
 
     {
         "zbirenbaum/copilot-cmp",
@@ -191,13 +191,12 @@ require("lazy").setup({
     {
         "lervag/vimtex",
         config = configs.lsp.vimtex,
-        priority = priorities.second,
+        -- priority = priorities.second,
         cond = function()
             return vim.fn.executable("latexmk")
         end,
         ft = { "tex", "bib" },
         lazy = true,
-        enabled = false
     },
     {
         "ray-x/go.nvim",
@@ -372,12 +371,12 @@ require("lazy").setup({
         dependencies = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
         config = configs.hydra,
         lazy = true
-    },                                                                                        -- Bind a bunch of key bindings together.
-    { "tpope/vim-repeat",             event = "BufRead" },                                    -- enable repeating supported plugin maps with "."
-    { "kylechui/nvim-surround",       config = configs.nvim_surround,    event = "BufRead" }, -- Add/change/delete surrounding delimiter pairs with ease
+    },                                                                                                    -- Bind a bunch of key bindings together.
+    { "tpope/vim-repeat",             event = "BufRead" },                                                -- enable repeating supported plugin maps with "."
+    { "kylechui/nvim-surround",       config = configs.nvim_surround,    event = "BufRead" },             -- Add/change/delete surrounding delimiter pairs with ease
     { "RaafatTurki/hex.nvim",         config = configs.hex,              cmd = { "HexDump", "HexAssemble", "HexToggle" } },
-    { "iamcco/markdown-preview.nvim", build = "cd app && yarn install ", ft = "markdown" },   -- markdown preview plugin
-    { "lambdalisue/suda.vim",         cmd = { "SudaRead", "SudaWrite" } },                    -- An alternative sudo.vim for Vim and Neovim
+    { "iamcco/markdown-preview.nvim", build = "cd app && yarn install ", ft = { "markdown", "Avante" } }, -- markdown preview plugin
+    { "lambdalisue/suda.vim",         cmd = { "SudaRead", "SudaWrite" } },                                -- An alternative sudo.vim for Vim and Neovim
     {
         "phaazon/hop.nvim",
         branch = "v2",
@@ -529,6 +528,59 @@ require("lazy").setup({
                 auto_set_mode_heuristically = false,
             })
         end,
+    },
+    {
+        "yetone/avante.nvim", -- AI IDE
+        event = "VeryLazy",
+        lazy = false,
+        version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
+        opts = {
+            provider = "copilot",
+            auto_suggestions_provider = "copilot",
+            copilot = {
+                proxy = "localhost:7890"
+            },
+            mappings = {
+
+            }
+        },
+        -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+        build = "make",
+        -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+        dependencies = {
+            "stevearc/dressing.nvim",
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+            --- The below dependencies are optional,
+            "hrsh7th/nvim-cmp",            -- autocompletion for avante commands and mentions
+            "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+            "zbirenbaum/copilot.lua",      -- for providers='copilot'
+            {
+                -- support for image pasting
+                "HakonHarnes/img-clip.nvim",
+                event = "VeryLazy",
+                opts = {
+                    -- recommended settings
+                    default = {
+                        embed_image_as_base64 = false,
+                        prompt_for_file_name = false,
+                        drag_and_drop = {
+                            insert_mode = true,
+                        },
+                        -- required for Windows users
+                        use_absolute_path = true,
+                    },
+                },
+            },
+            {
+                -- Make sure to set this up properly if you have lazy=true
+                'MeanderingProgrammer/render-markdown.nvim',
+                opts = {
+                    file_types = { "markdown", "Avante" },
+                },
+                ft = { "markdown", "Avante" },
+            },
+        },
     },
 
     ----------------------------------------------------------------------------------------------

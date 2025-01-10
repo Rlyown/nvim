@@ -2,7 +2,20 @@ local M = {}
 local helper = require("modules.which-key-helper")
 
 M.alpha = {
-    { "<leader>a", "<cmd>Alpha<cr>", desc = "Alpha" },
+    -- { "<leader>a", "<cmd>Alpha<cr>", desc = "Alpha" },
+}
+
+M.avante = {
+    { "<leader>a",  group = "Avante AI" },
+    { "<leader>aa", desc = "ask" },
+    { "<leader>ae", desc = "edit" },
+    { "<leader>ar", desc = "refresh" },
+    { "<leader>af", desc = "focus" },
+    { "<leader>at", desc = "default" },
+    { "<leader>ad", desc = "debug" },
+    { "<leader>ah", desc = "hint" },
+    { "<leader>as", desc = "suggestion" },
+    { "<leader>aR", desc = "repomap" },
 }
 
 M.buffer = {
