@@ -57,6 +57,9 @@ return function()
             }
 
             local on_confirm = function(input)
+                if input == "" then
+                    return
+                end
                 vim.bo.ft = input
             end
 
@@ -84,6 +87,9 @@ return function()
             }
 
             local on_confirm = function(input)
+                if input == "" then
+                    return
+                end
                 vim.bo.fileencoding = input
             end
 
@@ -111,6 +117,9 @@ return function()
                 kind = "center",
             }
             local function on_confirm(input)
+                if input == "" then
+                    return
+                end
                 vim.bo.shiftwidth = tonumber(input)
             end
 

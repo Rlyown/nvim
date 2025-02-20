@@ -55,7 +55,7 @@ local autocmd = vim.api.nvim_create_autocmd
 augroup("_CUSTOM_general_settings", { clear = true })
 autocmd("FileType", {
     group = "_CUSTOM_general_settings",
-    pattern = { "qf", "help", "man", "lspinfo", "startuptime", "null-ls-info", "notify", "spectre_panel" },
+    pattern = { "qf", "help", "man", "lspinfo", "startuptime", "null-ls-info", "notify", "spectre_panel", "Avante" },
     command = "nnoremap <silent> <buffer> q :close<CR>",
 })
 autocmd("TextYankPost", {
