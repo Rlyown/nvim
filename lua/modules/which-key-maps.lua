@@ -440,14 +440,15 @@ M.search = {
     { "<leader>sY",  "<cmd>lua require('telescope').extensions.macroscope.default()<cr>",   desc = "Macroscope" },
 
     -- Spectre
-    { "<leader>S",   "<cmd>GrugFar<cr>",                                                    desc = "Search & Replace" },
+    -- { "<leader>S",   group = "Search & Replace" },
 
-    { "<leader>St",  group = "Option" },
-    { "<leader>Sts", desc = "use sed to replace" },
-    { "<leader>Sto", desc = "use oxi to replace" },
-    { "<leader>Stu", desc = "update when vim writes to file" },
-    { "<leader>Sti", desc = "toggle ignore case" },
-    { "<leader>Sth", desc = "toggle search hidden" },
+    { "<leader>S",   "<cmd>GrugFar<cr>",                                                    desc = "Search & Replace" },
+    -- { "<leader>St",  group = "Option" },
+    -- { "<leader>Sts", desc = "use sed to replace" },
+    -- { "<leader>Sto", desc = "use oxi to replace" },
+    -- { "<leader>Stu", desc = "update when vim writes to file" },
+    -- { "<leader>Sti", desc = "toggle ignore case" },
+    -- { "<leader>Sth", desc = "toggle search hidden" },
 
     -- dap
     { "<leader>sd",  group = "Dap" },
