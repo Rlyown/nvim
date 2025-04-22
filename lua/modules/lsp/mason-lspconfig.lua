@@ -10,7 +10,6 @@ return function()
         "jsonls",
         -- "ltex",
         "texlab",
-        "rust_analyzer",
         "lua_ls",
         "taplo",
         "pyright",

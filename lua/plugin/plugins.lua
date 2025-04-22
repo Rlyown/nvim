@@ -538,7 +538,8 @@ require("lazy").setup({
             provider = "copilot",
             auto_suggestions_provider = "copilot",
             copilot = {
-                proxy = "localhost:7890"
+                proxy = "localhost:7890",
+                model = "claude-3.7-sonnet"
             },
             mappings = {
 

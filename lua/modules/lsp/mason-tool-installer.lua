@@ -19,6 +19,10 @@ return function()
             "codelldb",
             "debugpy",
             "delve",
+
+            -- LSP
+            -- setup by 3rd party plugins not lspconfig
+            "rust_analyzer",
         },
 
         -- if set to true this will check each tool for updates. If updates

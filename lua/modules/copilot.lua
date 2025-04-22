@@ -15,6 +15,7 @@ end
 
 M.config = function()
     require("copilot").setup({
+        copilot_model = "gpt-4o-copilot",
         suggestion = { enabled = false },
         panel = { enabled = false },
         copilot_node_command = M.node_path,
