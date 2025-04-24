@@ -1,5 +1,6 @@
 local configs = require("modules.configs")
 
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -13,16 +14,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-lazy_opts = {
-    lockfile = vim.fn.stdpath("config") .. "/plugin/lazy-lock.json",
-    ui = {
-        custom_keys = {
-            ["<localleader>l"] = false,
-            ["<localleader>t"] = false,
-        },
-    },
-}
-
 local priorities = {
     first = 2000,
     second = 1000,
@@ -31,15 +22,8 @@ local priorities = {
 
 -- TODO: remove useless plugin
 require("lazy").setup({
-    ----------------------------------------------------------------------------------------------
-    -- Colorschemes
-    ----------------------------------------------------------------------------------------------
-    {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        config = configs.catppuccin,
-        priority = priorities.second,
-    },
+    -- auto load plugin
+    { import = "plugins" },
 
     ----------------------------------------------------------------------------------------------
     -- Completions
@@ -603,4 +587,5 @@ require("lazy").setup({
         },
         event = "BufRead"
     },
-}, lazy_opts)
+},
+)
