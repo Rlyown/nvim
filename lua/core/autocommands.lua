@@ -1,13 +1,13 @@
 -- Related issue: https://github.com/L3MON4D3/LuaSnip/issues/258
-function _G.leave_snippet()
-    if
-        ((vim.v.event.old_mode == "s" and vim.v.event.new_mode == "n") or vim.v.event.old_mode == "i")
-        and require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
-        and not require("luasnip").session.jump_active
-    then
-        require("luasnip").unlink_current()
-    end
-end
+-- function _G.leave_snippet()
+--     if
+--         ((vim.v.event.old_mode == "s" and vim.v.event.new_mode == "n") or vim.v.event.old_mode == "i")
+--         and require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
+--         and not require("luasnip").session.jump_active
+--     then
+--         require("luasnip").unlink_current()
+--     end
+-- end
 
 function _G.tab_win_closed(winnr)
     local tree_api = require("nvim-tree.api")
@@ -52,24 +52,24 @@ end
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
-augroup("_CUSTOM_general_settings", { clear = true })
+local _custom_general_settings = augroup("_CUSTOM_general_settings", { clear = true })
 autocmd("FileType", {
-    group = "_CUSTOM_general_settings",
+    group = _custom_general_settings,
     pattern = { "qf", "help", "man", "lspinfo", "startuptime", "null-ls-info", "notify", "spectre_panel", "Avante" },
     command = "nnoremap <silent> <buffer> q :close<CR>",
 })
 autocmd("TextYankPost", {
-    group = "_CUSTOM_general_settings",
+    group = _custom_general_settings,
     pattern = "*",
     command = "silent!lua require('vim.highlight').on_yank({higroup = 'Visual', timeout = 200})",
 })
 autocmd("BufWinEnter", {
-    group = "_CUSTOM_general_settings",
+    group = _custom_general_settings,
     pattern = "*",
     command = ":set formatoptions-=cro",
 })
 autocmd("FileType", {
-    group = "_CUSTOM_general_settings",
+    group = _custom_general_settings,
     pattern = "qf",
     command = "set nobuflisted",
 })
@@ -129,9 +129,9 @@ autocmd("User", {
     command = "set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2",
 })
 
-augroup("_CUSTOM_lsp", { clear = true })
+local _custom_lsp = augroup("_CUSTOM_lsp", { clear = true })
 autocmd("BufWritePre", {
-    group = "_CUSTOM_lsp",
+    group = _custom_lsp,
     pattern = "*",
     callback = function()
         local filter = {
@@ -154,7 +154,7 @@ autocmd("BufWritePre", {
 })
 -- Issue: https://github.com/nvim-telescope/telescope.nvim/issues/559
 autocmd("BufRead", {
-    group = "_CUSTOM_lsp",
+    group = _custom_lsp,
     pattern = "*",
     callback = function()
         vim.api.nvim_create_autocmd("BufWinEnter", {
@@ -169,6 +169,76 @@ autocmd("BufRead", {
 -- 	pattern = "*",
 -- 	command = [[ let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)')) ]],
 -- })
+autocmd('LspAttach', {
+    group = _custom_lsp,
+    callback = function(args)
+        local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+        -- Set autocommands conditional on server_capabilities
+        -- if client:supports_method("textDocument/documentHighlight ") then
+        --     autocmd("CursorHold", {
+        --         group = _custom_lsp,
+        --         buffer = args.buf,
+        --         callback = function()
+        --             vim.lsp.buf.document_highlight()
+        --         end
+        --     })
+        --     autocmd("CursorMoved", {
+        --         group = _custom_lsp,
+        --         buffer = args.buf,
+        --         callback = function()
+        --             vim.lsp.buf.clear_references()
+        --         end
+        --     })
+        -- end
+
+
+        local opts = { noremap = true, silent = true }
+
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "gh", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "gR", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "gr", "<cmd>Trouble lsp_references<CR>", opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>',
+            opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "gl", '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>',
+            opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>',
+            opts)
+        -- vim.api.nvim_buf_set_keymap(args.buf, "n", "gq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+        vim.api.nvim_buf_set_keymap(args.buf, "n", "gq", "<cmd>Trouble workspace_diagnostics<cr>", opts)
+
+        -- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
+        if client:supports_method('textDocument/completion') then
+            -- Optional: trigger autocompletion on EVERY keypress. May be slow!
+            -- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
+            -- client.server_capabilities.completionProvider.triggerCharacters = chars
+            vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+        end
+
+        -- Auto-format ("lint") on save.
+        -- Usually not needed if server supports "textDocument/willSaveWaitUntil".
+        if not client:supports_method('textDocument/willSaveWaitUntil')
+            and client:supports_method('textDocument/formatting') then
+            autocmd('BufWritePre', {
+                group = _custom_lsp,
+                buffer = args.buf,
+                callback = function()
+                    vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+                end,
+            })
+        end
+
+        -- navic
+        if client.server_capabilities.documentSymbolProvider then
+            require("nvim-navic").attach(client, args.buf)
+        end
+    end,
+})
 
 -- augroup("_CUSTOM_auto_close", { clear = true })
 -- autocmd("WinClosed", {
@@ -181,12 +251,12 @@ autocmd("BufRead", {
 -- })
 
 -- stop snippets when you leave to normal mode
-augroup("_CUSTOM_luasnip", { clear = true })
-autocmd("ModeChanged", {
-    group = "_CUSTOM_luasnip",
-    pattern = "*",
-    callback = leave_snippet,
-})
+-- augroup("_CUSTOM_luasnip", { clear = true })
+-- autocmd("ModeChanged", {
+--     group = "_CUSTOM_luasnip",
+--     pattern = "*",
+--     callback = leave_snippet,
+-- })
 
 augroup("_CUSTOM_cmp", { clear = true })
 autocmd("FileType", {
@@ -297,13 +367,4 @@ autocmd("BufReadPre", {
             vim.opt_local.list = false
         end
     end
-})
-
-augroup("_CUSTOM_VimTeX", { clear = true })
-autocmd("BufWritePost", {
-    group = "_CUSTOM_VimTeX",
-    pattern = "*.tex",
-    callback = function()
-        vim.cmd("call vimtex#toc#refresh()")
-    end,
 })

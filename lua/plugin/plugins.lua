@@ -26,45 +26,6 @@ require("lazy").setup({
     { import = "plugins" },
 
     ----------------------------------------------------------------------------------------------
-    -- Completions
-    ----------------------------------------------------------------------------------------------
-    {
-        "hrsh7th/nvim-cmp",
-
-        config = configs.cmp,
-        event = { "InsertEnter", "CmdlineEnter" },
-    },                                                             -- The completion plugin
-    { "hrsh7th/cmp-buffer", },                                     -- buffer completions
-    { "hrsh7th/cmp-path", },                                       -- path completions
-    { "hrsh7th/cmp-cmdline", },                                    -- cmdline completions
-    { "hrsh7th/cmp-nvim-lsp", },                                   -- lsp completions
-    { "saadparwaiz1/cmp_luasnip", dependencies = { "LuaSnip" }, }, -- snippet completions
-    { "hrsh7th/cmp-nvim-lua", },                                   -- neovim's lua api completions
-    { "micangl/cmp-vimtex", },
-
-    {
-        "zbirenbaum/copilot-cmp",
-        config = function()
-            require("copilot_cmp").setup()
-        end,
-        dependencies = { "copilot.lua" },
-    },
-    {
-        "zbirenbaum/copilot.lua",
-        event = "InsertEnter",
-        init = configs.copilot.init,
-        config = configs.copilot.config,
-        lazy = true
-    },
-    {
-        "saecki/crates.nvim",
-        event = { "BufRead Cargo.toml" },
-        config = configs.crates,
-        lazy = true
-    }, -- helps managing crates.io dependencies
-
-
-    ----------------------------------------------------------------------------------------------
     -- DAP
     ----------------------------------------------------------------------------------------------
     {
@@ -124,101 +85,6 @@ require("lazy").setup({
     --     lazy = true
     -- }, -- magit for neovim
 
-    ----------------------------------------------------------------------------------------------
-    -- LSP
-    ----------------------------------------------------------------------------------------------
-    {
-        "williamboman/mason.nvim", -- Portable package manager for Neovim that runs everywhere Neovim runs.
-        config = configs.lsp.mason,
-        cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
-        event = "User FileOpened",
-        lazy = true,
-    },
-    {
-        "williamboman/mason-lspconfig.nvim", -- Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim
-        config = configs.lsp.mason_lspconfig,
-        dependencies = {
-            "mason.nvim",
-            -- All of the following must setup before lspconfig
-            -- "neodev.nvim",
-            "lsp_signature.nvim",
-        },
-        cmd = { "LspInstall", "LspUninstall" },
-        event = "User FileOpened",
-        lazy = true,
-    },
-    {
-        "neovim/nvim-lspconfig", -- enable LSP
-        config = function()
-            local lsp_handler = require("modules.lsp.handlers")
-            lsp_handler.setup()
-            vim.g.rustaceanvim = {
-                server = {
-                    on_attach = lsp_handler.on_attach,
-                }
-            }
-        end,
-        dependencies = {
-            "mason-lspconfig.nvim",
-        },
-        lazy = true,
-    },
-    {
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
-        config = configs.lsp.mason_tool_installer,
-        dependencies = { "mason.nvim" },
-    }, -- Install and upgrade third party tools automatically
-    {
-        "nvimtools/none-ls.nvim",
-        config = configs.lsp.null_ls,
-    }, -- for formatters and linters
-    {
-        "lervag/vimtex",
-        config = configs.lsp.vimtex,
-        -- priority = priorities.second,
-        cond = function()
-            return vim.fn.executable("latexmk")
-        end,
-        ft = { "tex", "bib" },
-        lazy = true,
-    },
-    {
-        "ray-x/go.nvim",
-        dependencies = { -- optional packages
-            "ray-x/guihua.lua",
-            "neovim/nvim-lspconfig",
-            "nvim-treesitter/nvim-treesitter",
-        },
-        config = configs.lsp.go,
-        event = { "CmdlineEnter", "BufRead" },
-        ft = { "go", "gomod" },
-        build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
-    },
-
-    {
-        "simrat39/symbols-outline.nvim",
-        config = configs.symbols_outline,
-        cmd = "SymbolsOutline",
-        lazy = true
-    }, -- A tree like view for symbols
-
-    {
-        "nvim-neorg/neorg",
-        lazy = true, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
-        ft = "norg",
-        cmd = "Neorg",
-        version = "*", -- Pin Neorg to the latest stable release
-        config = configs.neorg,
-        enabled = false
-    },
-
-    { "nvim-neorg/neorg-telescope",     dependencies = { "neorg", "telescope" }, lazy = true },
-    { "andymass/vim-matchup",           lazy = true,                             keys = { "%" } },
-    {
-        'mrcjkb/rustaceanvim',
-        version = '^5', -- Recommended
-        lazy = false,   -- This plugin is already lazy
-    },
 
     ----------------------------------------------------------------------------------------------
     -- Project
@@ -240,13 +106,13 @@ require("lazy").setup({
     ----------------------------------------------------------------------------------------------
     -- Snippets
     ----------------------------------------------------------------------------------------------
-    {
-        "L3MON4D3/LuaSnip",
-        version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-        build = "make install_jsregexp",
-    },                    --snippet engine
-    { "evesdropper/luasnip-latex-snippets.nvim", dependencies = { "LuaSnip" }, ft = { "tex", "bib" } },
-    { "cvigilv/esqueleto.nvim",                  config = configs.esqueleto, },
+    -- {
+    --     "L3MON4D3/LuaSnip",
+    --     version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    --     build = "make install_jsregexp",
+    -- },                    --snippet engine
+    -- { "evesdropper/luasnip-latex-snippets.nvim", dependencies = { "LuaSnip" }, ft = { "tex", "bib" } },
+    { "cvigilv/esqueleto.nvim", config = configs.esqueleto, },
 
     ----------------------------------------------------------------------------------------------
     -- Telescope
@@ -331,14 +197,8 @@ require("lazy").setup({
     ----------------------------------------------------------------------------------------------
     -- Tools
     ----------------------------------------------------------------------------------------------
-    { "nvim-lua/popup.nvim",   priority = priorities.first }, -- An implementation of the Popup API from vim in Neovim
-    { "nvim-lua/plenary.nvim", priority = priorities.first }, -- Useful lua functions used ny lots of plugins
-    {
-        "windwp/nvim-autopairs",
-        config = configs.autopairs,
-        event = "InsertEnter",
-        lazy = true
-    }, -- Autopairs, integrates with both cmp and treesitter
+    { "nvim-lua/popup.nvim",    priority = priorities.first }, -- An implementation of the Popup API from vim in Neovim
+    { "nvim-lua/plenary.nvim",  priority = priorities.first }, -- Useful lua functions used ny lots of plugins
     {
         "numToStr/Comment.nvim",
         config = configs.comment,
@@ -587,5 +447,5 @@ require("lazy").setup({
         },
         event = "BufRead"
     },
-},
+}
 )
