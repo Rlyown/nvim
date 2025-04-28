@@ -1,5 +1,4 @@
--- impatient needs to be setup before any other lua plugin is loaded
-pcall(require, "impatient")
+vim.loader.enable(true)
 
 require("core.keymaps")
 require("plugin.plugins")

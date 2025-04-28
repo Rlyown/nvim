@@ -206,6 +206,11 @@ return {
         lazy = true
     }, -- A tree like view for symbols
     { "andymass/vim-matchup",       lazy = true, keys = { "%" } },
+    {
+        "numToStr/Comment.nvim",
+        config = true,
+    }, -- Easily comment stuff
+
 
     -- languages
     { import = "plugins.lsp.vimtex" },

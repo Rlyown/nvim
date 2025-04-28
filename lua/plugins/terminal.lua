@@ -1,0 +1,62 @@
+return {
+    {
+        "akinsho/toggleterm.nvim",
+        opts = {
+            size = 20,
+            open_mapping = [[<c-\>]],
+            hide_numbers = true,
+            shade_filetypes = {},
+            shade_terminals = true,
+            shading_factor = 2,
+            start_in_insert = true,
+            insert_mappings = true,
+            persist_size = true,
+            direction = "horizontal",
+            close_on_exit = true,
+            shell = vim.o.shell,
+            float_opts = {
+                border = "curved",
+                winblend = 0,
+                highlights = {
+                    border = "Normal",
+                    background = "Normal",
+                },
+            },
+        },
+        cmd = {
+            "ToggleTerm",
+            "TermExec",
+            "ToggleTermToggleAll",
+            "ToggleTermSendCurrentLine",
+            "ToggleTermSendVisualLines",
+            "ToggleTermSendVisualSelection",
+        },
+        lazy = true,
+        keys = { [[<c-\>]] }
+    }, -- easily manage multiple terminal windows
+    {
+        "aserowy/tmux.nvim",
+        opts = {
+            -- overwrite default configuration
+            -- here, e.g. to enable default bindings
+            copy_sync = {
+                -- enables copy sync. by default, all registers are synchronized.
+                -- to control which registers are synced, see the `sync_*` options.
+                enable = true,
+                redirect_to_clipboard = true,
+            },
+            navigation = {
+                -- enables default keybindings (C-hjkl) for normal mode
+                enable_default_keybindings = true,
+            },
+            resize = {
+                -- enables default keybindings (A-hjkl) for normal mode
+                enable_default_keybindings = true,
+            },
+
+        },
+        cond = function()
+            return vim.fn.getenv("TMUX") ~= vim.NIL
+        end,
+    }, -- tmux integration for nvim features pane movement and resizing from within nvim.
+}

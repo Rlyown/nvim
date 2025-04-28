@@ -1,10 +1,5 @@
 return function()
-    local notify = require("notify")
-
-    -- enable 24-bit colour
-    vim.opt.termguicolors = true
-
-    notify.setup({
+    require("notify").setup({
         -- Minimum level to show
         level = "info",
 
