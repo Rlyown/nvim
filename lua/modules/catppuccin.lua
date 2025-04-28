@@ -3,8 +3,16 @@ return function()
 
     -- configure it
     catppuccin.setup({
+        flavour = "auto",
         transparent_background = false,
         term_colors = true,
+        color_overrides = {
+            latte = {
+                base = "#fbf6e4",
+                mantle = "#f5f0de",
+                crust = "#000000",
+            },
+        },
         highlight_overrides = {
             mocha = function(mocha)
                 return {

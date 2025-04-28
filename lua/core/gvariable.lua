@@ -71,11 +71,7 @@ function M.setup()
     vim.g.custom_enable_auto_format = true
 
     -- set default colorscheme
-    local catppuccin_status_ok, _ = pcall(require, "catppuccin")
-    if catppuccin_status_ok then
-        vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-        vim.cmd([[colorscheme catppuccin]])
-    end
+    vim.cmd([[colorscheme catppuccin]])
 
     -- set default notify function
     local notify_status_ok, notify = pcall(require, "notify")

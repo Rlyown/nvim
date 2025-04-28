@@ -2,25 +2,59 @@ return function()
     local lualine = require("lualine")
     local ainput = require("core.gfunc").fn.async_ui_input_wrap()
 
-    local hide_in_width = function()
-        return vim.fn.winwidth(0) > 80
-    end
+    local colors = {
+        bg       = '#202328',
+        fg       = '#bbc2cf',
+        yellow   = '#ECBE7B',
+        cyan     = '#008080',
+        darkblue = '#081633',
+        green    = '#98be65',
+        orange   = '#FF8800',
+        violet   = '#a9a1e1',
+        magenta  = '#c678dd',
+        blue     = '#51afef',
+        red      = '#ec5f67',
+    }
+
+    local conditions = {
+        buffer_not_empty = function()
+            return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+        end,
+        hide_in_width = function()
+            return vim.fn.winwidth(0) > 80
+        end,
+        check_git_workspace = function()
+            local filepath = vim.fn.expand('%:p:h')
+            local gitdir = vim.fn.finddir('.git', filepath .. ';')
+            return gitdir and #gitdir > 0 and #gitdir < #filepath
+        end,
+    }
+
 
     local diagnostics = {
         "diagnostics",
         sources = { "nvim_diagnostic" },
         sections = { "error", "warn" },
-        symbols = { error = " ", warn = " " },
+        symbols = { error = " ", warn = " ", info = ' ' },
         colored = false,
+        -- diagnostics_color = {
+        --     error = { fg = colors.magenta },
+        --     warn = { fg = colors.orange },
+        --     info = { fg = colors.cyan },
+        -- },
         update_in_insert = false,
         always_visible = true,
     }
 
     local diff = {
         "diff",
-        colored = false,
         symbols = { added = " ", modified = " ", removed = " " }, -- changes diff symbols
-        cond = hide_in_width,
+        diff_color = {
+            added = { fg = colors.green },
+            modified = { fg = colors.orange },
+            removed = { fg = colors.red },
+        },
+        cond = conditions.hide_in_width,
     }
 
     local mode = {
@@ -44,12 +78,15 @@ return function()
             readonly = " ", -- Text to show when the file is non-modifiable or readonly.
             unnamed = "[No Name]", -- Text to show for unnamed buffers.
         },
+        cond = conditions.buffer_not_empty,
+        color = { fg = colors.magenta, gui = 'bold' },
     }
 
     local filetype = {
         "filetype",
         colored = true,    -- Displays filetype icon in color if set to true
         icon_only = false, -- Display only an icon for filetype
+        color = { fg = colors.green, gui = 'bold' },
         on_click = function()
             local opts = {
                 prompt = "Enter the new filetype:",
@@ -80,6 +117,8 @@ return function()
 
     local encoding = {
         "encoding",
+        cond = conditions.hide_in_width,
+        color = { fg = colors.green, gui = 'bold' },
         on_click = function()
             local opts = {
                 prompt = "Enter the new encoding name:",
@@ -109,8 +148,9 @@ return function()
 
     local spaces = {
         function()
-            return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+            return "spaces: " .. vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
         end,
+        color = { fg = colors.green, gui = 'bold' },
         on_click = function()
             local opts = {
                 prompt = "Enter the new value of shift width:",
@@ -127,20 +167,26 @@ return function()
         end,
     }
 
-    local navic = require("nvim-navic")
-    local navic_component = function()
-        local disable_func = require("core.gfunc").fn.disable_check_buf
+    local navic = {
+        function()
+            local disable_func = require("core.gfunc").fn.disable_check_buf
 
-        if (not disable_func(0)) and navic.is_available() then
-            return navic.get_location()
-        else
-            return ""
-        end
-    end
+            local navic_plug = require("nvim-navic")
+            if (not disable_func(0)) and navic_plug.is_available() then
+                return navic_plug.get_location()
+            else
+                return ""
+            end
+        end,
+        color = { fg = colors.violet, gui = 'bold' },
+        cond = conditions.hide_in_width
+    }
+
+
 
     lualine.setup({
         options = {
-            theme = "auto",
+            theme = "catppuccin",
             component_separators = { left = "", right = "" },
             section_separators = { left = "", right = "" },
             disabled_filetypes = {
@@ -162,9 +208,9 @@ return function()
         sections = {
             lualine_a = { branch, diagnostics },
             lualine_b = { mode },
-            lualine_c = { navic_component },
+            lualine_c = { navic },
             -- lualine_x = { "encoding", "fileformat", "filetype" },
-            lualine_x = { diff, spaces, encoding, filetype, filename },
+            lualine_x = { diff, spaces, encoding, filetype, filename, { require('mcphub.extensions.lualine') } },
             lualine_y = { location },
             lualine_z = { progress },
         },

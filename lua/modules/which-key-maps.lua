@@ -402,12 +402,12 @@ M.explorer = {
 }
 
 M.project = {
-    { "<leader>p",  group = "Session" },
-    { "<leader>pc", "<cmd>SessionManager load_current_dir_session<cr>", desc = "Load Current Dirtectory" },
-    { "<leader>pd", "<cmd>SessionManager delete_session<cr>",           desc = "Delete Session" },
-    { "<leader>pl", "<cmd>SessionManager load_last_session<cr>",        desc = "Last Session" },
-    { "<leader>ps", "<cmd>SessionManager load_session<cr>",             desc = "Select Session" },
-    { "<leader>pw", "<cmd>SessionManager save_current_session<cr>",     desc = "Save Current Dirtectory" },
+    { "<leader>P",  group = "Session" },
+    { "<leader>Pc", "<cmd>SessionManager load_current_dir_session<cr>", desc = "Load Current Dirtectory" },
+    { "<leader>Pd", "<cmd>SessionManager delete_session<cr>",           desc = "Delete Session" },
+    { "<leader>Pl", "<cmd>SessionManager load_last_session<cr>",        desc = "Last Session" },
+    { "<leader>Ps", "<cmd>SessionManager load_session<cr>",             desc = "Select Session" },
+    { "<leader>Pw", "<cmd>SessionManager save_current_session<cr>",     desc = "Save Current Dirtectory" },
 }
 
 

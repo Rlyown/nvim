@@ -3,11 +3,10 @@ return {
         "catppuccin/nvim",
         name = "catppuccin",
         opt = {
-
             transparent_background = false,
             term_colors = true,
             highlight_overrides = {
-                mocha = function(mocha)
+                mocha = function()
                     return {
                         Comment = { fg = "#b3e0ff" },
                         -- Comment = { fg = "#cccccc" },
@@ -57,6 +56,8 @@ return {
             },
             compile_path = vim.fn.stdpath "cache" .. "/catppuccin"
         },
+
+        lazy = false,
         priority = 1000,
     },
 }
