@@ -3,9 +3,18 @@ return {
     { "norcalli/nvim-colorizer.lua", config = true, cmd = "ColorizerToggle", lazy = true },
     {
         "folke/trouble.nvim",
+        cmd = { "Trouble" },
         dependencies = { "nvim-tree/nvim-web-devicons" },
         opts = {},
-        cmd = { "Trouble" }
+        keys = {
+            {
+                'gq',
+                function()
+                    require('trouble').toggle('diagnostics')
+                end,
+                desc = "Diagnostics"
+            }
+        },
 
     }, -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
     {
@@ -764,11 +773,86 @@ return {
             { "<C-w>=", "<C-w>=<cmd>lua require('bufresize').register()<cr>", noremap = true, silent = true },
         },
     }, -- Keep buffer dimensions in proportion when terminal window is resized
+    -- {
+    --     "anuvyklack/pretty-fold.nvim",
+    --     config = true,
+    --     lazy = true
+    -- }, -- Foldtext customization and folded region preview in Neovim
     {
-        "anuvyklack/pretty-fold.nvim",
-        config = true,
-        lazy = true
-    }, -- Foldtext customization and folded region preview in Neovim
+        "kevinhwang91/nvim-ufo",
+        dependencies = {
+            'kevinhwang91/promise-async',
+        },
+        init = function()
+            vim.o.foldcolumn = "0" -- '0' is not bad
+            vim.o.foldlevel = 99   -- Using ufo provider need a large value
+            vim.o.foldlevelstart = 99
+            vim.o.foldenable = true
+        end,
+        opts = {
+            provider_selector = function(bufnr, filetype, buftype)
+                return { 'treesitter', 'indent' }
+            end,
+            fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+                local newVirtText = {}
+                local suffix = (' 󰁂 %d '):format(endLnum - lnum)
+                local sufWidth = vim.fn.strdisplaywidth(suffix)
+                local targetWidth = width - sufWidth
+                local curWidth = 0
+                for _, chunk in ipairs(virtText) do
+                    local chunkText = chunk[1]
+                    local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                    if targetWidth > curWidth + chunkWidth then
+                        table.insert(newVirtText, chunk)
+                    else
+                        chunkText = truncate(chunkText, targetWidth - curWidth)
+                        local hlGroup = chunk[2]
+                        table.insert(newVirtText, { chunkText, hlGroup })
+                        chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                        -- str width returned from truncate() may less than 2nd argument, need padding
+                        if curWidth + chunkWidth < targetWidth then
+                            suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+                        end
+                        break
+                    end
+                    curWidth = curWidth + chunkWidth
+                end
+                table.insert(newVirtText, { suffix, 'MoreMsg' })
+                return newVirtText
+            end
+        },
+        keys = {
+            {
+                'zR',
+                function()
+                    require('ufo').openAllFolds()
+                end,
+                desc = "Open all folds",
+            },
+            {
+                'zM',
+                function()
+                    require('ufo').closeAllFolds()
+                end,
+                desc = "Close all folds"
+            },
+            {
+                'zr',
+                function()
+                    require('ufo').openFoldsExceptKinds()
+                end,
+                desc = "Open folds except kinds"
+            },
+            {
+                "zm",
+                function()
+                    require('ufo').closeFoldsWith()
+                end,
+                desc = "Close folds with kinds"
+            }
+
+        }
+    },
     {
         "folke/noice.nvim",
         config = function()
@@ -805,14 +889,11 @@ return {
 
             require("noice").setup({
                 lsp = {
-                    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
                     override = {
                         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
                         ["vim.lsp.util.stylize_markdown"] = true,
-                        ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
                     },
                 },
-                -- you can enable a preset for easier configuration
                 presets = {
                     bottom_search = false,        -- use a classic bottom cmdline for search
                     command_palette = true,       -- position the cmdline and popupmenu together
@@ -825,9 +906,7 @@ return {
 
             require("telescope").load_extension("noice")
         end,
-        enabled = true,
         dependencies = {
-            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
             "MunifTanjim/nui.nvim",
             "rcarriga/nvim-notify",
         },

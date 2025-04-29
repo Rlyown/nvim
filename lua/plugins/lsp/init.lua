@@ -37,7 +37,7 @@ return {
             ensure_installed = LSP_SERVERS,
         },
         dependencies = {
-            "mason.nvim",
+            "williamboman/mason.nvim",
         },
         cmd = { "LspInstall", "LspUninstall" },
         event = "User FileOpened",
@@ -91,9 +91,73 @@ return {
                 vim.lsp.enable(server_name)
             end
         end,
+        keys = {
+            {
+                'gD',
+                vim.lsp.buf.declaration,
+                desc = "Goto declaration"
+            },
+            {
+                'gd',
+                vim.lsp.buf.definition,
+                desc = "Goto definition"
+            },
+            {
+                'K',
+                vim.lsp.buf.hover,
+                desc = "Hover documentation"
+            },
+            {
+                'gi',
+                vim.lsp.buf.implementation,
+                desc = "Goto implementation"
+            },
+            {
+                'gh',
+                vim.lsp.buf.signature_help,
+                desc = "Show signature help"
+            },
+            {
+                'gR',
+                vim.lsp.buf.rename,
+                desc = "Rename symbol"
+            },
+            {
+                'gr',
+                function()
+                    require("trouble").toggle('lsp_references')
+                end,
+                desc = "Show references"
+            },
+            {
+                'ga',
+                vim.lsp.buf.code_action,
+                desc = "Code actions"
+            },
+            {
+                '[d',
+                function()
+                    vim.diagnostic.jump({ count = -1, float = true, border = "rounded" })
+                end,
+                desc = "Previous diagnostic"
+            },
+            {
+                'gl',
+                function()
+                    vim.diagnostic.open_float({ border = "rounded" })
+                end,
+                desc = "Show diagnostic"
+            },
+            {
+                ']d',
+                function()
+                    vim.diagnostic.jump({ count = 1, float = true, border = "rounded" })
+                end,
+                desc = "Next diagnostic"
+            },
+        },
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
-
         },
         lazy = true,
     },
@@ -125,7 +189,9 @@ return {
                 "rust_analyzer",
             }
         },
-        dependencies = { "mason.nvim" },
+        dependencies = {
+            "williamboman/mason.nvim",
+        },
     }, -- Install and upgrade third party tools automatically
     {
         "nvimtools/none-ls.nvim",
@@ -215,6 +281,5 @@ return {
     -- languages
     { import = "plugins.lsp.vimtex" },
     { import = "plugins.lsp.go" },
-    { import = "plugins.lsp.neorg" },
     { import = "plugins.lsp.rust" },
 }

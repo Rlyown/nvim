@@ -130,28 +130,6 @@ autocmd("User", {
 })
 
 local _custom_lsp = augroup("_CUSTOM_lsp", { clear = true })
-autocmd("BufWritePre", {
-    group = _custom_lsp,
-    pattern = "*",
-    callback = function()
-        local filter = {
-            norg = true,
-        }
-
-        if filter[vim.bo.filetype] then
-            return
-        end
-
-        if vim.g.custom_enable_auto_format then
-            if vim.bo.filetype == "go" then
-                require("go.format").goimport()
-            else
-                vim.lsp.buf.format({ async = false })
-            end
-        end
-    end,
-    desc = "auto format",
-})
 -- Issue: https://github.com/nvim-telescope/telescope.nvim/issues/559
 autocmd("BufRead", {
     group = _custom_lsp,
@@ -175,50 +153,30 @@ autocmd('LspAttach', {
         local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
         -- Set autocommands conditional on server_capabilities
-        -- if client:supports_method("textDocument/documentHighlight ") then
-        --     autocmd("CursorHold", {
-        --         group = _custom_lsp,
-        --         buffer = args.buf,
-        --         callback = function()
-        --             vim.lsp.buf.document_highlight()
-        --         end
-        --     })
-        --     autocmd("CursorMoved", {
-        --         group = _custom_lsp,
-        --         buffer = args.buf,
-        --         callback = function()
-        --             vim.lsp.buf.clear_references()
-        --         end
-        --     })
-        -- end
-
-
-        local opts = { noremap = true, silent = true }
-
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "gh", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "gR", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "gr", "<cmd>Trouble lsp_references<CR>", opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>',
-            opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "gl", '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>',
-            opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>',
-            opts)
-        -- vim.api.nvim_buf_set_keymap(args.buf, "n", "gq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-        vim.api.nvim_buf_set_keymap(args.buf, "n", "gq", "<cmd>Trouble workspace_diagnostics<cr>", opts)
+        if client:supports_method("textDocument/documentHighlight ") then
+            autocmd("CursorHold", {
+                group = _custom_lsp,
+                buffer = args.buf,
+                callback = function()
+                    vim.lsp.buf.document_highlight()
+                end
+            })
+            autocmd("CursorMoved", {
+                group = _custom_lsp,
+                buffer = args.buf,
+                callback = function()
+                    vim.lsp.buf.clear_references()
+                end
+            })
+        end
 
         -- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
-        if client:supports_method('textDocument/completion') then
-            -- Optional: trigger autocompletion on EVERY keypress. May be slow!
-            -- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
-            -- client.server_capabilities.completionProvider.triggerCharacters = chars
-            vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-        end
+        -- if client:supports_method('textDocument/completion') then
+        --     -- Optional: trigger autocompletion on EVERY keypress. May be slow!
+        --     -- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
+        --     -- client.server_capabilities.completionProvider.triggerCharacters = chars
+        --     vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+        -- end
 
         -- Auto-format ("lint") on save.
         -- Usually not needed if server supports "textDocument/willSaveWaitUntil".
@@ -228,7 +186,13 @@ autocmd('LspAttach', {
                 group = _custom_lsp,
                 buffer = args.buf,
                 callback = function()
-                    vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+                    if vim.g.custom_enable_auto_format then
+                        if vim.bo.filetype == "go" then
+                            require("go.format").goimport()
+                        else
+                            vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+                        end
+                    end
                 end,
             })
         end
@@ -257,15 +221,6 @@ autocmd('LspAttach', {
 --     pattern = "*",
 --     callback = leave_snippet,
 -- })
-
-augroup("_CUSTOM_cmp", { clear = true })
-autocmd("FileType", {
-    group = "_CUSTOM_cmp",
-    pattern = "toml",
-    callback = function()
-        require("cmp").setup.buffer({ sources = { { name = "crates" } } })
-    end,
-})
 
 augroup("_CUSTOM_terminal", { clear = true })
 autocmd("TermOpen", {

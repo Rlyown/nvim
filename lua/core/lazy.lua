@@ -1,6 +1,3 @@
-local configs = require("modules.configs")
-
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -14,12 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local priorities = {
-    first = 2000,
-    second = 1000,
-    third = 500,
-}
-
 -- TODO: remove useless plugin
 require("lazy").setup({
     -- auto load plugin
@@ -31,7 +22,7 @@ require("lazy").setup({
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
-        config = configs.whichkey,
+        config = require('modules.whichkey'),
         keys = {
             {
                 "<leader>Ch",
@@ -51,7 +42,7 @@ require("lazy").setup({
     {
         "anuvyklack/hydra.nvim",
         dependencies = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
-        config = configs.hydra,
+        config = require('modules.hydra'),
         lazy = true
     }, -- Bind a bunch of key bindings together.
 }

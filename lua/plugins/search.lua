@@ -1,7 +1,6 @@
 return {
     {
         "nvim-telescope/telescope.nvim",
-        name = "telescope",
         config = function()
             local telescope = require("telescope")
 
@@ -140,7 +139,7 @@ return {
         end,
         lazy = true,
         cmd = "Telescope",
-        dependencies = { "trouble.nvim", "telescope-fzf-native.nvim", "telescope-frecency.nvim", "telescope-luasnip.nvim" },
+        dependencies = { "folke/trouble.nvim" },
     }, -- Find, Filter, Preview, Pick.
     {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -171,7 +170,7 @@ return {
         dependencies = {
             { 'kkharji/sqlite.lua', module = 'sqlite' },
             -- you'll need at least one of these
-            { 'telescope' },
+            "nvim-telescope/telescope.nvim",
             -- {'ibhagwan/fzf-lua'},
         },
         opts = {},
@@ -179,7 +178,9 @@ return {
     },
     {
         'nvim-telescope/telescope-dap.nvim',
-        dependencies = { "mfussenegger/nvim-dap", "telescope" },
+        dependencies = { "mfussenegger/nvim-dap",
+            "nvim-telescope/telescope.nvim",
+        },
         config = function()
             require("telescope").load_extension("dap")
         end,

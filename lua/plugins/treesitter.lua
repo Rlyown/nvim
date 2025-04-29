@@ -99,6 +99,19 @@ return {
         end
     }, -- Nvim Treesitter configurations and abstraction layer
     {
+        "Wansmer/treesj",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+        },
+        config = function()
+            require('treesj').setup({ --[[ your config ]] })
+        end,
+        keys = {
+            { 'J',  function() require('treesj').join() end,  desc = "Join" },
+            { 'gS', function() require('treesj').split() end, desc = "Split" },
+        },
+    },
+    {
         "romgrk/nvim-treesitter-context",
         opts = {
 

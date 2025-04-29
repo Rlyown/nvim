@@ -15,7 +15,6 @@ vim.g.python3_host_prog = "python3"
 
 M.modules_dir = vim.fn.stdpath("config") .. "/lua/modules"
 M.snippet_dir = vim.fn.stdpath("config") .. "/snippets"
-M.neorg_dir = vim.fn.stdpath("state") .. "/neorg-notes"
 
 M.node_path = "node"
 
@@ -39,7 +38,7 @@ M.symbol_map = {
     Property = "",
     Unit = "",
     Value = "",
-    Enum = "",
+    Enum = "X",
     Keyword = "",
     Key = "",
     Null = "0",

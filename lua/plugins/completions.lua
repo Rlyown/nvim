@@ -10,22 +10,12 @@ return {
     },
     {
         'saghen/blink.cmp',
-        -- optional: provides snippets for the snippet source
         dependencies = {
             'rafamadriz/friendly-snippets',
             'Kaiser-Yang/blink-cmp-avante',
             "fang2hou/blink-copilot",
         },
-
-        -- use a release tag to download pre-built binaries
         version = '1.*',
-        -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-        -- build = 'cargo build --release',
-        -- If you use nix, you can build from source using latest nightly rust with:
-        -- build = 'nix run .#build-plugin',
-
-        ---@module 'blink.cmp'
-        ---@type blink.cmp.Config
         opts = {
             -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
             -- 'super-tab' for mappings similar to vscode (tab to accept)
@@ -39,7 +29,9 @@ return {
             -- C-k: Toggle signature help (if signature.enabled = true)
             --
             -- See :h blink-cmp-config-keymap for defining your own keymap
-            keymap = { preset = 'default' },
+            keymap = {
+                preset = 'default',
+            },
 
             appearance = {
                 -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -50,9 +42,7 @@ return {
             -- (Default) Only show the documentation popup when manually triggered
             completion = {
                 documentation = { auto_show = true },
-                list = {
-                    selection = { preselect = true, auto_insert = true }
-                },
+                list = { selection = { preselect = true, auto_insert = true }, },
                 menu = {
                     draw = {
                         -- We don't need label_description now because label and label_description are already
@@ -76,7 +66,7 @@ return {
             -- Default list of enabled providers defined so that you can extend it
             -- elsewhere in your config, without redefining it, due to `opts_extend`
             sources = {
-                default = { "copilot", 'avante', 'lsp', 'path', 'snippets', 'buffer', 'omni' },
+                default = { "avante", "copilot", 'lsp', 'path', 'snippets', 'buffer', 'omni' },
                 providers = {
                     avante = {
                         module = 'blink-cmp-avante',
@@ -103,7 +93,7 @@ return {
 
             signature = { enabled = false }
         },
-        opts_extend = { "sources.default" }
+        opts_extend = { "sources.default" },
     },
     {
         "xzbdmw/colorful-menu.nvim",
@@ -222,7 +212,7 @@ return {
                 markdown = true,
                 help = true,
             }
-        }
+        },
     },
     {
         "windwp/nvim-autopairs",
@@ -255,5 +245,5 @@ return {
         },
         event = "InsertEnter",
         lazy = true
-    }, -- Autopairs, integrates with both cmp and treesitter
+    },
 }

@@ -1,7 +1,7 @@
 vim.loader.enable(true)
 
 require("core.keymaps")
-require("plugin.plugins")
+require("core.lazy")
 require("core.options")
 require("core.autocommands")
 
