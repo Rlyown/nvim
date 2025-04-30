@@ -7,7 +7,7 @@ local keymap = vim.api.nvim_set_keymap
 
 --Remap comma as leader key
 local leaderKey = ","
-keymap("", leaderKey, "<Nop>", opts)
+keymap("", leaderKey, "<Nop>", { noremap = true, silent = true })
 vim.g.mapleader = leaderKey
 vim.g.maplocalleader = " "
 
@@ -21,86 +21,47 @@ vim.g.maplocalleader = " "
 
 -- Normal --
 -- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
+keymap("n", "<C-h>", "<C-w>h", { desc = "Go left", noremap = true, silent = true })
+keymap("n", "<C-j>", "<C-w>j", { desc = "Go down", noremap = true, silent = true })
+keymap("n", "<C-k>", "<C-w>k", { desc = "Go up", noremap = true, silent = true })
+keymap("n", "<C-l>", "<C-w>l", { desc = "Go right", noremap = true, silent = true })
 
 -- Resize with arrows
 -- <Control-arrows> is system short key in MacOS
-keymap("n", "<M-Up>", ":resize -2<CR>", opts)
-keymap("n", "<M-Down>", ":resize +2<CR>", opts)
-keymap("n", "<M-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<M-Right>", ":vertical resize +2<CR>", opts)
+keymap("n", "<M-Up>", ":resize -2<CR>", { desc = "-Height", noremap = true, silent = true })
+keymap("n", "<M-Down>", ":resize +2<CR>", { desc = "+Height", noremap = true, silent = true })
+keymap("n", "<M-Left>", ":vertical resize -2<CR>", { desc = "-Width", noremap = true, silent = true })
+keymap("n", "<M-Right>", ":vertical resize +2<CR>", { desc = "+Width", noremap = true, silent = true })
 
 -- Navigate buffers
--- keymap("n", "<C-n>", ":bnext<CR>", opts)
--- keymap("n", "<C-p>", ":bprevious<CR>", opts)
-keymap("n", "L", ":bnext<CR>", opts)
-keymap("n", "H", ":bprevious<CR>", opts)
+keymap("n", "L", ":bnext<CR>", { desc = "Prev buffer", noremap = true, silent = true })
+keymap("n", "H", ":bprevious<CR>", { desc = "Next buffer", noremap = true, silent = true })
 
 -- Move text up and down
-keymap("n", "gj", "<Esc>:m .+1<CR>==gi", opts)
-keymap("n", "gk", "<Esc>:m .-2<CR>==gi", opts)
+keymap("n", "gj", "<Esc>:m .+1<CR>==gi", { desc = "Move text down", noremap = true, silent = true })
+keymap("n", "gk", "<Esc>:m .-2<CR>==gi", { desc = "Move text up", noremap = true, silent = true })
 
 -- Insert --
 -- Press jk fast to enter
-keymap("i", "jk", "<ESC>", opts)
+keymap("i", "jk", "<ESC>", { desc = "ESC", noremap = true, silent = true })
 
 -- Visual --
 -- Stay in indent mode
--- keymap("v", "<", "<gv", opts)
--- keymap("v", ">", ">gv", opts)
+-- keymap("v", "<", "<gv", { noremap = true, silent = true })
+-- keymap("v", ">", ">gv", { noremap = true, silent = true })
 
 -- Move text up and down
-keymap("v", "J", ":m .+1<CR>==", opts)
-keymap("v", "K", ":m .-2<CR>==", opts)
+keymap("v", "J", ":m .+1<CR>==", { desc = "Move text down", noremap = true, silent = true })
+keymap("v", "K", ":m .-2<CR>==", { desc = "Move text Up", noremap = true, silent = true })
 
 -- paste and replace
-keymap("v", "p", '"_dP', opts)
+keymap("v", "p", '"_dP', { desc = "Paste & replace", noremap = true, silent = true })
 
 -- Visual Block --
 -- Move text up and down
-keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
+keymap("x", "J", ":move '>+1<CR>gv-gv", { desc = "Move text down", noremap = true, silent = true })
+keymap("x", "K", ":move '<-2<CR>gv-gv", { desc = "Move text up", noremap = true, silent = true })
 
--- Open Url
--- netrw will be disabled if you use nvim-tree
---[[ local os = require("core.gvariable").os ]]
---[[ if os == "mac" then ]]
---[[ 	keymap("", "gx", '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', opts) ]]
---[[ elseif os == "unix" then ]]
---[[ 	keymap("", "gx", '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', opts) ]]
---[[ else ]]
---[[ 	keymap("", "gx", '<Cmd>lua print("Error: gx is not supported on this OS!")<CR>', opts) ]]
---[[ end ]]
--- Terminal --
--- Better terminal navigation
--- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
--- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
--- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
--- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
-keymap("v", "<leader>l", ":ToggleTermSendVisualLines<cr>", opts)
-keymap("v", "<leader>s", ":ToggleTermSendVisualSelection<cr>", opts)
-
--- refactoring
-keymap("v", "<leader>a", "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", opts)
-
--- Hop
-keymap("v", "<leader>mb", ":HopChar2<cr>", opts)
-keymap("v", "<leader>mc", ":HopChar1<cr>", opts)
-keymap("v", "<leader>ml", ":HopLine<cr>", opts)
-keymap("v", "<leader>mw", ":HopWord<cr>", opts)
-
--- Dap plugin
--- keymap("v", "<leader>d", ':lua require("dapui").eval()', opts)
-
--- spectre
-keymap("v", "<leader>S", "<cmd>lua require('spectre').open_visual()<CR>", opts)
-
--- crate
-keymap("v", "<leader><leader>lru", ":lua require('crates').update_crates()<cr>", opts)
-keymap("v", "<leader><leader>lru", ":lua require('crates').upgrade_crates()<cr>", opts)
-
--- Copilot
-vim.cmd([[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")]])
+keymap("n", "<leader>h", "<cmd>nohlsearch<CR>", { desc = "No Highlight Search", noremap = true, silent = true })
+keymap("n", "<leader>q", "<cmd>x<cr>", { desc = "Close Window", noremap = true, silent = true })
+keymap("n", "<leader>Q", "<cmd>xa<cr>", { desc = "Quit Nvim", noremap = true, silent = true })

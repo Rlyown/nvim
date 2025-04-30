@@ -13,7 +13,14 @@ return {
                     require('trouble').toggle('diagnostics')
                 end,
                 desc = "Diagnostics"
-            }
+            },
+            { "<leader>x",  group = "Trouble" },
+            { "<leader>xd", "<cmd>Trouble document_diagnostics<cr>",  desc = "Document Diagnostics" },
+            { "<leader>xl", "<cmd>Trouble loclist",                   desc = "LocList" },
+            { "<leader>xq", "<cmd>Trouble quickfix<cr>",              desc = "Quickfix" },
+            { "<leader>xr", "<cmd>Trouble lsp_references<cr>",        desc = "References" },
+            { "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", desc = "Workspace Diagnostics" },
+            { "<leader>xx", "<cmd>Trouble<cr>",                       desc = "Trouble" },
         },
 
     }, -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
@@ -271,6 +278,9 @@ return {
         end,
         cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
         event = "User DirOpened",
+        keys = {
+            { "<leader>n", "<cmd>NvimTreeToggle<cr>", desc = "Explorer" },
+        }
     }, -- file explorer
     {
         "akinsho/bufferline.nvim",
@@ -313,7 +323,18 @@ return {
                 always_show_bufferline = true,
             },
             highlights = require("catppuccin.groups.integrations.bufferline").get(),
-        }
+        },
+        keys = {
+            { "<leader>B",  group = "BufferLine" },
+            { "<leader>Bc", "<cmd>BufferLineGroupClose<cr>",      desc = "Close Group Buffers" },
+            { "<leader>Bd", "<cmd>BufferLineSortByDirectory<cr>", desc = "Sort By Directory" },
+            { "<leader>Be", "<cmd>BufferLineSortByExtension<cr>", desc = "Sort By Extensions" },
+            { "<leader>Bp", "<cmd>BufferLineTogglePin<cr>",       desc = "Pin" },
+            { "<leader>Bt", "<cmd>BufferLineGroupToggle<cr>",     desc = "Group Toggle" },
+            { "<leader>BT", "<cmd>BufferLineSortByTabs<cr>",      desc = "Sort by Tabs" },
+            { "gw",         "<cmd>BufferLinePick<cr>",            desc = "Pick Buffer" },
+        },
+        lazy = false
     }, -- buffer line plugin
     {
         "nvim-lualine/lualine.nvim",
@@ -758,7 +779,23 @@ return {
 
             require("telescope").load_extension("notify")
         end,
-        lazy = true
+        lazy = true,
+        keys = {
+            {
+                "<leader><leader>n",
+                function() require('notify').dismiss() end,
+                desc = "Dismiss Notifition"
+            },
+            {
+                "<leader>sn",
+                function()
+                    require('telescope').extensions.notify.notify(require('telescope.themes').get_dropdown({}))
+                end,
+                desc = "Notify",
+            },
+
+        }
+
     }, -- A fancy, configurable, notification manager for NeoVim
     {
         "kwkarlwang/bufresize.nvim",
@@ -821,6 +858,7 @@ return {
                 return newVirtText
             end
         },
+        event = "BufReadPre",
         keys = {
             {
                 'zR',
@@ -911,6 +949,9 @@ return {
             "rcarriga/nvim-notify",
         },
         event = "VeryLazy",
+        keys = {
+            { "<leader>sM", "<cmd>Telescope noice<cr>", desc = "Messages" },
+        }
     },
     {
         "andrewferrier/wrapping.nvim",
@@ -922,5 +963,17 @@ return {
                 auto_set_mode_heuristically = false,
             })
         end,
+        keys = {
+            {
+                "[w",
+                function() require('wrapping').soft_wrap_mode() end,
+                desc = "soft wrap mode"
+            },
+            {
+                "]w",
+                function() require('wrapping').hard_wrap_mode() end,
+                desc = "hard wrap mode"
+            },
+        }
     },
 }

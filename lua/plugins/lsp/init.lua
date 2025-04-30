@@ -1,4 +1,4 @@
-LSP_SERVERS = {
+_G.LSP_SERVERS = {
     "asm_lsp",
     "bashls",
     "clangd",
@@ -29,7 +29,10 @@ return {
         },
         cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
         event = "User FileOpened",
-        lazy = true,
+        keys = {
+            { "<leader>LI", "<cmd>Mason<cr>", desc = "Mason Info" },
+        },
+        lazy = false,
     },
     {
         "williamboman/mason-lspconfig.nvim", -- Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim
@@ -41,7 +44,7 @@ return {
         },
         cmd = { "LspInstall", "LspUninstall" },
         event = "User FileOpened",
-        lazy = true,
+        lazy = false,
     },
     {
         "neovim/nvim-lspconfig", -- enable LSP
@@ -155,11 +158,83 @@ return {
                 end,
                 desc = "Next diagnostic"
             },
+
+            { "<leader>L",  group = "LSP" },
+            {
+                "<leader>Lf",
+                function() vim.lsp.buf.format({ async = false }) end,
+                desc = "Format"
+            },
+            {
+                "<leader>LF",
+                function()
+                    if vim.g.custom_enable_auto_format then
+                        vim.g.custom_enable_auto_format = false
+                        vim.notify("File autoformat is disabled", "info", { title = "LSP Autoformat" })
+                    else
+                        vim.g.custom_enable_auto_format = true
+                        vim.notify("File autoformat is enabled", "info", { title = "LSP Autoformat" })
+                    end
+                end,
+                desc = "Auto Format Toggle",
+            },
+            {
+                "<leader>LK",
+                function()
+                    vim.lsp.buf.hover()
+                end,
+                desc = "Hover"
+            },
+            { "<leader>LH", "<cmd>LspInfo<cr>",   desc = "Info" },
+            { "<leader>LL", vim.lsp.codelens.run, desc = "CodeLens Action" },
+            {
+                "<leader>Ln",
+                vim.lsp.diagnostic.goto_next,
+                desc = "Next Diagnostic",
+            },
+            {
+                "<leader>Lp",
+                vim.lsp.diagnostic.goto_prev,
+                desc = "Prev Diagnostic",
+            },
+            {
+                "<leader>Lq",
+                function()
+                    require('telescope.builtin').diagnostics()
+                end,
+                desc = "Diagnostic"
+            },
+            {
+                "<leader>LR",
+                vim.lsp.buf.rename,
+                desc = "Rename"
+            },
+            {
+                "<leader>Ls",
+                function()
+                    require('telescope.builtin').lsp_document_symbols()
+                end,
+                desc = "Document Symbols"
+            },
+            {
+                "<leader>LS",
+                function()
+                    require('telescope.builtin').lsp_dynamic_workspace_symbols()
+                end,
+                desc = "Workspace Symbols",
+            },
+
+            -- Language
+            { "<leader>l",   group = "Language" },
+            -- C/C++
+            { "<leader>lc",  group = "C/C++" },
+            { "<leader>lct", "<cmd>edit .clang-tidy<cr>",   desc = "Clang Tidy", },
+            { "<leader>lcf", "<cmd>edit .clang-format<cr>", desc = "Clang Format" },
         },
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
         },
-        lazy = true,
+        lazy = false,
     },
     {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -204,7 +279,11 @@ return {
                     require("null-ls").builtins.formatting.shfmt,
                 }
             })
-        end
+        end,
+        keys = {
+            { "<leader>LN", "<cmd>NullLsInfo<cr>", desc = "Null-Ls Info" },
+        },
+        lazy = false,
     }, -- for formatters and linters
 
     {
@@ -269,13 +348,12 @@ return {
             },
         },
         cmd = "SymbolsOutline",
-        lazy = true
+        lazy = true,
+        keys = {
+            { "<leader>o", "<cmd>SymbolsOutline<cr>", desc = "Code OutLine" },
+        }
     }, -- A tree like view for symbols
     { "andymass/vim-matchup",       lazy = true, keys = { "%" } },
-    {
-        "numToStr/Comment.nvim",
-        config = true,
-    }, -- Easily comment stuff
 
 
     -- languages

@@ -120,6 +120,47 @@ return {
                 require("telescope").load_extension("dap")
             end
         end,
+        keys = {
+            {
+                "<leader>d",
+                group = "Dugger"
+            },
+            { "<leader>da", ":RunScriptWithArgs ",                                                                       desc = "Run with Args", },
+            {
+                '<Leader>dc',
+                function()
+                    -- if buffer type is go
+                    if vim.bo.ft == "go" then
+                        vim.cmd("GoDebug")
+                    elseif vim.bo.ft == "rust" then
+                        vim.cmd.RustLsp('debuggables')
+                    else
+                        require('dap').continue()
+                    end
+                end,
+                desc = "Run/Continue"
+            },
+            { '<Leader>db', function() require('dap').toggle_breakpoint() end,                                           desc = "Toggle Breakpoint" },
+            { '<Leader>dm', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, desc = "Log Point" },
+            { '<Leader>dR', function() require('dap').repl.toggle() end,                                                 desc = "Toggle Repl" },
+            { '<Leader>dr', function() require('dap').run_last() end,                                                    desc = "Rerun" },
+            { '<Leader>dK', function() require('dap.ui.widgets').hover() end,                                            desc = "Hover" },
+            { '<Leader>dp', function() require('dap.ui.widgets').preview() end,                                          desc = "preview" },
+            {
+                '<leader>dq',
+                function()
+                    require('dap').terminate()
+                end,
+                desc = "Terminate"
+            },
+            {
+                "<leader>ds",
+                function()
+                    require("hydra").spawn("dap-hydra")
+                end,
+                desc = "Step Mode",
+            },
+        },
         lazy = true,
     },
     {

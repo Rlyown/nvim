@@ -185,5 +185,36 @@ M.fn = {
 
         return false
     end,
+    ['filetype_check'] = function(ft_list)
+        local ft = vim.bo.ft
+        if type(ft_list) == "string" then
+            if ft == ft_list then
+                return true
+            end
+        elseif type(ft_list) == "table" then
+            for k, v in ipairs(ft_list) do
+                if ft == v then
+                    return true
+                end
+            end
+        end
+
+        local force = false
+        local opts = {
+            prompt = "Current filetype not included in allowed list, force run?[Y/n] ",
+            kind = "center",
+            default = "no",
+        }
+        local function on_confirm(input)
+            input = string.lower(input)
+            if #input > 0 and (input == "y" or input == "yes") then
+                force = true
+            end
+        end
+
+        ainput(opts, on_confirm)
+
+        return force
+    end,
 }
 return M

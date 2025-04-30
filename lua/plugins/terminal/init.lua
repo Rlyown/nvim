@@ -32,7 +32,52 @@ return {
             "ToggleTermSendVisualSelection",
         },
         lazy = true,
-        keys = { [[<c-\>]] }
+        keys = {
+            { [[<c-\>]],    desc = "Terminal" },
+            { "<leader>t",  group = "Terminal" },
+            { "<leader>ta", "<cmd>ToggleTermToggleAll<cr>", desc = "All" },
+            {
+                "<leader>tc",
+                require("plugins.terminal.utils").term_id_cmds("ToggleTermSendCurrentLine"),
+                desc = "Send Line",
+            },
+            { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Float" },
+            {
+                "<leader>th",
+                require("plugins.terminal.utils").term_multi_hv(0.3, "horizontal"),
+                desc = "Horizontal",
+            },
+            { "<leader>ts", group = "Specific" },
+            {
+                "<leader>tsG",
+                function()
+                    local Terminal = require("toggleterm.terminal").Terminal
+                    local lazygit = Terminal:new({
+                        cmd = [[VISUAL="nvim" EDITOR="nvim" lazygit]],
+                        hidden = true,
+                        direction = "float",
+                    })
+                    lazygit:toggle()
+                end,
+                desc = "Lazygit"
+            },
+            { "<leader>tt", "<cmd>ToggleTerm direction=tab<cr>",                              desc = "Tab" },
+            { "<leader>tv", require('plugins.terminal.utils').term_multi_hv(0.4, "vertical"), desc = "Vertical" },
+            { "<leader>tw", "<cmd>terminal<cr>",                                              desc = "Window" },
+
+            {
+                "<leader>l",
+                ":ToggleTermSendVisualLines<cr>",
+                mode = 'v',
+                desc = "Send line to term"
+            },
+            {
+                "<leader>s",
+                ":ToggleTermSendVisualSelection<cr>",
+                mode = 'v',
+                desc = "Send selection to term"
+            }
+        }
     }, -- easily manage multiple terminal windows
     {
         "aserowy/tmux.nvim",

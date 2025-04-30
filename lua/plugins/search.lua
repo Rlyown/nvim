@@ -140,6 +140,56 @@ return {
         lazy = true,
         cmd = "Telescope",
         dependencies = { "folke/trouble.nvim" },
+        keys = {
+            {
+                "<leader>b",
+                function()
+                    require('telescope.builtin').buffers(require('telescope.themes').get_dropdown { previewer = false })
+                end,
+                desc = "Buffers",
+            },
+            {
+                "<leader>f",
+                function()
+                    require('telescope.builtin').find_files(require('telescope.themes').get_dropdown { previewer = false })
+                end,
+                desc = "Find files",
+            },
+            {
+                "<leader>F",
+                function() require('telescope.builtin').live_grep() end
+                ,
+                desc = "Find Text"
+            },
+            {
+                "<leader>gc",
+                function() require('telescope.builtin').git_branches() end,
+                mode = { "n", "x" },
+                desc = "Git Branches"
+            },
+            {
+                "<leader>gC",
+                function() require('telescope.builtin').git_commits() end,
+                mode = { "n", "x" },
+                desc = "Git Commits"
+            },
+            {
+                "<leader>go",
+                function() require('telescope.builtin').git_status() end,
+                mode = { "n", "x" },
+                desc = "Git Status"
+            },
+
+            { "<leader>s",  group = "Search" },
+            { "<leader>sc", function() require('telescope.builtin').commands() end,    desc = "Commands" },
+            { "<leader>sC", function() require('telescope.builtin').colorscheme() end, desc = "Colorscheme" },
+            { "<leader>sh", function() require('telescope.builtin').help_tags() end,   desc = "Find Help" },
+            { "<leader>sk", function() require('telescope.builtin').keymaps() end,     desc = "Keymaps" },
+            { "<leader>sm", function() require('telescope.builtin').man_pages() end,   desc = "Man Pages" },
+            { "<leader>sr", function() require('telescope.builtin').oldfiles() end,    desc = "Open Recent File" },
+            { "<leader>sR", function() require('telescope.builtin').registers() end,   desc = "Registers" },
+            { "<leader>st", function() require('telescope.builtin').tags() end,        desc = "Tags" },
+        }
     }, -- Find, Filter, Preview, Pick.
     {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -164,6 +214,13 @@ return {
             -- optional: vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
         end,
         lazy = true,
+        keys = {
+            {
+                "<leader>u",
+                function() require('telescope').extensions.undo.undo() end,
+                desc = "Undotree"
+            },
+        }
     },
     {
         "AckslD/nvim-neoclip.lua",
@@ -175,6 +232,18 @@ return {
         },
         opts = {},
         lazy = true,
+        keys = {
+            {
+                "<leader>sy",
+                function() require('telescope').extensions.neoclip.default() end,
+                desc = "Yank History"
+            },
+            {
+                "<leader>sY",
+                function() require('telescope').extensions.macroscope.default() end,
+                desc = "Macroscope"
+            },
+        }
     },
     {
         'nvim-telescope/telescope-dap.nvim',
@@ -184,11 +253,43 @@ return {
         config = function()
             require("telescope").load_extension("dap")
         end,
+        lazy = true,
+        keys = {
+            { "<leader>sd", group = "Dap" },
+            {
+                "<leader>sdc",
+                function() require 'telescope'.extensions.dap.commands {} end,
+                desc = "Commands"
+            },
+            {
+                "<leader>sdC",
+                function() require 'telescope'.extensions.dap.configurations {} end,
+                desc = "Configs"
+            },
+            {
+                "<leader>sdb",
+                function() require 'telescope'.extensions.dap.list_breakpoints {} end,
+                desc = "Breakpoints"
+            },
+            {
+                "<leader>sdv",
+                function() require 'telescope'.extensions.dap.variables {} end,
+                desc = "Variables"
+            },
+            {
+                "<leader>sdf",
+                function() require 'telescope'.extensions.dap.frames {} end,
+                desc = "Frames"
+            },
+        }
     },
     {
         'MagicDuck/grug-far.nvim',
         opts = {},
         cmd = { "GrugFar" },
+        keys = {
+            { "<leader>S", "<cmd>GrugFar<cr>", desc = "Search & Replace" },
+        }
     },
 
 }

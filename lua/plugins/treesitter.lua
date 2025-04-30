@@ -106,9 +106,10 @@ return {
         config = function()
             require('treesj').setup({ --[[ your config ]] })
         end,
+        lazy = true,
         keys = {
-            { 'J',  function() require('treesj').join() end,  desc = "Join" },
-            { 'gS', function() require('treesj').split() end, desc = "Split" },
+            { 'gJ', function() require('treesj').join() end,  desc = "Join Block" },
+            { 'gS', function() require('treesj').split() end, desc = "Split Block" },
         },
     },
     {

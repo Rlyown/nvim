@@ -61,6 +61,9 @@ return {
                 ft = { "markdown", "Avante" },
             },
         },
+        keys = {
+            { "<leader>a", group = "AI-Assistant" },
+        }
     },
     {
         "ravitemer/mcphub.nvim",
