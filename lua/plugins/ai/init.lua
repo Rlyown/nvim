@@ -10,20 +10,18 @@ return {
             copilot = {
                 proxy = "localhost:7890",
                 model = "claude-3.7-sonnet",
-                disable_tools = {
-                    disabled_tools = {
-                        "list_files",
-                        "search_files",
-                        "read_file",
-                        "create_file",
-                        "rename_file",
-                        "delete_file",
-                        "create_dir",
-                        "rename_dir",
-                        "delete_dir",
-                        "bash",
-                    },
-                }
+                disabled_tools = {
+                    "list_files",
+                    "search_files",
+                    "read_file",
+                    "create_file",
+                    "rename_file",
+                    "delete_file",
+                    "create_dir",
+                    "rename_dir",
+                    "delete_dir",
+                    "bash",
+                },
             },
             -- other config
             -- The system_prompt type supports both a string and a function that returns a string. Using a function here allows dynamically updating the prompt with mcphub
@@ -76,11 +74,14 @@ return {
         -- uncomment this if you don't want mcp-hub to be available globally or can't use -g
         -- build = "bundled_build.lua",  -- Use this and set use_bundled_binary = true in opts  (see Advanced configuration)
         opts = {
+            auto_approve = true,
             extensions = {
                 avante = {
                     make_slash_commands = true, -- make /slash commands from MCP server prompts
                 }
-            }
+            },
+            -- Debug mode to help diagnose issues
+            debug = false
         },
     }
 }

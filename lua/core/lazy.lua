@@ -11,7 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- TODO: remove useless plugin
 require("lazy").setup({
     -- auto load plugin
     { import = "plugins" },
