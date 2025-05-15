@@ -4,7 +4,6 @@ return {
         version = '^5', -- Recommended
         lazy = false,   -- This plugin is already lazy
         keys = {
-            { "<leader>lr", group = "Rust" },
             {
                 "<leader>lrr",
                 function()
@@ -69,7 +68,6 @@ return {
         config = true,
         lazy = true,
         keys = {
-            { "<leader>lrc",  group = "Crates" },
             { "<leader>lrcd", function() require('crates').open_documentation() end,  desc = "Documentation" },
             { "<leader>lrcf", function() require('crates').show_features_popup() end, desc = "Features" },
             { "<leader>lrcg", function() require('crates').open_repository() end,     desc = "Repository" },

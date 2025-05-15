@@ -34,20 +34,18 @@ return {
         lazy = true,
         keys = {
             { [[<c-\>]],    desc = "Terminal" },
-            { "<leader>t",  group = "Terminal" },
             { "<leader>ta", "<cmd>ToggleTermToggleAll<cr>", desc = "All" },
             {
                 "<leader>tc",
                 require("plugins.terminal.utils").term_id_cmds("ToggleTermSendCurrentLine"),
                 desc = "Send Line",
             },
-            { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Float" },
+            { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>",                            desc = "Float" },
             {
                 "<leader>th",
                 require("plugins.terminal.utils").term_multi_hv(0.3, "horizontal"),
                 desc = "Horizontal",
             },
-            { "<leader>ts", group = "Specific" },
             {
                 "<leader>tsG",
                 function()

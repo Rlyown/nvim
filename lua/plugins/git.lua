@@ -5,7 +5,6 @@ return {
         lazy = true,
         event = "BufRead",
         keys = {
-            { "<leader>g",  group = "Git" },
             {
                 "<leader>gJ",
                 function()

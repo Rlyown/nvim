@@ -121,10 +121,8 @@ return {
         },
         keys = {
             -- Golang
-            { "<leader>lg",   group = "Golang" },
             { "<leader>lga",  "<cmd>GoCodeAction<cr>",                    desc = "Code action" },
             { "<leader>lge",  "<cmd>GoIfErr<cr>",                         desc = "Add if err" },
-            { "<leader>lgh",  group = "Helper" },
             { "<leader>lgha", "<cmd>GoAddTag<cr>",                        desc = "Add tags to struct" },
             { "<leader>lghr", "<cmd>GoRMTag<cr>",                         desc = "Remove tags to struct" },
             { "<leader>lghc", "<cmd>GoCoverage<cr>",                      desc = "Test coverage" },
@@ -137,14 +135,12 @@ return {
             { "<leader>lgo",  "<cmd>GoPkgOutline<cr>",                    desc = "Outline" },
             { "<leader>lgr",  "<cmd>GoRun<cr>",                           desc = "Run" },
             { "<leader>lgs",  "<cmd>GoFillStruct<cr>",                    desc = "Autofill struct" },
-            { "<leader>lgt",  group = "Tests" },
             { "<leader>lgtr", "<cmd>GoTest<cr>",                          desc = "Run tests" },
             { "<leader>lgta", "<cmd>GoAlt!<cr>",                          desc = "Open alt file" },
             { "<leader>lgts", "<cmd>GoAltS!<cr>",                         desc = "Open alt file in split" },
             { "<leader>lgtv", "<cmd>GoAltV!<cr>",                         desc = "Open alt file in vertical split" },
             { "<leader>lgtu", "<cmd>GoTestFunc<cr>",                      desc = "Run test for current func" },
             { "<leader>lgtf", "<cmd>GoTestFile<cr>",                      desc = "Run test for current file" },
-            { "<leader>lgx",  group = "Code Lens" },
             { "<leader>lgxl", "<cmd>GoCodeLenAct<cr>",                    desc = "Toggle Lens" },
             { "<leader>lgxa", "<cmd>GoCodeAction<cr>",                    desc = "Code Action" },
         }

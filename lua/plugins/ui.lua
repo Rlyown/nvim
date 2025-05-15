@@ -14,7 +14,6 @@ return {
                 end,
                 desc = "Diagnostics"
             },
-            { "<leader>x",  group = "Trouble" },
             { "<leader>xd", "<cmd>Trouble document_diagnostics<cr>",  desc = "Document Diagnostics" },
             { "<leader>xl", "<cmd>Trouble loclist",                   desc = "LocList" },
             { "<leader>xq", "<cmd>Trouble quickfix<cr>",              desc = "Quickfix" },
@@ -325,7 +324,6 @@ return {
             highlights = require("catppuccin.groups.integrations.bufferline").get(),
         },
         keys = {
-            { "<leader>B",  group = "BufferLine" },
             { "<leader>Bc", "<cmd>BufferLineGroupClose<cr>",      desc = "Close Group Buffers" },
             { "<leader>Bd", "<cmd>BufferLineSortByDirectory<cr>", desc = "Sort By Directory" },
             { "<leader>Be", "<cmd>BufferLineSortByExtension<cr>", desc = "Sort By Extensions" },

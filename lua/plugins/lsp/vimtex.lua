@@ -147,7 +147,6 @@ return {
         ft = { "tex", "bib" },
         lazy = true,
         keys = {
-            { "<leader>lt",  group = "Latex" },
             { "<leader>lti", "<plug>(vimtex-info)",           desc = "Info" },
             { "<leader>ltI", "<plug>(vimtex-info-full)",      desc = "Info Full" },
             { "<leader>ltt", "<plug>(vimtex-toc-open)",       desc = "Toc Open" },

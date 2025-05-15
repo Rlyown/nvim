@@ -150,6 +150,23 @@ autocmd("BufRead", {
 autocmd('LspAttach', {
     group = _custom_lsp,
     callback = function(args)
+        vim.diagnostic.config({
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = "",
+                    [vim.diagnostic.severity.WARN] = "",
+                    [vim.diagnostic.severity.INFO] = "󰋼",
+                    [vim.diagnostic.severity.HINT] = "󰌵",
+                },
+            },
+            underline = true,
+            severity_sort = true,
+            float = {
+                border = "rounded",
+                source = true,
+            },
+        })
+
         local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
         -- Set autocommands conditional on server_capabilities

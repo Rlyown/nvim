@@ -49,39 +49,6 @@ return {
     {
         "neovim/nvim-lspconfig", -- enable LSP
         config = function()
-            vim.diagnostic.config({
-                -- disable virtual text
-                virtual_text = false,
-                -- show signs
-                signs = {
-                    active = {
-                        { name = "DiagnosticSignError", text = "" },
-                        { name = "DiagnosticSignWarn", text = "" },
-                        { name = "DiagnosticSignHint", text = "" },
-                        { name = "DiagnosticSignInfo", text = "" },
-                    },
-                },
-                update_in_insert = true,
-                underline = true,
-                severity_sort = true,
-                float = {
-                    focusable = false,
-                    style = "minimal",
-                    border = "rounded",
-                    source = true,
-                    header = "",
-                    prefix = "",
-                },
-            })
-
-            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-                border = "rounded",
-            })
-
-            vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-                border = "rounded",
-            })
-
             local function get_config_path(server_name)
                 return string.format("plugins.lsp.settings.%s", server_name)
             end
@@ -106,43 +73,11 @@ return {
                 desc = "Goto definition"
             },
             {
-                'K',
-                vim.lsp.buf.hover,
-                desc = "Hover documentation"
-            },
-            {
-                'gi',
-                vim.lsp.buf.implementation,
-                desc = "Goto implementation"
-            },
-            {
-                'gh',
-                vim.lsp.buf.signature_help,
-                desc = "Show signature help"
-            },
-            {
-                'gR',
-                vim.lsp.buf.rename,
-                desc = "Rename symbol"
-            },
-            {
-                'gr',
+                'grr',
                 function()
                     require("trouble").toggle('lsp_references')
                 end,
                 desc = "Show references"
-            },
-            {
-                'ga',
-                vim.lsp.buf.code_action,
-                desc = "Code actions"
-            },
-            {
-                '[d',
-                function()
-                    vim.diagnostic.jump({ count = -1, float = true, border = "rounded" })
-                end,
-                desc = "Previous diagnostic"
             },
             {
                 'gl',
@@ -152,14 +87,19 @@ return {
                 desc = "Show diagnostic"
             },
             {
+                '[d',
+                function()
+                    vim.diagnostic.jump({ count = -1, float = true, border = "rounded" })
+                end,
+                desc = "Previous diagnostic"
+            },
+            {
                 ']d',
                 function()
                     vim.diagnostic.jump({ count = 1, float = true, border = "rounded" })
                 end,
                 desc = "Next diagnostic"
             },
-
-            { "<leader>L",  group = "LSP" },
             {
                 "<leader>Lf",
                 function() vim.lsp.buf.format({ async = false }) end,
@@ -225,9 +165,7 @@ return {
             },
 
             -- Language
-            { "<leader>l",   group = "Language" },
             -- C/C++
-            { "<leader>lc",  group = "C/C++" },
             { "<leader>lct", "<cmd>edit .clang-tidy<cr>",   desc = "Clang Tidy", },
             { "<leader>lcf", "<cmd>edit .clang-format<cr>", desc = "Clang Format" },
         },

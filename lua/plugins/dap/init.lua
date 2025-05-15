@@ -121,10 +121,6 @@ return {
             end
         end,
         keys = {
-            {
-                "<leader>d",
-                group = "Dugger"
-            },
             { "<leader>da", ":RunScriptWithArgs ",                                                                       desc = "Run with Args", },
             {
                 '<Leader>dc',

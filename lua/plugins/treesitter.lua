@@ -33,6 +33,7 @@ return {
                     "gosum",
                     "gowork",
                     "gotmpl",
+                    "html",
                     "json",
                     "json5",
                     "jsonc",

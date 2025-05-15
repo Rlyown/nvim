@@ -180,7 +180,6 @@ return {
                 desc = "Git Status"
             },
 
-            { "<leader>s",  group = "Search" },
             { "<leader>sc", function() require('telescope.builtin').commands() end,    desc = "Commands" },
             { "<leader>sC", function() require('telescope.builtin').colorscheme() end, desc = "Colorscheme" },
             { "<leader>sh", function() require('telescope.builtin').help_tags() end,   desc = "Find Help" },
@@ -255,7 +254,6 @@ return {
         end,
         lazy = true,
         keys = {
-            { "<leader>sd", group = "Dap" },
             {
                 "<leader>sdc",
                 function() require 'telescope'.extensions.dap.commands {} end,

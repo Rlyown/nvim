@@ -29,7 +29,6 @@ return {
         cmd = "SessionManager",
         lazy = true,
         keys = {
-            { "<leader>P",  group = "Session" },
             { "<leader>Pc", "<cmd>SessionManager load_current_dir_session<cr>", desc = "Load Current Dirtectory" },
             { "<leader>Pd", "<cmd>SessionManager delete_session<cr>",           desc = "Delete Session" },
             { "<leader>Pl", "<cmd>SessionManager load_last_session<cr>",        desc = "Last Session" },
@@ -175,10 +174,30 @@ return {
             disable = {
                 ft = { "TelescopePrompt", "spectre_panel" },
             },
+            spec = {
+                { "<leader><leader>", group = "Ext" },
+                { "<leader>a",        group = "AI-Assistant" },
+                { "<leader>d",        group = "Dugger" },
+                { "<leader>g",        group = "Git" },
+                { "<leader>l",        group = "Language" },
+                { "<leader>lc",       group = "C/C++" },
+                { "<leader>lg",       group = "Golang" },
+                { "<leader>lr",       group = "Rust" },
+                { "<leader>lrc",      group = "Crates" },
+                { "<leader>lt",       group = "Latex" },
+                { "<leader>lgh",      group = "Helper" },
+                { "<leader>lgt",      group = "Tests" },
+                { "<leader>lgx",      group = "Code Lens" },
+                { "<leader>L",        group = "LSP" },
+                { "<leader>P",        group = "Session" },
+                { "<leader>s",        group = "Search" },
+                { "<leader>sd",       group = "Dap" },
+                { "<leader>t",        group = "Terminal" },
+                { "<leader>ts",       group = "Specific" },
+                { "<leader>x",        group = "Trouble" },
+                { "<leader>B",        group = "BufferLine" },
+            },
         },
-        keys = {
-            { "<leader><leader>", group = "Ext" },
-        }
     }, -- Create key bindings that stick.
     {
         "anuvyklack/hydra.nvim",
