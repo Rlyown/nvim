@@ -220,17 +220,11 @@ For more detail refer to [usage of tmux.nvim](https://github.com/aserowy/tmux.nv
 
 ## Latex Integration
 
-If you want to use latex, you can install [Skim](https://skim-app.sourceforge.io/) and [VimTeX](https://github.com/lervag/vimtex).
+If you want to use latex, you can install [texshop](https://pages.uoregon.edu/koch/texshop/) and [VimTeX](https://github.com/lervag/vimtex).
 VimTex has been installed by default. It only will be activated when executable `latexmk` be detected.
-You can install Skim with `brew install --cask skim`, and install Tex Live with `brew install --cask mactex-no-gui` in MacOS.
+You can install Tex Live with `brew install --cask mactex-no-gui` in MacOS.
 
 For more detail refer to [Setting Up a PDF Reader for Writing LaTeX with Vim](https://www.ejmastnak.com/tutorials/vim-latex/pdf-reader/).
-
-## Different Input Method
-
-In my configuration, [ZFVimIM](https://github.com/ZSaberLv0/ZFVimIM) has been installed by default to support Chinese. You can just press `;;` to switch between English and Chinese without changing input method on your computer or remote server.
-
-For more detail or other languages refer to [ZFVimIM](https://github.com/ZSaberLv0/ZFVimIM).
 
 ## Test Startup
 

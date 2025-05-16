@@ -154,24 +154,6 @@ autocmd('LspAttach', {
 
         local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
-        -- Set autocommands conditional on server_capabilities
-        if client:supports_method("textDocument/documentHighlight ") then
-            autocmd("CursorHold", {
-                group = _custom_lsp,
-                buffer = args.buf,
-                callback = function()
-                    vim.lsp.buf.document_highlight()
-                end
-            })
-            autocmd("CursorMoved", {
-                group = _custom_lsp,
-                buffer = args.buf,
-                callback = function()
-                    vim.lsp.buf.clear_references()
-                end
-            })
-        end
-
         -- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
         -- if client:supports_method('textDocument/completion') then
         --     -- Optional: trigger autocompletion on EVERY keypress. May be slow!

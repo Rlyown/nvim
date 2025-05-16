@@ -89,6 +89,7 @@ return {
             { "<leader>gf", function() Snacks.picker.git_log_file() end,          desc = "Git Log File" },
 
             { "<leader>sn", function() Snacks.picker.notifications() end,         desc = "Notification History" },
+            { "<leader>sN", function() Snacks.notifier.show_history() end,        desc = "Notifier History" },
             { '<leader>s"', function() Snacks.picker.registers() end,             desc = "Registers" },
             { '<leader>s/', function() Snacks.picker.search_history() end,        desc = "Search History" },
             { "<leader>sa", function() Snacks.picker.autocmds() end,              desc = "Autocmds" },
