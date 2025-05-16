@@ -74,63 +74,54 @@ autocmd("FileType", {
     command = "set nobuflisted",
 })
 
-augroup("_CUSTOM_git", { clear = true })
+
+local _custom_text = augroup("_CUSTOM_text", { clear = true })
 autocmd("FileType", {
-    group = "_CUSTOM_git",
+    group = _custom_text,
     pattern = "gitcommit",
     command = "setlocal wrap",
 })
 autocmd("FileType", {
-    group = "_CUSTOM_git",
+    group = _custom_text,
     pattern = "gitcommit",
     command = "setlocal spell",
 })
-
-augroup("_CUSTOM_text", { clear = true })
 autocmd("FileType", {
-    group = "_CUSTOM_text",
+    group = _custom_text,
     pattern = "norg",
     callback = function()
-        vim.api.nvim_buf_set_option(0, "shiftwidth", 2)
-        vim.api.nvim_buf_set_option(0, "tabstop", 2)
+        vim.api.nvim_set_option_value("shiftwidth", 2, { buf = 0 })
+        vim.api.nvim_set_option_value("tabstop", 2, { buf = 0 })
     end,
 })
 autocmd("FileType", {
-    group = "_CUSTOM_text",
-    pattern = { "norg", "markdown" },
+    group = _custom_text,
+    pattern = "markdown",
     callback = function()
         vim.opt_local.conceallevel = 3
     end,
 })
 autocmd("FileType", {
-    group = "_CUSTOM_text",
-    pattern = { "norg", "markdown", "tex" },
+    group = _custom_text,
+    pattern = { "markdown", "tex" },
     command = "setlocal wrap",
 })
 autocmd("FileType", {
-    group = "_CUSTOM_text",
-    pattern = { "norg", "markdown", "tex" },
+    group = _custom_text,
+    pattern = { "markdown", "tex" },
     command = "setlocal spell",
 })
 
-augroup("_CUSTOM_auto_resize", { clear = true })
+local _custom_auto_resize = augroup("_CUSTOM_auto_resize", { clear = true })
 autocmd("VimResized", {
-    group = "_CUSTOM_auto_resize",
+    group = _custom_auto_resize,
     pattern = "*",
     callback = function()
         require("bufresize").resize()
     end,
 })
 
-augroup("_CUSTOM_alpha", { clear = true })
-autocmd("User", {
-    group = "_CUSTOM_alpha",
-    pattern = "AlphaReady",
-    command = "set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2",
-})
-
 local _custom_lsp = augroup("_CUSTOM_lsp", { clear = true })
--- Issue: https://github.com/nvim-telescope/telescope.nvim/issues/559
 autocmd("BufRead", {
     group = _custom_lsp,
     pattern = "*",
@@ -141,12 +132,6 @@ autocmd("BufRead", {
         })
     end,
 })
--- Question: https://superuser.com/questions/567352/how-can-i-set-foldlevelstart-in-vim-to-just-fold-nothing-initially-still-allowi
--- autocmd("BufWinEnter", {
--- 	group = "_CUSTOM_lsp",
--- 	pattern = "*",
--- 	command = [[ let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)')) ]],
--- })
 autocmd('LspAttach', {
     group = _custom_lsp,
     callback = function(args)
@@ -221,27 +206,9 @@ autocmd('LspAttach', {
     end,
 })
 
--- augroup("_CUSTOM_auto_close", { clear = true })
--- autocmd("WinClosed", {
---     group = "_CUSTOM_auto_close",
---     callback = function()
---         local winnr = tonumber(vim.fn.expand("<amatch>"))
---         vim.schedule_wrap(tab_win_closed(winnr))
---     end,
---     nested = true,
--- })
-
--- stop snippets when you leave to normal mode
--- augroup("_CUSTOM_luasnip", { clear = true })
--- autocmd("ModeChanged", {
---     group = "_CUSTOM_luasnip",
---     pattern = "*",
---     callback = leave_snippet,
--- })
-
-augroup("_CUSTOM_terminal", { clear = true })
+local _custom_terminal = augroup("_CUSTOM_terminal", { clear = true })
 autocmd("TermOpen", {
-    group = "_CUSTOM_terminal",
+    group = _custom_terminal,
     pattern = { "term://*" },
     callback = function()
         set_terminal_keymaps()
@@ -249,7 +216,7 @@ autocmd("TermOpen", {
     end,
 })
 autocmd("FileType", {
-    group = "_CUSTOM_terminal",
+    group = _custom_terminal,
     pattern = { "dapui_console" },
     callback = function()
         set_terminal_keymaps()
@@ -257,86 +224,18 @@ autocmd("FileType", {
     end,
 })
 
-augroup("_CUSTOM_compile", { clear = true })
--- Create an autocmd User PackerCompileDone to update it every time packer is compiled
+local _custom_snacks = augroup("_CUSTOM_snacks", { clear = true })
+local prev = { new_name = "", old_name = "" } -- Prevents duplicate events
 autocmd("User", {
-    group = "_CUSTOM_compile",
-    pattern = "LazyDone",
+    group = _custom_snacks,
+    pattern = "NvimTreeSetup",
     callback = function()
-        require("catppuccin").compile() -- Catppuccin also provide a function to work with the catppuccin compiler.
-
-        vim.defer_fn(function()
-            vim.cmd("colorscheme catppuccin")
-        end, 50) -- Debounced for live reloading
-    end,
-})
-vim.api.nvim_create_autocmd("BufWritePost", {
-    pattern = { "catppuccin.lua" },
-    callback = function()
-        require("catppuccin").compile() -- Catppuccin also provide a function to work with the catppuccin compiler.
-    end,
-})
-
-augroup("_CUSTOM_VimIM", { clear = true })
-autocmd("User", {
-    group = "_CUSTOM_VimIM",
-    pattern = "ZFVimIM_event_OnEnable",
-    callback = function()
-        require("noice").cmd("disable")
-    end,
-})
-autocmd("User", {
-    group = "_CUSTOM_VimIM",
-    pattern = "ZFVimIM_event_OnDisable",
-    callback = function()
-        require("noice").cmd("enable")
-    end,
-})
-
-local function disable_lsp(bufnr)
-    vim.api.nvim_create_autocmd({ "LspAttach" }, {
-        buffer = bufnr,
-        callback = function(args)
-            vim.schedule(function()
-                vim.lsp.buf_detach_client(bufnr, args.data.client_id)
-            end)
-        end,
-    })
-end
-
-augroup("_CUSTOM_big_file", { clear = true })
-autocmd("BufReadPre", {
-    group = "_CUSTOM_big_file",
-    pattern = "*",
-    callback = function(args)
-        local disable_func = require("core.gfunc").fn.disable_check_buf
-        local bufnr = args.buf
-        if disable_func(bufnr) then
-            vim.cmd("IlluminatePauseBuf")
-            vim.cmd("TSContextDisable")
-            local ok, indent_blankline = pcall(require, "indent_blankline.commands")
-            if ok then
-                indent_blankline.disable()
+        local events = require("nvim-tree.api").events
+        events.subscribe(events.Event.NodeRenamed, function(data)
+            if prev.new_name ~= data.new_name or prev.old_name ~= data.old_name then
+                data = data
+                Snacks.rename.on_rename_file(data.old_name, data.new_name)
             end
-        end
-
-        if (disable_func(bufnr, 5 * 1024 * 1024, 50000)) then
-            -- disable LSP
-            disable_lsp(bufnr)
-
-            -- disable syntax
-            vim.cmd "syntax clear"
-            vim.opt_local.syntax = "OFF"
-
-            -- disable filetype
-            vim.opt_local.filetype = ""
-
-            -- disable vim options
-            vim.opt_local.swapfile = false
-            vim.opt_local.foldmethod = "manual"
-            vim.opt_local.undolevels = -1
-            vim.opt_local.undoreload = 0
-            vim.opt_local.list = false
-        end
-    end
+        end)
+    end,
 })

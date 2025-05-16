@@ -114,26 +114,6 @@ return {
                         case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
                         -- the default case_mode is "smart_case"
                     },
-                    frecency = {
-                        show_scores = false,
-                        show_unindexed = true,
-                        ignore_patterns = { "*.git/*", "*/tmp/*" },
-                        disable_devicons = false,
-                        workspaces = {
-                            -- ["conf"]    = vim.fn.expand("~/.config"),
-                        },
-                        db_safe_mode = false,
-                    },
-                    dash = {
-                        -- your config here
-                    },
-                    undo = {
-                        side_by_side = true,
-                        layout_strategy = "vertical",
-                        layout_config = {
-                            preview_height = 0.7,
-                        },
-                    },
                 },
             })
         end,
@@ -141,53 +121,6 @@ return {
         cmd = "Telescope",
         dependencies = { "folke/trouble.nvim" },
         keys = {
-            {
-                "<leader>b",
-                function()
-                    require('telescope.builtin').buffers(require('telescope.themes').get_dropdown { previewer = false })
-                end,
-                desc = "Buffers",
-            },
-            {
-                "<leader>f",
-                function()
-                    require('telescope.builtin').find_files(require('telescope.themes').get_dropdown { previewer = false })
-                end,
-                desc = "Find files",
-            },
-            {
-                "<leader>F",
-                function() require('telescope.builtin').live_grep() end
-                ,
-                desc = "Find Text"
-            },
-            {
-                "<leader>gc",
-                function() require('telescope.builtin').git_branches() end,
-                mode = { "n", "x" },
-                desc = "Git Branches"
-            },
-            {
-                "<leader>gC",
-                function() require('telescope.builtin').git_commits() end,
-                mode = { "n", "x" },
-                desc = "Git Commits"
-            },
-            {
-                "<leader>go",
-                function() require('telescope.builtin').git_status() end,
-                mode = { "n", "x" },
-                desc = "Git Status"
-            },
-
-            { "<leader>sc", function() require('telescope.builtin').commands() end,    desc = "Commands" },
-            { "<leader>sC", function() require('telescope.builtin').colorscheme() end, desc = "Colorscheme" },
-            { "<leader>sh", function() require('telescope.builtin').help_tags() end,   desc = "Find Help" },
-            { "<leader>sk", function() require('telescope.builtin').keymaps() end,     desc = "Keymaps" },
-            { "<leader>sm", function() require('telescope.builtin').man_pages() end,   desc = "Man Pages" },
-            { "<leader>sr", function() require('telescope.builtin').oldfiles() end,    desc = "Open Recent File" },
-            { "<leader>sR", function() require('telescope.builtin').registers() end,   desc = "Registers" },
-            { "<leader>st", function() require('telescope.builtin').tags() end,        desc = "Tags" },
         }
     }, -- Find, Filter, Preview, Pick.
     {
@@ -198,29 +131,6 @@ return {
             require("telescope").load_extension("fzf")
         end,
     }, -- FZF sorter for telescope
-    {
-        "nvim-telescope/telescope-frecency.nvim",
-        dependencies = { "kkharji/sqlite.lua" },
-        lazy = true,
-        config = function()
-            require("telescope").load_extension("frecency")
-        end,
-    }, -- offers intelligent prioritization
-    {
-        "debugloop/telescope-undo.nvim",
-        config = function()
-            require("telescope").load_extension("undo")
-            -- optional: vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
-        end,
-        lazy = true,
-        keys = {
-            {
-                "<leader>u",
-                function() require('telescope').extensions.undo.undo() end,
-                desc = "Undotree"
-            },
-        }
-    },
     {
         "AckslD/nvim-neoclip.lua",
         dependencies = {

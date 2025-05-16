@@ -4,10 +4,6 @@ return {
         config = function()
             local dap = require("dap")
 
-            -- setup adapter and language
-
-            require("plugins.dap.settings.codelldb") -- for C/Cpp/Rust
-
             -- Set up keybindings
             vim.api.nvim_create_user_command("RunScriptWithArgs", function(t)
                 -- :help nvim_create_user_command
@@ -116,8 +112,6 @@ return {
                         })
                     notif_data.spinner = nil
                 end
-
-                require("telescope").load_extension("dap")
             end
         end,
         keys = {
@@ -152,7 +146,37 @@ return {
             {
                 "<leader>ds",
                 function()
-                    require("hydra").spawn("dap-hydra")
+                    local Hydra = require("hydra")
+                    local dap_hydra = Hydra({
+                        name = "Debug Adapter Protocol",
+                        mode = { "n" },
+                        body = "<leader>ds",
+                        hint = [[
+_c_: continue
+_n_: next
+_o_: step out
+_i_: step into
+_q_: terminate
+_<esc>_
+            ]],
+                        config = {
+                            color = "pink",
+                            hint = {
+                                position = "middle-right",
+                                border = "rounded",
+                            },
+                        },
+                        heads = {
+                            { 'c',     function() require('dap').continue() end, },
+                            { 'n',     function() require('dap').step_over() end, },
+                            { 'o',     function() require('dap').step_into() end, },
+                            { 'i',     function() require('dap').step_out() end, },
+                            { 'q',     function() require('dap').terminate() end, { exit = true } },
+                            { '<esc>', nil,                                       { exit = true, nowait = true } },
+                        }
+                    })
+
+                    dap_hydra:activate()
                 end,
                 desc = "Step Mode",
             },
@@ -163,7 +187,6 @@ return {
         'theHamsta/nvim-dap-virtual-text',
         dependencies = { 'mfussenegger/nvim-dap' },
         config = true,
-        lazy = true,
     },
     {
         "rcarriga/nvim-dap-ui",
@@ -183,15 +206,8 @@ return {
             dap.listeners.before.event_exited.dapui_config = function()
                 dapui.close()
             end
-            require("plugins.dap.utils").dap_signs_scheme(3)
+            require("plugins.lsp.utils").dap_signs_scheme(3)
         end,
-        lazy = true,
     },
     { "LiadOz/nvim-dap-repl-highlights" },
-    {
-        "mfussenegger/nvim-dap-python",
-        config = function()
-            require("dap-python").setup(vim.fn.stdpath('data') .. '/mason/packages/debugpy/venv/bin/python')
-        end,
-    },
 }

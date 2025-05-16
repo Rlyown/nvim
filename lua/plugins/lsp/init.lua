@@ -50,7 +50,7 @@ return {
         "neovim/nvim-lspconfig", -- enable LSP
         config = function()
             local function get_config_path(server_name)
-                return string.format("plugins.lsp.settings.%s", server_name)
+                return string.format("plugins.lsp.lsp_configs.%s", server_name)
             end
 
             for _, server_name in pairs(LSP_SERVERS) do
@@ -75,7 +75,7 @@ return {
             {
                 'grr',
                 function()
-                    require("trouble").toggle('lsp_references')
+                    require("trouble").toggle('lsp_refesences')
                 end,
                 desc = "Show references"
             },
@@ -138,30 +138,9 @@ return {
                 desc = "Prev Diagnostic",
             },
             {
-                "<leader>Lq",
-                function()
-                    require('telescope.builtin').diagnostics()
-                end,
-                desc = "Diagnostic"
-            },
-            {
                 "<leader>LR",
                 vim.lsp.buf.rename,
                 desc = "Rename"
-            },
-            {
-                "<leader>Ls",
-                function()
-                    require('telescope.builtin').lsp_document_symbols()
-                end,
-                desc = "Document Symbols"
-            },
-            {
-                "<leader>LS",
-                function()
-                    require('telescope.builtin').lsp_dynamic_workspace_symbols()
-                end,
-                desc = "Workspace Symbols",
             },
 
             -- Language
@@ -293,9 +272,13 @@ return {
     }, -- A tree like view for symbols
     { "andymass/vim-matchup",       lazy = true, keys = { "%" } },
 
+    -- debugging
+    { import = "plugins.lsp.dap" },
 
     -- languages
     { import = "plugins.lsp.vimtex" },
     { import = "plugins.lsp.go" },
     { import = "plugins.lsp.rust" },
+    { import = "plugins.lsp.python" },
+    { import = "plugins.lsp.cxx" },
 }

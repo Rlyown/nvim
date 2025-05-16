@@ -1,5 +1,120 @@
--- TODO: https://github.com/folke/snacks.nvim
 return {
+    {
+        "folke/snacks.nvim",
+        priority = 1000,
+        lazy = false,
+        ---@type snacks.Config
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+            bigfile = { enabled = true, },
+            dashboard = {
+                sections = {
+                    { section = "header" },
+                    { section = "keys", gap = 1, padding = 2 },
+                    { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 2 },
+                    { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 2 },
+                    { section = "startup" },
+                },
+            },
+            explorer = { enabled = false },
+            indent = { enabled = true },
+            input = { enabled = true },
+            picker = { enabled = true },
+            notifier = { enabled = true },
+            quickfile = { enabled = true },
+            scope = { enabled = true },
+            scroll = { enabled = true },
+            statuscolumn = { enabled = true },
+            words = { enabled = true },
+        },
+        keys = {
+            {
+                "<leader>c",
+                function()
+                    local toggleterm_pattern = "^term://.*#toggleterm#%d+"
+                    if string.find(vim.fn.bufname(), toggleterm_pattern) then
+                        vim.cmd("bdelete!")
+                    else
+                        Snacks.bufdelete(0)
+                    end
+                end,
+                desc = "Close Buffer"
+            },
+            {
+                "gs",
+                function()
+                    Snacks.words.jump(1, true)
+                end,
+                desc = "Next LSP Symbol"
+            },
+            {
+                "<leader>b",
+                function()
+                    Snacks.picker.buffers({})
+                end,
+                desc = "Buffers",
+            },
+            {
+                "<leader>f",
+                function()
+                    Snacks.picker.smart({
+                        layout = {
+                            preset = "dropdown",
+                            preview = false,
+                            layout = {
+                                height = 0.4
+                            }
+                        }
+                    })
+                end,
+                desc = "Find files",
+            },
+            {
+                "<leader>F",
+                function()
+                    Snacks.picker.grep({
+                        layout = { preset = "bottom" }
+                    })
+                end,
+                desc = "Find Text"
+            },
+            { "<leader>gc", function() Snacks.picker.git_branches() end,          desc = "Git Branches" },
+            { "<leader>gl", function() Snacks.picker.git_log() end,               desc = "Git Log" },
+            { "<leader>gL", function() Snacks.picker.git_log_line() end,          desc = "Git Log Line" },
+            { "<leader>go", function() Snacks.picker.git_status() end,            desc = "Git Status" },
+            { "<leader>ga", function() Snacks.picker.git_stash() end,             desc = "Git Stash" },
+            { "<leader>gD", function() Snacks.picker.git_diff() end,              desc = "Git Diff (Hunks)" },
+            { "<leader>gf", function() Snacks.picker.git_log_file() end,          desc = "Git Log File" },
+
+            { "<leader>sn", function() Snacks.picker.notifications() end,         desc = "Notification History" },
+            { '<leader>s"', function() Snacks.picker.registers() end,             desc = "Registers" },
+            { '<leader>s/', function() Snacks.picker.search_history() end,        desc = "Search History" },
+            { "<leader>sa", function() Snacks.picker.autocmds() end,              desc = "Autocmds" },
+            { "<leader>sb", function() Snacks.picker.lines() end,                 desc = "Buffer Lines" },
+            { "<leader>sc", function() Snacks.picker.command_history() end,       desc = "Command History" },
+            { "<leader>sC", function() Snacks.picker.commands() end,              desc = "Commands" },
+            { "<leader>sd", function() Snacks.picker.diagnostics() end,           desc = "Diagnostics" },
+            { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end,    desc = "Buffer Diagnostics" },
+            { "<leader>sh", function() Snacks.picker.help() end,                  desc = "Help Pages" },
+            { "<leader>sH", function() Snacks.picker.highlights() end,            desc = "Highlights" },
+            { "<leader>si", function() Snacks.picker.icons() end,                 desc = "Icons" },
+            { "<leader>sj", function() Snacks.picker.jumps() end,                 desc = "Jumps" },
+            { "<leader>sk", function() Snacks.picker.keymaps() end,               desc = "Keymaps" },
+            { "<leader>sl", function() Snacks.picker.loclist() end,               desc = "Location List" },
+            { "<leader>sm", function() Snacks.picker.marks() end,                 desc = "Marks" },
+            { "<leader>sM", function() Snacks.picker.man() end,                   desc = "Man Pages" },
+            { "<leader>sp", function() Snacks.picker.lazy() end,                  desc = "Search for Plugin Spec" },
+            { "<leader>sq", function() Snacks.picker.qflist() end,                desc = "Quickfix List" },
+            { "<leader>sR", function() Snacks.picker.resume() end,                desc = "Resume" },
+            { "<leader>su", function() Snacks.picker.undo() end,                  desc = "Undo History" },
+            { "<leader>uC", function() Snacks.picker.colorschemes() end,          desc = "Colorschemes" },
+
+            { "<leader>ss", function() Snacks.picker.lsp_symbols() end,           desc = "LSP Symbols" },
+            { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+        }
+    },
     { "norcalli/nvim-colorizer.lua", config = true, cmd = "ColorizerToggle", lazy = true },
     {
         "folke/trouble.nvim",
@@ -14,12 +129,6 @@ return {
                 end,
                 desc = "Diagnostics"
             },
-            { "<leader>xd", "<cmd>Trouble document_diagnostics<cr>",  desc = "Document Diagnostics" },
-            { "<leader>xl", "<cmd>Trouble loclist",                   desc = "LocList" },
-            { "<leader>xq", "<cmd>Trouble quickfix<cr>",              desc = "Quickfix" },
-            { "<leader>xr", "<cmd>Trouble lsp_references<cr>",        desc = "References" },
-            { "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", desc = "Workspace Diagnostics" },
-            { "<leader>xx", "<cmd>Trouble<cr>",                       desc = "Trouble" },
         },
 
     }, -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing
@@ -54,11 +163,7 @@ return {
         config = function()
             require('illuminate').configure()
         end
-    }, -- Highlight other uses of the word under the cursor
-    {
-        "karb94/neoscroll.nvim",
-        opts = {}
-    },
+    },                                              -- Highlight other uses of the word under the cursor
     { "nvim-tree/nvim-web-devicons", lazy = true }, -- a lua fork from vim-devicons
     {
         "nvim-tree/nvim-tree.lua",
@@ -245,7 +350,7 @@ return {
                     use_system_clipboard = true,
                     change_dir = {
                         enable = true,
-                        global = false,
+                        global = true,
                         restrict_above_cwd = false,
                     },
                     open_file = {
@@ -287,10 +392,10 @@ return {
             options = {
                 numbers = "none", -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
                 close_command = function(bufnum)
-                    require("bufdelete").bufdelete(bufnum, true)
+                    Snacks.bufdelete(bufnum)
                 end,
                 right_mouse_command = function(bufnum)
-                    require("bufdelete").bufdelete(bufnum, true)
+                    Snacks.bufdelete(bufnum)
                 end,
                 left_mouse_command = "buffer %d", -- can be a string | function, see "Mouse actions"
                 middle_mouse_command = nil, -- can be a string | function, see "Mouse actions"
@@ -330,7 +435,6 @@ return {
             { "<leader>Bp", "<cmd>BufferLineTogglePin<cr>",       desc = "Pin" },
             { "<leader>Bt", "<cmd>BufferLineGroupToggle<cr>",     desc = "Group Toggle" },
             { "<leader>BT", "<cmd>BufferLineSortByTabs<cr>",      desc = "Sort by Tabs" },
-            { "gw",         "<cmd>BufferLinePick<cr>",            desc = "Pick Buffer" },
         },
         lazy = false
     }, -- buffer line plugin
@@ -561,26 +665,6 @@ return {
         end
     }, -- statusline plugin
     {
-        "lukas-reineke/indent-blankline.nvim",
-        main = "ibl",
-        opts = {
-            exclude = {
-                filetypes = {
-                    "Outline",
-                    "help",
-                    "startify",
-                    "dashboard",
-                    "packer",
-                    "neogitstatus",
-                    "NvimTree",
-                    "Trouble",
-                    "undotree",
-                    "checkhealth",
-                },
-            }
-        },
-    }, -- Indent guides for Neovim
-    {
         "SmiteshP/nvim-navic",
         dependencies = { "neovim/nvim-lspconfig" },
         config = function()
@@ -601,200 +685,6 @@ return {
         end,
         lazy = true
     }, -- shows your current code context
-    -- lazy.nvim
-    {
-        "stevearc/dressing.nvim",
-        config = function()
-            local dressing = require("dressing")
-
-            local themes = require("telescope.themes")
-
-            dressing.setup({
-                input = {
-                    -- Set to false to disable the vim.ui.input implementation
-                    enabled = true,
-
-                    -- Default prompt string
-                    default_prompt = "Input:",
-
-                    -- Can be 'left', 'right', or 'center'
-                    prompt_align = "left",
-
-                    -- When true, <Esc> will close the modal
-                    insert_only = true,
-
-                    -- These are passed to nvim_open_win
-                    border = "rounded",
-                    -- 'editor' and 'win' will default to being centered
-                    relative = "cursor",
-
-                    -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-                    prefer_width = 40,
-                    width = nil,
-                    -- min_width and max_width can be a list of mixed types.
-                    -- min_width = {20, 0.2} means "the greater of 20 columns or 20% of total"
-                    max_width = { 140, 0.9 },
-                    min_width = { 20, 0.2 },
-
-                    override = function(conf)
-                        -- This is the config that will be passed to nvim_open_win.
-                        -- Change values here to customize the layout
-                        return conf
-                    end,
-
-                    -- see :help dressing_get_config
-                    get_config = function(opts)
-                        if opts.kind == "center" then
-                            return {
-                                relative = "editor",
-                            }
-                        end
-                    end,
-                },
-                select = {
-                    -- Set to false to disable the vim.ui.select implementation
-                    enabled = true,
-
-                    -- Priority list of preferred vim.select implementations
-                    backend = { "telescope", "builtin" },
-
-                    -- Options for telescope selector
-                    -- These are passed into the telescope picker directly. Can be used like:
-                    -- telescope = require('telescope.themes').get_ivy({...})
-                    telescope = themes.get_dropdown({
-                        previewer = false,
-                    }),
-
-                    -- Options for fzf selector
-                    -- fzf = {
-                    -- 	window = {
-                    -- 		width = 0.5,
-                    -- 		height = 0.4,
-                    -- 	},
-                    -- },
-
-                    -- Options for fzf_lua selector
-                    -- fzf_lua = {
-                    -- 	winopts = {
-                    -- 		width = 0.5,
-                    -- 		height = 0.4,
-                    -- 	},
-                    -- },
-
-                    -- Options for nui Menu
-                    -- nui = {
-                    -- 	position = "50%",
-                    -- 	size = nil,
-                    -- 	relative = "editor",
-                    -- 	border = {
-                    -- 		style = "rounded",
-                    -- 	},
-                    -- 	max_width = 80,
-                    -- 	max_height = 40,
-                    -- },
-
-                    -- Options for built-in selector
-                    builtin = {
-                        -- These are passed to nvim_open_win
-                        border = "rounded",
-                        -- 'editor' and 'win' will default to being centered
-                        relative = "editor",
-
-                        -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-                        -- the min_ and max_ options can be a list of mixed types.
-                        -- max_width = {140, 0.8} means "the lesser of 140 columns or 80% of total"
-                        width = nil,
-                        max_width = { 140, 0.8 },
-                        min_width = { 40, 0.2 },
-                        height = nil,
-                        max_height = 0.9,
-                        min_height = { 10, 0.2 },
-
-                        override = function(conf)
-                            -- This is the config that will be passed to nvim_open_win.
-                            -- Change values here to customize the layout
-                            return conf
-                        end,
-                    },
-
-                    -- Used to override format_item. See :help dressing-format
-                    format_item_override = {},
-
-                    -- see :help dressing_get_config
-                    get_config = nil,
-                },
-            })
-        end
-    }, -- Neovim plugin to improve the default vim.ui interfaces
-    {
-        "rcarriga/nvim-notify",
-        config = function()
-            require("notify").setup({
-                -- Minimum level to show
-                level = "info",
-
-                -- Animation style (see below for details)
-                stages = "fade_in_slide_out",
-
-                -- Function called when a new window is opened, use for changing win settings/config
-                on_open = function(win)
-                    -- enable wrap line
-                    vim.fn.setwinvar(win, "&wrap", 1)
-                end,
-
-                -- Function called when a window is closed
-                on_close = nil,
-
-                -- Render function for notifications. See notify-render()
-                render = "wrapped-compact",
-
-                -- Default timeout for notifications
-                timeout = 1500,
-
-                -- Max number of columns for messages
-                max_width = 50,
-                -- Max number of lines for a message
-                max_height = 40,
-
-                -- For stages that change opacity this is treated as the highlight behind the window
-                -- Set this to either a highlight group, an RGB hex value e.g. "#000000" or a function returning an RGB code for dynamic values
-                background_colour = "Normal",
-
-                -- Minimum width for notification windows
-                minimum_width = 50,
-
-                -- Icons for the different levels
-                icons = {
-                    ERROR = " ",
-                    WARN = " ",
-                    INFO = " ",
-                    DEBUG = " ",
-                    TRACE = "✎ ",
-                },
-
-                top_down = true,
-            })
-
-            require("telescope").load_extension("notify")
-        end,
-        lazy = true,
-        keys = {
-            {
-                "<leader><leader>n",
-                function() require('notify').dismiss() end,
-                desc = "Dismiss Notifition"
-            },
-            {
-                "<leader>sn",
-                function()
-                    require('telescope').extensions.notify.notify(require('telescope.themes').get_dropdown({}))
-                end,
-                desc = "Notify",
-            },
-
-        }
-
-    }, -- A fancy, configurable, notification manager for NeoVim
     {
         "kwkarlwang/bufresize.nvim",
         lazy = true,
@@ -939,17 +829,11 @@ return {
                 },
                 routes = custom_routes,           --- @see section on routes
             })
-
-            require("telescope").load_extension("noice")
         end,
         dependencies = {
             "MunifTanjim/nui.nvim",
-            "rcarriga/nvim-notify",
         },
         event = "VeryLazy",
-        keys = {
-            { "<leader>sM", "<cmd>Telescope noice<cr>", desc = "Messages" },
-        }
     },
     {
         "andrewferrier/wrapping.nvim",

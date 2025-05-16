@@ -49,13 +49,7 @@ return {
             {
                 "<leader>tsG",
                 function()
-                    local Terminal = require("toggleterm.terminal").Terminal
-                    local lazygit = Terminal:new({
-                        cmd = [[VISUAL="nvim" EDITOR="nvim" lazygit]],
-                        hidden = true,
-                        direction = "float",
-                    })
-                    lazygit:toggle()
+                    Snacks.lazygit()
                 end,
                 desc = "Lazygit"
             },
