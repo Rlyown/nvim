@@ -3,14 +3,11 @@
 My neovim config is inspired by [LunarVim/Neovim-from-scratch](https://github.com/LunarVim/Neovim-from-scratch) repository.
 
 - ## [Nvim](#nvim)
-  - [Quick start](#quick-start)
   - [Install](#install)
   - [Check Health](#check-health)
   - [Keymaps](#keymaps)
-  - [Plugins](#plugins)
   - [Tmux Integration](#tmux-integration)
   - [Latex Integration](#latex-integration)
-  - [Different Input Method](#Different-Input-Method)
   - [Test Startup](#test-startup)
   - [Screenshot](#screenshot)
   - [Something Useful](#something-useful)
@@ -39,17 +36,6 @@ Configuration tree:
 
 This configuration mainly focus on programming with `C/Cpp`, `Golang`, `Rust` and `Python`.
 
-## Quick Start
-
-**WARNING**: The script uses the `Homebrew` to install dependencies. Please read it carefully before running it.
-
-```shell
-$ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
-$ cd ~/.config/nvim
-$ ./install.sh -i
-$ nvim
-```
-
 ## Install
 
 Make sure to remove or move your current `nvim` directory.
@@ -64,11 +50,8 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
 - [Neovim](https://neovim.io/)
 - [Lua](https://www.lua.org/) (for neovim runtime)
-- [Rust](https://www.rust-lang.org/tools/install) (for some installations of dependencies)
-- [Python3](https://www.python.org/downloads/) with [pip](https://pip.pypa.io/en/stable/installation/) and `venv` (for some plugins)
-- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) (for markdown preview plugin)
-- [Golang](https://go.dev/doc/install) 1.18 or higher (for some installations of dependencies and developments)
-- [Homebrew](https://brew.sh/) (for packages' installation in MacOS or Linux, **but only for single user**)
+- [Node](https://nodejs.org/en/download) (It's optional, if no needs to use mcphub)
+- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) (It's optional, if no needs to preview markdown (in browser))
 
 **Install with following Steps**:
 
@@ -81,14 +64,13 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   ```shell
   # Runtime
-  $ brew install neovim go python3 node@16 rust lua yarn npm
+  $ brew install neovim lua@5.1
 
   # Packages
   $ brew install ripgrep fd lazygit gnu-sed
 
   # Optional Packages
-  $ brew install fortune bear llvm pngpaste
-  $ npm install -g tree-sitter-cli
+  $ brew install bear pngpaste node yarn
 
   # If you want delete file to trash bin directory by nvim-tree
   $ brew install trash
@@ -114,20 +96,16 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   **NOTE**:
 
   ```shell
-  $ sudo snap install --classic nvim go rustup node
-  $ sudo apt install lua5.3 ripgrep fd-find
+  $ sudo snap install --classic nvim
+  $ sudo apt install lua5.1 ripgrep fd-find lazygit
 
   $ mkdir -p ~/.local/bin
   $ ln -s $(which fdfind) ~/.local/bin/fd
   $ export PATH=$HOME/.local/bin:$PATH
 
-  # Make sure `~/go/bin` in your $PATH
-  $ go install github.com/jesseduffield/lazygit@latest
-
-  $ cargo install exa bat tree-sitter-cli
-
   # Optional Packages
-  $ sudo apt install fortune bear xclip
+  $ npm install --global yarn
+  $ sudo apt install bear xclip nodejs
   ```
 
   _Nerd Fonts_ is needed to show icons. You can choose your favorite font or find icons in the [https://www.nerdfonts.com](https://www.nerdfonts.com).
@@ -159,9 +137,6 @@ $ nvim
 $ nvim --headless "+Lazy! sync" +qa
 # Or Synchronize all plugins with specific version
 $ nvim --headless "+Lazy! restore" +qa
-
-# create neorg default directory
-$ mkdir -p ~/.local/state/nvim/neorg-notes/work
 ```
 
 Congratulations, now start enjoying the powerful neovim!
@@ -179,10 +154,6 @@ You can see plugins' diagnose problems with your configuration or environment.
 ## Keymaps
 
 Leader key is comma(`,`) key. You can just press `<leader>` or `<leader><leader>` to see most keybindings.
-
-## Plugins
-
-See details in `lua/plugin/plugins.lua`
 
 ## Tmux Integration
 
