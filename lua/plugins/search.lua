@@ -135,9 +135,6 @@ return {
         "AckslD/nvim-neoclip.lua",
         dependencies = {
             { 'kkharji/sqlite.lua', module = 'sqlite' },
-            -- you'll need at least one of these
-            "nvim-telescope/telescope.nvim",
-            -- {'ibhagwan/fzf-lua'},
         },
         opts = {},
         lazy = true,
@@ -156,9 +153,7 @@ return {
     },
     {
         'nvim-telescope/telescope-dap.nvim',
-        dependencies = { "mfussenegger/nvim-dap",
-            "nvim-telescope/telescope.nvim",
-        },
+        dependencies = { "mfussenegger/nvim-dap" },
         config = function()
             require("telescope").load_extension("dap")
         end,

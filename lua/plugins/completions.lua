@@ -14,6 +14,7 @@ return {
             'rafamadriz/friendly-snippets',
             'Kaiser-Yang/blink-cmp-avante',
             "fang2hou/blink-copilot",
+            "micangl/cmp-vimtex",
         },
         version = '1.*',
         opts = {
@@ -81,6 +82,12 @@ return {
                         score_offset = 100,
                         async = true,
                     },
+                    vimtex = {
+                        name = 'vimtex',
+                        module = 'blink.compat.source',
+                        score_offset = -3,
+                        opts = {},
+                    }
                 },
             },
 

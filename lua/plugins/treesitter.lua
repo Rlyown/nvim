@@ -61,6 +61,13 @@ return {
                     "verilog",
                     "xml",
                     "yaml",
+                    -- "css",
+                    -- "javascript",
+                    -- "scss",
+                    -- "svelte",
+                    -- "tsx",
+                    -- "typst",
+                    -- "vue",
                 },                                      -- one of "all", or a list of languages
                 sync_install = false,                   -- install languages synchronously (only applied to `ensure_installed`)
                 ignore_install = { "swift", "phpdoc" }, -- List of parsers to ignore installing

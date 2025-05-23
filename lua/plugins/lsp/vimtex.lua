@@ -1,7 +1,7 @@
 return {
     {
         "lervag/vimtex",
-        config = function()
+        init = function()
             -- Not use texlab to replace with
             vim.g.vimtex_complete_enabled = 1
             vim.g.tex_flavor = "latex" -- Default tex file format
