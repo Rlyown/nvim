@@ -14,7 +14,7 @@ My neovim config is inspired by [LunarVim/Neovim-from-scratch](https://github.co
 
 Configuration tree:
 
-```shell
+```
 .
 ├── init.lua
 ├── lua
@@ -23,13 +23,11 @@ Configuration tree:
 │   │   ├── gvariable.lua           # global variable set(the last one be called)
 │   │   ├── gfunc.lua               # global function definition
 │   │   ├── keymaps.lua             # vim-builtin keymap set
+│   │   ├── lazy.lua                # plugin manager
 │   │   └── options.lua             # vim option set
-│   ├── modules                     # plugins configuration
-│   │   └── configs.lua             # expose setup function
-│   └── plugin                      # plugin manager
+│   └── plugins                     # plugins' configuration
 ├── snippets                        # customizer snippets
-├── plugin                          # compiled plugin file location
-│   └── lazy-lock.json              # plugins' version control file
+├── lazy-lock.json                  # plugins' version control file
 ├── spell                           # customizer dictionary
 └── templates                       # store some template file
 ```
@@ -42,7 +40,7 @@ Make sure to remove or move your current `nvim` directory.
 
 **IMPORTANT** Configuration based on neovim v0.11.0.
 
-```shell
+```bash
 $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 ```
 
@@ -62,7 +60,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   **NOTE**: `Homebrew` is not necessary, you can install these packages through the tools provided by your current package-manager manually.
 
-  ```shell
+  ```bash
   # Runtime
   $ brew install neovim lua@5.1
 
@@ -79,7 +77,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   _Nerd Fonts_ is needed to show icons. You can choose your favorite font or find icons in the [https://www.nerdfonts.com](https://www.nerdfonts.com).
 
-  ```shell
+  ```bash
   # Other nice fonts: Hack, Fira Code, Meslo
   $ brew tap homebrew/cask-fonts
   $ brew install --cask font-jetbrains-mono-nerd-font
@@ -95,7 +93,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   **NOTE**:
 
-  ```shell
+  ```bash
   $ sudo snap install --classic nvim
   $ sudo apt install lua5.1 ripgrep fd-find lazygit
 
@@ -110,7 +108,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   _Nerd Fonts_ is needed to show icons. You can choose your favorite font or find icons in the [https://www.nerdfonts.com](https://www.nerdfonts.com).
 
-  ```shell
+  ```bash
   # Other nice fonts: Hack, Fira Code, Meslo
   $ mkdir -p ~/.local/share/fonts
   $ cd ~/.local/share/fonts && curl -fLo "JetBrains Mono NL Regular Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFontMono-Regular.ttf
@@ -123,20 +121,20 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
 **Optional Step**. To set neovim as default editor, you can add these to `~/.bashrc` or `~/.zshrc`:
 
-```shell
+```bash
 export VISUAL="nvim"
 export EDITOR="nvim"
 ```
 
 **Final Step**. Run `nvim` and wait for the plugins to be installed.
 
-```shell
+```bash
 # First time to run nvim
 $ nvim
 # Or Synchronize all plugins manually
-$ nvim --headless "+Lazy! sync" +qa
+$ nvim --headless "+Lazy! sync"
 # Or Synchronize all plugins with specific version
-$ nvim --headless "+Lazy! restore" +qa
+$ nvim --headless "+Lazy! restore"
 ```
 
 Congratulations, now start enjoying the powerful neovim!
@@ -149,7 +147,7 @@ Run `nvim` and type the following:
 :checkhealth
 ```
 
-You can see plugins' diagnose problems with your configuration or environment.
+You can see plugins' diagnose problems with your configuration or environment. Some optional features may not work if you don't install the required packages. But you can still use neovim without these features.
 
 ## Keymaps
 
@@ -199,7 +197,7 @@ For more detail refer to [Setting Up a PDF Reader for Writing LaTeX with Vim](ht
 
 ## Test Startup
 
-```shell
+```bash
 # in neovim command line
 :StartupTime
 # or in normal mode
