@@ -151,7 +151,10 @@ return {
                 },
             },
             -- sort = { "local", "order", "group", "alphanum", "mod" },
-            icons = { mappings = false, },
+            icons = {
+                separator = "",
+                mappings = false,
+            },
             show_help = true, -- show help message on the command line when the popup is visible
             disable = {
                 ft = { "TelescopePrompt", "spectre_panel" },

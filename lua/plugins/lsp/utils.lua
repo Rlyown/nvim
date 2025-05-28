@@ -16,9 +16,9 @@ M.dap_signs_scheme = function(num)
         vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DiagnosticSignHint", linehl = "", numhl = "" })
         vim.fn.sign_define(
             "DapBreakpointCondition",
-            { text = "", texthl = "DiagnosticSignHint", linehl = "", numhl = "" }
+            { text = "", texthl = "DiagnosticSignHint", linehl = "", numhl = "" }
         )
-        vim.fn.sign_define("DapLogPoint", { text = "ﱴ", texthl = "DiagnosticSignHint", linehl = "", numhl = "" })
+        vim.fn.sign_define("DapLogPoint", { text = "󰛿", texthl = "DiagnosticSignHint", linehl = "", numhl = "" })
         vim.fn.sign_define("DapStopped", {
             text = "",
             texthl = "DiagnosticSignInfo",
