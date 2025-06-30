@@ -106,11 +106,11 @@ autocmd("FileType", {
     pattern = { "markdown", "tex" },
     command = "setlocal wrap",
 })
-autocmd("FileType", {
-    group = _custom_text,
-    pattern = { "markdown", "tex" },
-    command = "setlocal spell",
-})
+-- autocmd("FileType", {
+--     group = _custom_text,
+--     pattern = { "markdown", "tex" },
+--     command = "setlocal spell",
+-- })
 
 local _custom_auto_resize = augroup("_CUSTOM_auto_resize", { clear = true })
 autocmd("VimResized", {
