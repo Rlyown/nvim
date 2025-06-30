@@ -7,20 +7,22 @@ return {
         opts = {
             provider = "copilot",
             auto_suggestions_provider = "copilot",
-            copilot = {
-                proxy = "localhost:7890",
-                model = "claude-3.7-sonnet",
-                disabled_tools = {
-                    "list_files",
-                    "search_files",
-                    "read_file",
-                    "create_file",
-                    "rename_file",
-                    "delete_file",
-                    "create_dir",
-                    "rename_dir",
-                    "delete_dir",
-                    "bash",
+            providers = {
+                copilot = {
+                    proxy = "localhost:7890",
+                    model = "claude-3.7-sonnet",
+                    disabled_tools = {
+                        "list_files",
+                        "search_files",
+                        "read_file",
+                        "create_file",
+                        "rename_file",
+                        "delete_file",
+                        "create_dir",
+                        "rename_dir",
+                        "delete_dir",
+                        "bash",
+                    },
                 },
             },
             -- other config
