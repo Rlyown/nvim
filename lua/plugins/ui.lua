@@ -616,6 +616,14 @@ return {
                 cond = conditions.hide_in_width
             }
 
+            local remote_status = {
+                function()
+                    return vim.g.remote_neovim_host and ("Remote: %s"):format(vim.uv.os_gethostname()) or ""
+                end,
+                padding = { right = 1, left = 1 },
+                separator = { left = "", right = "" },
+            }
+
 
 
             require("lualine").setup({
@@ -631,7 +639,7 @@ return {
                 },
                 sections = {
                     lualine_a = { branch, diagnostics },
-                    lualine_b = { mode },
+                    lualine_b = { mode, remote_status },
                     lualine_c = { navic },
                     lualine_x = { diff, spaces, encoding, filetype, filename, { require('mcphub.extensions.lualine') } },
                     lualine_y = { location },
