@@ -74,9 +74,7 @@ return {
             },
             {
                 'grr',
-                function()
-                    require("trouble").toggle('lsp_refesences')
-                end,
+                "<cmd>Trouble lsp_references<cr>",
                 desc = "Show references"
             },
             {
