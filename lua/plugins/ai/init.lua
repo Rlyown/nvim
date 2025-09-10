@@ -5,9 +5,17 @@ return {
         lazy = false,
         version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
         opts = {
-            provider = "copilot",
-            auto_suggestions_provider = "copilot",
+            provider = "openai",
             providers = {
+                openai = {
+                    endpoint = "https://api.openai-proxy.org/v1",
+                    model = "gpt-3.5-turbo",
+                    extra_request_body = {
+                        temperature = 1,
+                        -- max_tokens = 20480,
+                    },
+
+                },
                 copilot = {
                     proxy = "localhost:7890",
                     model = "claude-3.7-sonnet",
