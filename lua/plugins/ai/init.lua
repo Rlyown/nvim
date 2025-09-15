@@ -5,7 +5,7 @@ return {
         lazy = false,
         version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
         opts = {
-            provider = "openai",
+            provider = "copilot",
             providers = {
                 openai = {
                     endpoint = "https://api.openai-proxy.org/v1",

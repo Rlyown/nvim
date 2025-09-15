@@ -4,7 +4,6 @@ _G.LSP_SERVERS = {
     "clangd",
     "cmake",
     "dockerls",
-    "gopls",
     "jsonls",
     "texlab",
     "markdown_oxide",
@@ -38,6 +37,7 @@ return {
         "williamboman/mason-lspconfig.nvim", -- Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim
         opts = {
             ensure_installed = LSP_SERVERS,
+            automatic_enable = false
         },
         dependencies = {
             "williamboman/mason.nvim",
@@ -59,6 +59,7 @@ return {
                     vim.lsp.config(server_name, server_opts)
                 end
                 vim.lsp.enable(server_name)
+                ::continue::
             end
         end,
         keys = {
@@ -177,6 +178,7 @@ return {
                 -- LSP
                 -- setup by 3rd party plugins not lspconfig
                 "rust_analyzer",
+                "gopls"
             }
         },
         dependencies = {
@@ -189,9 +191,9 @@ return {
             local null_ls = require("null-ls")
             null_ls.setup({
                 sources = {
-                    require("null-ls").builtins.formatting.prettier,
-                    require("null-ls").builtins.formatting.black,
-                    require("null-ls").builtins.formatting.shfmt,
+                    null_ls.builtins.formatting.prettier,
+                    null_ls.builtins.formatting.black,
+                    null_ls.builtins.formatting.shfmt,
                 }
             })
         end,
