@@ -199,7 +199,7 @@ return {
         event = "InsertEnter",
         init = function()
             -- set a proxy
-            vim.g.copilot_proxy = "localhost:7890"
+            vim.g.copilot_proxy = "http://localhost:7890"
 
             -- set node path, if it has multi-versions
             -- vim.g.copilot_node_command = node_path
@@ -208,7 +208,7 @@ return {
             -- vim.g.copilot_tab_fallback = ""
         end,
         opts = {
-            copilot_model = "gpt-4o-copilot",
+            copilot_model = "claude-3.7-sonnet",
             suggestion = { enabled = false },
             panel = { enabled = false },
             copilot_node_command = require("core.gvariable").node_path,
