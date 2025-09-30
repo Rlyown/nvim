@@ -120,7 +120,7 @@ M.fn = {
                 break
             end
         end
-        vim.notify(msg, "info", { title = "function args_parse" })
+        vim.notify(msg, vim.log.levels.INFO, { title = "function args_parse" })
         return nSplitArray
     end,
     ["get_random_int"] = function(min, max)
@@ -164,7 +164,7 @@ M.fn = {
         end
 
 
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+        local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
         if ok and stats then
             if stats.size > max_filesize then
                 return true
