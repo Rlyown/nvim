@@ -5,21 +5,20 @@ return {
         lazy = false,
         version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
         opts = {
-            provider = "copilot",
-            auto_suggestions_provider = "copilot",
+            provider = os.getenv("AVANTE_PROVIDER") or "openai",
+            auto_suggestions_provider = os.getenv("AVANTE_PROVIDER") or "openai",
             providers = {
                 openai = {
-                    endpoint = "https://api.openai-proxy.org/v1",
-                    model = "gpt-3.5-turbo",
+                    endpoint = os.getenv("AVANTE_OPENAI_ENDPOINT") or "https://api.openai-proxy.org/v1",
+                    model = os.getenv("AVANTE_OPENAI_MODEL") or "gpt-3.5-turbo",
                     extra_request_body = {
                         temperature = 1,
                         -- max_tokens = 20480,
                     },
-
                 },
                 copilot = {
                     proxy = "localhost:7890",
-                    model = "claude-3.7-sonnet",
+                    model = os.getenv("AVANTE_COPILOT_MODEL") or "gpt-4.1",
                     disabled_tools = {
                         "list_files",
                         "search_files",
@@ -53,15 +52,7 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
             "MunifTanjim/nui.nvim",
-            {
-                -- Make sure to set this up properly if you have lazy=true
-                'MeanderingProgrammer/render-markdown.nvim',
-                opts = {
-                    file_types = { "markdown", "Avante" },
-                    latex = { enabled = false }
-                },
-                ft = { "markdown", "Avante" },
-            },
+            'MeanderingProgrammer/render-markdown.nvim',
         },
     },
     {
