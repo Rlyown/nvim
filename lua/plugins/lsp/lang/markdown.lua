@@ -1,6 +1,7 @@
 return {
     {
         "iamcco/markdown-preview.nvim",
+        enabled = false,
         build = "cd app && yarn install ",
         ft = { "markdown", "Avante" },
         keys = {
@@ -41,4 +42,14 @@ return {
             },
         }
     }, -- markdown preview plugin
+
+    {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+            file_types = { "markdown", "Avante" },
+            latex = { enabled = false }
+        },
+        ft = { "markdown", "Avante" },
+    },
 }

@@ -163,6 +163,7 @@ return {
                 "shellcheck",
                 "vim-language-server",
                 "cmakelang",
+                "sqlfluff",
 
                 -- Format
                 "black",
@@ -194,6 +195,8 @@ return {
                     null_ls.builtins.formatting.prettier,
                     null_ls.builtins.formatting.black,
                     null_ls.builtins.formatting.shfmt,
+
+                    null_ls.builtins.diagnostics.sqlfluff,
                 }
             })
         end,
@@ -270,15 +273,9 @@ return {
             { "<leader>o", "<cmd>SymbolsOutline<cr>", desc = "Code OutLine" },
         }
     }, -- A tree like view for symbols
-    { "andymass/vim-matchup",       lazy = true, keys = { "%" } },
+    { "andymass/vim-matchup",     lazy = true, keys = { "%" } },
 
     -- debugging
     { import = "plugins.lsp.dap" },
-
-    -- languages
-    { import = "plugins.lsp.vimtex" },
-    { import = "plugins.lsp.go" },
-    { import = "plugins.lsp.rust" },
-    { import = "plugins.lsp.python" },
-    { import = "plugins.lsp.cxx" },
+    { import = "plugins.lsp.lang" },
 }

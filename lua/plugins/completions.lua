@@ -15,6 +15,7 @@ return {
             'Kaiser-Yang/blink-cmp-avante',
             "fang2hou/blink-copilot",
             "micangl/cmp-vimtex",
+            "kndndrj/nvim-dbee"
         },
         version = '1.*',
         opts = {
@@ -67,7 +68,7 @@ return {
             -- Default list of enabled providers defined so that you can extend it
             -- elsewhere in your config, without redefining it, due to `opts_extend`
             sources = {
-                default = { "avante", "copilot", 'lsp', 'path', 'snippets', 'buffer', 'omni' },
+                default = { "avante", "copilot", 'lsp', 'path', 'snippets', 'buffer', 'omni', "dbee" },
                 providers = {
                     avante = {
                         module = 'blink-cmp-avante',
@@ -87,6 +88,21 @@ return {
                         module = 'blink.compat.source',
                         score_offset = -3,
                         opts = {},
+                    },
+                    dbee = {
+                        -- IMPORTANT: use the same name as you would for nvim-cmp
+                        name = 'dbee',
+                        module = 'blink.compat.source',
+
+                        -- all blink.cmp source config options work as normal:
+                        score_offset = -3,
+
+                        -- this table is passed directly to the proxied completion source
+                        -- as the `option` field in nvim-cmp's source config
+                        --
+                        -- this is NOT the same as the opts in a plugin's lazy.nvim spec
+                        opts = {
+                        },
                     }
                 },
             },
