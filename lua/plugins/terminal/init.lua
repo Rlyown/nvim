@@ -1,3 +1,5 @@
+local utils = require('plugins.terminal.utils')
+
 return {
     {
         "akinsho/toggleterm.nvim",
@@ -37,13 +39,13 @@ return {
             { "<leader>ta", "<cmd>ToggleTermToggleAll<cr>", desc = "All" },
             {
                 "<leader>tc",
-                require("plugins.terminal.utils").term_id_cmds("ToggleTermSendCurrentLine"),
+                utils.term_id_cmds("ToggleTermSendCurrentLine"),
                 desc = "Send Line",
             },
-            { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>",                            desc = "Float" },
+            { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Float" },
             {
                 "<leader>th",
-                require("plugins.terminal.utils").term_multi_hv(0.3, "horizontal"),
+                utils.term_multi_hv(0.3, "horizontal"),
                 desc = "Horizontal",
             },
             {
@@ -53,9 +55,9 @@ return {
                 end,
                 desc = "Lazygit"
             },
-            { "<leader>tt", "<cmd>ToggleTerm direction=tab<cr>",                              desc = "Tab" },
-            { "<leader>tv", require('plugins.terminal.utils').term_multi_hv(0.4, "vertical"), desc = "Vertical" },
-            { "<leader>tw", "<cmd>terminal<cr>",                                              desc = "Window" },
+            { "<leader>tt", "<cmd>ToggleTerm direction=tab<cr>",   desc = "Tab" },
+            { "<leader>tv", utils.term_multi_hv(0.4, "vertical"),  desc = "Vertical" },
+            { "<leader>tw", "<cmd>terminal<cr>",                   desc = "Window" },
 
             {
                 "<leader>l",
