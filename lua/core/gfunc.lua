@@ -201,5 +201,11 @@ M.fn = {
 
         return false
     end,
+    ['append_list'] = function(list1, list2)
+        for _, v in ipairs(list2) do
+            list1[#list1 + 1] = v
+        end
+        return list1
+    end,
 }
 return M

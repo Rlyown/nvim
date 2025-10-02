@@ -157,7 +157,7 @@ return {
         opts = {
             -- a list of all tools you want to ensure are installed upon
             -- start; they should be the names Mason uses for each tool
-            ensure_installed = {
+            ensure_installed = require("core.gfunc").fn.append_list({
                 -- Lint
                 --[[ "markdownlint", ]]
                 "shellcheck",
@@ -179,8 +179,8 @@ return {
                 -- LSP
                 -- setup by 3rd party plugins not lspconfig
                 "rust_analyzer",
-                "gopls"
-            }
+                "gopls",
+            }, _G.LSP_SERVERS),
         },
         dependencies = {
             "williamboman/mason.nvim",
