@@ -429,7 +429,7 @@ return {
                 enforce_regular_tabs = false,
                 always_show_bufferline = true,
             },
-            highlights = require("catppuccin.groups.integrations.bufferline").get_theme(),
+            highlights = require("catppuccin.special.bufferline").get_theme(),
         },
         keys = {
             { "<leader>Bc", "<cmd>BufferLineGroupClose<cr>",      desc = "Close Group Buffers" },
@@ -625,47 +625,77 @@ return {
                 separator = { left = "", right = "" },
             }
 
+            -- local mcphub = {
+            --     function()
+            --         -- Check if MCPHub is loaded
+            --         if not vim.g.loaded_mcphub then
+            --             return "󰐻 -"
+            --         end
+            --
+            --         local count = vim.g.mcphub_servers_count or 0
+            --         local status = vim.g.mcphub_status or "stopped"
+            --         local executing = vim.g.mcphub_executing
+            --
+            --         -- Show "-" when stopped
+            --         if status == "stopped" then
+            --             return "󰐻 -"
+            --         end
+            --
+            --         -- Show spinner when executing, starting, or restarting
+            --         if executing or status == "starting" or status == "restarting" then
+            --             local frames = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+            --             local frame = math.floor(vim.loop.now() / 100) % #frames + 1
+            --             return "󰐻 " .. frames[frame]
+            --         end
+            --
+            --         return "󰐻 " .. count
+            --     end,
+            --     color = function()
+            --         if not vim.g.loaded_mcphub then
+            --             return { fg = "#6c7086" } -- Gray for not loaded
+            --         end
+            --
+            --         local status = vim.g.mcphub_status or "stopped"
+            --         if status == "ready" or status == "restarted" then
+            --             return { fg = "#50fa7b" } -- Green for connected
+            --         elseif status == "starting" or status == "restarting" then
+            --             return { fg = "#ffb86c" } -- Orange for connecting
+            --         else
+            --             return { fg = "#ff5555" } -- Red for error/stopped
+            --         end
+            --     end,
+            -- }
 
-            local mcphub = {
+            local sidekick_copilot_status = {
                 function()
-                    -- Check if MCPHub is loaded
-                    if not vim.g.loaded_mcphub then
-                        return "󰐻 -"
-                    end
-
-                    local count = vim.g.mcphub_servers_count or 0
-                    local status = vim.g.mcphub_status or "stopped"
-                    local executing = vim.g.mcphub_executing
-
-                    -- Show "-" when stopped
-                    if status == "stopped" then
-                        return "󰐻 -"
-                    end
-
-                    -- Show spinner when executing, starting, or restarting
-                    if executing or status == "starting" or status == "restarting" then
-                        local frames = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-                        local frame = math.floor(vim.loop.now() / 100) % #frames + 1
-                        return "󰐻 " .. frames[frame]
-                    end
-
-                    return "󰐻 " .. count
+                    return " "
                 end,
                 color = function()
-                    if not vim.g.loaded_mcphub then
-                        return { fg = "#6c7086" } -- Gray for not loaded
-                    end
-
-                    local status = vim.g.mcphub_status or "stopped"
-                    if status == "ready" or status == "restarted" then
-                        return { fg = "#50fa7b" } -- Green for connected
-                    elseif status == "starting" or status == "restarting" then
-                        return { fg = "#ffb86c" } -- Orange for connecting
-                    else
-                        return { fg = "#ff5555" } -- Red for error/stopped
+                    local status = require("sidekick.status").get()
+                    if status then
+                        return status.kind == "Error" and "DiagnosticError" or status.busy and "DiagnosticWarn" or
+                            "Special"
                     end
                 end,
+                cond = function()
+                    local status = require("sidekick.status")
+                    return status.get() ~= nil
+                end,
             }
+
+            local sidekick_cli_status = {
+                function()
+                    local status = require("sidekick.status").cli()
+                    return " " .. (#status > 1 and #status or "")
+                end,
+                cond = function()
+                    return #require("sidekick.status").cli() > 0
+                end,
+                color = function()
+                    return "Special"
+                end,
+            }
+
 
             require("lualine").setup({
                 options = {
@@ -680,9 +710,9 @@ return {
                 },
                 sections = {
                     lualine_a = { branch, diagnostics },
-                    lualine_b = { mode, remote_status },
+                    lualine_b = { mode, remote_status, sidekick_copilot_status },
                     lualine_c = { navic },
-                    lualine_x = { diff, spaces, encoding, filetype, filename, mcphub },
+                    lualine_x = { diff, spaces, encoding, filetype, filename, sidekick_cli_status },
                     lualine_y = { location },
                     lualine_z = { progress },
                 },

@@ -170,6 +170,7 @@ return {
                 { "<leader>lr",       group = "Rust" },
                 { "<leader>lrc",      group = "Crates" },
                 { "<leader>lt",       group = "Latex" },
+                { "<leader>lv",       group = "csv" },
                 { "<leader>lgh",      group = "Helper" },
                 { "<leader>lgt",      group = "Tests" },
                 { "<leader>lgx",      group = "Code Lens" },
