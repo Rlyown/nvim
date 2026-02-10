@@ -68,7 +68,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ brew install ripgrep fd lazygit gnu-sed
 
   # Optional Packages
-  $ brew install bear pngpaste node yarn
+  $ brew install bear node yarn
 
   # If you want delete file to trash bin directory by nvim-tree
   $ brew install trash

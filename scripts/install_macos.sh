@@ -61,7 +61,6 @@ brew_install_formula gnu-sed
 
 log_step "安装附加依赖(默认安装，避免缺失导致功能异常)"
 brew_install_formula bear
-brew_install_formula pngpaste
 brew_install_formula node
 brew_install_formula yarn
 brew_install_formula trash
