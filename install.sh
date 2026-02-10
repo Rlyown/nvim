@@ -6,19 +6,19 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 usage() {
   cat <<'EOF'
-用法:
-  ./install.sh [选项]
+Usage:
+  ./install.sh [options]
 
-选项:
-  --no-plugin-sync   不执行 nvim headless 同步插件
-  --restore-lock     使用 lazy-lock.json 进行 Lazy! restore (否则 Lazy! sync)
-  -h, --help         显示帮助
+Options:
+  --no-plugin-sync   Skip `nvim --headless` plugin sync
+  --restore-lock     Use `lazy-lock.json` via `Lazy! restore` (otherwise `Lazy! sync`)
+  -h, --help         Show help
 
-说明:
-  - 仅支持 macOS
-  - 依赖通过 Homebrew 安装
-  - 默认会安装 Kitty (若已安装则跳过)
-  - 默认会安装 Nerd Font (JetBrainsMono Nerd Font)
+Notes:
+  - macOS only
+  - Installs dependencies via Homebrew
+  - Installs Kitty by default (skips if already installed)
+  - Installs Nerd Font by default (JetBrainsMono Nerd Font)
 EOF
 }
 
@@ -31,11 +31,11 @@ while [[ $# -gt 0 ]]; do
     --restore-lock) RESTORE_LOCK=1; shift ;;
     -h|--help) usage; exit 0 ;;
     --with-optional|--with-fonts)
-      echo "提示：$1 已不再需要（现在会默认安装全部依赖/字体）" >&2
+      echo "Note: $1 is no longer needed (all deps/fonts are installed by default)." >&2
       shift
       ;;
     *)
-      echo "未知参数: $1" >&2
+      echo "Unknown argument: $1" >&2
       usage
       exit 1
       ;;
@@ -48,10 +48,10 @@ source "$ROOT_DIR/scripts/lib.sh"
 
 ensure_macos
 
-log_step "开始 macOS 安装流程"
+log_step "Starting macOS install flow"
 "$ROOT_DIR/scripts/install_macos.sh" \
   --root "$ROOT_DIR" \
   $( [[ "$NO_PLUGIN_SYNC" -eq 1 ]] && echo "--no-plugin-sync" ) \
   $( [[ "$RESTORE_LOCK" -eq 1 ]] && echo "--restore-lock" )
 
-log_ok "完成"
+log_ok "Done"

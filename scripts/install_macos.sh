@@ -53,7 +53,7 @@ brew_install_cask kitty
 
 log_step "安装必需依赖"
 brew_install_formula neovim
-brew_install_formula lua@5.1
+brew_install_formula lua
 brew_install_formula ripgrep
 brew_install_formula fd
 brew_install_formula lazygit
