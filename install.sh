@@ -4,6 +4,15 @@ IFS=$'\n\t'
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
+preflight_check() {
+  local os_name
+  os_name="$(uname -s 2>/dev/null || echo unknown)"
+  if [[ "$os_name" != "Darwin" ]]; then
+    echo "Error: unsupported system '$os_name'. This installer supports macOS only." >&2
+    exit 1
+  fi
+}
+
 usage() {
   cat <<'EOF'
 Usage:
@@ -24,6 +33,8 @@ EOF
 
 NO_PLUGIN_SYNC=0
 RESTORE_LOCK=0
+
+preflight_check
 
 while [[ $# -gt 0 ]]; do
   case "$1" in

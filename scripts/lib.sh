@@ -25,7 +25,7 @@ need_cmd() { command -v "$1" >/dev/null 2>&1 || die "缺少命令: $1"; }
 
 ensure_macos() {
   if [[ "${OSTYPE:-}" != darwin* ]]; then
-    die "仅支持 macOS (当前 OSTYPE=${OSTYPE:-unknown})"
+    die "Unsupported system (OSTYPE=${OSTYPE:-unknown}). This installer supports macOS only."
   fi
 }
 
