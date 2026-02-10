@@ -1,23 +1,37 @@
-return {
-    {
-        'saghen/blink.compat',
+	return {
+	    {
+	        'saghen/blink.compat',
         -- use the latest release, via version = '*', if you also use the latest release for blink.cmp
         version = '*',
         -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
         lazy = true,
         -- make sure to set opts so that lazy.nvim calls blink.compat's setup
         opts = {},
-    },
-	    {
-	        'saghen/blink.cmp',
-	        dependencies = {
-	            'rafamadriz/friendly-snippets',
-	            "fang2hou/blink-copilot",
-	            "micangl/cmp-vimtex",
-	            "kndndrj/nvim-dbee"
-	        },
-        version = '1.*',
-        opts = {
+	    },
+		    {
+		        'saghen/blink.cmp',
+		        dependencies = (function()
+		            local features = require("core.features")
+		            local deps = {
+		                'rafamadriz/friendly-snippets',
+		                "micangl/cmp-vimtex",
+		                "kndndrj/nvim-dbee",
+		            }
+		            if features.enabled("copilot") then
+		                table.insert(deps, "fang2hou/blink-copilot")
+		            end
+		            if not features.enabled("tex") then
+		                for i, v in ipairs(deps) do
+		                    if v == "micangl/cmp-vimtex" then
+		                        table.remove(deps, i)
+		                        break
+		                    end
+		                end
+		            end
+		            return deps
+		        end)(),
+	        version = '1.*',
+	        opts = {
             -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
             -- 'super-tab' for mappings similar to vscode (tab to accept)
             -- 'enter' for enter to accept
@@ -76,25 +90,18 @@ return {
 
             -- Default list of enabled providers defined so that you can extend it
             -- elsewhere in your config, without redefining it, due to `opts_extend`
-	            sources = {
-	                default = { "copilot", 'lsp', 'path', 'snippets', 'buffer', 'omni', "dbee" },
-	                providers = {
-	                    copilot = {
-	                        name = "copilot",
-	                        module = "blink-copilot",
-	                        score_offset = 100,
-                        async = true,
-                    },
-                    vimtex = {
-                        name = 'vimtex',
-                        module = 'blink.compat.source',
-                        score_offset = -3,
-                        opts = {},
-                    },
-                    dbee = {
-                        -- IMPORTANT: use the same name as you would for nvim-cmp
-                        name = 'dbee',
-                        module = 'blink.compat.source',
+		            sources = (function()
+		                local features = require("core.features")
+		                local defaults = { 'lsp', 'path', 'snippets', 'buffer', 'omni', "dbee" }
+		                if features.enabled("copilot") then
+		                    table.insert(defaults, 1, "copilot")
+		                end
+
+		                local providers = {
+		                    dbee = {
+		                        -- IMPORTANT: use the same name as you would for nvim-cmp
+		                        name = 'dbee',
+		                        module = 'blink.compat.source',
 
                         -- all blink.cmp source config options work as normal:
                         score_offset = -3,
@@ -103,14 +110,37 @@ return {
                         -- as the `option` field in nvim-cmp's source config
                         --
                         -- this is NOT the same as the opts in a plugin's lazy.nvim spec
-                        opts = {
-                        },
-                    }
-                },
-            },
+		                        opts = {
+		                        },
+		                    }
+		                }
 
-            -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
-            -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+		                if features.enabled("copilot") then
+		                    providers.copilot = {
+		                        name = "copilot",
+		                        module = "blink-copilot",
+		                        score_offset = 100,
+		                        async = true,
+		                    }
+		                end
+
+		                if features.enabled("tex") then
+		                    providers.vimtex = {
+		                        name = 'vimtex',
+		                        module = 'blink.compat.source',
+		                        score_offset = -3,
+		                        opts = {},
+		                    }
+		                end
+
+		                return {
+		                    default = defaults,
+		                    providers = providers,
+		                }
+		            end)(),
+
+	            -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
+	            -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
             -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
             --
             -- See the fuzzy documentation for more information
@@ -211,12 +241,13 @@ return {
             })
         end,
     },
-    {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        event = "InsertEnter",
-        init = function()
-            -- set a proxcopiloy
+	    {
+	        "zbirenbaum/copilot.lua",
+	        enabled = require("core.features").enabled("copilot"),
+	        cmd = "Copilot",
+	        event = "InsertEnter",
+	        init = function()
+	            -- set a proxcopiloy
             vim.g.copilot_proxy = "http://localhost:7890"
 
             -- set node path, if it has multi-versions

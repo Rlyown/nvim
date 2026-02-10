@@ -1,6 +1,7 @@
 return {
     {
         "lervag/vimtex",
+        enabled = require("core.features").enabled("tex"),
         init = function()
             -- Not use texlab to replace with
             vim.g.vimtex_complete_enabled = 1
@@ -140,7 +141,7 @@ return {
         end,
         -- priority = priorities.second,
         cond = function()
-            return vim.fn.executable("latexmk")
+            return require("core.features").enabled("tex") and vim.fn.executable("latexmk") == 1
         end,
         ft = { "tex", "bib" },
         lazy = true,

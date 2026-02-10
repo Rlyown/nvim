@@ -1,0 +1,21 @@
+-- This file is an example. Copy it to:
+--   lua/modules/features.lua
+-- and toggle features per machine.
+--
+-- Notes:
+-- - When a feature is set to false, related plugins/tools/LSP configs are disabled
+--   and will not be installed by Lazy/Mason.
+-- - Environment variables can override this file:
+--     NVIM_DISABLE_LANGS=go,tex
+--     NVIM_ENABLE_LANGS=copilot
+
+return {
+    cpp = true,
+    go = true,
+    rust = true,
+    python = true,
+    tex = true,
+    sql = true,
+    copilot = true,
+}
+

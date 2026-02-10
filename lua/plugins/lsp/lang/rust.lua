@@ -1,6 +1,7 @@
 return {
     {
         'mrcjkb/rustaceanvim',
+        enabled = require("core.features").enabled("rust"),
         version = '^6', -- Recommended
         lazy = false,   -- This plugin is already lazy
         keys = {

@@ -12,6 +12,7 @@ Usage:
   scripts/install_macos.sh --root <repo_root> [options]
 
 Options:
+  --disable <list>      Disable language packs for dependency install (CSV: cpp,go,rust,python,tex,sql)
   --no-plugin-sync   Skip `nvim --headless` plugin sync
   --restore-lock     Use `lazy-lock.json` via `Lazy! restore`
 EOF
@@ -20,10 +21,12 @@ EOF
 ROOT=""
 NO_PLUGIN_SYNC=0
 RESTORE_LOCK=0
+DISABLE_LANGS=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --root) ROOT="$2"; shift 2 ;;
+    --disable) DISABLE_LANGS="$2"; shift 2 ;;
     --no-plugin-sync) NO_PLUGIN_SYNC=1; shift ;;
     --restore-lock) RESTORE_LOCK=1; shift ;;
     -h|--help) usage; exit 0 ;;
@@ -54,7 +57,6 @@ brew_install_cask kitty
 log_step "Installing required dependencies"
 brew_install_formula neovim
 brew_install_formula lua
-brew_install_formula go
 brew_install_formula ripgrep
 brew_install_formula fd
 brew_install_formula lazygit
@@ -65,6 +67,18 @@ brew_install_formula bear
 brew_install_formula node
 brew_install_formula yarn
 brew_install_formula trash
+
+disable_has() {
+  local item="$1"
+  [[ ",${DISABLE_LANGS}," == *",${item},"* ]]
+}
+
+if ! disable_has "go"; then
+  log_step "Installing Go toolchain"
+  brew_install_formula go
+else
+  log_warn "Go disabled: skipping Homebrew formula 'go'"
+fi
 
 log_step "Installing Nerd Font (JetBrainsMono)"
 brew tap homebrew/cask-fonts >/dev/null 2>&1 || true

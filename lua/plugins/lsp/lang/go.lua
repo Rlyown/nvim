@@ -1,6 +1,7 @@
 return {
     {
         "ray-x/go.nvim",
+        enabled = require("core.features").enabled("go"),
         opts = {
             lsp_keymaps = false, -- set to false to disable gopls/lsp keymap
             lsp_cfg = true,

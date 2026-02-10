@@ -1,19 +1,18 @@
 return {
     {
-        "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
-        config = function()
-            local configs = require("nvim-treesitter.config")
-            local disable_func = require("core.gfunc").fn.disable_check_buf
-
-            require('nvim-dap-repl-highlights').setup()
-
-            configs.setup({
-                ensure_installed = {
-                    "bash",
-                    "bibtex",
-                    "c",
-                    "cmake",
+	        "nvim-treesitter/nvim-treesitter",
+	        build = ":TSUpdate",
+	        config = function()
+	            local features = require("core.features")
+	            local disable_func = require("core.gfunc").fn.disable_check_buf
+	
+	            require('nvim-dap-repl-highlights').setup()
+	
+	            local ensure_installed = {
+	                    "bash",
+	                    "bibtex",
+	                    "c",
+	                    "cmake",
                     "comment",
                     "cpp",
                     "csv",
@@ -66,13 +65,52 @@ return {
                     "scss",
                     "svelte",
                     "tsx",
-                    "typst",
-                    "vue",
-                },                                      -- one of "all", or a list of languages
-                sync_install = false,                   -- install languages synchronously (only applied to `ensure_installed`)
-                ignore_install = { "swift", "phpdoc" }, -- List of parsers to ignore installing
-                highlight = {
-                    enable = true,                      -- false will disable the whole extension
+	                    "typst",
+	                    "vue",
+	            }
+
+	            local remove = {}
+	            if not features.enabled("cpp") then
+	                remove.c = true
+	                remove.cpp = true
+	                remove.cmake = true
+	                remove.llvm = true
+	            end
+	            if not features.enabled("go") then
+	                remove.go = true
+	                remove.gomod = true
+	                remove.gosum = true
+	                remove.gowork = true
+	                remove.gotmpl = true
+	            end
+	            if not features.enabled("python") then
+	                remove.python = true
+	                remove.requirements = true
+	            end
+	            if not features.enabled("rust") then
+	                remove.rust = true
+	            end
+	            if not features.enabled("tex") then
+	                remove.latex = true
+	                remove.bibtex = true
+	            end
+	            if not features.enabled("sql") then
+	                remove.sql = true
+	            end
+
+	            local filtered = {}
+	            for _, v in ipairs(ensure_installed) do
+	                if not remove[v] then
+	                    table.insert(filtered, v)
+	                end
+	            end
+
+	            require 'nvim-treesitter'.setup({
+	                ensure_installed = filtered,           -- one of "all", or a list of languages
+	                sync_install = false,                   -- install languages synchronously (only applied to `ensure_installed`)
+	                ignore_install = { "swift", "phpdoc" }, -- List of parsers to ignore installing
+	                highlight = {
+	                    enable = true,                      -- false will disable the whole extension
                     disable = function(lang, buf)
                         if disable_func(buf) then
                             return true

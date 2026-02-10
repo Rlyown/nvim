@@ -169,15 +169,22 @@ autocmd('LspAttach', {
             autocmd('BufWritePre', {
                 group = _custom_lsp,
                 buffer = args.buf,
-                callback = function()
-                    if vim.g.custom_enable_auto_format then
-                        if vim.bo.filetype == "go" then
-                            require("go.format").goimport()
-                        else
-                            vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
-                        end
-                    end
-                end,
+	                callback = function()
+	                    if vim.g.custom_enable_auto_format then
+	                        if vim.bo.filetype == "go" then
+	                            if require("core.features").enabled("go") then
+	                                local ok, go_format = pcall(require, "go.format")
+	                                if ok and go_format and go_format.goimport then
+	                                    go_format.goimport()
+	                                    return
+	                                end
+	                            end
+	                            vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+	                        else
+	                            vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+	                        end
+	                    end
+	                end,
             })
         end
 

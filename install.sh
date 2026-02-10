@@ -19,6 +19,13 @@ Usage:
   ./install.sh [options]
 
 Options:
+  --disable <list>    Disable language packs for dependency install (CSV: cpp,go,rust,python,tex,sql)
+  --disable-cpp       Same as: --disable cpp
+  --disable-go        Same as: --disable go
+  --disable-rust      Same as: --disable rust
+  --disable-python    Same as: --disable python
+  --disable-tex       Same as: --disable tex
+  --disable-sql       Same as: --disable sql
   --no-plugin-sync   Skip `nvim --headless` plugin sync
   --restore-lock     Use `lazy-lock.json` via `Lazy! restore` (otherwise `Lazy! sync`)
   -h, --help         Show help
@@ -33,11 +40,32 @@ EOF
 
 NO_PLUGIN_SYNC=0
 RESTORE_LOCK=0
+DISABLE_LANGS=""
 
 preflight_check
 
+append_disable() {
+  local v="$1"
+  if [[ -z "$DISABLE_LANGS" ]]; then
+    DISABLE_LANGS="$v"
+  else
+    DISABLE_LANGS="${DISABLE_LANGS},$v"
+  fi
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --disable)
+      [[ $# -ge 2 ]] || { echo "Error: --disable requires a value" >&2; exit 2; }
+      append_disable "$2"
+      shift 2
+      ;;
+    --disable-cpp) append_disable "cpp"; shift ;;
+    --disable-go) append_disable "go"; shift ;;
+    --disable-rust) append_disable "rust"; shift ;;
+    --disable-python) append_disable "python"; shift ;;
+    --disable-tex) append_disable "tex"; shift ;;
+    --disable-sql) append_disable "sql"; shift ;;
     --no-plugin-sync) NO_PLUGIN_SYNC=1; shift ;;
     --restore-lock) RESTORE_LOCK=1; shift ;;
     -h|--help) usage; exit 0 ;;
@@ -60,9 +88,16 @@ source "$ROOT_DIR/scripts/lib.sh"
 ensure_macos
 
 log_step "Starting macOS install flow"
-"$ROOT_DIR/scripts/install_macos.sh" \
-  --root "$ROOT_DIR" \
-  $( [[ "$NO_PLUGIN_SYNC" -eq 1 ]] && echo "--no-plugin-sync" ) \
-  $( [[ "$RESTORE_LOCK" -eq 1 ]] && echo "--restore-lock" )
+args=(--root "$ROOT_DIR")
+if [[ -n "$DISABLE_LANGS" ]]; then
+  args+=(--disable "$DISABLE_LANGS")
+fi
+if [[ "$NO_PLUGIN_SYNC" -eq 1 ]]; then
+  args+=(--no-plugin-sync)
+fi
+if [[ "$RESTORE_LOCK" -eq 1 ]]; then
+  args+=(--restore-lock)
+fi
+"$ROOT_DIR/scripts/install_macos.sh" "${args[@]}"
 
 log_ok "Done"

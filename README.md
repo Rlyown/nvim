@@ -139,6 +139,22 @@ $ nvim --headless "+Lazy! restore"
 
 Congratulations, now start enjoying the powerful neovim!
 
+## Feature toggles (per language)
+
+You can disable/enable language packs so that Lazy/Mason won't install or enable the related plugins/tools.
+
+- Local (per machine): copy `lua/modules/features.lua.example` to `lua/modules/features.lua` and edit booleans.
+- Environment (one-shot override):
+  - `NVIM_DISABLE_LANGS=go,tex`
+  - `NVIM_ENABLE_LANGS=copilot`
+
+Installer can also skip dependency install for selected language packs:
+
+```bash
+./install.sh --disable go,tex
+./install.sh --disable-go --disable-tex
+```
+
 ## Check Health
 
 Run `nvim` and type the following:

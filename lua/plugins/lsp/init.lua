@@ -1,20 +1,33 @@
+local features = require("core.features")
+
 _G.LSP_SERVERS = {
     "asm_lsp",
     "bashls",
-    "clangd",
-    "cmake",
     "dockerls",
     "jsonls",
-    "texlab",
     "markdown_oxide",
     "lua_ls",
     "taplo",
-    "pyright",
-    "ruff",
     "yamlls",
     "lemminx",
     -- "mesonlsp",
 }
+
+if features.enabled("cpp") then
+    table.insert(_G.LSP_SERVERS, "clangd")
+    table.insert(_G.LSP_SERVERS, "cmake")
+end
+
+if features.enabled("tex") then
+    table.insert(_G.LSP_SERVERS, "texlab")
+end
+
+if features.enabled("python") then
+    table.insert(_G.LSP_SERVERS, "pyright")
+    table.insert(_G.LSP_SERVERS, "ruff")
+end
+
+local LSP_SERVERS = _G.LSP_SERVERS
 
 return {
     {
@@ -158,30 +171,57 @@ return {
         opts = {
             -- a list of all tools you want to ensure are installed upon
             -- start; they should be the names Mason uses for each tool
-            ensure_installed = require("core.gfunc").fn.append_list({
+            ensure_installed = require("core.gfunc").fn.append_list((function()
+                local tools = {
                 -- Lint
                 --[[ "markdownlint", ]]
                 "shellcheck",
                 "vim-language-server",
-                "cmakelang",
-                "sqlfluff",
 
                 -- Format
                 -- "black",
                 "shfmt",
                 "prettier",
-                "latexindent",
 
                 -- DAP
-                "codelldb",
-                "debugpy",
-                "delve",
+                -- codelldb/debugpy/delve are added below (feature-gated)
 
                 -- LSP
                 -- setup by 3rd party plugins not lspconfig
-                "rust_analyzer",
-                "gopls",
-            }, _G.LSP_SERVERS),
+                -- rust_analyzer/gopls are added below (feature-gated)
+                }
+
+                if features.enabled("sql") then
+                    table.insert(tools, "sqlfluff")
+                end
+
+                if features.enabled("cpp") then
+                    table.insert(tools, "cmakelang")
+                end
+
+                if features.enabled("tex") then
+                    table.insert(tools, "latexindent")
+                end
+
+                if features.enabled("python") then
+                    table.insert(tools, "debugpy")
+                end
+
+                if features.enabled("go") then
+                    table.insert(tools, "delve")
+                    table.insert(tools, "gopls")
+                end
+
+                if features.enabled("rust") then
+                    table.insert(tools, "rust_analyzer")
+                end
+
+                if features.enabled("cpp") or features.enabled("rust") then
+                    table.insert(tools, "codelldb")
+                end
+
+                return tools
+            end)(), LSP_SERVERS),
         },
         dependencies = {
             "williamboman/mason.nvim",
@@ -190,15 +230,20 @@ return {
     {
         "nvimtools/none-ls.nvim",
         config = function()
+            local features = require("core.features")
             local null_ls = require("null-ls")
-            null_ls.setup({
-                sources = {
-                    null_ls.builtins.formatting.prettier,
-                    null_ls.builtins.formatting.black,
-                    null_ls.builtins.formatting.shfmt,
+            local sources = {
+                null_ls.builtins.formatting.prettier,
+                null_ls.builtins.formatting.black,
+                null_ls.builtins.formatting.shfmt,
+            }
 
-                    null_ls.builtins.diagnostics.sqlfluff,
-                }
+            if features.enabled("sql") then
+                table.insert(sources, null_ls.builtins.diagnostics.sqlfluff)
+            end
+
+            null_ls.setup({
+                sources = sources
             })
         end,
         keys = {
