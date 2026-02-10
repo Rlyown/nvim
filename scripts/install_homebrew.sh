@@ -6,7 +6,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/lib.sh"
 
 if command -v brew >/dev/null 2>&1; then
-  log_ok "Homebrew 已存在"
+  log_ok "Homebrew already exists"
   exit 0
 fi
 
@@ -17,15 +17,15 @@ elif [[ -x /usr/local/bin/brew ]]; then
 fi
 
 if command -v brew >/dev/null 2>&1; then
-  log_ok "Homebrew 已存在(已补齐 PATH)"
+  log_ok "Homebrew already exists (PATH updated)"
   exit 0
 fi
 
 need_cmd /bin/bash
 need_cmd curl
 
-log_warn "检测到未安装 Homebrew，将使用官方脚本进行安装"
-log_warn "如果你不希望脚本安装 Homebrew，请先手动安装后再运行 ./install.sh"
+log_warn "Homebrew not found. Installing via the official script."
+log_warn "If you don't want this script to install Homebrew, install it manually first, then rerun ./install.sh."
 
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -35,5 +35,5 @@ elif [[ -x /usr/local/bin/brew ]]; then
   eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-command -v brew >/dev/null 2>&1 || die "Homebrew 安装失败或 brew 不在 PATH 中"
-log_ok "Homebrew 安装完成"
+command -v brew >/dev/null 2>&1 || die "Homebrew install failed or brew is not in PATH"
+log_ok "Homebrew installed"

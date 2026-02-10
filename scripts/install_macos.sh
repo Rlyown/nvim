@@ -8,12 +8,12 @@ source "$SCRIPT_DIR/brew_utils.sh"
 
 usage() {
   cat <<'EOF'
-用法:
-  scripts/install_macos.sh --root <repo_root> [选项]
+Usage:
+  scripts/install_macos.sh --root <repo_root> [options]
 
-选项:
-  --no-plugin-sync   不执行 nvim headless 同步插件
-  --restore-lock     使用 lazy-lock.json 进行 Lazy! restore
+Options:
+  --no-plugin-sync   Skip `nvim --headless` plugin sync
+  --restore-lock     Use `lazy-lock.json` via `Lazy! restore`
 EOF
 }
 
@@ -28,10 +28,10 @@ while [[ $# -gt 0 ]]; do
     --restore-lock) RESTORE_LOCK=1; shift ;;
     -h|--help) usage; exit 0 ;;
     --with-optional|--with-fonts)
-      log_warn "参数 $1 已不再需要（现在会默认安装全部依赖/字体）"
+      log_warn "Note: $1 is no longer needed (all deps/fonts are installed by default)."
       shift
       ;;
-    *) die "未知参数: $1" ;;
+    *) die "Unknown argument: $1" ;;
   esac
 done
 
@@ -40,18 +40,18 @@ ROOT="$(realpath_fallback "$ROOT")"
 
 ensure_macos
 
-log_step "检查/安装 Homebrew"
+log_step "Checking/installing Homebrew"
 "$SCRIPT_DIR/install_homebrew.sh"
 
 need_cmd brew
 
-log_step "更新 Homebrew"
+log_step "Updating Homebrew"
 brew update
 
-log_step "安装 Kitty"
+log_step "Installing Kitty"
 brew_install_cask kitty
 
-log_step "安装必需依赖"
+log_step "Installing required dependencies"
 brew_install_formula neovim
 brew_install_formula lua
 brew_install_formula ripgrep
@@ -59,24 +59,24 @@ brew_install_formula fd
 brew_install_formula lazygit
 brew_install_formula gnu-sed
 
-log_step "安装附加依赖(默认安装，避免缺失导致功能异常)"
+log_step "Installing extra dependencies (installed by default)"
 brew_install_formula bear
 brew_install_formula node
 brew_install_formula yarn
 brew_install_formula trash
 
-log_step "安装 Nerd Font (JetBrainsMono，默认安装避免图标显示异常)"
+log_step "Installing Nerd Font (JetBrainsMono)"
 brew tap homebrew/cask-fonts >/dev/null 2>&1 || true
 brew_install_cask font-jetbrains-mono-nerd-font
 
-log_step "配置 nvim 配置目录"
+log_step "Linking nvim config"
 "$SCRIPT_DIR/link_nvim_config.sh" --root "$ROOT"
 
 if [[ "$NO_PLUGIN_SYNC" -eq 1 ]]; then
-  log_warn "已跳过插件同步：可用 ./install.sh 去执行"
+  log_warn "Skipped plugin sync (rerun without --no-plugin-sync to enable)"
 else
-  log_step "执行 nvim headless 同步插件"
+  log_step "Running headless plugin sync"
   "$SCRIPT_DIR/sync_plugins.sh" --restore-lock="$RESTORE_LOCK"
 fi
 
-log_ok "macOS 安装流程完成"
+log_ok "macOS install flow finished"

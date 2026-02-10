@@ -21,7 +21,7 @@ log_err() { echo "$(_c '1;31' '✗') $*" >&2; }
 
 die() { log_err "$*"; exit 1; }
 
-need_cmd() { command -v "$1" >/dev/null 2>&1 || die "缺少命令: $1"; }
+need_cmd() { command -v "$1" >/dev/null 2>&1 || die "Missing command: $1"; }
 
 ensure_macos() {
   if [[ "${OSTYPE:-}" != darwin* ]]; then
@@ -50,6 +50,6 @@ backup_path() {
     local ts
     ts="$(date +%Y%m%d-%H%M%S)"
     mv "$target" "${target}.bak.${ts}"
-    log_warn "已备份: $target -> ${target}.bak.${ts}"
+    log_warn "Backed up: $target -> ${target}.bak.${ts}"
   fi
 }
