@@ -48,7 +48,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
 - [Neovim](https://neovim.io/)
 - [Lua](https://www.lua.org/) (for neovim runtime)
-- [Node](https://nodejs.org/en/download) (It's optional, if no needs to use mcphub)
+- [Node](https://nodejs.org/en/download) (Optional, for some plugins that require Node)
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) (It's optional, if no needs to preview markdown (in browser))
 
 **Install with following Steps**:

@@ -8,15 +8,14 @@ return {
         -- make sure to set opts so that lazy.nvim calls blink.compat's setup
         opts = {},
     },
-    {
-        'saghen/blink.cmp',
-        dependencies = {
-            'rafamadriz/friendly-snippets',
-            'Kaiser-Yang/blink-cmp-avante',
-            "fang2hou/blink-copilot",
-            "micangl/cmp-vimtex",
-            "kndndrj/nvim-dbee"
-        },
+	    {
+	        'saghen/blink.cmp',
+	        dependencies = {
+	            'rafamadriz/friendly-snippets',
+	            "fang2hou/blink-copilot",
+	            "micangl/cmp-vimtex",
+	            "kndndrj/nvim-dbee"
+	        },
         version = '1.*',
         opts = {
             -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
@@ -77,20 +76,13 @@ return {
 
             -- Default list of enabled providers defined so that you can extend it
             -- elsewhere in your config, without redefining it, due to `opts_extend`
-            sources = {
-                default = { "avante", "copilot", 'lsp', 'path', 'snippets', 'buffer', 'omni', "dbee" },
-                providers = {
-                    avante = {
-                        module = 'blink-cmp-avante',
-                        name = 'Avante',
-                        opts = {
-                            -- options for blink-cmp-avante
-                        }
-                    },
-                    copilot = {
-                        name = "copilot",
-                        module = "blink-copilot",
-                        score_offset = 100,
+	            sources = {
+	                default = { "copilot", 'lsp', 'path', 'snippets', 'buffer', 'omni', "dbee" },
+	                providers = {
+	                    copilot = {
+	                        name = "copilot",
+	                        module = "blink-copilot",
+	                        score_offset = 100,
                         async = true,
                     },
                     vimtex = {
