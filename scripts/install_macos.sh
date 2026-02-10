@@ -54,6 +54,7 @@ brew_install_cask kitty
 log_step "Installing required dependencies"
 brew_install_formula neovim
 brew_install_formula lua
+brew_install_formula go
 brew_install_formula ripgrep
 brew_install_formula fd
 brew_install_formula lazygit

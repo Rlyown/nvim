@@ -62,7 +62,7 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   ```bash
   # Runtime
-  $ brew install neovim lua
+  $ brew install neovim lua go
 
   # Packages
   $ brew install ripgrep fd lazygit gnu-sed
