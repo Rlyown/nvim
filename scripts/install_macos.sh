@@ -61,6 +61,8 @@ brew_install_formula ripgrep
 brew_install_formula fd
 brew_install_formula lazygit
 brew_install_formula gnu-sed
+brew_install_formula imagemagick
+brew_install_formula ghostscript
 
 log_step "Installing extra dependencies (installed by default)"
 brew_install_formula bear
@@ -88,6 +90,24 @@ if ! disable_has "go"; then
   brew_install_formula go
 else
   log_warn "Go disabled: skipping Homebrew formula 'go'"
+fi
+
+if ! disable_has "rust"; then
+  log_step "Installing Rust toolchain via rustup"
+  if command -v rustup >/dev/null 2>&1; then
+    log_ok "Already installed: rustup"
+  elif [[ -x "$HOME/.cargo/bin/rustup" ]]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+    log_ok "Already installed: rustup (~/.cargo/bin)"
+  else
+    need_cmd curl
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    export PATH="$HOME/.cargo/bin:$PATH"
+    need_cmd rustup
+    log_ok "Installed: rustup"
+  fi
+else
+  log_warn "Rust disabled: skipping rustup install"
 fi
 
 log_step "Installing Nerd Font (JetBrainsMono)"

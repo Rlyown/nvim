@@ -34,6 +34,7 @@ Notes:
   - macOS only
   - Installs dependencies via Homebrew
   - Installs required tree-sitter-cli via npm
+  - Installs rustup by default (unless `--disable-rust`)
   - Installs Kitty by default (skips if already installed)
   - Installs Nerd Font by default (JetBrainsMono Nerd Font)
 EOF

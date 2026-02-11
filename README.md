@@ -66,7 +66,10 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ brew install neovim lua go
 
   # Packages
-  $ brew install ripgrep fd lazygit gnu-sed
+  $ brew install ripgrep fd lazygit gnu-sed imagemagick ghostscript
+
+  # Rust toolchain (skip if you disable rust feature)
+  $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
   # Packages (include required Node runtime)
   $ brew install bear node yarn
