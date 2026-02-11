@@ -68,6 +68,16 @@ brew_install_formula node
 brew_install_formula yarn
 brew_install_formula trash
 
+log_step "Installing required npm package: tree-sitter-cli"
+if command -v tree-sitter >/dev/null 2>&1; then
+  log_ok "Already installed: tree-sitter-cli"
+else
+  need_cmd npm
+  npm install -g tree-sitter-cli
+  need_cmd tree-sitter
+  log_ok "Installed: tree-sitter-cli"
+fi
+
 disable_has() {
   local item="$1"
   [[ ",${DISABLE_LANGS}," == *",${item},"* ]]

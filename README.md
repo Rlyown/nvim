@@ -48,7 +48,8 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
 - [Neovim](https://neovim.io/)
 - [Lua](https://www.lua.org/) (for neovim runtime)
-- [Node](https://nodejs.org/en/download) (Optional, for some plugins that require Node)
+- [Node](https://nodejs.org/en/download) (Required, for `tree-sitter-cli` and Node-based plugins)
+- [tree-sitter-cli](https://tree-sitter.github.io/tree-sitter/creating-parsers#installation) (Required)
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) (It's optional, if no needs to preview markdown (in browser))
 
 **Install with following Steps**:
@@ -67,8 +68,11 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   # Packages
   $ brew install ripgrep fd lazygit gnu-sed
 
-  # Optional Packages
+  # Packages (include required Node runtime)
   $ brew install bear node yarn
+
+  # Required
+  $ npm install --global tree-sitter-cli
 
   # If you want delete file to trash bin directory by nvim-tree
   $ brew install trash
@@ -101,9 +105,12 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   $ ln -s $(which fdfind) ~/.local/bin/fd
   $ export PATH=$HOME/.local/bin:$PATH
 
-  # Optional Packages
+  # Packages (include required Node runtime)
   $ npm install --global yarn
   $ sudo apt install bear xclip nodejs
+
+  # Required
+  $ npm install --global tree-sitter-cli
   ```
 
   _Nerd Fonts_ is needed to show icons. You can choose your favorite font or find icons in the [https://www.nerdfonts.com](https://www.nerdfonts.com).
