@@ -14,23 +14,6 @@ local function split_csv(value)
     return out
 end
 
-local function load_local_overrides()
-    local cfg_dir = vim.fn.stdpath("config")
-    local path = cfg_dir .. "/lua/modules/features.lua"
-    if vim.fn.filereadable(path) ~= 1 then
-        return {}
-    end
-
-    local ok, overrides = pcall(dofile, path)
-    if not ok or type(overrides) ~= "table" then
-        vim.schedule(function()
-            vim.notify(("Invalid features override file: %s"):format(path), vim.log.levels.WARN)
-        end)
-        return {}
-    end
-    return overrides
-end
-
 local defaults = {
     cpp = true,
     go = true,
@@ -38,20 +21,13 @@ local defaults = {
     python = true,
     tex = true,
     sql = true,
-    copilot = true,
+    copilot = false,
 }
 
-local local_overrides = load_local_overrides()
 local env_disable = split_csv(vim.env.NVIM_DISABLE_LANGS)
 local env_enable = split_csv(vim.env.NVIM_ENABLE_LANGS)
 
 local enabled = vim.deepcopy(defaults)
-
-for k, v in pairs(local_overrides) do
-    if enabled[k] ~= nil and type(v) == "boolean" then
-        enabled[k] = v
-    end
-end
 
 for k, _ in pairs(env_disable) do
     if enabled[k] ~= nil then
@@ -74,4 +50,3 @@ function M.snapshot()
 end
 
 return M
-

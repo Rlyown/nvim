@@ -46,6 +46,3 @@ luac.out
 # latex indent log
 indent.log
 .luarc.json
-
-# local feature toggles (not tracked)
-lua/modules/features.lua

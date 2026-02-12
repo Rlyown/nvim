@@ -63,13 +63,10 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 
   ```bash
   # Runtime
-  $ brew install neovim lua go
+  $ brew install neovim lua go rust
 
   # Packages
   $ brew install ripgrep fd lazygit gnu-sed imagemagick ghostscript
-
-  # Rust toolchain (skip if you disable rust feature)
-  $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
   # Packages (include required Node runtime)
   $ brew install bear node yarn
@@ -153,7 +150,7 @@ Congratulations, now start enjoying the powerful neovim!
 
 You can disable/enable language packs so that Lazy/Mason won't install or enable the related plugins/tools.
 
-- Local (per machine): copy `lua/modules/features.lua.example` to `lua/modules/features.lua` and edit booleans.
+- Default config: edit booleans in `lua/core/features.lua` directly.
 - Environment (one-shot override):
   - `NVIM_DISABLE_LANGS=go,tex`
   - `NVIM_ENABLE_LANGS=copilot`
