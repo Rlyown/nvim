@@ -70,6 +70,42 @@ brew_install_formula node
 brew_install_formula yarn
 brew_install_formula trash
 
+log_step "Installing required Python package: pylatexenc (for latex2text)"
+if command -v latex2text >/dev/null 2>&1; then
+  log_ok "Already installed: pylatexenc (latex2text found)"
+else
+  if ! command -v python3 >/dev/null 2>&1; then
+    log_step "python3 not found, installing via Homebrew"
+    brew_install_formula python
+  fi
+
+  if ! python3 -m pip --version >/dev/null 2>&1; then
+    log_warn "python3 pip is unavailable, trying ensurepip"
+    python3 -m ensurepip --upgrade >/dev/null 2>&1 || true
+  fi
+  python3 -m pip --version >/dev/null 2>&1 || die "python3 pip is unavailable; cannot install pylatexenc"
+
+  if python3 -m pip show pylatexenc >/dev/null 2>&1; then
+    log_ok "Already installed: pylatexenc"
+  else
+    python3 -m pip install --user --upgrade pylatexenc
+    log_ok "Installed: pylatexenc"
+  fi
+
+  if command -v latex2text >/dev/null 2>&1; then
+    log_ok "latex2text command is available"
+  else
+    USER_BASE="$(python3 -c 'import site; print(site.USER_BASE)')"
+    USER_BIN="${USER_BASE}/bin"
+    if [[ -x "${USER_BIN}/latex2text" ]]; then
+      log_warn "latex2text was installed to ${USER_BIN}, but this path is not in PATH."
+      log_warn "Add this to your shell rc: export PATH=\"${USER_BIN}:\$PATH\""
+    else
+      log_warn "pylatexenc installation finished, but latex2text was not found in PATH."
+    fi
+  fi
+fi
+
 log_step "Installing required npm package: tree-sitter-cli"
 if command -v tree-sitter >/dev/null 2>&1; then
   log_ok "Already installed: tree-sitter-cli"

@@ -33,6 +33,7 @@ Options:
 Notes:
   - macOS only
   - Installs dependencies via Homebrew
+  - Installs required Python package `pylatexenc` (provides `latex2text`)
   - Installs required tree-sitter-cli via npm
   - Installs Rust via Homebrew by default (unless `--disable-rust`)
   - Installs Kitty by default (skips if already installed)
