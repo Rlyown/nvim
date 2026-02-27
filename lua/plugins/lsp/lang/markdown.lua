@@ -1,12 +1,12 @@
 return {
-	    {
-	        "iamcco/markdown-preview.nvim",
-	        enabled = false,
-	        build = "cd app && yarn install ",
-	        ft = { "markdown" },
-	        keys = {
-	            {
-	                "<leader>lm",
+    {
+        "iamcco/markdown-preview.nvim",
+        enabled = false,
+        build = "cd app && yarn install ",
+        ft = { "markdown" },
+        keys = {
+            {
+                "<leader>lm",
                 function()
                     local opts = {
                         prompt = "Current filetype isn't markdown. Do you want to change it and continue?[Y/n] ",
@@ -43,13 +43,13 @@ return {
         }
     }, -- markdown preview plugin
 
-	    {
-	        -- Make sure to set this up properly if you have lazy=true
-	        'MeanderingProgrammer/render-markdown.nvim',
-	        opts = {
-	            file_types = { "markdown" },
-	            latex = { enabled = false }
-	        },
-	        ft = { "markdown" },
-	    },
+    {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+            file_types = { "markdown" },
+            latex = { enabled = true, converter = 'latex2text' }
+        },
+        ft = { "markdown" },
+    },
 }
