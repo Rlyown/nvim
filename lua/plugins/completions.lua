@@ -1,37 +1,67 @@
-	return {
-	    {
-	        'saghen/blink.compat',
+local function blink_default_sources(features)
+    local defaults = { "lsp", "path", "snippets", "buffer", "omni", "dbee" }
+    if features.enabled("copilot") then
+        table.insert(defaults, 1, "copilot")
+    end
+    return defaults
+end
+
+local function blink_context_kind()
+    local ok, node = pcall(vim.treesitter.get_node)
+    if not ok or not node then
+        return "code"
+    end
+
+    while node do
+        local node_type = node:type()
+        if type(node_type) == "string" then
+            if node_type:find("comment", 1, true) then
+                return "comment"
+            end
+            if node_type:find("string", 1, true) then
+                return "string"
+            end
+        end
+        node = node:parent()
+    end
+
+    return "code"
+end
+
+return {
+    {
+        'saghen/blink.compat',
         -- use the latest release, via version = '*', if you also use the latest release for blink.cmp
         version = '*',
         -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
         lazy = true,
         -- make sure to set opts so that lazy.nvim calls blink.compat's setup
         opts = {},
-	    },
-		    {
-		        'saghen/blink.cmp',
-		        dependencies = (function()
-		            local features = require("core.features")
-		            local deps = {
-		                'rafamadriz/friendly-snippets',
-		                "micangl/cmp-vimtex",
-		                "kndndrj/nvim-dbee",
-		            }
-		            if features.enabled("copilot") then
-		                table.insert(deps, "fang2hou/blink-copilot")
-		            end
-		            if not features.enabled("tex") then
-		                for i, v in ipairs(deps) do
-		                    if v == "micangl/cmp-vimtex" then
-		                        table.remove(deps, i)
-		                        break
-		                    end
-		                end
-		            end
-		            return deps
-		        end)(),
-	        version = '1.*',
-	        opts = {
+    },
+    {
+        'saghen/blink.cmp',
+        dependencies = (function()
+            local features = require("core.features")
+            local deps = {
+                'rafamadriz/friendly-snippets',
+                "micangl/cmp-vimtex",
+                "kndndrj/nvim-dbee",
+            }
+            if features.enabled("copilot") then
+                table.insert(deps, "fang2hou/blink-copilot")
+            end
+            if not features.enabled("tex") then
+                for i, v in ipairs(deps) do
+                    if v == "micangl/cmp-vimtex" then
+                        table.remove(deps, i)
+                        break
+                    end
+                end
+            end
+            return deps
+        end)(),
+        version = '1.*',
+        opts = {
             -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
             -- 'super-tab' for mappings similar to vscode (tab to accept)
             -- 'enter' for enter to accept
@@ -90,18 +120,15 @@
 
             -- Default list of enabled providers defined so that you can extend it
             -- elsewhere in your config, without redefining it, due to `opts_extend`
-		            sources = (function()
-		                local features = require("core.features")
-		                local defaults = { 'lsp', 'path', 'snippets', 'buffer', 'omni', "dbee" }
-		                if features.enabled("copilot") then
-		                    table.insert(defaults, 1, "copilot")
-		                end
+            sources = (function()
+                local features = require("core.features")
+                local defaults = blink_default_sources(features)
 
-		                local providers = {
-		                    dbee = {
-		                        -- IMPORTANT: use the same name as you would for nvim-cmp
-		                        name = 'dbee',
-		                        module = 'blink.compat.source',
+                local providers = {
+                    dbee = {
+                        -- IMPORTANT: use the same name as you would for nvim-cmp
+                        name = 'dbee',
+                        module = 'blink.compat.source',
 
                         -- all blink.cmp source config options work as normal:
                         score_offset = -3,
@@ -110,34 +137,43 @@
                         -- as the `option` field in nvim-cmp's source config
                         --
                         -- this is NOT the same as the opts in a plugin's lazy.nvim spec
-		                        opts = {
-		                        },
-		                    }
-		                }
+                        opts = {
+                        },
+                    }
+                }
 
-		                if features.enabled("copilot") then
-		                    providers.copilot = {
-		                        name = "copilot",
-		                        module = "blink-copilot",
-		                        score_offset = 100,
-		                        async = true,
-		                    }
-		                end
+                if features.enabled("copilot") then
+                    providers.copilot = {
+                        name = "copilot",
+                        module = "blink-copilot",
+                        score_offset = 100,
+                        async = true,
+                    }
+                end
 
-		                if features.enabled("tex") then
-		                    providers.vimtex = {
-		                        name = 'vimtex',
-		                        module = 'blink.compat.source',
-		                        score_offset = -3,
-		                        opts = {},
-		                    }
-		                end
+                if features.enabled("tex") then
+                    providers.vimtex = {
+                        name = 'vimtex',
+                        module = 'blink.compat.source',
+                        score_offset = -3,
+                        opts = {},
+                    }
+                end
 
-		                return {
-		                    default = defaults,
-		                    providers = providers,
-		                }
-		            end)(),
+                return {
+                    default = function()
+                        local context = blink_context_kind()
+                        if context == "comment" then
+                            return { "buffer" }
+                        end
+                        if context == "string" then
+                            return { "path", "buffer" }
+                        end
+                        return defaults
+                    end,
+                    providers = providers,
+                }
+            end)(),
 
 	            -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
 	            -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
@@ -148,7 +184,6 @@
 
             signature = { enabled = false }
         },
-        opts_extend = { "sources.default" },
     },
     {
         "xzbdmw/colorful-menu.nvim",

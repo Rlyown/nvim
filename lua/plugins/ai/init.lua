@@ -77,4 +77,46 @@ return {
             },
         },
     },
+    {
+        "NickvanDyke/opencode.nvim",
+        version = "*",
+        dependencies = {
+            {
+                "folke/snacks.nvim",
+                optional = true,
+                opts = function(_, opts)
+                    opts.input = opts.input or {}
+                    opts.picker = opts.picker or {}
+                    opts.picker.actions = opts.picker.actions or {}
+                    opts.picker.actions.opencode_send = function(...)
+                        return require("opencode").snacks_picker_send(...)
+                    end
+                    opts.picker.win = opts.picker.win or {}
+                    opts.picker.win.input = opts.picker.win.input or {}
+                    opts.picker.win.input.keys = opts.picker.win.input.keys or {}
+                    opts.picker.win.input.keys["<a-a>"] = { "opencode_send", mode = { "n", "i" } }
+                end,
+            },
+        },
+        keys = {
+            {
+                "<leader>ae",
+                function() require("opencode").ask("@this: ", { submit = true }) end,
+                mode = { "n", "x" },
+                desc = "Opencode Ask",
+            },
+            {
+                "<leader>ax",
+                function() require("opencode").select() end,
+                mode = { "n", "x" },
+                desc = "Opencode Select",
+            },
+            {
+                "<leader>ao",
+                function() require("opencode").toggle() end,
+                mode = { "n", "t" },
+                desc = "Opencode Toggle",
+            },
+        },
+    },
 }
