@@ -625,10 +625,10 @@ return {
                 separator = { left = "", right = "" },
             }
 
-	            local sidekick_copilot_status = {
-	                function()
-	                    return " "
-	                end,
+            local sidekick_copilot_status = {
+                function()
+                    return " "
+                end,
                 color = function()
                     local status = require("sidekick.status").get()
                     if status then
@@ -658,7 +658,7 @@ return {
 
             require("lualine").setup({
                 options = {
-                    theme = "catppuccin",
+                    theme = "auto",
                     component_separators = { left = "", right = "" },
                     section_separators = { left = "", right = "" },
                     disabled_filetypes = {
