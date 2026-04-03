@@ -44,6 +44,25 @@ Make sure to remove or move your current `nvim` directory.
 $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
 ```
 
+**Quick Install (Recommended)**
+
+```bash
+$ cd ~/.config/nvim
+$ ./install.sh
+```
+
+The one-click installer supports:
+
+- macOS via Homebrew
+- Kali Linux via APT (and should also work on Debian-family APT distributions)
+
+You can also skip some language toolchains or plugin sync when needed:
+
+```bash
+$ ./install.sh --disable go,tex
+$ ./install.sh --disable-rust --no-plugin-sync
+```
+
 **Requirements**
 
 - [Neovim](https://neovim.io/)
@@ -122,6 +141,34 @@ $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
   ```
 
   _Note_: Don't forget to change your terminal fonts.
+
+  </p>
+  </details>
+
+- <details><summary>On Kali Linux</summary>
+  <p>
+
+  **NOTE**:
+
+  The recommended way on Kali is the one-click installer:
+
+  ```bash
+  $ ./install.sh
+  ```
+
+  It will:
+
+  - install packages with `apt`
+  - install `yarn` and `tree-sitter-cli` with `npm`
+  - install `pylatexenc` with `pip`
+  - create an `fd` compatibility symlink for `fdfind`
+  - download JetBrainsMono Nerd Font to `~/.local/share/fonts`
+
+  If you don't want the plugin sync step during install:
+
+  ```bash
+  $ ./install.sh --no-plugin-sync
+  ```
 
   </p>
   </details>

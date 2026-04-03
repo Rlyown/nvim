@@ -52,23 +52,23 @@ log_step "Updating Homebrew"
 brew update
 
 log_step "Installing Kitty"
-brew_install_cask kitty
+brew_install_cask kitty kitty
 
 log_step "Installing required dependencies"
-brew_install_formula neovim
-brew_install_formula lua
-brew_install_formula ripgrep
-brew_install_formula fd
-brew_install_formula lazygit
-brew_install_formula gnu-sed
-brew_install_formula imagemagick
-brew_install_formula ghostscript
+brew_install_formula neovim nvim
+brew_install_formula lua lua
+brew_install_formula ripgrep rg
+brew_install_formula fd fd
+brew_install_formula lazygit lazygit
+brew_install_formula gnu-sed gsed
+brew_install_formula imagemagick magick convert
+brew_install_formula ghostscript gs
 
 log_step "Installing extra dependencies (installed by default)"
-brew_install_formula bear
-brew_install_formula node
-brew_install_formula yarn
-brew_install_formula trash
+brew_install_formula bear bear
+brew_install_formula node node
+brew_install_formula yarn yarn
+brew_install_formula trash trash
 
 log_step "Installing required Python package: pylatexenc (for latex2text)"
 if command -v latex2text >/dev/null 2>&1; then
@@ -76,7 +76,7 @@ if command -v latex2text >/dev/null 2>&1; then
 else
   if ! command -v python3 >/dev/null 2>&1; then
     log_step "python3 not found, installing via Homebrew"
-    brew_install_formula python
+    brew_install_formula python python3
   fi
 
   if ! python3 -m pip --version >/dev/null 2>&1; then
@@ -123,14 +123,14 @@ disable_has() {
 
 if ! disable_has "go"; then
   log_step "Installing Go toolchain"
-  brew_install_formula go
+  brew_install_formula go go
 else
   log_warn "Go disabled: skipping Homebrew formula 'go'"
 fi
 
 if ! disable_has "rust"; then
   log_step "Installing Rust toolchain via Homebrew"
-  brew_install_formula rust
+  brew_install_formula rust cargo
 else
   log_warn "Rust disabled: skipping Homebrew formula 'rust'"
 fi

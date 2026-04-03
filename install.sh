@@ -7,10 +7,13 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 preflight_check() {
   local os_name
   os_name="$(uname -s 2>/dev/null || echo unknown)"
-  if [[ "$os_name" != "Darwin" ]]; then
-    echo "Error: unsupported system '$os_name'. This installer supports macOS only." >&2
-    exit 1
-  fi
+  case "$os_name" in
+    Darwin|Linux) ;;
+    *)
+      echo "Error: unsupported system '$os_name'. This installer supports macOS and Kali/Debian-family Linux." >&2
+      exit 1
+      ;;
+  esac
 }
 
 usage() {
@@ -31,11 +34,11 @@ Options:
   -h, --help         Show help
 
 Notes:
-  - macOS only
-  - Installs dependencies via Homebrew
+  - macOS: installs dependencies via Homebrew
+  - Linux: validated on Kali Linux and uses APT for dependencies
   - Installs required Python package `pylatexenc` (provides `latex2text`)
   - Installs required tree-sitter-cli via npm
-  - Installs Rust via Homebrew by default (unless `--disable-rust`)
+  - Installs Rust by default (unless `--disable-rust`)
   - Installs Kitty by default (skips if already installed)
   - Installs Nerd Font by default (JetBrainsMono Nerd Font)
 EOF
@@ -88,9 +91,6 @@ mkdir -p "$ROOT_DIR/scripts"
 
 source "$ROOT_DIR/scripts/lib.sh"
 
-ensure_macos
-
-log_step "Starting macOS install flow"
 args=(--root "$ROOT_DIR")
 if [[ -n "$DISABLE_LANGS" ]]; then
   args+=(--disable "$DISABLE_LANGS")
@@ -101,6 +101,26 @@ fi
 if [[ "$RESTORE_LOCK" -eq 1 ]]; then
   args+=(--restore-lock)
 fi
-"$ROOT_DIR/scripts/install_macos.sh" "${args[@]}"
+
+case "$(uname -s 2>/dev/null || echo unknown)" in
+  Darwin)
+    ensure_macos
+    log_step "Starting macOS install flow"
+    bash "$ROOT_DIR/scripts/install_macos.sh" "${args[@]}"
+    ;;
+  Linux)
+    ensure_linux
+    ensure_apt_based_linux
+    if is_kali_linux; then
+      log_step "Starting Kali Linux install flow"
+    else
+      log_warn "Detected $(linux_distribution_name). Proceeding with the APT-based Linux install flow."
+    fi
+    bash "$ROOT_DIR/scripts/install_linux.sh" "${args[@]}"
+    ;;
+  *)
+    die "Unsupported system"
+    ;;
+esac
 
 log_ok "Done"
