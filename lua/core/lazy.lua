@@ -1,5 +1,8 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
+    if vim.env.NVIM_OFFLINE == "1" then
+        error("lazy.nvim is missing from the offline runtime")
+    end
     vim.fn.system({
         "git",
         "clone",

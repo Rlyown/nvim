@@ -142,12 +142,12 @@ return {
             { "<leader>LL", vim.lsp.codelens.run, desc = "CodeLens Action" },
             {
                 "<leader>Ln",
-                vim.lsp.diagnostic.goto_next,
+                function() vim.diagnostic.jump({ count = 1, float = true, border = "rounded" }) end,
                 desc = "Next Diagnostic",
             },
             {
                 "<leader>Lp",
-                vim.lsp.diagnostic.goto_prev,
+                function() vim.diagnostic.jump({ count = -1, float = true, border = "rounded" }) end,
                 desc = "Prev Diagnostic",
             },
             {

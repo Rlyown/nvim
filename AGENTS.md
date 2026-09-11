@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This repository is a Neovim 0.11+ configuration focused on C/C++, Go, Rust, and Python development. `init.lua` is the entry point. Put editor-wide behavior in `lua/core/`: options, keymaps, autocommands, feature toggles, and Lazy.nvim bootstrap logic live there. Keep plugin specifications grouped by purpose in `lua/plugins/`; language-specific LSP and DAP settings belong in `lua/plugins/lsp/`, with per-language files in `lua/plugins/lsp/lang/`. 
+This repository is a Neovim 0.12.4 configuration focused on C/C++, Go, Rust, and Python development. `init.lua` is the entry point. Put editor-wide behavior in `lua/core/`: options, keymaps, autocommands, feature toggles, and Lazy.nvim bootstrap logic live there. Keep plugin specifications grouped by purpose in `lua/plugins/`; language-specific LSP and DAP settings belong in `lua/plugins/lsp/`, with per-language files in `lua/plugins/lsp/lang/`.
 
 Use `after/ftplugin/` for filetype-local Vimscript. Store reusable starter files under `templates/`, custom dictionaries under `spell/`, and VS Code-style snippets in `snippets/snippets/`. Installer logic is split between `install.sh` and `scripts/`; `lazy-lock.json` pins plugin revisions and should change only when plugin versions are intentionally updated.
 
@@ -13,6 +13,8 @@ Use `after/ftplugin/` for filetype-local Vimscript. Store reusable starter files
 - `nvim --headless "+Lazy! sync" +qa` installs or updates declared plugins.
 - `nvim --headless "+Lazy! restore" +qa` restores the versions in `lazy-lock.json`.
 - `nvim --headless "+checkhealth" +qa` checks Neovim, provider, and plugin dependencies.
+- `bash tests/test_lite.sh` validates the zero-plugin portable configuration on Neovim 0.12.4.
+- `scripts/build-offline-bundle.sh` produces the Linux x86_64 offline archive with Docker.
 
 There is no standalone test framework. Validate changed Lua configuration by starting `nvim`, opening a representative filetype, and checking `:messages` and `:checkhealth` for errors.
 

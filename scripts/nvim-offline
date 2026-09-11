@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+BUNDLE_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+RUNTIME_DIR="$BUNDLE_ROOT/runtime"
+
+[[ -x "$RUNTIME_DIR/nvim/bin/nvim" ]] || {
+  echo "Offline runtime is incomplete: missing Neovim binary" >&2
+  exit 1
+}
+
+export NVIM_OFFLINE=1
+export XDG_CONFIG_HOME="$RUNTIME_DIR/config"
+export XDG_DATA_HOME="$RUNTIME_DIR/data"
+export XDG_STATE_HOME="$RUNTIME_DIR/state"
+export XDG_CACHE_HOME="$RUNTIME_DIR/cache"
+export PATH="$RUNTIME_DIR/bin:$XDG_DATA_HOME/nvim/mason/bin:$PATH"
+export LD_LIBRARY_PATH="$RUNTIME_DIR/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+# go.nvim requires the Go executable during setup. The bundle deliberately leaves
+# project toolchains to the target machine, so disable this language pack when Go
+# is absent instead of failing the entire editor startup.
+if ! command -v go >/dev/null 2>&1; then
+  if [[ -n "${NVIM_DISABLE_LANGS:-}" ]]; then
+    export NVIM_DISABLE_LANGS="${NVIM_DISABLE_LANGS},go"
+  else
+    export NVIM_DISABLE_LANGS="go"
+  fi
+fi
+
+exec "$RUNTIME_DIR/nvim/bin/nvim" "$@"

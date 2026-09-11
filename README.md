@@ -38,7 +38,7 @@ This configuration mainly focus on programming with `C/Cpp`, `Golang`, `Rust` an
 
 Make sure to remove or move your current `nvim` directory.
 
-**IMPORTANT** Configuration based on neovim v0.11.0.
+**IMPORTANT** Configuration requires Neovim v0.12.4.
 
 ```bash
 $ git clone https://github.com/Rlyown/nvim.git ~/.config/nvim
@@ -70,6 +70,54 @@ $ ./install.sh --disable-rust --no-plugin-sync
 - [Node](https://nodejs.org/en/download) (Required, for `tree-sitter-cli` and Node-based plugins)
 - [tree-sitter-cli](https://tree-sitter.github.io/tree-sitter/creating-parsers#installation) (Required)
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install) (It's optional, if no needs to preview markdown (in browser))
+
+## Portable distributions
+
+Both portable entry points require Neovim v0.12.4 or later. They never replace the
+user's existing `~/.config/nvim` configuration.
+
+### Plugin-free single file
+
+`lite.lua` is a zero-plugin fallback for SSH hosts and restricted machines. It
+uses only Neovim's built-in APIs, enables a language server only when its command
+is already on `PATH`, and uses `rg` for project search when available.
+
+```bash
+nvim --clean -u /path/to/nvim/lite.lua
+```
+
+It includes editing defaults, terminal and file-explorer mappings, quickfix-based
+file/grep commands, diagnostics, formatting, and native LSP navigation. It does
+not install plugins or language servers, and it does not make network requests.
+
+### Linux offline package
+
+The full package targets Linux x86_64 on Ubuntu 24.04. Build it on an online
+machine with Docker:
+
+```bash
+scripts/build-offline-bundle.sh
+```
+
+This writes `dist/nvim-offline-linux-x86_64-<version>.tar.zst` and its SHA-256
+file. Transfer both files, verify the checksum, extract the archive, then start
+the isolated runtime:
+
+```bash
+sha256sum -c nvim-offline-linux-x86_64-<version>.tar.zst.sha256
+mkdir nvim-offline && tar --zstd -xf nvim-offline-linux-x86_64-<version>.tar.zst -C nvim-offline
+./nvim-offline/bin/nvim-offline
+```
+
+The package carries Neovim, plugins, Tree-sitter parsers, Mason tools, Node,
+`rg`, and `fd`; it intentionally excludes project compilers and language
+toolchains. If a target lacks `go`, the wrapper disables the Go language pack so
+the editor can still start; install Go on the target to enable it. AI, database
+connections, and browser previews still require their respective external
+services. Startup sets private XDG directories and never contacts the network.
+To explicitly update plugins and Mason tools on a connected target, run
+`./nvim-offline/bin/nvim-offline-update --online`; the command creates a backup
+before changing package data.
 
 **Install with following Steps**:
 

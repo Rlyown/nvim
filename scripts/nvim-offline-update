@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${1:-}" != "--online" ]]; then
+  echo "Refusing to update without --online. Normal offline startup never uses the network." >&2
+  exit 2
+fi
+shift
+
+[[ $# -eq 0 ]] || {
+  echo "nvim-offline-update accepts only --online" >&2
+  exit 2
+}
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+BUNDLE_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+RUNTIME_DIR="$BUNDLE_ROOT/runtime"
+STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+BACKUP_DIR="$BUNDLE_ROOT/backups/$STAMP"
+
+command -v git >/dev/null 2>&1 || {
+  echo "Updating plugins requires git on the target machine" >&2
+  exit 1
+}
+
+mkdir -p "$BACKUP_DIR"
+cp -a "$RUNTIME_DIR/data/nvim/lazy" "$BACKUP_DIR/lazy"
+cp -a "$RUNTIME_DIR/data/nvim/mason" "$BACKUP_DIR/mason"
+
+"$SCRIPT_DIR/nvim-offline" --headless "+Lazy! update" "+MasonToolsUpdate" +qa "$@"
+echo "Update complete. Backup: $BACKUP_DIR"

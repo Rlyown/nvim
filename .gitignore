@@ -49,3 +49,6 @@ indent.log
 
 # Local Serena workspace metadata
 .serena/
+
+# Generated offline distribution archives
+/dist/
