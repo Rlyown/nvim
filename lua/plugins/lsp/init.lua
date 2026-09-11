@@ -304,7 +304,16 @@ return {
             'epheien/outline-treesitter-provider.nvim'
         }
     }, -- A tree like view for symbols
-    { "andymass/vim-matchup",     lazy = true, keys = { "%" } },
+    {
+        "andymass/vim-matchup",
+        lazy = true,
+        keys = { "%" },
+        init = function()
+            -- vim-matchup 的 Treesitter 后端尚不兼容 Neovim 0.12 的查询 API。
+            -- 保留其正则匹配回退，避免按 % 时触发节点范围错误。
+            vim.g.matchup_treesitter_enabled = false
+        end,
+    },
 
     -- debugging
     { import = "plugins.lsp.dap" },

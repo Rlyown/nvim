@@ -1,8 +1,10 @@
 return {
     {
-	        "nvim-treesitter/nvim-treesitter",
-	        build = ":TSUpdate",
-	        config = function()
+        "nvim-treesitter/nvim-treesitter",
+        branch = "main",
+        lazy = false,
+        build = ":TSUpdate",
+        config = function()
 	            local features = require("core.features")
 	            local disable_func = require("core.gfunc").fn.disable_check_buf
 	
@@ -35,7 +37,6 @@ return {
                     "html",
                     "json",
                     "json5",
-                    "jsonc",
                     "kconfig",
                     "latex",
                     "llvm",
@@ -46,7 +47,6 @@ return {
                     "markdown",
                     "meson",
                     "ninja",
-                    "norg",
                     "python",
                     "regex",
                     "requirements",
@@ -57,7 +57,6 @@ return {
                     "toml",
                     "vim",
                     "vimdoc",
-                    "verilog",
                     "xml",
                     "yaml",
                     "css",
@@ -105,7 +104,7 @@ return {
 	                end
 	            end
 
-	            require 'nvim-treesitter'.setup({
+            require("treesitter-modules").setup({
 	                ensure_installed = filtered,           -- one of "all", or a list of languages
 	                sync_install = false,                   -- install languages synchronously (only applied to `ensure_installed`)
 	                ignore_install = { "swift", "phpdoc" }, -- List of parsers to ignore installing
@@ -131,18 +130,14 @@ return {
                         end
                     end
                 },
-                matchup = {
-                    enable = true, -- mandatory, false will disable the whole extension
-                    --[[ disable = { "c", "ruby" }, -- optional, list of language that will be disabled ]]
-                    disable = function(lang, buf)
-                        if disable_func(buf) then
-                            return true
-                        end
-                        return false
-                    end,
-                },
             })
-        end
+        end,
+        dependencies = {
+            {
+                "MeanderingProgrammer/treesitter-modules.nvim",
+                lazy = false,
+            },
+        },
     }, -- Nvim Treesitter configurations and abstraction layer
     {
         "Wansmer/treesj",
