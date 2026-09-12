@@ -7,7 +7,7 @@ source "$SCRIPT_DIR/lib.sh"
 
 source "$SCRIPT_DIR/brew_utils.sh"
 
-RESTORE_LOCK=0
+RESTORE_LOCK=1
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --restore-lock=1|--restore-lock=true) RESTORE_LOCK=1; shift ;;
@@ -24,6 +24,8 @@ EOF
 done
 
 need_cmd nvim
+export NVIM_MAINTENANCE=1
+export NVIM_OFFLINE=0
 
 if [[ "$RESTORE_LOCK" -eq 1 ]]; then
   nvim --headless "+Lazy! restore" +qa

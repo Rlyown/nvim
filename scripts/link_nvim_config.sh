@@ -34,7 +34,7 @@ fi
 ensure_dir "$local_config_root"
 
 if [[ -L "$target" ]]; then
-  local link_to
+  link_to=""
   link_to="$(readlink "$target")"
   if [[ "$(realpath_fallback "$link_to")" == "$ROOT" ]]; then
     log_ok "Symlink already points to repo: $target -> $ROOT"

@@ -1,0 +1,5 @@
+vim.opt.rtp:prepend(assert(vim.env.NVIM_CONFIG_ROOT))
+local c = require("config").get()
+local text = "-- 由安装器保存的本机选择。\nreturn " .. vim.inspect({ profile = c.profile, languages = c.languages, features = c.features })
+vim.fn.writefile(vim.split(text, "\n", { plain = true }), vim.env.NVIM_CONFIG_ROOT .. "/lua/config/local.lua")
+vim.cmd.qa()

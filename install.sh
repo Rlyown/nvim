@@ -1,126 +1,61 @@
 #!/usr/bin/env bash
 set -euo pipefail
-IFS=$'\n\t'
-
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-
-preflight_check() {
-  local os_name
-  os_name="$(uname -s 2>/dev/null || echo unknown)"
-  case "$os_name" in
-    Darwin|Linux) ;;
-    *)
-      echo "Error: unsupported system '$os_name'. This installer supports macOS and Kali/Debian-family Linux." >&2
-      exit 1
-      ;;
-  esac
-}
-
-usage() {
-  cat <<'EOF'
-Usage:
-  ./install.sh [options]
-
-Options:
-  --disable <list>    Disable language packs for dependency install (CSV: cpp,go,rust,python,tex,sql)
-  --disable-cpp       Same as: --disable cpp
-  --disable-go        Same as: --disable go
-  --disable-rust      Same as: --disable rust
-  --disable-python    Same as: --disable python
-  --disable-tex       Same as: --disable tex
-  --disable-sql       Same as: --disable sql
-  --no-plugin-sync   Skip `nvim --headless` plugin sync
-  --restore-lock     Use `lazy-lock.json` via `Lazy! restore` (otherwise `Lazy! sync`)
-  -h, --help         Show help
-
-Notes:
-  - macOS: installs dependencies via Homebrew
-  - Linux: validated on Kali Linux and uses APT for dependencies
-  - Installs required Python package `pylatexenc` (provides `latex2text`)
-  - Installs required tree-sitter-cli via npm
-  - Installs Rust by default (unless `--disable-rust`)
-  - Installs Kitty by default (skips if already installed)
-  - Installs Nerd Font by default (JetBrainsMono Nerd Font)
-EOF
-}
-
+export NVIM_CONFIG_ROOT="$ROOT_DIR"
+DRY_RUN=0
 NO_PLUGIN_SYNC=0
-RESTORE_LOCK=0
-DISABLE_LANGS=""
-
-preflight_check
-
-append_disable() {
-  local v="$1"
-  if [[ -z "$DISABLE_LANGS" ]]; then
-    DISABLE_LANGS="$v"
-  else
-    DISABLE_LANGS="${DISABLE_LANGS},$v"
-  fi
-}
-
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --profile|--languages|--features)
+      [[ $# -ge 2 ]] || { echo "$1 requires a value" >&2; exit 2; }
+      case "$1" in
+        --profile) export NVIM_PROFILE="$2" ;;
+        --languages) export NVIM_LANGUAGES="$2" ;;
+        --features) export NVIM_FEATURES="$2" ;;
+      esac
+      shift 2 ;;
     --disable)
-      [[ $# -ge 2 ]] || { echo "Error: --disable requires a value" >&2; exit 2; }
-      append_disable "$2"
-      shift 2
-      ;;
-    --disable-cpp) append_disable "cpp"; shift ;;
-    --disable-go) append_disable "go"; shift ;;
-    --disable-rust) append_disable "rust"; shift ;;
-    --disable-python) append_disable "python"; shift ;;
-    --disable-tex) append_disable "tex"; shift ;;
-    --disable-sql) append_disable "sql"; shift ;;
+      export NVIM_DISABLE_LANGS="${NVIM_DISABLE_LANGS:+$NVIM_DISABLE_LANGS,}$2"; shift 2 ;;
+    --disable-*)
+      export NVIM_DISABLE_LANGS="${NVIM_DISABLE_LANGS:+$NVIM_DISABLE_LANGS,}${1#--disable-}"; shift ;;
+    --dry-run) DRY_RUN=1; shift ;;
     --no-plugin-sync) NO_PLUGIN_SYNC=1; shift ;;
-    --restore-lock) RESTORE_LOCK=1; shift ;;
-    -h|--help) usage; exit 0 ;;
-    --with-optional|--with-fonts)
-      echo "Note: $1 is no longer needed (all deps/fonts are installed by default)." >&2
-      shift
-      ;;
-    *)
-      echo "Unknown argument: $1" >&2
-      usage
-      exit 1
-      ;;
+    --restore-lock) shift ;;
+    --with-fonts) export NVIM_FEATURES="${NVIM_FEATURES:+$NVIM_FEATURES,}fonts"; shift ;;
+    --with-optional) export NVIM_FEATURES="${NVIM_FEATURES:+$NVIM_FEATURES,}fonts,kitty"; shift ;;
+    -h|--help)
+      cat <<'HELP'
+用法: ./install.sh [--profile minimal|developer] [--languages cpp,go,rust,python]
+                  [--features dap,ai,-images] [--dry-run] [--no-plugin-sync]
+兼容: --disable LIST、--disable-LANG、--restore-lock、--with-fonts。
+默认恢复锁定版本；更新请显式运行 scripts/sync_plugins.sh --restore-lock=0。
+依赖 Neovim 0.12.4；dry-run 不安装任何内容。配置选择写入本地覆盖文件。
+HELP
+      exit 0 ;;
+    *) echo "未知参数: $1" >&2; exit 2 ;;
   esac
 done
-
-mkdir -p "$ROOT_DIR/scripts"
-
-source "$ROOT_DIR/scripts/lib.sh"
-
-args=(--root "$ROOT_DIR")
-if [[ -n "$DISABLE_LANGS" ]]; then
-  args+=(--disable "$DISABLE_LANGS")
-fi
-if [[ "$NO_PLUGIN_SYNC" -eq 1 ]]; then
-  args+=(--no-plugin-sync)
-fi
-if [[ "$RESTORE_LOCK" -eq 1 ]]; then
-  args+=(--restore-lock)
-fi
-
-case "$(uname -s 2>/dev/null || echo unknown)" in
-  Darwin)
-    ensure_macos
-    log_step "Starting macOS install flow"
-    bash "$ROOT_DIR/scripts/install_macos.sh" "${args[@]}"
-    ;;
-  Linux)
-    ensure_linux
-    ensure_apt_based_linux
-    if is_kali_linux; then
-      log_step "Starting Kali Linux install flow"
-    else
-      log_warn "Detected $(linux_distribution_name). Proceeding with the APT-based Linux install flow."
-    fi
-    bash "$ROOT_DIR/scripts/install_linux.sh" "${args[@]}"
-    ;;
-  *)
-    die "Unsupported system"
-    ;;
+command -v nvim >/dev/null || { echo '请先安装 Neovim 0.12.4，以便使用共享 Lua 配置解析器。' >&2; exit 1; }
+TASK_DIR="$(mktemp -d)"
+export NVIM_PLAN_OUTPUT="$TASK_DIR/plan.json"
+export NVIM_PACKAGES_OUTPUT="$TASK_DIR/packages"
+export NVIM_INSTALL_OS="$(uname -s)"
+export NVIM_LOG_FILE="$TASK_DIR/nvim.log"
+nvim --headless -u NONE -i NONE -l "$ROOT_DIR/scripts/config-plan.lua"
+cat "$NVIM_PLAN_OUTPUT"
+[[ "$DRY_RUN" -eq 0 ]] || exit 0
+[[ "${NVIM_OFFLINE:-0}" != 1 ]] || { echo '离线模式禁止安装' >&2; exit 1; }
+nvim --headless -u NONE -i NONE -l "$ROOT_DIR/scripts/system-packages.lua"
+packages=()
+while IFS= read -r package; do packages+=("$package"); done < "$NVIM_PACKAGES_OUTPUT"
+case "$NVIM_INSTALL_OS" in
+  Darwin) bash "$ROOT_DIR/scripts/install_macos.sh" "$NVIM_PACKAGES_OUTPUT" ;;
+  Linux) bash "$ROOT_DIR/scripts/install_linux.sh" "$NVIM_PACKAGES_OUTPUT" ;;
+  *) echo '仅支持 macOS 和 APT Linux' >&2; exit 1 ;;
 esac
-
-log_ok "Done"
+bash "$ROOT_DIR/scripts/link_nvim_config.sh" --root "$ROOT_DIR"
+# 保存所选能力，确保安装结果和下一次启动一致。
+nvim --headless -u NONE -i NONE -l "$ROOT_DIR/scripts/save-config.lua"
+if [[ "$NO_PLUGIN_SYNC" -eq 0 ]]; then
+  NVIM_MAINTENANCE=1 nvim --headless -u "$ROOT_DIR/init.lua" -i NONE '+lua dofile(vim.env.NVIM_CONFIG_ROOT .. "/scripts/install-runtime.lua")'
+fi

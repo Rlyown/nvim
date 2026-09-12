@@ -1,13 +1,11 @@
+local root = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h")
+vim.opt.rtp:prepend(root)
 vim.loader.enable(true)
-
-require("core.keymaps")
-require("core.lazy")
+require("config").get()
+vim.g.mapleader = ","
+vim.g.maplocalleader = " "
 require("core.options")
+require("core.keymaps")
 require("core.autocommands")
-
--- Load the global variable setup
-require("core.gvariable").setup()
-
--- vim.lsp.set_log_level("debug")
-
--- TODO: make a appImage versio
+require("config.commands").setup()
+require("core.lazy")

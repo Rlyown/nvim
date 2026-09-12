@@ -25,7 +25,8 @@ command -v git >/dev/null 2>&1 || {
 
 mkdir -p "$BACKUP_DIR"
 cp -a "$RUNTIME_DIR/data/nvim/lazy" "$BACKUP_DIR/lazy"
-cp -a "$RUNTIME_DIR/data/nvim/mason" "$BACKUP_DIR/mason"
+if [[ -d "$RUNTIME_DIR/data/nvim/mason" ]]; then cp -a "$RUNTIME_DIR/data/nvim/mason" "$BACKUP_DIR/mason"; fi
+cp -a "$RUNTIME_DIR/config/nvim/lazy-lock.json" "$BACKUP_DIR/lazy-lock.json"
 
-"$SCRIPT_DIR/nvim-offline" --headless "+Lazy! update" "+MasonToolsUpdate" +qa "$@"
+NVIM_OFFLINE=0 NVIM_MAINTENANCE=1 "$SCRIPT_DIR/nvim-offline" --headless "+Lazy! update" "+lua if #require('config').plan().tools > 0 then vim.cmd('MasonToolsUpdateSync') end" +qa "$@"
 echo "Update complete. Backup: $BACKUP_DIR"
