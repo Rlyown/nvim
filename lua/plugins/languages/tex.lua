@@ -8,12 +8,7 @@ return {
         vim.api.nvim_create_autocmd("User", {
             group = vim.api.nvim_create_augroup("ConfigVimtexFocus", { clear = true }),
             pattern = "VimtexEventViewReverse",
-            callback = function()
-                local app = vim.g.config_tex_focus_app or "iTerm"
-                if vim.fn.has("mac") == 1 and vim.fn.executable("open") == 1 then
-                    vim.fn.jobstart({ "open", "-a", app })
-                end
-            end,
+            callback = function() require("modules.tex").focus_terminal() end,
         })
     end, keys = {
         { "<localleader>b", "<plug>(vimtex-compile)", ft = "tex", desc = "编译 LaTeX" },

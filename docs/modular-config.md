@@ -74,6 +74,8 @@ lua = {
 
 专用插件放在 `lua/plugins/languages/` 并在 `config/specs.lua` 显式接入；辅助函数放 `lua/modules/`，不参与 Lazy 自动扫描。新增系统能力还需在 `scripts/system-packages.lua` 声明平台包名。快捷键直接由所属功能定义，which-key 仅展示。
 
+VimTeX 反向跳转会在 macOS 上重新聚焦终端。它优先使用 `vim.g.config_tex_focus_app`，然后识别 `TERM_PROGRAM`（Kitty、iTerm、Ghostty、WezTerm、Alacritty、Warp、Terminal），最后默认 Kitty；`TERM=xterm-kitty` 也会识别为 Kitty。
+
 已移除 nvim-tree、ToggleTerm、OpenCode、Portal、Harpoon、Grapple、Illuminate、Hydra、SnipRun，以及 Telescope 的 fzf、neoclip、DAP 扩展。Telescope 只作为远程包的私有依赖。Markdown 基础渲染保留；公式转换需 `formulas`。Sidekick 与 Copilot 独立，基础 Tab 补全不会加载 AI。旧导航收藏和剪贴板/宏历史入口不保留。
 
 ## 离线分发与测试
