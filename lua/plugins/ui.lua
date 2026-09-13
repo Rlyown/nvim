@@ -4,7 +4,7 @@ return {
         vim.api.nvim_create_autocmd("VimResized", { group = vim.api.nvim_create_augroup("ConfigResize", { clear = true }), callback = function() require("bufresize").resize() end })
     end },
     { "kevinhwang91/nvim-ufo", event = "BufReadPost", dependencies = { "kevinhwang91/promise-async" }, opts = { provider_selector = function() return { "treesitter", "indent" } end } },
-    require("modules.groups").spec({ ["<leader>f"] = "文件", ["<leader>b"] = "缓冲区", ["<leader>w"] = "窗口", ["<leader>u"] = "显示与配置" }),
+    require("modules.groups").spec({ ["<leader>b"] = "缓冲区", ["<leader>W"] = "窗口", ["<leader>u"] = "显示与配置" }),
     { "folke/which-key.nvim", event = "VeryLazy", opts = { preset = "classic" } },
     { "nvim-lualine/lualine.nvim", event = "VeryLazy", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {
         options = { theme = "catppuccin", globalstatus = true },

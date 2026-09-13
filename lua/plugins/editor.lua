@@ -11,8 +11,8 @@ return {
     { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
     { "RaafatTurki/hex.nvim", cmd = { "HexDump", "HexAssemble", "HexToggle" }, opts = {} },
     { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" }, keys = {
-        { "<leader>fW", "<cmd>SudaWrite<cr>", desc = "管理员保存" },
-        { "<leader>fR", "<cmd>SudaRead<cr>", desc = "管理员读取" },
+        { "<leader>Ww", "<cmd>SudaWrite<cr>", desc = "管理员保存" },
+        { "<leader>Wr", "<cmd>SudaRead<cr>", desc = "管理员读取" },
     } },
     { "smoka7/hop.nvim", opts = {}, keys = { { "<leader>sj", "<cmd>HopChar2<cr>", desc = "跳转字符" } } },
     { "rainbowhxch/accelerated-jk.nvim", config = true, keys = {

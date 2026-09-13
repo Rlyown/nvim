@@ -4,8 +4,7 @@ local function key(lhs, callback, desc, mode)
     table.insert(keys, { lhs, callback, desc = desc, mode = mode })
 end
 if config.enabled("search") then
-    key("<leader>ff", function() Snacks.picker.files() end, "查找文件")
-    key("<leader>fo", function() Snacks.picker.recent() end, "最近文件")
+    key("<leader>f", function() Snacks.picker.files() end, "搜索文件")
     key("<leader>sg", function() Snacks.picker.grep() end, "搜索项目")
     key("<leader>sw", function() Snacks.picker.grep_word() end, "搜索光标词", { "n", "x" })
     key("<leader>sb", function() Snacks.picker.lines() end, "搜索当前文件")
@@ -17,7 +16,7 @@ if config.enabled("search") then
     key("<leader>bb", function() Snacks.picker.buffers() end, "选择缓冲区")
 end
 if config.enabled("explorer") then
-    key("<leader>fe", function() Snacks.explorer() end, "文件树及当前文件定位")
+    key("<leader>n", function() Snacks.explorer() end, "文件树及当前文件定位")
 end
 if config.enabled("terminal") then
     for suffix, layout in pairs({ h = "horizontal", v = "vertical", f = "float", t = "tab" }) do
