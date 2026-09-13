@@ -11,14 +11,14 @@ return {
     { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
     { "RaafatTurki/hex.nvim", cmd = { "HexDump", "HexAssemble", "HexToggle" }, opts = {} },
     { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" }, keys = {
-        { "<leader>Ww", "<cmd>SudaWrite<cr>", desc = "管理员保存" },
-        { "<leader>Wr", "<cmd>SudaRead<cr>", desc = "管理员读取" },
+        { "<leader>W", "<cmd>SudaWrite<cr>", desc = "Force Save" },
+        { "<leader>R", "<cmd>SudaRead<cr>", desc = "Force Reload" },
     } },
-    { "smoka7/hop.nvim", opts = {}, keys = { { "<leader>sj", "<cmd>HopChar2<cr>", desc = "跳转字符" } } },
+    { "smoka7/hop.nvim", opts = {}, keys = { { "<leader>sj", "<cmd>HopChar2<cr>", desc = "Jump to Characters" } } },
     { "rainbowhxch/accelerated-jk.nvim", config = true, keys = {
         { "j", "<Plug>(accelerated_jk_gj)" }, { "k", "<Plug>(accelerated_jk_gk)" },
     } },
-    { "chrishrb/gx.nvim", opts = {}, keys = { { "gx", "<cmd>Browse<cr>", desc = "打开链接" } } },
+    { "chrishrb/gx.nvim", opts = {}, keys = { { "gx", "<cmd>Browse<cr>", desc = "Open Link" } } },
     { "andymass/vim-matchup", keys = { "%" }, init = function() vim.g.matchup_treesitter_enabled = false end },
     { "cvigilv/esqueleto.nvim", event = "BufNewFile", opts = {
         directories = { vim.fn.stdpath("config") .. "/templates/" }, patterns = { ".clang-format", ".clang-tidy", "c", "cpp" },

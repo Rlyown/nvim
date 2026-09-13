@@ -8,7 +8,7 @@ vim.api.nvim_create_autocmd("FileType", {
     callback = function(args)
         vim.opt_local.formatoptions:remove({ "c", "r", "o" })
         if vim.tbl_contains({ "qf", "help", "man" }, vim.bo[args.buf].filetype) then
-            vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = args.buf, desc = "关闭窗口" })
+            vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = args.buf, desc = "Close Window" })
         end
     end,
 })

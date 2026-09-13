@@ -9,8 +9,8 @@ return {
         end,
     },
     { "Wansmer/treesj", dependencies = { "nvim-treesitter/nvim-treesitter" }, opts = { use_default_keymaps = false }, keys = {
-        { "gJ", function() require("treesj").join() end, desc = "合并代码块" },
-        { "gS", function() require("treesj").split() end, desc = "拆分代码块" },
+        { "gJ", function() require("treesj").join() end, desc = "Join Code Block" },
+        { "gS", function() require("treesj").split() end, desc = "Split Code Block" },
     } },
     { "nvim-treesitter/nvim-treesitter-context", event = "BufReadPost", opts = { max_lines = 3 } },
 }

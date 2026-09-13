@@ -17,7 +17,7 @@ local layouts = {
 }
 function M.get(id)
     id = id or vim.v.count1
-    assert(type(id) == "number" and id >= 1 and id % 1 == 0, "终端 ID 必须是正整数")
+    assert(type(id) == "number" and id >= 1 and id % 1 == 0, "Terminal ID must be a positive integer")
     local entry = M.entries[id]
     if not entry then
         entry = { cwd = vim.fn.getcwd(), layout = "horizontal" }
@@ -45,7 +45,7 @@ end
 function M.show(id, layout)
     local e = M.get(id)
     if not vim.api.nvim_buf_is_valid(e.term.buf) then
-        vim.notify("终端缓冲区已失效，请使用新的 ID", vim.log.levels.WARN)
+        vim.notify("Terminal buffer is no longer valid; use a new ID", vim.log.levels.WARN)
         return
     end
     M.hide(id)
@@ -57,7 +57,7 @@ function M.show(id, layout)
         vim.api.nvim_buf_delete(scratch, { force = true })
         e.tabwin = vim.api.nvim_get_current_win()
     else
-        assert(layouts[e.layout], "未知终端布局")
+        assert(layouts[e.layout], "Unknown terminal layout")
         e.term.opts = vim.tbl_deep_extend("force", e.term.opts, layouts[e.layout])
         e.term:show()
         e.term:focus()
@@ -79,11 +79,11 @@ end
 function M.send(id, text)
     local e = M.entries[id]
     if not e or not vim.api.nvim_buf_is_valid(e.term.buf) then
-        vim.notify("目标终端不存在，请先创建 ID " .. id, vim.log.levels.WARN); return false
+        vim.notify("Target terminal does not exist; create ID " .. id .. " first", vim.log.levels.WARN); return false
     end
     local job = vim.b[e.term.buf].terminal_job_id
     if not job or vim.fn.jobwait({ job }, 0)[1] ~= -1 then
-        vim.notify("终端进程已退出，未发送代码", vim.log.levels.WARN); return false
+        vim.notify("Terminal process has exited; code was not sent", vim.log.levels.WARN); return false
     end
     vim.api.nvim_chan_send(job, text .. "\n")
     return true
@@ -96,10 +96,10 @@ function M.capture(mode)
 end
 function M.prompt_send(mode)
     local text = M.capture(mode)
-    vim.ui.input({ prompt = "目标终端 ID: ", default = "1" }, function(value)
+    vim.ui.input({ prompt = "Target terminal ID: ", default = "1" }, function(value)
         if not value then return end
         local id = tonumber(value)
-        if not id or id < 1 or id % 1 ~= 0 then vim.notify("无效终端 ID", vim.log.levels.ERROR); return end
+        if not id or id < 1 or id % 1 ~= 0 then vim.notify("Invalid terminal ID", vim.log.levels.ERROR); return end
         M.send(id, text)
     end)
 end

@@ -17,9 +17,9 @@ Usage: scripts/build-offline-bundle.sh [options]
 Builds a Linux x86_64 Ubuntu 24.04 offline package with Neovim v0.12.4.
 
 Options:
-  --profile NAME     minimal 或 developer
-  --languages CSV    选择语言包
-  --features CSV     选择功能，如 dap
+  --profile NAME     minimal or developer
+  --languages CSV    Select language packs
+  --features CSV     Select features, such as dap
   --output DIR       Write the archive and checksum to DIR (default: dist)
   --version VERSION  Bundle version in the archive name (default: git describe)
   -h, --help         Show this help

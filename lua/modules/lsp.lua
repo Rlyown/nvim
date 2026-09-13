@@ -1,11 +1,11 @@
 local M = {}
 local owned = {}
 local actions = {
-    { "<leader>cd", "textDocument/definition", vim.lsp.buf.definition, "定义" },
-    { "<leader>cr", "textDocument/references", vim.lsp.buf.references, "引用" },
-    { "<leader>ch", "textDocument/hover", vim.lsp.buf.hover, "文档" },
-    { "<leader>cn", "textDocument/rename", vim.lsp.buf.rename, "重命名" },
-    { "<leader>ca", "textDocument/codeAction", vim.lsp.buf.code_action, "代码动作" },
+    { "<leader>cd", "textDocument/definition", vim.lsp.buf.definition, "Definition" },
+    { "<leader>cr", "textDocument/references", vim.lsp.buf.references, "References" },
+    { "<leader>ch", "textDocument/hover", vim.lsp.buf.hover, "Hover Documentation" },
+    { "<leader>cn", "textDocument/rename", vim.lsp.buf.rename, "Rename" },
+    { "<leader>ca", "textDocument/codeAction", vim.lsp.buf.code_action, "Code Action" },
 }
 function M.pack(buf)
     for name, enabled in pairs(require("config").get().languages) do
@@ -38,7 +38,7 @@ function M.refresh(buf, excluded)
     end
     for _, client in ipairs(clients) do
         if client.name == pack.format and client:supports_method("textDocument/formatting", buf) then
-            map("<leader>cf", function() M.format(buf) end, "格式化"); break
+            map("<leader>cf", function() M.format(buf) end, "Format"); break
         end
     end
 end

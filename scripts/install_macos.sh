@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-PACKAGE_FILE="${1:?缺少包列表}"
+PACKAGE_FILE="${1:?missing package list}"
 while IFS= read -r package; do
   case "$package" in
     kitty|font-*) brew install --cask "$package" ;;

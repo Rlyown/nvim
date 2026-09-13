@@ -25,17 +25,17 @@ while [[ $# -gt 0 ]]; do
     --with-optional) export NVIM_FEATURES="${NVIM_FEATURES:+$NVIM_FEATURES,}fonts,kitty"; shift ;;
     -h|--help)
       cat <<'HELP'
-用法: ./install.sh [--profile minimal|developer] [--languages cpp,go,rust,python]
-                  [--features dap,ai,-images] [--dry-run] [--no-plugin-sync]
-兼容: --disable LIST、--disable-LANG、--restore-lock、--with-fonts。
-默认恢复锁定版本；更新请显式运行 scripts/sync_plugins.sh --restore-lock=0。
-依赖 Neovim 0.12.4；dry-run 不安装任何内容。配置选择写入本地覆盖文件。
+Usage: ./install.sh [--profile minimal|developer] [--languages cpp,go,rust,python]
+                    [--features dap,ai,-images] [--dry-run] [--no-plugin-sync]
+Compatibility: --disable LIST, --disable-LANG, --restore-lock, --with-fonts.
+Locked versions are restored by default; explicitly run scripts/sync_plugins.sh --restore-lock=0 to update.
+Requires Neovim 0.12.4. dry-run makes no changes. The selection is saved to the local override file.
 HELP
       exit 0 ;;
-    *) echo "未知参数: $1" >&2; exit 2 ;;
+    *) echo "Unknown option: $1" >&2; exit 2 ;;
   esac
 done
-command -v nvim >/dev/null || { echo '请先安装 Neovim 0.12.4，以便使用共享 Lua 配置解析器。' >&2; exit 1; }
+command -v nvim >/dev/null || { echo 'Install Neovim 0.12.4 first to use the shared Lua configuration resolver.' >&2; exit 1; }
 TASK_DIR="$(mktemp -d)"
 export NVIM_PLAN_OUTPUT="$TASK_DIR/plan.json"
 export NVIM_PACKAGES_OUTPUT="$TASK_DIR/packages"
@@ -44,14 +44,14 @@ export NVIM_LOG_FILE="$TASK_DIR/nvim.log"
 nvim --headless -u NONE -i NONE -l "$ROOT_DIR/scripts/config-plan.lua"
 cat "$NVIM_PLAN_OUTPUT"
 [[ "$DRY_RUN" -eq 0 ]] || exit 0
-[[ "${NVIM_OFFLINE:-0}" != 1 ]] || { echo '离线模式禁止安装' >&2; exit 1; }
+[[ "${NVIM_OFFLINE:-0}" != 1 ]] || { echo 'Installation is unavailable in offline mode' >&2; exit 1; }
 nvim --headless -u NONE -i NONE -l "$ROOT_DIR/scripts/system-packages.lua"
 packages=()
 while IFS= read -r package; do packages+=("$package"); done < "$NVIM_PACKAGES_OUTPUT"
 case "$NVIM_INSTALL_OS" in
   Darwin) bash "$ROOT_DIR/scripts/install_macos.sh" "$NVIM_PACKAGES_OUTPUT" ;;
   Linux) bash "$ROOT_DIR/scripts/install_linux.sh" "$NVIM_PACKAGES_OUTPUT" ;;
-  *) echo '仅支持 macOS 和 APT Linux' >&2; exit 1 ;;
+  *) echo 'Only macOS and APT-based Linux are supported' >&2; exit 1 ;;
 esac
 bash "$ROOT_DIR/scripts/link_nvim_config.sh" --root "$ROOT_DIR"
 # 保存所选能力，确保安装结果和下一次启动一致。

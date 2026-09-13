@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 # 包列表由共享 Lua 能力解析器生成。
-PACKAGE_FILE="${1:?缺少包列表}"
+PACKAGE_FILE="${1:?missing package list}"
 packages=()
 while IFS= read -r package; do packages+=("$package"); done < "$PACKAGE_FILE"
 sudo apt-get update

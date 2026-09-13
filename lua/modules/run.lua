@@ -15,17 +15,17 @@ function M.keys()
             if argv then M.command(argv) end
         end, ft = require("config.capabilities").languages[lang].ft, desc = label })
     end
-    add("python", "r", function() return { "python3", vim.api.nvim_buf_get_name(0) } end, "运行 Python")
-    add("python", "t", { "python3", "-m", "unittest" }, "Python 测试")
-    add("cpp", "b", { "cmake", "--build", "build" }, "构建 C/C++")
-    add("cpp", "t", { "ctest", "--test-dir", "build" }, "C/C++ 测试")
+    add("python", "r", function() return { "python3", vim.api.nvim_buf_get_name(0) } end, "Run Python")
+    add("python", "t", { "python3", "-m", "unittest" }, "Test Python")
+    add("cpp", "b", { "cmake", "--build", "build" }, "Build C/C++")
+    add("cpp", "t", { "ctest", "--test-dir", "build" }, "Test C/C++")
     add("cpp", "r", function()
-        vim.ui.input({ prompt = "可执行文件路径: ", completion = "file" }, function(path)
+        vim.ui.input({ prompt = "Executable path: ", completion = "file" }, function(path)
             if path and path ~= "" then M.command({ vim.fn.fnamemodify(path, ":p") }) end
         end)
-    end, "运行 C/C++")
-    add("rust", "b", { "cargo", "build" }, "构建 Rust")
-    add("shell", "r", function() return { "bash", vim.api.nvim_buf_get_name(0) } end, "运行脚本")
+    end, "Run C/C++")
+    add("rust", "b", { "cargo", "build" }, "Build Rust")
+    add("shell", "r", function() return { "bash", vim.api.nvim_buf_get_name(0) } end, "Run Script")
     return keys
 end
 return M

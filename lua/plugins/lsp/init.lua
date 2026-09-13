@@ -1,6 +1,5 @@
 return {
-    { "hedyhli/outline.nvim", cmd = "Outline", opts = {}, keys = { { "<leader>co", "<cmd>Outline<cr>", desc = "符号大纲" } } },
-    require("modules.groups").spec({ ["<leader>c"] = "语言服务" }),
+    { "hedyhli/outline.nvim", cmd = "Outline", opts = {}, keys = { { "<leader>co", "<cmd>Outline<cr>", desc = "Symbol Outline" } } },
     { "neovim/nvim-lspconfig", keys = require("modules.run").keys(), event = { "BufReadPre", "BufNewFile" }, config = function()
         require("modules.lsp").setup()
         local mason = vim.fn.stdpath("data") .. "/mason/bin"
@@ -22,7 +21,7 @@ return {
             local pack = require("config.capabilities").languages[name]
             if enabled and pack.formatter then
                 local source = n.builtins.formatting[pack.formatter]
-                assert(source, "缺少格式化源: " .. pack.formatter)
+                assert(source, "Missing formatter source: " .. pack.formatter)
                 table.insert(sources, source.with({ filetypes = pack.ft }))
             end
         end

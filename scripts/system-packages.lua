@@ -12,7 +12,7 @@ local map = {
 vim.opt.rtp:prepend(assert(vim.env.NVIM_CONFIG_ROOT))
 local packages = {}
 for _, item in ipairs(require("config").plan().system) do
-    local value = assert(map[item], "未定义系统包: " .. item)[vim.env.NVIM_INSTALL_OS == "Darwin" and 2 or 1]
+    local value = assert(map[item], "Undefined system package: " .. item)[vim.env.NVIM_INSTALL_OS == "Darwin" and 2 or 1]
     for package in value:gmatch("%S+") do packages[package] = true end
 end
 local list = vim.tbl_keys(packages)

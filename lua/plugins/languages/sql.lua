@@ -6,6 +6,6 @@ return {
     } },
     { "kndndrj/nvim-dbee", ft = "sql", dependencies = { "MunifTanjim/nui.nvim" },
         build = function() if not require("config").get().offline then require("dbee").install() end end,
-        opts = {}, keys = { { "<localleader>a", function() require("dbee").toggle() end, ft = "sql", desc = "数据库" } },
+        opts = {}, keys = { { "<localleader>a", function() require("dbee").toggle() end, ft = "sql", desc = "Database" } },
     },
 }

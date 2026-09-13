@@ -6,7 +6,7 @@ end
 function M.resolve(user, override, env)
     user, override, env = user or {}, override or {}, env or vim.env
     local profile = env.NVIM_PROFILE or override.profile or user.profile or "minimal"
-    assert(profile == "minimal" or profile == "developer", "未知预设: " .. profile)
+    assert(profile == "minimal" or profile == "developer", "Unknown profile: " .. profile)
     local result = { profile = profile, languages = {}, features = vim.deepcopy(catalog.features), sources = {} }
     for name in pairs(catalog.languages) do
         result.languages[name] = profile == "developer" and vim.tbl_contains({ "cpp", "go", "rust", "python" }, name)
@@ -14,13 +14,13 @@ function M.resolve(user, override, env)
     end
     for name in pairs(catalog.features) do result.sources["features." .. name] = "profile:" .. profile end
     local function set(kind, name, value, source)
-        assert(catalog[kind][name] ~= nil, "未知" .. kind .. ": " .. name)
-        assert(type(value) == "boolean", name .. " 必须为布尔值")
+        assert(catalog[kind][name] ~= nil, "Unknown " .. kind .. ": " .. name)
+        assert(type(value) == "boolean", name .. " must be a boolean")
         result[kind][name] = value
         result.sources[kind .. "." .. name] = source
     end
     local function merge(value, source)
-        for key in pairs(value) do assert(vim.tbl_contains({ "profile", "languages", "features" }, key), "未知配置: " .. key) end
+        for key in pairs(value) do assert(vim.tbl_contains({ "profile", "languages", "features" }, key), "Unknown configuration: " .. key) end
         for _, kind in ipairs({ "languages", "features" }) do
             for name, enabled in pairs(value[kind] or {}) do
                 if type(name) == "number" then set(kind, enabled, true, source) else set(kind, name, enabled, source) end
@@ -41,7 +41,7 @@ function M.resolve(user, override, env)
     for _, item in ipairs(csv(env.NVIM_FEATURES)) do
         local name, value = item:match("^([^=]+)=(.+)$")
         if name then
-            assert(value == "true" or value == "false" or value == "1" or value == "0", "无效功能值: " .. item)
+            assert(value == "true" or value == "false" or value == "1" or value == "0", "Invalid feature value: " .. item)
             set("features", vim.trim(name), value == "true" or value == "1", "env")
         else
             set("features", item:gsub("^-", ""), item:sub(1, 1) ~= "-", "env")
@@ -69,7 +69,7 @@ function M.get()
 end
 function M.enabled(name)
     local c = M.get()
-    assert(c.features[name] ~= nil or c.languages[name] ~= nil, "未知能力: " .. name)
+    assert(c.features[name] ~= nil or c.languages[name] ~= nil, "Unknown capability: " .. name)
     return c.features[name] == true or c.languages[name] == true
 end
 function M.plan(config)

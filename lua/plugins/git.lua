@@ -1,5 +1,4 @@
 return {
-    require("modules.groups").spec({ ["<leader>g"] = "Git" }),
     {
         "lewis6991/gitsigns.nvim",
         config = true,

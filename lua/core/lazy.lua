@@ -2,9 +2,9 @@ local path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 local offline = require("config").get().offline
 local maintenance = vim.env.NVIM_MAINTENANCE == "1" and not offline
 if not vim.uv.fs_stat(path) then
-    if offline then vim.notify("离线运行缺少 lazy.nvim", vim.log.levels.ERROR); return end
-    if not maintenance and (#vim.api.nvim_list_uis() == 0 or vim.fn.confirm("安装所选配置的插件？", "&是\n&否", 2) ~= 1) then
-        vim.notify("尚未安装插件；运行 install.sh 或 :ConfigInstall 安装")
+    if offline then vim.notify("lazy.nvim is missing in offline mode", vim.log.levels.ERROR); return end
+    if not maintenance and (#vim.api.nvim_list_uis() == 0 or vim.fn.confirm("Install plugins for the selected configuration?", "&Yes\n&No", 2) ~= 1) then
+        vim.notify("Plugins are not installed; run install.sh or :ConfigInstall")
         return
     end
     local result = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", "https://github.com/folke/lazy.nvim.git", path })

@@ -8,33 +8,32 @@ if config.enabled("search") then
         Snacks.picker.smart({
             layout = { preset = "dropdown", preview = false, layout = { height = 0.4 } },
         })
-    end, "智能搜索")
-    key("<leader>F", function() Snacks.picker.grep({ layout = { preset = "bottom" } }) end, "搜索项目文本")
-    key("<leader>sg", function() Snacks.picker.grep() end, "搜索项目")
-    key("<leader>sw", function() Snacks.picker.grep_word() end, "搜索光标词", { "n", "x" })
-    key("<leader>sb", function() Snacks.picker.lines() end, "搜索当前文件")
-    key("<leader>sh", function() Snacks.picker.help() end, "帮助")
-    key("<leader>sk", function() Snacks.picker.keymaps() end, "快捷键")
-    key("<leader>su", function() Snacks.picker.undo() end, "撤销历史")
-    key("<leader>sd", function() Snacks.picker.diagnostics() end, "诊断")
-    key("<leader>sc", function() Snacks.picker.command_history() end, "命令历史")
-    key("<leader>bb", function() Snacks.picker.buffers() end, "选择缓冲区")
+    end, "Smart Find")
+    key("<leader>F", function() Snacks.picker.grep({ layout = { preset = "bottom" } }) end, "Find Text")
+    key("<leader>sg", function() Snacks.picker.grep() end, "Search Project")
+    key("<leader>sw", function() Snacks.picker.grep_word() end, "Search Word", { "n", "x" })
+    key("<leader>sb", function() Snacks.picker.lines() end, "Search Buffer")
+    key("<leader>sh", function() Snacks.picker.help() end, "Help")
+    key("<leader>sk", function() Snacks.picker.keymaps() end, "Keymaps")
+    key("<leader>su", function() Snacks.picker.undo() end, "Undo History")
+    key("<leader>sd", function() Snacks.picker.diagnostics() end, "Diagnostics")
+    key("<leader>sc", function() Snacks.picker.command_history() end, "Command History")
+    key("<leader>bb", function() Snacks.picker.buffers() end, "Buffers")
 end
 if config.enabled("explorer") then
-    key("<leader>n", function() Snacks.explorer() end, "文件树及当前文件定位")
+    key("<leader>n", function() Snacks.explorer() end, "Explorer")
 end
 if config.enabled("terminal") then
     for suffix, layout in pairs({ h = "horizontal", v = "vertical", f = "float", t = "tab" }) do
-        key("<leader>t" .. suffix, function() require("modules.terminal").toggle(vim.v.count1, layout) end, "终端 " .. layout)
+        key("<leader>t" .. suffix, function() require("modules.terminal").toggle(vim.v.count1, layout) end, "Terminal " .. layout)
     end
-    key("<C-\\>", function() require("modules.terminal").toggle() end, "切换终端", { "n", "t" })
-    key("<leader>ta", function() require("modules.terminal").toggle_all() end, "切换全部终端")
-    key("<leader>tc", function() require("modules.terminal").prompt_send("line") end, "发送当前行")
-    key("<leader>tl", function() require("modules.terminal").prompt_send("lines") end, "发送选中整行", "x")
-    key("<leader>ts", function() require("modules.terminal").prompt_send("selection") end, "发送精确选区", "x")
+    key("<C-\\>", function() require("modules.terminal").toggle() end, "Toggle Terminal", { "n", "t" })
+    key("<leader>ta", function() require("modules.terminal").toggle_all() end, "Toggle All Terminals")
+    key("<leader>tc", function() require("modules.terminal").prompt_send("line") end, "Send Current Line")
+    key("<leader>tl", function() require("modules.terminal").prompt_send("lines") end, "Send Selected Lines", "x")
+    key("<leader>ts", function() require("modules.terminal").prompt_send("selection") end, "Send Selection", "x")
 end
 return {
-    require("modules.groups").spec(vim.tbl_extend("force", config.enabled("search") and { ["<leader>s"] = "搜索" } or {}, config.enabled("terminal") and { ["<leader>t"] = "终端" } or {})),
     { "folke/snacks.nvim", lazy = false, keys = keys, opts = {
         bigfile = { enabled = true }, quickfile = { enabled = true },
         input = { enabled = true }, notifier = { enabled = config.enabled("ui") },
@@ -54,6 +53,6 @@ return {
         },
     } },
     { "MagicDuck/grug-far.nvim", enabled = config.enabled("search"), opts = {}, keys = {
-        { "<leader>sr", "<cmd>GrugFar<cr>", desc = "搜索替换" },
+        { "<leader>sr", "<cmd>GrugFar<cr>", desc = "Search and Replace" },
     } },
 }
