@@ -1,10 +1,9 @@
 # 模块化配置与迁移
 
-共享配置入口为 `lua/config/user.lua`。机器差异写入被忽略的 `lua/config/local.lua`；修改后重启。
+在 `init.lua` 顶部选择预设：`vim.g.config_preset = "minimal"` 或 `vim.g.config_preset = "developer"`。共享配置入口 `lua/config/user.lua` 用于在该预设上细化语言和功能；机器差异写入被忽略的 `lua/config/local.lua`。修改后重启。
 
 ```lua
 return {
-    profile = "minimal",
     languages = { python = true, lua = true },
     features = { dap = true, ai = false, copilot = false },
 }
@@ -12,7 +11,7 @@ return {
 
 `minimal` 默认提供编辑、搜索、Git、终端、文件树、补全、UI、会话和 Tree-sitter；此配置的共享用户入口额外启用 Lua，以便维护配置本身时使用 Lua LSP。`developer` 在此基础上启用 C/C++、Go、Rust、Python。LaTeX、SQL、AI、Copilot、远程开发、图像和公式转换均需显式选择。
 
-优先级为预设 → 共享用户配置 → 本地覆盖 → 环境变量；`NVIM_OFFLINE=1` 最后强制关闭 AI、Copilot 和远程开发。`NVIM_PROFILE` 选择预设，`NVIM_LANGUAGES` 替换语言集合，`NVIM_FEATURES=dap,ai,-images` 设置功能。旧 `NVIM_ENABLE_LANGS` / `NVIM_DISABLE_LANGS` 兼容一版，新变量优先。未知名称和值报错。
+优先级为 `init.lua` 预设 → 共享用户配置 → 本地覆盖 → 环境变量；`NVIM_OFFLINE=1` 最后强制关闭 AI、Copilot 和远程开发。`NVIM_PROFILE` 临时覆盖预设，`NVIM_LANGUAGES` 替换语言集合，`NVIM_FEATURES=dap,ai,-images` 设置功能。旧 `NVIM_ENABLE_LANGS` / `NVIM_DISABLE_LANGS` 兼容一版，新变量优先。未知名称和值报错。
 
 ## 安装与更新
 

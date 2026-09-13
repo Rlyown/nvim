@@ -3,9 +3,9 @@ local catalog = require("config.capabilities")
 local function csv(value)
     return vim.split(value or "", ",", { trimempty = true })
 end
-function M.resolve(user, override, env)
+function M.resolve(user, override, env, preset)
     user, override, env = user or {}, override or {}, env or vim.env
-    local profile = env.NVIM_PROFILE or override.profile or user.profile or "minimal"
+    local profile = env.NVIM_PROFILE or override.profile or preset or user.profile or "minimal"
     assert(profile == "minimal" or profile == "developer", "Unknown profile: " .. profile)
     local result = { profile = profile, languages = {}, features = vim.deepcopy(catalog.features), sources = {} }
     for name in pairs(catalog.languages) do
@@ -57,7 +57,7 @@ function M.get()
     if not M.current then
         local path = (vim.env.NVIM_CONFIG_ROOT or vim.fn.stdpath("config")) .. "/lua/config/local.lua"
         local override = vim.uv.fs_stat(path) and dofile(path) or {}
-        M.current = M.resolve(require("config.user"), override)
+        M.current = M.resolve(require("config.user"), override, vim.env, vim.g.config_preset)
         if M.current.offline then
             vim.env.CARGO_NET_OFFLINE = "true"
             vim.env.GOPROXY = "off"
