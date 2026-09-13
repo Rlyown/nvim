@@ -21,6 +21,9 @@ function M.install()
     end
 end
 function M.setup()
+    vim.api.nvim_create_user_command("LspInfo", function()
+        vim.cmd("checkhealth vim.lsp")
+    end, { desc = "Show LSP health information" })
     vim.api.nvim_create_user_command("ConfigInfo", function()
         vim.print({ config = require("config").get(), dependencies = require("config").plan() })
     end, {})

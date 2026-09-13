@@ -19,6 +19,7 @@ if config.enabled("search") then
     key("<leader>sd", function() Snacks.picker.diagnostics() end, "Diagnostics")
     key("<leader>sc", function() Snacks.picker.command_history() end, "Command History")
     key("<leader>bb", function() Snacks.picker.buffers() end, "Buffers")
+    key("<leader>b", function() Snacks.picker.buffers() end, "Buffers")
 end
 if config.enabled("explorer") then
     key("<leader>n", function() Snacks.explorer() end, "Explorer")

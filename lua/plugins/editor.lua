@@ -11,9 +11,13 @@ return {
     { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
     { "RaafatTurki/hex.nvim", cmd = { "HexDump", "HexAssemble", "HexToggle" }, opts = {} },
     { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" }, keys = {
+        { "<leader>E", "<cmd>SudaRead<cr>", desc = "Force Reload" },
         { "<leader>R", "<cmd>SudaRead<cr>", desc = "Force Reload" },
     } },
-    { "smoka7/hop.nvim", opts = {}, keys = { { "<leader>sj", "<cmd>HopChar2<cr>", desc = "Jump to Characters" } } },
+    { "smoka7/hop.nvim", opts = {}, keys = {
+        { "<leader>m", "<cmd>HopChar2<cr>", desc = "Jump to Characters" },
+        { "<leader>sj", "<cmd>HopChar2<cr>", desc = "Jump to Characters" },
+    } },
     { "rainbowhxch/accelerated-jk.nvim", config = true, keys = {
         { "j", "<Plug>(accelerated_jk_gj)" }, { "k", "<Plug>(accelerated_jk_gk)" },
     } },

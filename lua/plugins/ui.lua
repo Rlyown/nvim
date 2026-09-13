@@ -1,9 +1,5 @@
 local config = require("config")
-local groups = {
-    { "<leader>b", group = "Buffers" },
-    { "<leader>x", group = "Windows" },
-    { "<leader>u", group = "UI and Config" },
-}
+local groups = { { "<leader>u", group = "UI and Config" } }
 local function add(enabled, lhs, label)
     if enabled then table.insert(groups, { lhs, group = label }) end
 end
