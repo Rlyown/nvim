@@ -10,7 +10,7 @@ return {
 }
 ```
 
-`minimal` 默认提供编辑、搜索、Git、终端、文件树、补全、UI、会话和 Tree-sitter，不选择语言服务器。`developer` 在此基础上启用 C/C++、Go、Rust、Python。LaTeX、SQL、AI、Copilot、远程开发、图像和公式转换均需显式选择。
+`minimal` 默认提供编辑、搜索、Git、终端、文件树、补全、UI、会话和 Tree-sitter；此配置的共享用户入口额外启用 Lua，以便维护配置本身时使用 Lua LSP。`developer` 在此基础上启用 C/C++、Go、Rust、Python。LaTeX、SQL、AI、Copilot、远程开发、图像和公式转换均需显式选择。
 
 优先级为预设 → 共享用户配置 → 本地覆盖 → 环境变量；`NVIM_OFFLINE=1` 最后强制关闭 AI、Copilot 和远程开发。`NVIM_PROFILE` 选择预设，`NVIM_LANGUAGES` 替换语言集合，`NVIM_FEATURES=dap,ai,-images` 设置功能。旧 `NVIM_ENABLE_LANGS` / `NVIM_DISABLE_LANGS` 兼容一版，新变量优先。未知名称和值报错。
 
@@ -37,7 +37,7 @@ return {
 
 | 旧入口 | 新入口 | 功能 |
 | --- | --- | --- |
-| `,w` / `,W` | `,w` / `,W` | 保存 / 强制保存 |
+| `,w` / `,W` | `,w` | Save normally, then retry with SudaWrite if saving fails |
 | 旧文件树入口 | `,n` | Snacks 文件树及当前文件定位 |
 | Telescope 文件/文本搜索 | `,f` / `,F` | 智能文件搜索 / 项目文本 |
 | `,B…` | `,bb`、`,bn`、`,bp`、`,bd` | 选择、切换、关闭缓冲区 |
@@ -49,6 +49,8 @@ return {
 | SnipRun | `,tc`、可视模式 `,tl` / `,ts` | 发送当前行、选中整行、精确选区 |
 | 终端布局 | `,th` / `,tv` / `,tf` / `,tt` | 横向 30%、纵向 40%、浮动、标签页 |
 | 配置检查 | `,ui` / `,uh` | 有效配置 / 健康检查 |
+
+`H` / `L` 切换上一个 / 下一个缓冲区；`Ctrl-h`、`Ctrl-j`、`Ctrl-k`、`Ctrl-l` 在窗口之间移动焦点。窗口的显式操作位于 `,xv`、`,xs`、`,xq`、`,xe`。
 
 终端前加计数选择 ID，例如 `2,th`。ID 在当前会话内稳定，首次创建的目录保持不变；切换布局复用相同终端 buffer 和进程。`,ta` 切换全部终端。发送代码时输入已存在的 ID，取消不发送；退出的进程不会隐式重启。
 

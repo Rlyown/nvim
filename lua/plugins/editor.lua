@@ -11,7 +11,6 @@ return {
     { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
     { "RaafatTurki/hex.nvim", cmd = { "HexDump", "HexAssemble", "HexToggle" }, opts = {} },
     { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" }, keys = {
-        { "<leader>W", "<cmd>SudaWrite<cr>", desc = "Force Save" },
         { "<leader>R", "<cmd>SudaRead<cr>", desc = "Force Reload" },
     } },
     { "smoka7/hop.nvim", opts = {}, keys = { { "<leader>sj", "<cmd>HopChar2<cr>", desc = "Jump to Characters" } } },

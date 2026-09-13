@@ -1,8 +1,19 @@
 local function map(lhs, rhs, desc)
     vim.keymap.set("n", lhs, rhs, { silent = true, desc = desc })
 end
-map("<leader>w", "<cmd>write<cr>", "Save")
+local function save()
+    if pcall(vim.cmd, "write") then return end
+    local ok, err = pcall(vim.cmd, "SudaWrite")
+    if not ok then vim.notify("Save failed: " .. tostring(err), vim.log.levels.ERROR) end
+end
+map("<leader>w", save, "Save")
 map("<leader>r", "<cmd>edit<cr>", "Reload")
+map("H", "<cmd>bprevious<cr>", "Previous Buffer")
+map("L", "<cmd>bnext<cr>", "Next Buffer")
+map("<C-h>", "<C-w>h", "Focus Left Window")
+map("<C-j>", "<C-w>j", "Focus Lower Window")
+map("<C-k>", "<C-w>k", "Focus Upper Window")
+map("<C-l>", "<C-w>l", "Focus Right Window")
 map("<leader>bn", "<cmd>bnext<cr>", "Next Buffer")
 map("<leader>bp", "<cmd>bprevious<cr>", "Previous Buffer")
 map("<leader>bd", "<cmd>bdelete<cr>", "Delete Buffer")
