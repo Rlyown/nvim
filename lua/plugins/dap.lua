@@ -26,6 +26,8 @@ return {
         keys = {
             { "<leader>dc", function() require("modules.debug_mode").continue() end, desc = "Start or Continue in Debug Mode" },
             { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+            { "<leader>da", function() require("modules.debug_actions").launch_with_args() end, desc = "Debug with Arguments" },
+            { "<leader>dl", function() require("modules.debug_actions").logpoint() end, desc = "Set Logpoint" },
             { "<leader>ds", function() require("dap").step_into() end, desc = "Step Into" },
             { "<leader>dn", function() require("dap").step_over() end, desc = "Step Over" },
             { "<leader>do", function() require("dap").step_out() end, desc = "Step Out" },

@@ -20,7 +20,7 @@ The leader is comma. `,c` means comma followed by c; `Ctrl-j` means pressing the
 | `H` / `L` | Previous / next buffer |
 | `[b` / `]b` | Alternative previous / next buffer mappings |
 | Enter | Expand the closed fold under the cursor; otherwise keep native Enter behavior |
-| `,j` | Hop two-character jump in normal, visual, and operator-pending modes |
+| `,j` | Hop one-character jump in normal, visual, and operator-pending modes |
 | `,o` | Symbol outline |
 | `,h` | Clear search highlights |
 | `,q` / `,Q` | Save and close window / save and quit all |
@@ -39,10 +39,10 @@ All abbreviations in the second column require a leading comma: `ld` means `,ld`
 
 | Group | Actions |
 | --- | --- |
-| `,s` Search | `sg` project text, `sw` word/selection, `sb` buffer lines, `ss` document symbols, `sr` replace, `sd` diagnostics, `su` undo history, `sh` help, `sk` keymaps, `sc` command history, `sn` notification history (requires UI) |
-| `,l` Language | `ld` definition, `lR` references, `lh` hover, `ln` rename, `lc` code action, `lf` format, `lo` outline, `lj/ls` join/split code structures |
-| `,l` Filetype actions | `lr/lt/lb` run/test/build; Go `lae/lat/las` error handling/tags/fill struct and `lk` documentation; Rust `laa/lam/lk` actions/expand macro/documentation; TeX `lb/lr/lat` compile/PDF/contents; CSV and SQL `lv` open their interfaces |
-| `,g` Git | `gn/gN` next/previous hunk, `gs` stage hunk or selected lines, `gu` undo staging, `gS` stage buffer, `gp` preview, `gb` blame, `gd` diff, `gm` repeated review |
+| `,s` Search | `sg` project text, `sw` word/selection, `sb` buffer lines, `ss` document symbols, `sS` workspace symbols, `sR` resume last search, `sr` replace, `sd` diagnostics, `su` undo history, `sh` help, `sk` keymaps, `sc` command history, `sn` notification history (requires UI) |
+| `,l` Language | `ld` definition, `lR` references, `lh` hover, `ln` rename, `lc` code action, `lf` format, `lF` toggle format-on-save globally, `lo` outline, `lj/ls` join/split code structures |
+| `,l` Filetype actions | `lr/lt/lb` run/test/build; Go `lae/lat/las` error handling/tags/fill struct and `lk` documentation; Rust `laa/lam/lk` actions/expand macro/documentation; TeX `lb/lr/lat/le/lv` compile/PDF/contents/errors/compilation output (only when TeX is enabled and in TeX buffers); CSV and SQL `lv` open their interfaces |
+| `,g` Git | `gn/gN` next/previous hunk, `gs` stage hunk or selected lines, `gu` undo staging, `gS` stage buffer, `gp` preview, `gb` blame, `gd` diff, `gm` repeated review, `gg` status, `gB` branches, `gl` commit history (pickers require Search) |
 | `,p` Sessions | `pl/ps/pd/pc` load/save/delete/load current directory |
 | `,t` Terminal | `th/tv/tf/tt` horizontal/vertical/float/tab, `ta` toggle all, `tc` send line, visual `tl/ts` send whole lines/exact selection |
 | `,a` AI | `aa` interface, `as` select, `af` send file, visual `av` send selection, `ap` prompt |
@@ -67,7 +67,9 @@ With DAP enabled, `,dc` starts or continues debugging. Successful initialization
 | `,dq` | `q` | Terminate and exit mode |
 | `,dm` | Escape to leave | Enter mode without running |
 
-Other actions: `,dB` conditional breakpoint, `,dr` run last, `,dR` REPL, `,du` debug UI, and `,de` evaluation, including visual selections.
+Other actions: `,da` launch with arguments, `,dl` logpoint, `,dB` conditional breakpoint, `,dr` run last, `,dR` REPL, `,du` debug UI, and `,de` evaluation, including visual selections.
+
+`,da` prompts for program arguments, preserving quoted values such as `--name "two words"`. It uses the usual debug configuration picker and does not modify saved configurations. Finish an active session before using it. Cancelling either prompt does not launch a session. `,dl` accepts a log message, including adapter-supported expressions such as `{value}`.
 
 A persistent bottom hint lists short keys. Movement, buffer and window navigation, and scrolling remain available. `n/s/o/c/b/q` temporarily change meaning; press Escape before using their native editing, search, or macro functions. Insert, visual, operator-pending, or command-line mode exits debug mode, as does entering a terminal, floating window, or plugin window. Termination, program exit, disconnect, and abnormal closure after initialization clean up the mode. Initialization while focused on a plugin window does not activate short keys; return to source and use `,dm`.
 

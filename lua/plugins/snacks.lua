@@ -23,6 +23,13 @@ if config.enabled("search") then
     end
     key("<leader>b", function() Snacks.picker.buffers() end, "Buffers")
     key("<leader>ss", function() Snacks.picker.lsp_symbols() end, "Search Document Symbols")
+    key("<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, "Search Workspace Symbols")
+    key("<leader>sR", function() Snacks.picker.resume() end, "Resume Last Search")
+    if config.enabled("git") then
+        key("<leader>gg", function() Snacks.picker.git_status() end, "Git Status")
+        key("<leader>gB", function() Snacks.picker.git_branches() end, "Git Branches")
+        key("<leader>gl", function() Snacks.picker.git_log() end, "Git Log")
+    end
 end
 if config.enabled("explorer") then
     key("<leader>n", function() Snacks.explorer() end, "Explorer")

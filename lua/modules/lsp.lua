@@ -19,6 +19,10 @@ function M.format(buf)
     if not pack or not pack.format then return end
     vim.lsp.buf.format({ bufnr = buf, timeout_ms = 3000, filter = function(c) return c.name == pack.format end })
 end
+function M.toggle_autoformat()
+    vim.g.config_autoformat = vim.g.config_autoformat == false
+    vim.notify("Format on save " .. (vim.g.config_autoformat and "enabled" or "disabled"))
+end
 function M.refresh(buf, excluded)
     if not vim.api.nvim_buf_is_valid(buf) then return end
     for _, lhs in ipairs(owned[buf] or {}) do pcall(vim.keymap.del, "n", lhs, { buffer = buf }) end
@@ -39,7 +43,9 @@ function M.refresh(buf, excluded)
     end
     for _, client in ipairs(clients) do
         if client.name == pack.format and client:supports_method("textDocument/formatting", buf) then
-            map("<leader>lf", function() M.format(buf) end, "Format"); break
+            map("<leader>lf", function() M.format(buf) end, "Format")
+            map("<leader>lF", M.toggle_autoformat, "Toggle Format on Save")
+            break
         end
     end
 end

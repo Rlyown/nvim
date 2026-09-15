@@ -14,5 +14,7 @@ return {
         { "<leader>lb", "<plug>(vimtex-compile)", ft = "tex", desc = "Compile LaTeX" },
         { "<leader>lr", "<plug>(vimtex-view)", ft = "tex", desc = "View PDF" },
         { "<leader>lat", "<plug>(vimtex-toc-toggle)", ft = "tex", desc = "Toggle Table of Contents" },
+        { "<leader>le", "<cmd>VimtexErrors<cr>", ft = "tex", desc = "LaTeX Errors" },
+        { "<leader>lv", "<cmd>VimtexCompileOutput<cr>", ft = "tex", desc = "LaTeX Compilation Output" },
     } },
 }

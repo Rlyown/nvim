@@ -12,6 +12,7 @@ cases = [
     ('cpp', 'minimal', 'cpp', '', 'cpp'), ('go', 'minimal', 'go', '', 'go'),
     ('rust', 'minimal', 'rust', '', 'rust'), ('python', 'minimal', 'python', '', 'python'),
     ('tex', 'minimal', 'tex', '', 'tex'), ('sql', 'minimal', 'sql', '', 'sql'),
+    ('tex-disabled', 'minimal', '', '', 'tex'),
     ('developer-dap', 'developer', None, 'dap', 'python'),
     ('ai', 'minimal', '', 'ai', 'text'),
     ('copilot', 'minimal', '', 'copilot', 'text'),
@@ -38,8 +39,19 @@ if c.enabled("dap") then
     assert(require("dap").listeners.after.event_initialized.config)
 else assert(not p["nvim-dap"]) end
 if not c.enabled("ai") then assert(not p["sidekick.nvim"]) end
+for _, lhs in ipairs({ "<leader>le", "<leader>lv", "<leader>lat" }) do
+    local mapping = vim.fn.maparg(lhs, "n", false, true)
+    if vim.bo.filetype == "tex" and c.enabled("tex") then
+        assert(mapping.buffer == 1, "Missing TeX-local mapping: " .. lhs)
+    elseif vim.bo.filetype == "tex" then
+        assert(next(mapping) == nil, "TeX mapping present while disabled: " .. lhs)
+    end
+end
 vim.bo.filetype = "text"
 assert(vim.fn.maparg("<leader>lr", "n") == "")
+for _, lhs in ipairs({ "<leader>le", "<leader>lv", "<leader>lat" }) do
+    assert(vim.fn.maparg(lhs, "n") == "", "Filetype switch retained a local mapping: " .. lhs)
+end
 end, debug.traceback)
 if not ok then io.stderr:write(err); vim.cmd("cquit 1") else vim.cmd("qa!") end
 ''')

@@ -12,7 +12,7 @@ return {
     { "RaafatTurki/hex.nvim", cmd = { "HexDump", "HexAssemble", "HexToggle" }, opts = {} },
     { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" } },
     { "smoka7/hop.nvim", opts = {}, keys = {
-        { "<leader>j", "<cmd>HopChar2<cr>", mode = { "n", "x", "o" }, desc = "Jump to Characters" },
+        { "<leader>j", "<cmd>HopChar1<cr>", mode = { "n", "x", "o" }, desc = "Jump to Characters" },
     } },
     { "rainbowhxch/accelerated-jk.nvim", config = true, keys = {
         { "j", "<Plug>(accelerated_jk_gj)" }, { "k", "<Plug>(accelerated_jk_gk)" },

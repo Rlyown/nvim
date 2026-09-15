@@ -33,6 +33,13 @@ vim.bo[buf].filetype = "text"
 lsp.refresh(buf)
 assert(not has("<leader>ld"))
 vim.lsp.get_clients = original_clients
+local previous_autoformat = vim.g.config_autoformat
+vim.g.config_autoformat = nil
+lsp.toggle_autoformat()
+assert(vim.g.config_autoformat == false)
+lsp.toggle_autoformat()
+assert(vim.g.config_autoformat == true)
+vim.g.config_autoformat = previous_autoformat
 vim.fn.delete(directory, "rf")
 print("Trash failure protection, multi-client LSP detach, and filetype cleanup checks passed")
 vim.cmd.qa()
