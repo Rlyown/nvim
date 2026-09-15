@@ -18,6 +18,9 @@ if config.enabled("search") then
     key("<leader>su", function() Snacks.picker.undo() end, "Undo History")
     key("<leader>sd", function() Snacks.picker.diagnostics() end, "Diagnostics")
     key("<leader>sc", function() Snacks.picker.command_history() end, "Command History")
+    if config.enabled("ui") then
+        key("<leader>sn", function() Snacks.picker.notifications() end, "Notification History")
+    end
     key("<leader>b", function() Snacks.picker.buffers() end, "Buffers")
     key("<leader>ss", function() Snacks.picker.lsp_symbols() end, "Search Document Symbols")
 end

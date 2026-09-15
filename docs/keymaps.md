@@ -39,7 +39,7 @@ All abbreviations in the second column require a leading comma: `ld` means `,ld`
 
 | Group | Actions |
 | --- | --- |
-| `,s` Search | `sg` project text, `sw` word/selection, `sb` buffer lines, `ss` document symbols, `sr` replace, `sd` diagnostics, `su` undo history, `sh` help, `sk` keymaps, `sc` command history |
+| `,s` Search | `sg` project text, `sw` word/selection, `sb` buffer lines, `ss` document symbols, `sr` replace, `sd` diagnostics, `su` undo history, `sh` help, `sk` keymaps, `sc` command history, `sn` notification history (requires UI) |
 | `,l` Language | `ld` definition, `lR` references, `lh` hover, `ln` rename, `lc` code action, `lf` format, `lo` outline, `lj/ls` join/split code structures |
 | `,l` Filetype actions | `lr/lt/lb` run/test/build; Go `lae/lat/las` error handling/tags/fill struct and `lk` documentation; Rust `laa/lam/lk` actions/expand macro/documentation; TeX `lb/lr/lat` compile/PDF/contents; CSV and SQL `lv` open their interfaces |
 | `,g` Git | `gn/gN` next/previous hunk, `gs` stage hunk or selected lines, `gu` undo staging, `gS` stage buffer, `gp` preview, `gb` blame, `gd` diff, `gm` repeated review |
