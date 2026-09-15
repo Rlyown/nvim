@@ -25,8 +25,8 @@ function M.get(id)
             cwd = entry.cwd, count = id, auto_close = false, auto_insert = false,
             win = vim.deepcopy(layouts.horizontal),
         })
-        -- 固定版本的 Snacks 在 ExitPre 删除窗口会中断 Neovim 0.12 的退出。
-        -- 由适配层在 VimLeavePre 停止进程，退出期间不再修改窗口布局。
+        -- Deleting windows in ExitPre with the pinned Snacks version interrupts Neovim 0.12 shutdown.
+        -- Stop processes in VimLeavePre without changing window layouts during shutdown.
         entry.term.events = vim.tbl_filter(function(event) return event.event ~= "ExitPre" end, entry.term.events)
         vim.api.nvim_clear_autocmds({ group = entry.term.augroup, event = "ExitPre" })
         M.entries[id] = entry

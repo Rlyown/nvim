@@ -19,7 +19,7 @@ term.show(1, "tab")
 assert(vim.api.nvim_get_current_buf() == buf)
 term.hide(1)
 term.show(1, "horizontal")
-assert(term.send(1, "printf '中文测试\\n'"))
+assert(term.send(1, "printf 'UTF-8 test: café\\n'"))
 term.get(2)
 assert(term.entries[2].term.buf ~= buf)
 term.toggle_all()
@@ -32,5 +32,5 @@ for id, e in pairs(term.entries) do
     local channel = vim.b[e.term.buf].terminal_job_id
     if channel then pcall(vim.fn.jobstop, channel) end
 end
-print("隔离运行时与终端身份测试通过")
+print("Isolated runtime and terminal identity checks passed")
 vim.cmd("qa!")

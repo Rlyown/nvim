@@ -1,7 +1,7 @@
 local ok, err = xpcall(function()
     local dir = vim.fn.tempname()
     vim.fn.mkdir(dir .. "/target", "p")
-    vim.fn.writefile({ "中文文件" }, dir .. "/source.txt")
+    vim.fn.writefile({ "UTF-8 file: café" }, dir .. "/source.txt")
     local cwd = vim.fn.getcwd()
     local p = Snacks.picker.explorer({ cwd = dir })
     vim.wait(200)
@@ -28,7 +28,7 @@ local ok, err = xpcall(function()
     assert(not vim.uv.fs_stat(dir .. "/renamed.txt"))
     p.selected = function() return { { file = dir .. "/source.txt" } } end
     local original_select, original_executable = vim.ui.select, vim.fn.executable
-    vim.ui.select = function(_, _, callback) callback("确认") end
+    vim.ui.select = function(_, _, callback) callback("Confirm") end
     vim.fn.executable = function() return 0 end
     explorer.delete(p, false)
     assert(vim.uv.fs_stat(dir .. "/source.txt"))
@@ -40,4 +40,4 @@ local ok, err = xpcall(function()
     assert(vim.fn.getcwd() == cwd)
     vim.fn.delete(dir, "rf")
 end, debug.traceback)
-if not ok then io.stderr:write(err); vim.cmd("cquit 1") else print("文件树工作流与删除隔离通过"); vim.cmd("qa!") end
+if not ok then io.stderr:write(err); vim.cmd("cquit 1") else print("Explorer workflow and deletion isolation checks passed"); vim.cmd("qa!") end

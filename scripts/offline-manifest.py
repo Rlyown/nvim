@@ -1,4 +1,4 @@
-"""将能力、插件版本和工具选择写入离线清单。"""
+"""Write capabilities, plugin revisions, and selected tools to the offline manifest."""
 import json, pathlib, sys
 root = pathlib.Path(sys.argv[1])
 manifest = json.loads((root / 'manifest.json').read_text())

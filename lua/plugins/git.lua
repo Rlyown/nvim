@@ -1,52 +1,30 @@
+local function hunk(action)
+    return function()
+        local range
+        if vim.fn.mode():match("[vV\22]") then
+            local first, last = vim.fn.line("v"), vim.fn.line(".")
+            range = { math.min(first, last), math.max(first, last) }
+        end
+        require("gitsigns")[action](range)
+    end
+end
+
+local keys = {
+    { "<leader>gn", function() require("gitsigns").nav_hunk("next") end, desc = "Next Hunk" },
+    { "<leader>gN", function() require("gitsigns").nav_hunk("prev") end, desc = "Previous Hunk" },
+    { "<leader>gs", hunk("stage_hunk"), mode = { "n", "x" }, desc = "Stage Hunk" },
+    { "<leader>gu", "<cmd>Gitsigns undo_stage_hunk<cr>", desc = "Undo Stage Hunk" },
+    { "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", desc = "Stage Buffer" },
+    { "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", desc = "Preview Hunk" },
+    { "<leader>gb", "<cmd>Gitsigns blame_line<cr>", desc = "Blame Line" },
+    { "<leader>gd", "<cmd>Gitsigns diffthis<cr>", desc = "Diff File" },
+}
+if require("config").enabled("ui") then
+    table.insert(keys, { "<leader>gm", function()
+        require("which-key").show({ keys = "<leader>g", loop = true })
+    end, desc = "Review Hunks Repeatedly (Esc to Exit)" })
+end
+
 return {
-    {
-        "lewis6991/gitsigns.nvim",
-        config = true,
-        lazy = true,
-        event = "BufRead",
-        keys = {
-            {
-                "<leader>gJ",
-                function()
-                    if vim.wo.diff then
-                        return "]c"
-                    end
-                    vim.schedule(function()
-                        require("gitsigns").next_hunk()
-                    end)
-                    return "<Ignore>"
-                end,
-                mode = { "n", "x", "v" },
-                desc = "Next Hunk"
-            },
-            {
-                "<leader>gK",
-                function()
-                    if vim.wo.diff then
-                        return "[c"
-                    end
-                    vim.schedule(function()
-                        require("gitsigns").prev_hunk()
-                    end)
-                    return "<Ignore>"
-                end,
-                mode = { "n", "x", "v" },
-                desc = "Prev Hunk"
-            },
-            { "<leader>gs", "<cmd>Gitsigns stage_hunk<CR>",      mode = { "n", "x", "v" }, desc = "Stage Hunk" },
-            { "<leader>gu", "<cmd>Gitsigns undo_stage_hunk<CR>", mode = { "n", "x", "v" }, desc = "Unod Stage Hunk" },
-            { "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>",    mode = { "n", "x", "v" }, desc = "Stage Buffer" },
-            { "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>",    mode = { "n", "x", "v" }, desc = "Preview Hunk" },
-            { "<leader>gd", "<cmd>Gitsigns toggle_deleted<cr>",  mode = { "n", "x", "v" }, desc = "Show Deleted" },
-            { "<leader>gb", "<cmd>Gitsigns blame_line<cr>",      mode = { "n", "x", "v" }, desc = "Blame Line" },
-            {
-                "<leader>gB",
-                "<cmd>lua require('gitsigns').blame_line({ full = true })<cr>",
-                mode = { "n", "x", "v" },
-                desc =
-                "Blame Show"
-            },
-            { "<leader>gv", "<cmd>Gitsigns show", mode = { "n", "x", "v" }, desc = "Show Base File" }, -- show the base of the file
-        }
-    },                                                                                                 -- show git info in buffer
+    { "lewis6991/gitsigns.nvim", event = "BufReadPre", opts = {}, keys = keys },
 }

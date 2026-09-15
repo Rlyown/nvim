@@ -1,11 +1,12 @@
 local M = {}
 local owned = {}
 local actions = {
-    { "<leader>cd", "textDocument/definition", vim.lsp.buf.definition, "Definition" },
-    { "<leader>cr", "textDocument/references", vim.lsp.buf.references, "References" },
-    { "<leader>ch", "textDocument/hover", vim.lsp.buf.hover, "Hover Documentation" },
-    { "<leader>cn", "textDocument/rename", vim.lsp.buf.rename, "Rename" },
-    { "<leader>ca", "textDocument/codeAction", vim.lsp.buf.code_action, "Code Action" },
+    { "<leader>ld", "textDocument/definition", vim.lsp.buf.definition, "Definition" },
+    { "<leader>lR", "textDocument/references", vim.lsp.buf.references, "References" },
+    { "<leader>lh", "textDocument/hover", vim.lsp.buf.hover, "Hover Documentation" },
+    { "<leader>ln", "textDocument/rename", vim.lsp.buf.rename, "Rename" },
+    { "<leader>lc", "textDocument/codeAction", vim.lsp.buf.code_action, "Code Action" },
+    { "gd", "textDocument/definition", vim.lsp.buf.definition, "Go to Definition" },
 }
 function M.pack(buf)
     for name, enabled in pairs(require("config").get().languages) do
@@ -38,7 +39,7 @@ function M.refresh(buf, excluded)
     end
     for _, client in ipairs(clients) do
         if client.name == pack.format and client:supports_method("textDocument/formatting", buf) then
-            map("<leader>cf", function() M.format(buf) end, "Format"); break
+            map("<leader>lf", function() M.format(buf) end, "Format"); break
         end
     end
 end

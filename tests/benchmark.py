@@ -1,4 +1,4 @@
-"""受控测量：基线副本关闭自动安装，避免测量触发网络或更新。"""
+"""Controlled measurements: disable automatic installation in the baseline copy to avoid network requests and updates."""
 import io, json, os, pathlib, shutil, subprocess, tarfile, time
 root = pathlib.Path(__file__).resolve().parents[1]
 runtime = pathlib.Path(os.environ['TEST_RUNTIME'])

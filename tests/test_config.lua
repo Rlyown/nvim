@@ -17,5 +17,5 @@ assert(precedence.languages.go and precedence.sources["languages.go"] == "env")
 assert(not vim.tbl_contains(c.plan(dev).tools, "debugpy"))
 dev.features.dap = true
 assert(vim.tbl_contains(c.plan(dev).tools, "debugpy"))
-print("配置优先级、校验、按需工具和离线约束通过")
+print("Configuration precedence, validation, tool selection, and offline checks passed")
 vim.cmd.qa()

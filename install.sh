@@ -54,7 +54,7 @@ case "$NVIM_INSTALL_OS" in
   *) echo 'Only macOS and APT-based Linux are supported' >&2; exit 1 ;;
 esac
 bash "$ROOT_DIR/scripts/link_nvim_config.sh" --root "$ROOT_DIR"
-# 保存所选能力，确保安装结果和下一次启动一致。
+# Save selected capabilities so installation and the next startup use the same configuration.
 nvim --headless -u NONE -i NONE -l "$ROOT_DIR/scripts/save-config.lua"
 if [[ "$NO_PLUGIN_SYNC" -eq 0 ]]; then
   NVIM_MAINTENANCE=1 nvim --headless -u "$ROOT_DIR/init.lua" -i NONE '+lua dofile(vim.env.NVIM_CONFIG_ROOT .. "/scripts/install-runtime.lua")'

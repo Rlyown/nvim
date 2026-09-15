@@ -1,4 +1,4 @@
-"""收集离线编辑器需要的系统运行时；项目编译工具链由目标机提供。"""
+"""Collect system runtimes for the offline editor; the target machine supplies project build toolchains."""
 import os, pathlib, re, shutil, subprocess, sys
 root = pathlib.Path(sys.argv[1])
 bin_dir, lib_dir = root/'bin', root/'lib'
@@ -17,7 +17,7 @@ for name in executables:
             shutil.copy2(pathlib.Path(path).resolve(), destination)
 python_version = f'python{sys.version_info.major}.{sys.version_info.minor}'
 shutil.copytree('/usr/lib/'+python_version, lib_dir/python_version, dirs_exist_ok=True)
-# Mason 的 Python 虚拟环境入口通过相对路径定位本包的 Python。
+# Mason virtual environment entry points locate the bundled Python using relative paths.
 for venv in (root/'data/nvim/mason/packages').glob('*/venv'):
     target = venv/'bin/python'
     if target.exists() or target.is_symlink(): target.unlink()

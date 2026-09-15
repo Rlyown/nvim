@@ -5,7 +5,7 @@ function M.get()
     local function add(module)
         vim.list_extend(specs, require("plugins." .. module))
     end
-    -- 显式模块边界，辅助模块不会被 Lazy 扫描。
+    -- Explicit module boundaries keep helper modules out of Lazy scanning.
     add("colorschemes")
     if c.enabled("editor") then add("editor") end
     if c.enabled("ui") then add("ui") end
@@ -25,7 +25,7 @@ function M.get()
         if c.enabled(lang) then add("languages." .. lang) end
     end
     if c.enabled("dap") then add("dap") end
-    -- 向 Lazy 声明未启用的锁条目，避免安装基础包时丢失可选包版本。
+    -- Declare disabled lock entries to preserve optional plugin revisions when installing the base profile.
     local active = {}
     local roots = {}
     for _, spec in ipairs(specs) do if not spec.optional and spec.enabled ~= false then roots[spec[1]] = true end end

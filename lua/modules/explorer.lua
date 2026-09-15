@@ -1,5 +1,84 @@
 local M = {}
--- 回收失败绝不降级到永久删除。
+local pickers = {}
+local directory_start = false
+
+function M.check_windows()
+    if directory_start or vim.v.exiting ~= vim.NIL then return end
+    local owned, found = {}, false
+    for picker in pairs(pickers) do
+        if not picker.closed and picker.layout and picker.layout:valid() then
+            found = true
+            for _, windows in ipairs({ picker.layout.wins, picker.layout.box_wins }) do
+                for _, window in pairs(windows) do
+                    if window.win then owned[window.win] = true end
+                end
+            end
+        end
+    end
+    if not found then return end
+    -- Check every tab and preserve unsaved hidden buffers as well as visible ones.
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if not owned[win] then return end
+    end
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.bo[buf].modified then return end
+    end
+    pcall(vim.cmd, "qa")
+end
+
+function M.on_show(picker)
+    pickers[picker] = true
+    if directory_start then
+        picker.config_directory_start = true
+        picker.opts.jump.close = true
+    end
+end
+
+function M.on_close(picker)
+    pickers[picker] = nil
+end
+
+function M.setup()
+    local args = vim.fn.argv()
+    directory_start = #args > 0
+    for _, arg in ipairs(args) do
+        if vim.fn.isdirectory(arg) ~= 1 then directory_start = false end
+    end
+    local group = vim.api.nvim_create_augroup("ConfigExplorerLifecycle", { clear = true })
+    vim.api.nvim_create_autocmd("VimResized", {
+        group = group,
+        callback = function()
+            vim.schedule(function()
+                for picker in pairs(pickers) do
+                    if not picker.closed and picker.layout and picker.layout:valid() then
+                        vim.api.nvim_win_set_width(picker.layout.root.win, math.max(1, math.floor(vim.o.columns * 0.2)))
+                        picker.layout:update()
+                    end
+                end
+            end)
+        end,
+    })
+    vim.api.nvim_create_autocmd({ "WinClosed", "TabClosed" }, {
+        group = group,
+        callback = function() vim.schedule(M.check_windows) end,
+    })
+    vim.api.nvim_create_autocmd("BufEnter", {
+        group = group,
+        callback = function(a)
+            local name = vim.api.nvim_buf_get_name(a.buf)
+            if directory_start and vim.bo[a.buf].buftype == "" and name ~= "" and vim.fn.isdirectory(name) == 0 then
+                directory_start = false
+                vim.schedule(function()
+                    for picker in pairs(pickers) do
+                        if picker.config_directory_start and not picker.closed then picker:close() end
+                    end
+                end)
+            end
+        end,
+    })
+end
+
+-- Never fall back to permanent deletion when trashing fails.
 function M.trash(path)
     local command
     if vim.fn.executable("trash") == 1 then command = { "trash", path }

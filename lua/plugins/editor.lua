@@ -10,13 +10,9 @@ return {
     { "ethanholz/nvim-lastplace", event = "BufReadPost", opts = {} },
     { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
     { "RaafatTurki/hex.nvim", cmd = { "HexDump", "HexAssemble", "HexToggle" }, opts = {} },
-    { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" }, keys = {
-        { "<leader>E", "<cmd>SudaRead<cr>", desc = "Force Reload" },
-        { "<leader>R", "<cmd>SudaRead<cr>", desc = "Force Reload" },
-    } },
+    { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" } },
     { "smoka7/hop.nvim", opts = {}, keys = {
-        { "<leader>m", "<cmd>HopChar2<cr>", desc = "Jump to Characters" },
-        { "<leader>sj", "<cmd>HopChar2<cr>", desc = "Jump to Characters" },
+        { "<leader>j", "<cmd>HopChar2<cr>", mode = { "n", "x", "o" }, desc = "Jump to Characters" },
     } },
     { "rainbowhxch/accelerated-jk.nvim", config = true, keys = {
         { "j", "<Plug>(accelerated_jk_gj)" }, { "k", "<Plug>(accelerated_jk_gk)" },

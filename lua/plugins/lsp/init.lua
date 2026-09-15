@@ -1,7 +1,7 @@
 return {
     { "hedyhli/outline.nvim", cmd = "Outline", opts = {}, keys = {
         { "<leader>o", "<cmd>Outline<cr>", desc = "Symbol Outline" },
-        { "<leader>co", "<cmd>Outline<cr>", desc = "Symbol Outline" },
+        { "<leader>lo", "<cmd>Outline<cr>", desc = "Symbol Outline" },
     } },
     { "neovim/nvim-lspconfig", keys = require("modules.run").keys(), event = { "BufReadPre", "BufNewFile" }, config = function()
         require("modules.lsp").setup()

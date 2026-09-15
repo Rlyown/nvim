@@ -1,4 +1,4 @@
--- Neovim 0.12.4 的零插件远程配置。使用：nvim --clean -u /path/to/lite.lua
+-- Zero-plugin remote configuration for Neovim 0.12.4. Usage: nvim --clean -u /path/to/lite.lua
 if vim.fn.has("nvim-0.12.4") ~= 1 then
     vim.api.nvim_echo({ { "lite.lua requires Neovim 0.12.4 or later", "ErrorMsg" } }, true, {})
     return

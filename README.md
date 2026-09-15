@@ -1,23 +1,25 @@
-# Neovim 模块化配置
+# Modular Neovim Configuration
 
-面向 Neovim 0.12.4。默认 `minimal` 提供基础编辑、Snacks 搜索/文件树/终端、Git、Blink 补全、Tree-sitter 和 UI。`developer` 额外选择 C/C++、Go、Rust、Python。
+Targets Neovim 0.12.4. The default `minimal` preset provides editing, Snacks search/explorer/terminal, Git, Blink completion, Tree-sitter, and UI plugins. `developer` additionally enables C/C++, Go, Rust, and Python.
 
 ```sh
 ./install.sh --profile minimal --dry-run
 ./install.sh --profile developer --features dap
 ```
 
-共享入口是 `lua/config/user.lua`；机器配置写入被忽略的 `lua/config/local.lua`。功能修改后重启。`:ConfigInfo` 查看有效配置，`:ConfigInstall` 安装选择，`:checkhealth config` 检查依赖。
+Shared settings live in `lua/config/user.lua`; machine-specific overrides belong in the ignored `lua/config/local.lua`. Restart after changing features. Use `:ConfigInfo` to inspect effective settings, `:ConfigInstall` to install selected capabilities, and `:checkhealth config` to check dependencies.
 
-完整说明见 [配置与快捷键迁移](docs/modular-config.md)。AI、Copilot、LaTeX、数据库、远程开发、图像和公式转换默认关闭。
+See [Configuration and Migration](docs/modular-config.md) for details. AI, Copilot, LaTeX, databases, remote development, images, and formula conversion are disabled by default.
 
-受控环境下的启动与首次调用测量见 [性能基线](docs/performance-baseline.md)。
+Keymaps follow four categories: native commands, frequent actions, grouped actions, and maintenance commands. See [Keymaps and Debug Mode](docs/keymaps.md).
 
-## 独立轻量模式
+Controlled startup and first-use measurements are recorded in [Performance Baseline](docs/performance-baseline.md).
 
-`nvim -u /path/to/lite.lua` 使用零插件入口，适合临时服务器。验证：`bash tests/test_lite.sh`。
+## Standalone Lite Mode
 
-## 离线包
+`nvim -u /path/to/lite.lua` starts the zero-plugin configuration for temporary servers. Validate it with `bash tests/test_lite.sh`.
+
+## Offline Bundles
 
 ```sh
 scripts/build-offline-bundle.sh --profile minimal --version minimal
@@ -25,13 +27,13 @@ scripts/build-offline-bundle.sh --profile developer --features dap --version dev
 bash tests/test_offline_bundle.sh dist/nvim-offline-linux-x86_64-minimal.tar.zst
 ```
 
-解压后运行 `bin/nvim-offline`。默认禁止安装和更新，AI/Copilot 强制关闭。显式在线更新使用 `bin/nvim-offline-update --online`，更新前创建备份。
+Extract the archive and run `bin/nvim-offline`. Installation and updates are disabled by default, and AI/Copilot are forcibly disabled. Use `bin/nvim-offline-update --online` for explicit online updates; it creates a backup first.
 
-## 目录
+## Layout
 
-- `lua/core/`：基础选项、键位、通用事件、Lazy 入口。
-- `lua/config/`：配置解析、能力目录、插件组合、安装与健康检查。
-- `lua/plugins/`：按功能组织的 Lazy 规格；语言专用规格在 `languages/`。
-- `lua/modules/`：终端、文件树、LSP 等辅助逻辑。
-- `scripts/`：共享解析器驱动的安装和离线分发。
-- `tests/`：隔离运行时、配置、映射、终端、安全与离线验证。
+- `lua/core/`: editor options, keymaps, shared events, and Lazy bootstrap.
+- `lua/config/`: configuration resolution, capability catalog, plugin selection, installation, and health checks.
+- `lua/plugins/`: Lazy specifications grouped by purpose, with language specifications under `languages/`.
+- `lua/modules/`: terminal, explorer, LSP, and other helpers.
+- `scripts/`: installation and offline distribution driven by the shared resolver.
+- `tests/`: isolated runtime, configuration, keymap, terminal, safety, and offline checks.

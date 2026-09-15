@@ -8,13 +8,13 @@ local ok, err = xpcall(function()
     assert(not plugins["nvim-tree.lua"] and not plugins["toggleterm.nvim"])
     if not config.enabled("dap") then assert(not plugins["nvim-dap"]) end
     for _, tool in ipairs(config.plan().tools) do
-        assert(vim.fn.filereadable(vim.fn.stdpath("data") .. "/mason/packages/" .. tool .. "/mason-receipt.json") == 1, "缺少工具 " .. tool)
+        assert(vim.fn.filereadable(vim.fn.stdpath("data") .. "/mason/packages/" .. tool .. "/mason-receipt.json") == 1, "Missing tool " .. tool)
     end
     if config.enabled("python") then
         vim.fn.writefile({ "print('offline')" }, "/tmp/config-test.py")
         vim.cmd.edit("/tmp/config-test.py")
         vim.wait(1000)
-        assert(not package.loaded.dap, "打开文件提前加载 DAP")
+        assert(not package.loaded.dap, "Opening a file loaded DAP prematurely")
     end
     if config.enabled("dap") then
         require("lazy").load({ plugins = { "nvim-dap" } })

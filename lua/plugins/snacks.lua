@@ -18,8 +18,8 @@ if config.enabled("search") then
     key("<leader>su", function() Snacks.picker.undo() end, "Undo History")
     key("<leader>sd", function() Snacks.picker.diagnostics() end, "Diagnostics")
     key("<leader>sc", function() Snacks.picker.command_history() end, "Command History")
-    key("<leader>bb", function() Snacks.picker.buffers() end, "Buffers")
     key("<leader>b", function() Snacks.picker.buffers() end, "Buffers")
+    key("<leader>ss", function() Snacks.picker.lsp_symbols() end, "Search Document Symbols")
 end
 if config.enabled("explorer") then
     key("<leader>n", function() Snacks.explorer() end, "Explorer")
@@ -35,7 +35,9 @@ if config.enabled("terminal") then
     key("<leader>ts", function() require("modules.terminal").prompt_send("selection") end, "Send Selection", "x")
 end
 return {
-    { "folke/snacks.nvim", lazy = false, keys = keys, opts = {
+    { "folke/snacks.nvim", lazy = false, keys = keys,
+        init = function() if config.enabled("explorer") then require("modules.explorer").setup() end end,
+        opts = {
         bigfile = { enabled = true }, quickfile = { enabled = true },
         input = { enabled = true }, notifier = { enabled = config.enabled("ui") },
         image = { enabled = config.enabled("images") },
@@ -43,6 +45,9 @@ return {
         picker = {
             enabled = config.enabled("search") or config.enabled("explorer"),
             sources = { explorer = {
+                layout = { layout = { width = 0.2, min_width = 0 } },
+                on_show = function(p) require("modules.explorer").on_show(p) end,
+                on_close = function(p) require("modules.explorer").on_close(p) end,
                 actions = {
                     config_cut = function(p) require("modules.explorer").cut(p) end,
                     config_paste = function(p) require("modules.explorer").paste(p) end,

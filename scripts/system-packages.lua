@@ -1,4 +1,4 @@
--- 平台包名映射；选择逻辑始终由 config.plan() 提供。
+-- Platform package names; selection logic always comes from config.plan().
 local map = {
     node = { "nodejs npm", "node" },
     git = { "git", "git" }, curl = { "curl", "curl" }, unzip = { "unzip", "unzip" },

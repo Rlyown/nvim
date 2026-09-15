@@ -10,7 +10,7 @@ function M.keys()
     local keys = {}
     local function add(lang, lhs, command, label)
         if not require("config").enabled(lang) then return end
-        table.insert(keys, { "<localleader>" .. lhs, function()
+        table.insert(keys, { "<leader>l" .. lhs, function()
             local argv = type(command) == "function" and command() or command
             if argv then M.command(argv) end
         end, ft = require("config.capabilities").languages[lang].ft, desc = label })

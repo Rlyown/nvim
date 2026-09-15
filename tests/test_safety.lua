@@ -1,14 +1,14 @@
 vim.opt.rtp:prepend(assert(vim.env.NVIM_CONFIG_ROOT))
 local directory = vim.fn.tempname()
 vim.fn.mkdir(directory, "p")
-local path = directory .. "/保留文件"
-vim.fn.writefile({ "不能丢失" }, path)
+local path = directory .. "/preserved-file"
+vim.fn.writefile({ "must be preserved" }, path)
 local original_executable, original_system = vim.fn.executable, vim.system
 vim.fn.executable = function() return 0 end
 local ok = require("modules.explorer").trash(path)
 assert(not ok and vim.uv.fs_stat(path))
 vim.fn.executable = function(name) return name == "trash" and 1 or 0 end
-vim.system = function() return { wait = function() return { code = 1, stderr = "故障注入" } end } end
+vim.system = function() return { wait = function() return { code = 1, stderr = "injected failure" } end } end
 ok = require("modules.explorer").trash(path)
 assert(not ok and vim.uv.fs_stat(path))
 vim.fn.executable, vim.system = original_executable, original_system
@@ -26,13 +26,13 @@ lsp.refresh(buf)
 local function has(lhs)
     return vim.api.nvim_buf_call(buf, function() return vim.fn.maparg(lhs, "n") ~= "" end)
 end
-assert(has("<leader>ch") and has("<leader>cd"))
+assert(has("<leader>lh") and has("<leader>ld"))
 lsp.refresh(buf, 1)
-assert(not has("<leader>ch") and has("<leader>cd"))
+assert(not has("<leader>lh") and has("<leader>ld"))
 vim.bo[buf].filetype = "text"
 lsp.refresh(buf)
-assert(not has("<leader>cd"))
+assert(not has("<leader>ld"))
 vim.lsp.get_clients = original_clients
 vim.fn.delete(directory, "rf")
-print("回收失败保护、多客户端 LSP 分离与文件类型清理通过")
+print("Trash failure protection, multi-client LSP detach, and filetype cleanup checks passed")
 vim.cmd.qa()

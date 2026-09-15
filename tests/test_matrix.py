@@ -1,4 +1,4 @@
-"""在已有隔离运行时上检查配置组合和首次加载，不更新插件。"""
+"""Check configuration combinations and first use in an existing isolated runtime without updating plugins."""
 import os, pathlib, subprocess, json, time
 root = pathlib.Path(__file__).resolve().parents[1]
 runtime = pathlib.Path(os.environ['TEST_RUNTIME'])
@@ -26,20 +26,20 @@ for name, profile, languages, features, ft in cases:
     script.write_text('''local ok, err = xpcall(function()
 local c = require("config")
 local p = require("lazy.core.config").plugins
-assert(not package.loaded.dap, "空启动加载 DAP")
-assert(not package.loaded.sidekick, "空启动加载 AI")
+assert(not package.loaded.dap, "DAP loaded during empty startup")
+assert(not package.loaded.sidekick, "AI loaded during empty startup")
 vim.cmd.edit(vim.fn.tempname())
 vim.bo.filetype = "'''+ft+'''"
-assert(not package.loaded.dap, "首次文件打开提前加载 DAP")
+assert(not package.loaded.dap, "Opening the first file loaded DAP prematurely")
 require("lazy").load({plugins={"blink.cmp", "lualine.nvim"}})
-assert(not package.loaded.sidekick, "补全或状态栏提前加载 AI")
+assert(not package.loaded.sidekick, "Completion or statusline loaded AI prematurely")
 if c.enabled("dap") then
     require("lazy").load({plugins={"nvim-dap"}})
     assert(require("dap").listeners.after.event_initialized.config)
 else assert(not p["nvim-dap"]) end
 if not c.enabled("ai") then assert(not p["sidekick.nvim"]) end
 vim.bo.filetype = "text"
-assert(vim.fn.maparg("<localleader>r", "n") == "")
+assert(vim.fn.maparg("<leader>lr", "n") == "")
 end, debug.traceback)
 if not ok then io.stderr:write(err); vim.cmd("cquit 1") else vim.cmd("qa!") end
 ''')

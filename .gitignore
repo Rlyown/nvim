@@ -53,6 +53,6 @@ indent.log
 # Generated offline distribution archives
 /dist/
 
-# 机器覆盖及运行日志
+# Machine-specific overrides and runtime logs
 lua/config/local.lua
 nvim.log

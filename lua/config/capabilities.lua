@@ -1,4 +1,4 @@
--- 安装器和运行时共同读取此能力目录。
+-- The installer and runtime share this capability catalog.
 return {
     languages = {
         cpp = { ft = { "c", "cpp", "cmake" }, servers = { "clangd", "cmake" }, tools = { "clangd", "cmake-language-server" }, parsers = { "c", "cpp", "cmake" }, system = { "cmake" }, format = "clangd", debug = { "codelldb" } },

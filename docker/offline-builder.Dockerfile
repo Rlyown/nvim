@@ -22,7 +22,7 @@ RUN curl -fsSL "https://github.com/neovim/neovim/releases/download/${NVIM_VERSIO
     && tar -xzf /tmp/nvim.tar.gz --strip-components=1 -C /work/runtime/nvim \
     && rm /tmp/nvim.tar.gz
 
-# 仅在构建解析器时使用；避免为 npm 安装整个 Node 工具链。
+# Used only when building parsers; avoid installing the entire Node toolchain for npm.
 RUN curl -fsSL "https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.10/tree-sitter-linux-x64.gz" \
       -o /tmp/tree-sitter.gz \
     && gzip -dc /tmp/tree-sitter.gz > /usr/local/bin/tree-sitter \

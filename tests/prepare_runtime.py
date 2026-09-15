@@ -1,4 +1,4 @@
-"""从已安装仓库的锁定提交创建隔离运行时，不修改用户插件和锁文件。"""
+"""Create an isolated runtime from installed repositories at locked revisions without modifying user plugins or the lockfile."""
 import json, os, pathlib, subprocess, tarfile, io, shutil
 root = pathlib.Path(__file__).resolve().parents[1]
 target = pathlib.Path(os.environ['TEST_RUNTIME'])

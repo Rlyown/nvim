@@ -11,10 +11,8 @@ return {
             callback = function() require("modules.tex").focus_terminal() end,
         })
     end, keys = {
-        { "<localleader>b", "<plug>(vimtex-compile)", ft = "tex", desc = "Compile LaTeX" },
-        { "<localleader>r", "<plug>(vimtex-view)", ft = "tex", desc = "View PDF" },
-        { "<localleader>h", "<plug>(vimtex-info)", ft = "tex", desc = "LaTeX Information" },
-        { "<localleader>at", "<plug>(vimtex-toc-toggle)", ft = "tex", desc = "Toggle Table of Contents" },
-        { "<localleader>ac", "<plug>(vimtex-clean)", ft = "tex", desc = "Clean Build" },
+        { "<leader>lb", "<plug>(vimtex-compile)", ft = "tex", desc = "Compile LaTeX" },
+        { "<leader>lr", "<plug>(vimtex-view)", ft = "tex", desc = "View PDF" },
+        { "<leader>lat", "<plug>(vimtex-toc-toggle)", ft = "tex", desc = "Toggle Table of Contents" },
     } },
 }

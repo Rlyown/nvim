@@ -1,4 +1,4 @@
--- 旧模块接口兼容一版，新代码使用 config。
+-- Keep the old module interface for one release; new code should use config.
 local M = {}
 M.enabled = require("config").enabled
 function M.snapshot()
