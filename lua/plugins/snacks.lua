@@ -49,6 +49,7 @@ return {
         init = function() if config.enabled("explorer") then require("modules.explorer").setup() end end,
         opts = {
         bigfile = { enabled = true }, quickfile = { enabled = true },
+        dashboard = { enabled = true },
         input = { enabled = true }, notifier = { enabled = config.enabled("ui") },
         image = { enabled = config.enabled("images") },
         explorer = { enabled = config.enabled("explorer"), replace_netrw = true },

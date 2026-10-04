@@ -40,7 +40,7 @@ return {
     },
     { "folke/which-key.nvim", event = "VeryLazy", opts = { preset = "classic", spec = groups } },
     { "nvim-lualine/lualine.nvim", event = "VeryLazy", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {
-        options = { theme = "catppuccin", globalstatus = true },
+        options = { theme = "catppuccin-mocha", globalstatus = true },
         sections = { lualine_a = { "mode" }, lualine_b = { "branch", "diff", "diagnostics" }, lualine_c = { "filename" }, lualine_x = { "encoding", "filetype" }, lualine_y = { "progress" }, lualine_z = { "location" } },
     } },
     { "akinsho/bufferline.nvim", event = "VeryLazy", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {} },
