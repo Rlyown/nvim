@@ -84,7 +84,6 @@ Git's `,gm` opens a looping which-key menu for repeated `n/N/p/s/u` navigation, 
 | Go, VimTeX | Default mappings disabled; filetype-local `,l` mappings take over; VimTeX insert abbreviations are also disabled |
 | Rust, Crates, CSV, SQL | Scope mappings to filetypes or Cargo files; dedicated interfaces retain local controls |
 | blink.cmp | Default completion controls, with Tab/Shift-Tab for snippet navigation and fallback |
-| Copilot | Insert-mode Alt-l accepts, Alt-[/] selects previous/next, and Alt-e dismisses; unused word/line acceptance disabled, panel disabled |
 | Snacks, GrugFar, DAP UI, Sidekick, session picker, dbee, Outline | Global entries follow the categories; dedicated windows retain their own interactions |
 | wrapping | Default mappings disabled; use `,uw` |
 | Mason, Tree-sitter installation, themes, Hex, Suda, Remote | Command completion, including `:Mason`, `:TSInstall`, `:colorscheme`, `:HexToggle`, `:SudaRead`, and `:RemoteStart` |

@@ -29,10 +29,10 @@ function M.resolve(user, override, env, preset)
     end
     merge(user, "user"); merge(override, "local")
     for _, name in ipairs(csv(env.NVIM_DISABLE_LANGS)) do
-        set(name == "copilot" and "features" or "languages", name, false, "legacy-env")
+        set("languages", name, false, "legacy-env")
     end
     for _, name in ipairs(csv(env.NVIM_ENABLE_LANGS)) do
-        set(name == "copilot" and "features" or "languages", name, true, "legacy-env")
+        set("languages", name, true, "legacy-env")
     end
     if env.NVIM_LANGUAGES ~= nil then
         for name in pairs(result.languages) do set("languages", name, false, "env") end
@@ -49,7 +49,7 @@ function M.resolve(user, override, env, preset)
     end
     result.offline = env.NVIM_OFFLINE == "1"
     if result.offline then
-        for _, name in ipairs({ "ai", "copilot", "remote" }) do set("features", name, false, "offline") end
+        for _, name in ipairs({ "ai", "remote" }) do set("features", name, false, "offline") end
     end
     return result
 end
@@ -95,7 +95,7 @@ function M.plan(config)
         end
     end
     if #p.tools > 0 then add("system", { "node", "python" }, "mason") end
-    for _, feature in ipairs({ "fonts", "kitty", "formulas", "images", "copilot" }) do
+    for _, feature in ipairs({ "fonts", "kitty", "formulas", "images" }) do
         if c.features[feature] then add("system", { feature }, feature) end
     end
     for _, key in ipairs({ "tools", "parsers", "system", "servers" }) do table.sort(p[key]) end

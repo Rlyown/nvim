@@ -15,14 +15,11 @@ cases = [
     ('tex-disabled', 'minimal', '', '', 'tex'),
     ('developer-dap', 'developer', None, 'dap', 'python'),
     ('ai', 'minimal', '', 'ai', 'text'),
-    ('copilot', 'minimal', '', 'copilot', 'text'),
-    ('offline-ai', 'developer', None, 'ai,copilot,dap', 'python'),
 ]
 results = []
 for name, profile, languages, features, ft in cases:
     case_env = env.copy(); case_env.update(NVIM_PROFILE=profile, NVIM_FEATURES=features)
     if languages is not None: case_env['NVIM_LANGUAGES'] = languages
-    if name not in ('ai', 'copilot'): case_env['NVIM_OFFLINE'] = '1'
     script = runtime / 'matrix.lua'
     script.write_text('''local ok, err = xpcall(function()
 local c = require("config")

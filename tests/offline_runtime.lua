@@ -2,7 +2,7 @@ local ok, err = xpcall(function()
     assert(vim.version().major == 0 and vim.version().minor == 12 and vim.version().patch == 4)
     local config = require("config")
     assert(config.get().offline)
-    assert(not config.enabled("ai") and not config.enabled("copilot"))
+    assert(not config.enabled("ai") and not config.enabled("remote"))
     assert(not package.loaded.dap and not package.loaded.sidekick)
     local plugins = require("lazy.core.config").plugins
     assert(not plugins["nvim-tree.lua"] and not plugins["toggleterm.nvim"])

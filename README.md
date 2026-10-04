@@ -1,107 +1,53 @@
-# Modular Neovim Configuration
+# Neovim Configuration
 
-Targets Neovim 0.12.4. The default `minimal` preset provides editing, Snacks search/explorer/terminal, Git, Blink completion, Tree-sitter, and UI plugins. `developer` additionally enables C/C++, Go, Rust, and Python.
+A Neovim 0.12.4+ development setup with completion, search, Git, terminal, Tree-sitter, LSP, formatting, debugging, and optional AI. The installer installs the selected system dependencies, plugins, Tree-sitter parsers, and Mason tools.
 
-```sh
-./install.sh --profile minimal --dry-run
-./install.sh --profile developer --features dap
-```
+## Quick install
 
-Shared settings live in `lua/config/user.lua`; machine-specific overrides belong in the ignored `lua/config/local.lua`. Restart after changing features. Use `:ConfigInfo` to inspect effective settings, `:ConfigInstall` to install selected capabilities, and `:checkhealth config` to check dependencies.
-
-See [Configuration and Migration](docs/modular-config.md) for details. AI, Copilot, LaTeX, databases, remote development, images, and formula conversion are disabled by default.
-
-Keymaps follow four categories: native commands, frequent actions, grouped actions, and maintenance commands. See [Keymaps and Debug Mode](docs/keymaps.md).
-
-Controlled startup and first-use measurements are recorded in [Performance Baseline](docs/performance-baseline.md).
-
-## Standalone Lite Mode
-
-`nvim -u /path/to/lite.lua` starts the zero-plugin configuration for temporary servers. Validate it with `bash tests/test_lite.sh`.
-
-## Standalone Offline Configuration
-
-Copy [`single-config.lua`](single-config.lua) to any machine with Neovim **0.12.4 or newer**:
+Install Neovim 0.12.4+ first. On macOS, install Homebrew as well. Then clone the configuration and install the full non-LaTeX setup:
 
 ```sh
-nvim -u /path/to/single-config.lua
-# Or: nvim --clean -u /path/to/single-config.lua
+git clone git@github.com:Rlyown/nvim.git ~/.config/nvim
+cd ~/.config/nvim
+./install.sh --full
 ```
 
-This entry point reads no other repository files and loads no installed plugins, user configuration, or project-local configuration. It uses built-in netrw, comments, LSP, completion, snippets, and diff, then adds a floating picker, terminal switching, Git inspection, and project sessions. No Nerd Font is required. `init.lua` and the smaller `lite.lua` remain independent.
+The full setup includes C/C++, Go, Rust, Python, Lua, Shell, web languages, JSON/YAML/TOML/XML, Docker, Assembly, CSV, SQL, and Markdown. It also enables debugging, AI, remote development, image support, and their dependencies. The installer needs an internet connection. Once it finishes, start Neovim with `nvim`.
 
-The Leader key remains comma. Use `:SingleHelp`, `,sk`, `:SingleHealth`, or `,xh`; editable settings are at the top of the file.
-
-| Common action | Keymap / command |
-| --- | --- |
-| Save, close buffer, quit | `,w`, `,c`, `,Q` |
-| Explore directories, find files, switch buffers | `,n`, `,f`, `,b` |
-| Recent files, current file lines | `,so`, `,sb` |
-| Project search, word search, repeat search | `,F` / `,sg`, `,sw`, `,sR` |
-| Confirm project replacement | `,sr`; changes stay in buffers until saved |
-| Previous / next quickfix item | `[q`, `]q` |
-| Document outline, workspace symbols, diagnostics | `,o` / `,ss`, `,sS`, `,sd` |
-| Definition, references, docs, rename, code actions | `gd` / `,ld`, `,lR`, `,lh`, `,ln`, `,lc` |
-| Format, toggle format on save | `,lf`, `,lF`; off by default |
-| Run, build, test | `,lr`, `,lb`, `,lt` |
-| Horizontal / vertical / floating / tab terminal | `,th`, `,tv`, `,tf`, `,tt`; prefix a number to select a terminal |
-| Toggle terminal, all terminals, leave terminal input | `Ctrl-\`, `,ta`, double `Esc` |
-| Send line / selection to a terminal | `,tc`, `,tl` / `,ts` in visual mode; sends a trailing newline |
-| Git status, log, branches, blame, file diff | `,gg`, `,gl`, `,gB`, `,gb`, `,gd` |
-| Jump between diff hunks | `,gn` / `]c`, `,gN` / `[c` |
-| Save / load / delete project session | `,ps`, `,pl` / `,pc`, `,pd` |
-| Built-in snippets, surround selection | `,li`, `,lz` in characterwise visual mode |
-| Word / path / omnifunc completion | `Ctrl-n`, `Ctrl-x Ctrl-f`, `Ctrl-x Ctrl-o` |
-| Comments, folds, matching pairs | Built-in `gcc` / `gc`, `za` / `zR` / `zM`, `%` |
-| Copy the last register with OSC52 | `,xy`; requires terminal support |
-
-In a picker, type to filter, use `Ctrl-n` / `Ctrl-p` to move, Enter to open, `Ctrl-x` / `Ctrl-v` to split, `Ctrl-q` to send jumpable results to quickfix, and `Esc` to cancel. Use `:SingleFiles`, `:SingleGrep text`, and `:SingleCancel` for file search, text search, and cancellation.
-
-### External tools and offline fallbacks
-
-| Capability | When available | When missing |
-| --- | --- | --- |
-| File / text search | Uses rg and follows `.gitignore` | Lua directory walk; does not parse `.gitignore` |
-| Language servers | Detects clangd, gopls, rust-analyzer, pyright-langserver, lua-language-server, bash-language-server | Editing, word/path completion, and indent folding remain available |
-| Git | Status, log, blame, and current-buffer vs HEAD diff | Reports the missing executable when called |
-| Run and test | C/C++: CMake and CTest; Go: go; Rust: cargo; Python: python3 and unittest; Shell: bash | Reports missing tools; use the terminal or `:make` |
-| Clipboard | System provider or explicit OSC52 copy | Ordinary registers |
-| Persistent undo and sessions | Stored in `stdpath("state")/single-config/` | Disabled when unwritable; editing remains available |
-
-The configuration never installs tools or downloads plugins. Go tasks and gopls disable module and toolchain downloads; Rust tasks use `--offline`, and rust-analyzer receives offline environment variables. Prepare build dependencies beforehand. CMake uses the existing `build` directory and does not configure the project.
-
-Search uses **literal matching with smart case**: queries containing uppercase characters are case-sensitive. Both search paths skip `.git`, `node_modules`, `target`, and `build`, and do not follow directory symlinks. Text search skips binary files and files larger than 1 MiB. Lua scanning is capped at 20,000 files, results at 5,000 matches, and rg output at 16 MiB. The project root is the nearest language marker or `.git`, falling back to the current working directory.
-
-Sessions manually save and restore file windows only. Running terminals and unsaved file contents are not saved. No resources outside the state directory are required.
-
-To support remote environments with low file-descriptor limits, LSP does not register recursive workspace watchers. Open-file changes still synchronize normally. Restart Neovim if a language server does not reflect bulk external changes.
-
-### Differences from the plugin configuration and validation
-
-The built-in implementation preserves common editing and development workflows but does not provide a full DAP UI, AI, image rendering, database UI, Git hunk staging, or extra Tree-sitter parsers. The Git branch list is read-only. Undo and command history use native lists; auto-pairs and surround use simple rules without syntax analysis. Formatting depends on language-server support; pyright itself does not format.
+To install the saved local selection, run:
 
 ```sh
-python3 tests/test_single_config.py
-bash tests/test_lite.sh
+./install.sh
 ```
 
-The single-file test copies the configuration into a temporary directory and verifies tool-free fallbacks, special paths, cancellation and limits, window lifecycles, terminal reuse, editing, sessions, and unwritable state directories. When available, rg, Git, clangd, and gopls integrations are also tested. Development validation used Neovim 0.12.5; 0.12.4 was not tested separately.
+On a fresh install with no saved selection, this starts an interactive wizard. Choose Full, Developer, Minimal, or Custom. The wizard saves your selection after installation. Use `./install.sh --full` to skip the wizard and install the full setup directly.
 
-## Offline Bundles
+Preview the installation plan without making changes:
 
 ```sh
-scripts/build-offline-bundle.sh --profile minimal --version minimal
-scripts/build-offline-bundle.sh --profile developer --features dap --version developer-dap
-bash tests/test_offline_bundle.sh dist/nvim-offline-linux-x86_64-minimal.tar.zst
+./install.sh --dry-run
 ```
 
-Extract the archive and run `bin/nvim-offline`. Installation and updates are disabled by default, and AI/Copilot are forcibly disabled. Use `bin/nvim-offline-update --online` for explicit online updates; it creates a backup first.
+Use `./install.sh --help` for the short option list. Add `--no-plugin-sync` to install system packages without syncing plugins.
 
-## Layout
+## Profiles and exclusions
 
-- `lua/core/`: editor options, keymaps, shared events, and Lazy bootstrap.
-- `lua/config/`: configuration resolution, capability catalog, plugin selection, installation, and health checks.
-- `lua/plugins/`: Lazy specifications grouped by purpose, with language specifications under `languages/`.
-- `lua/modules/`: terminal, explorer, LSP, and other helpers.
-- `scripts/`: installation and offline distribution driven by the shared resolver.
-- `tests/`: isolated runtime, configuration, keymap, terminal, safety, and offline checks.
+- `minimal` provides the editor, completion, Tree-sitter, search, file browsing, Git, terminal, sessions, and UI plugins.
+- `developer` adds C/C++, Go, Rust, and Python development tools.
+- `--full` enables all available non-LaTeX languages and development features.
+- Use `--languages ...` and `--features ...` for a custom selection. See [Configuration](docs/modular-config.md).
+
+The recommended full setup excludes LaTeX. It does not install TeX Live, MacTeX, latexmk, texlab, or vimtex. The Copilot plugin has been removed. AI features use a separate plugin and may require service credentials.
+
+## After installation
+
+Start Neovim and run `:checkhealth` for Neovim and plugin checks, or `:checkhealth config` for this configuration's dependencies. Run `:ConfigInfo` to inspect the active selection. Run `:ConfigInstall` to install its plugins, parsers, and Mason tools again. The installer saves machine-specific selections in the ignored file `lua/config/local.lua`.
+
+## Other entry points
+
+- [Keymaps](docs/keymaps.md)
+- [Configuration and migration](docs/modular-config.md)
+- [Performance baseline](docs/performance-baseline.md)
+- `nvim -u ./lite.lua` starts the zero-plugin lite mode.
+- `nvim -u ./single-config.lua` starts a standalone configuration that does not depend on this repository or plugins.
+- See [offline bundle instructions](scripts/build-offline-bundle.sh) to build a package for offline use.

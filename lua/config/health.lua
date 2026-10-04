@@ -3,7 +3,7 @@ function M.check()
     vim.health.start("Configuration and dependencies")
     local c = require("config")
     vim.health.ok("Profile: " .. c.get().profile .. (c.get().offline and " (offline)" or ""))
-    local executables = { cc = "cc", curl = "curl", git = "git", unzip = "unzip", ripgrep = "rg", fd = "fd", node = "node", python = "python3", go = "go", rust = "cargo", cmake = "cmake", latex = "latexmk", formulas = "latex2text", images = "magick", kitty = "kitty", copilot = "node", ["tree-sitter"] = "tree-sitter" }
+    local executables = { cc = "cc", curl = "curl", git = "git", unzip = "unzip", ripgrep = "rg", fd = "fd", node = "node", python = "python3", go = "go", rust = "cargo", cmake = "cmake", images = "magick", kitty = "kitty", ["tree-sitter"] = "tree-sitter" }
     for _, capability in ipairs(c.plan().system) do
         local executable = executables[capability]
         if executable and vim.fn.executable(executable) == 0 then vim.health.warn("Missing system dependency: " .. executable) end

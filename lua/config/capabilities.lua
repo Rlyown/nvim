@@ -19,7 +19,7 @@ return {
     features = {
         editor = true, search = true, git = true, terminal = true, explorer = true,
         completion = true, ui = true, session = true, treesitter = true,
-        dap = false, ai = false, copilot = false, remote = false, images = false,
+        dap = false, ai = false, remote = false, images = false,
         formulas = false, fonts = false, kitty = false,
     },
     base_parsers = { "vim", "vimdoc", "lua", "markdown", "markdown_inline", "query" },

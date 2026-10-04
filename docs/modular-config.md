@@ -5,13 +5,13 @@ Select `vim.g.config_preset = "minimal"` or `vim.g.config_preset = "developer"` 
 ```lua
 return {
     languages = { python = true, lua = true },
-    features = { dap = true, ai = false, copilot = false },
+    features = { dap = true, ai = false },
 }
 ```
 
-`minimal` includes editing, search, Git, terminals, explorer, completion, UI, sessions, and Tree-sitter. The shared user configuration also enables Lua for maintaining this configuration with Lua LSP support. `developer` adds C/C++, Go, Rust, and Python. LaTeX, SQL, AI, Copilot, remote development, images, and formula conversion require explicit selection.
+`minimal` includes editing, search, Git, terminals, explorer, completion, UI, sessions, and Tree-sitter. The shared user configuration also enables Lua for maintaining this configuration with Lua LSP support. `developer` adds C/C++, Go, Rust, and Python. LaTeX, SQL, AI, remote development, images, and formula conversion require explicit selection.
 
-Precedence is the `init.lua` preset, shared user configuration, local overrides, then environment variables. Finally, `NVIM_OFFLINE=1` forcibly disables AI, Copilot, and remote development. `NVIM_PROFILE` temporarily overrides the preset; `NVIM_LANGUAGES` replaces the language set; `NVIM_FEATURES=dap,ai,-images` selects features. Legacy `NVIM_ENABLE_LANGS` / `NVIM_DISABLE_LANGS` remain supported for one release, with newer variables taking precedence. Unknown names and values are errors.
+Precedence is the `init.lua` preset, shared user configuration, local overrides, then environment variables. Finally, `NVIM_OFFLINE=1` forcibly disables AI and remote development. `NVIM_PROFILE` temporarily overrides the preset; `NVIM_LANGUAGES` replaces the language set; `NVIM_FEATURES=dap,ai,-images` selects features. Legacy `NVIM_ENABLE_LANGS` / `NVIM_DISABLE_LANGS` remain supported for one release, with newer variables taking precedence. Unknown names and values are errors.
 
 ## Installation and Updates
 
@@ -62,7 +62,7 @@ Put dedicated plugins in `lua/plugins/languages/` and explicitly include them in
 
 On macOS, VimTeX reverse search refocuses the terminal. It first checks `vim.g.config_tex_focus_app`, then recognizes `TERM_PROGRAM` values for Kitty, iTerm, Ghostty, WezTerm, Alacritty, Warp, and Terminal, and finally defaults to Kitty. `TERM=xterm-kitty` is also recognized.
 
-Removed plugins include nvim-tree, ToggleTerm, OpenCode, Portal, Harpoon, Grapple, Illuminate, SnipRun, and Telescope's fzf, neoclip, and DAP extensions. Telescope remains a private dependency of the remote feature. Basic Markdown rendering remains; formula conversion requires `formulas`. Sidekick and Copilot are independent, and basic Tab completion does not load AI. Old navigation bookmarks and clipboard/macro history mappings are not retained.
+Removed plugins include nvim-tree, ToggleTerm, OpenCode, Portal, Harpoon, Grapple, Illuminate, SnipRun, and Telescope's fzf, neoclip, and DAP extensions. Telescope remains a private dependency of the remote feature. Basic Markdown rendering remains; formula conversion requires `formulas`. Basic Tab completion does not load AI. Old navigation bookmarks and clipboard/macro history mappings are not retained.
 
 ## Offline Distribution and Testing
 

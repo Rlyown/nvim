@@ -15,7 +15,6 @@ function M.get()
     if c.enabled("git") then add("git") end
     if c.enabled("session") then add("session") end
     if c.enabled("ai") then add("ai") end
-    if c.enabled("copilot") then add("copilot") end
     if c.enabled("remote") then add("remote") end
     add("markdown")
     local plan = c.plan()
