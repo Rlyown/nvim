@@ -16,7 +16,7 @@ return {
         vim.g.vimtex_view_enabled = 0
         require("modules.tex_preview").setup()
     end, keys = {
-        { "<leader>lb", "<plug>(vimtex-compile)", ft = "tex", desc = "Compile LaTeX" },
+        { "<leader>lb", function() require("modules.tex_preview").compile() end, ft = "tex", desc = "Compile LaTeX" },
         { "<leader>lr", function() require("modules.tex_preview").open() end, ft = "tex", desc = "Preview PDF (Kitty)" },
         { "<leader>lat", "<plug>(vimtex-toc-toggle)", ft = "tex", desc = "Toggle Table of Contents" },
         { "<leader>le", "<cmd>VimtexErrors<cr>", ft = "tex", desc = "LaTeX Errors" },

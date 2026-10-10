@@ -1,7 +1,9 @@
 local M = {}
 
 local previews = {}
-local previous_mousefocus
+local prefetch_pages = 3
+local attach_page
+local update_visible_pages
 local group = vim.api.nvim_create_augroup("ConfigTexPreview", { clear = true })
 
 local function notify(message, level)
@@ -22,13 +24,20 @@ local function compiler_file(buf, extension)
     return vim.fn.fnamemodify(path, ":p")
 end
 
+local function compiler_running(buf)
+    local ok, running = pcall(vim.api.nvim_buf_call, buf, function()
+        return vim.fn.eval("b:vimtex.compiler.is_running()")
+    end)
+    return ok and (running == true or running == 1)
+end
+
 local function output_pdf(buf)
     return compiler_file(buf, "pdf")
 end
 
-local function find_synctex_file(pdf, source_dir, compiler_file)
-    if compiler_file and compiler_file ~= "" and vim.uv.fs_stat(compiler_file) then
-        return compiler_file
+local function find_synctex_file(pdf, source_dir, compiler_file_path)
+    if compiler_file_path and compiler_file_path ~= "" and vim.uv.fs_stat(compiler_file_path) then
+        return compiler_file_path
     end
 
     local stem = vim.fn.fnamemodify(pdf, ":t:r")
@@ -45,16 +54,16 @@ local function find_synctex_file(pdf, source_dir, compiler_file)
     end
 end
 
-local function run_synctex(args, cwd, pdf, source_dir, compiler_file)
+local function run_synctex(args, cwd, pdf, source_dir, compiler_file_path)
     if vim.fn.executable("synctex") ~= 1 then
         notify("SyncTeX is not on PATH; install/configure a TeX distribution with SyncTeX.", vim.log.levels.ERROR)
         return nil
     end
-    local synctex_file = pdf and find_synctex_file(pdf, source_dir or cwd, compiler_file)
+    local synctex_file = pdf and find_synctex_file(pdf, source_dir or cwd, compiler_file_path)
     if pdf and not synctex_file then
         notify(
             "No SyncTeX data found for " .. vim.fn.fnamemodify(pdf, ":t")
-                .. ". Compile this document with VimTeX (,lb), or ensure your build keeps the matching .synctex.gz file.",
+                .. ". The matching .synctex or .synctex.gz file is missing. Run <leader>lb to make VimTeX force a one-time SyncTeX rebuild.",
             vim.log.levels.WARN
         )
         return nil
@@ -63,7 +72,6 @@ local function run_synctex(args, cwd, pdf, source_dir, compiler_file)
     local command = vim.list_extend({}, args)
     local synctex_dir = synctex_file and vim.fn.fnamemodify(synctex_file, ":h")
     if synctex_dir and synctex_dir ~= vim.fn.fnamemodify(pdf, ":h") then
-        -- SyncTeX parses -d after the required -o argument on both subcommands.
         table.insert(command, "-d")
         table.insert(command, synctex_dir)
     end
@@ -73,7 +81,7 @@ local function run_synctex(args, cwd, pdf, source_dir, compiler_file)
         if detail:find("No SyncTeX available", 1, true) then
             notify(
                 "SyncTeX could not match " .. vim.fn.fnamemodify(pdf or "PDF", ":t")
-                    .. ". Check that its .synctex.gz belongs to the current PDF and that the build has finished.",
+                    .. ". Confirm the sidecar belongs to the current PDF and that compilation has finished.",
                 vim.log.levels.WARN
             )
         else
@@ -95,29 +103,44 @@ local function stats_revision(pdf)
     return table.concat({ stat.size or 0, mtime.sec or 0, mtime.nsec or 0 }, "-")
 end
 
+local function pdf_page_count(pdf)
+    if vim.fn.executable("pdfinfo") == 1 then
+        local result = vim.system({ "pdfinfo", pdf }, { text = true }):wait()
+        if result.code == 0 then
+            local count = tonumber((result.stdout or ""):match("Pages:%s*(%d+)"))
+            if count and count > 0 then return count end
+        end
+    end
+
+    -- Kitty machines often have ImageMagick/Ghostscript for Snacks.image but
+    -- do not have Poppler's pdfinfo. ImageMagick's scene index is zero-based.
+    if vim.fn.executable("magick") == 1 then
+        local result = vim.system({ "magick", "identify", "-format", "%p\n", pdf }, { text = true }):wait()
+        if result.code == 0 then
+            local last_page = -1
+            for page in (result.stdout or ""):gmatch("%d+") do
+                last_page = math.max(last_page, tonumber(page))
+            end
+            if last_page >= 0 then return last_page + 1 end
+        end
+    end
+end
+
 local function statusline(state)
-    return string.format(" PDF  %d  |  n/p or wheel: page  |  click: SyncTeX  |  r: refresh  |  q: close ", state.page)
+    return string.format(
+        " PDF  %d/%s  |  scroll: wheel/C-d/C-u  |  n/p: page  |  click: SyncTeX  |  r: refresh  |  q: close ",
+        state.page,
+        state.page_count or "?"
+    )
 end
 
 local function win_is_showing(win, buf)
     return win and vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_buf(win) == buf
 end
 
-local function update_mousefocus()
-    local has_preview = false
+local function find_state(buf)
     for _, state in pairs(previews) do
-        if win_is_showing(state.win, state.buf) then
-            has_preview = true
-            break
-        end
-    end
-
-    if has_preview then
-        if previous_mousefocus == nil then previous_mousefocus = vim.o.mousefocus end
-        vim.o.mousefocus = true
-    elseif previous_mousefocus ~= nil then
-        if vim.o.mousefocus then vim.o.mousefocus = previous_mousefocus end
-        previous_mousefocus = nil
+        if state.buf == buf then return state end
     end
 end
 
@@ -138,11 +161,11 @@ local function ensure_window(state, source_win)
     vim.wo[win].statuscolumn = ""
     vim.wo[win].wrap = false
     vim.wo[win].winbar = ""
+    vim.wo[win].statusline = statusline(state)
     return win
 end
 
-local function cache_for(pdf)
-    local revision = stats_revision(pdf)
+local function cache_for(pdf, revision)
     local tag = vim.fn.sha256(pdf .. "\0" .. revision):sub(1, 16)
     return vim.fn.stdpath("cache") .. "/snacks/image/tex/" .. tag
 end
@@ -163,43 +186,150 @@ local function can_preview()
     return true
 end
 
-local function attach(state)
-    if not vim.api.nvim_buf_is_valid(state.buf) then return end
-    if not can_preview() then return end
+local function close_placements(state)
+    for _, placement in pairs(state.pending) do
+        placement:close()
+    end
+    for _, placement in pairs(state.placements) do
+        placement:close()
+    end
+    state.pending = {}
+    state.placements = {}
+end
 
-    Snacks.image.placement.clean(state.buf)
+local function set_document_lines(state, count)
+    if state.buffer_pages == count then return end
+    if state.buffer_pages then close_placements(state) end
+
+    local lines = {}
+    for page = 1, count do
+        lines[page] = " "
+    end
     vim.bo[state.buf].modifiable = true
-    vim.api.nvim_buf_set_lines(state.buf, 0, -1, false, { " " })
+    vim.api.nvim_buf_set_lines(state.buf, 0, -1, false, lines)
     vim.bo[state.buf].modifiable = false
     vim.bo[state.buf].modified = false
+    state.buffer_pages = count
+end
 
-    -- Snacks caches conversions by source path and page. Use a PDF-revision-specific
-    -- cache directory so recompiling the same PDF path cannot display stale pixels.
-    local image_config = Snacks.image.config
-    local old_cache = image_config.cache
-    image_config.cache = cache_for(state.pdf)
-    -- Snacks' converter understands the #page selector, but its initial format
-    -- check currently sees "pdf#page=N" as an unsupported extension.
-    local old_supports = Snacks.image.supports
-    Snacks.image.supports = function(src)
-        return old_supports(src:gsub("#page=%d+$", ""))
+local function viewport_pages(state)
+    if not win_is_showing(state.win, state.buf) then
+        local page = math.max(1, state.page or 1)
+        return page, page
     end
-    local ok, placement = pcall(Snacks.image.buf._attach, state.buf, {
-        src = state.pdf .. "#page=" .. state.page,
-        pos = { 1, 0 },
-        auto_resize = true,
-    })
-    Snacks.image.supports = old_supports
-    image_config.cache = old_cache
-    if not ok then
-        notify("Could not attach PDF page: " .. tostring(placement), vim.log.levels.ERROR)
+
+    -- nvim_win_call returns a single callback result through the API boundary;
+    -- returning two Lua values here leaves `bottom` nil on some Neovim versions.
+    local ok, bounds = pcall(vim.api.nvim_win_call, state.win, function()
+        return { top = vim.fn.line("w0"), bottom = vim.fn.line("w$") }
+    end)
+    local fallback = math.max(1, math.min(state.page_count or 1, state.page or 1))
+    if not ok or type(bounds) ~= "table" then
+        return fallback, fallback
+    end
+
+    local top = tonumber(bounds.top)
+    local bottom = tonumber(bounds.bottom)
+    if not top or not bottom then
+        return fallback, fallback
+    end
+
+    top = math.max(1, math.min(state.page_count, top))
+    bottom = math.max(top, math.min(state.page_count, bottom))
+    return top, bottom
+end
+
+local function queue_visible_update(state)
+    if state.update_scheduled then return end
+    state.update_scheduled = true
+    vim.schedule(function()
+        state.update_scheduled = false
+        if vim.api.nvim_buf_is_valid(state.buf) then
+            update_visible_pages(state)
+        end
+    end)
+end
+
+update_visible_pages = function(state)
+    if not state.page_count or not vim.api.nvim_buf_is_valid(state.buf)
+        or not win_is_showing(state.win, state.buf) then
         return
     end
-    state.placement = placement
-    state.revision = stats_revision(state.pdf)
-    if state.win and vim.api.nvim_win_is_valid(state.win) then
+
+    local top, bottom = viewport_pages(state)
+    local first = math.max(1, top - prefetch_pages)
+    local last = math.min(state.page_count, bottom + prefetch_pages)
+    local visible = math.max(1, math.min(state.page_count, top))
+    if state.page ~= visible then
+        state.page = visible
         vim.wo[state.win].statusline = statusline(state)
     end
+
+    for page = first, last do
+        attach_page(state, page)
+    end
+
+    -- Retain a wider margin than the prefetch range to avoid tearing down and
+    -- recreating Kitty placements while the user scrolls quickly back and forth.
+    local keep_first = math.max(1, first - prefetch_pages)
+    local keep_last = math.min(state.page_count, last + prefetch_pages)
+    for page, placement in pairs(state.placements) do
+        if page < keep_first or page > keep_last then
+            placement:close()
+            state.placements[page] = nil
+        end
+    end
+    for page, placement in pairs(state.pending) do
+        if page < keep_first or page > keep_last then
+            placement:close()
+            state.pending[page] = nil
+        end
+    end
+end
+
+attach_page = function(state, page)
+    if state.placements[page] and state.placements[page].tex_revision == state.revision then return end
+    if state.pending[page] and state.pending[page].tex_revision == state.revision then return end
+    if state.pending[page] then
+        state.pending[page]:close()
+        state.pending[page] = nil
+    end
+    if not vim.api.nvim_buf_is_valid(state.buf) then return end
+
+    -- Snacks caches conversions per source page. Keep a revision-specific cache
+    -- so a quick recompile can never reuse pixels from the previous PDF.
+    local image_config = Snacks.image.config
+    local old_cache = image_config.cache
+    image_config.cache = cache_for(state.pdf, state.revision)
+    local requested_revision = state.revision
+    local old_placement = state.placements[page]
+    local ok, placement = pcall(Snacks.image.placement.new, state.buf, state.pdf .. "#page=" .. page, {
+        pos = { page, 0 },
+        auto_resize = true,
+        inline = true,
+        on_update = function(next_placement)
+            if state.pending[page] ~= next_placement then return end
+            if requested_revision ~= stats_revision(state.pdf) then
+                state.pending[page] = nil
+                next_placement:close()
+                return
+            end
+            state.pending[page] = nil
+            next_placement.tex_revision = requested_revision
+            state.placements[page] = next_placement
+            if old_placement and old_placement ~= next_placement then old_placement:close() end
+            if win_is_showing(state.win, state.buf) then
+                vim.wo[state.win].statusline = statusline(state)
+            end
+        end,
+    })
+    image_config.cache = old_cache
+    if not ok then
+        notify("Could not render PDF page " .. page .. ": " .. tostring(placement), vim.log.levels.ERROR)
+        return
+    end
+    placement.tex_revision = requested_revision
+    state.pending[page] = placement
 end
 
 local function preview_for(pdf)
@@ -216,26 +346,32 @@ local function preview_for(pdf)
     vim.bo[buf].bufhidden = "hide"
     vim.bo[buf].swapfile = false
     vim.bo[buf].buflisted = false
-    local created = { buf = buf, pdf = pdf, page = 1, win = nil, placement = nil }
-    previews[key] = created
+    vim.bo[buf].modifiable = false
+    vim.bo[buf].modified = false
+    state = {
+        buf = buf,
+        pdf = pdf,
+        page = 1,
+        page_count = nil,
+        win = nil,
+        placements = {},
+        pending = {},
+    }
+    previews[key] = state
 
     local function map(lhs, callback, desc)
         vim.keymap.set("n", lhs, callback, { buffer = buf, silent = true, desc = desc })
     end
     map("n", function() M.next_page(buf) end, "Next PDF page")
-    map("<PageDown>", function() M.next_page(buf) end, "Next PDF page")
-    map("<ScrollWheelDown>", function() M.next_page(buf) end, "Next PDF page")
     map("p", function() M.previous_page(buf) end, "Previous PDF page")
-    map("<PageUp>", function() M.previous_page(buf) end, "Previous PDF page")
-    map("<ScrollWheelUp>", function() M.previous_page(buf) end, "Previous PDF page")
     map("r", function() M.refresh(buf) end, "Refresh PDF preview")
     map("q", function()
         local win = vim.api.nvim_get_current_win()
         if vim.api.nvim_win_get_buf(win) == buf then vim.api.nvim_win_close(win, true) end
     end, "Close PDF preview")
-    map("<LeftMouse>", function() M.reverse_search(buf) end, "SyncTeX reverse search")
+    map("<LeftMouse>", function() M.mouse_click(buf) end, "Focus clicked window or SyncTeX reverse search")
 
-    return created
+    return state
 end
 
 local function set_page(state, page)
@@ -243,20 +379,27 @@ local function set_page(state, page)
         notify("PDF not found yet. Compile the LaTeX document first.", vim.log.levels.WARN)
         return false
     end
-    page = math.max(1, math.floor(page))
+    page = math.max(1, math.min(state.page_count, math.floor(page)))
     state.page = page
-    attach(state)
+    if win_is_showing(state.win, state.buf) then
+        pcall(vim.api.nvim_win_set_cursor, state.win, { page, 0 })
+        pcall(vim.api.nvim_win_call, state.win, function() vim.cmd("normal! zz") end)
+        queue_visible_update(state)
+    end
+    if win_is_showing(state.win, state.buf) then
+        vim.wo[state.win].statusline = statusline(state)
+    end
     return true
 end
 
-local function current_page(pdf, source, line, column, cwd, compiler_file)
+local function current_page(pdf, source, line, column, cwd, compiler_file_path)
     if vim.fn.executable("synctex") ~= 1 then return 1 end
     local output = run_synctex(
         { "synctex", "view", "-i", string.format("%d:%d:%s", line, column, source), "-o", pdf },
         cwd,
         pdf,
         cwd,
-        compiler_file
+        compiler_file_path
     )
     if not output then return 1 end
     for _, record in ipairs(output) do
@@ -280,6 +423,24 @@ local function source_context(buf)
     return project, pdf, compiler_file(buf, "synctex.gz")
 end
 
+function M.compile()
+    local buf = vim.api.nvim_get_current_buf()
+    local project = vimtex_state(buf)
+    local pdf = project and output_pdf(buf)
+    local sidecar = pdf and find_synctex_file(pdf, project.root, compiler_file(buf, "synctex.gz"))
+
+    if pdf and vim.uv.fs_stat(pdf) and not sidecar then
+        if compiler_running(buf) then
+            notify("VimTeX is already compiling; leaving that build running. Preview will use SyncTeX when the sidecar is ready.")
+            return
+        end
+        -- latexmk does not rebuild a PDF just because SyncTeX was enabled in
+        -- the editor config. Force a one-time rebuild to create the sidecar.
+        return vim.fn["vimtex#compiler#compile"]("-g")
+    end
+    return vim.fn["vimtex#compiler#compile"]()
+end
+
 function M.open()
     local source_win = vim.api.nvim_get_current_win()
     local source_buf = vim.api.nvim_get_current_buf()
@@ -294,78 +455,111 @@ function M.open()
         notify("SyncTeX is not on PATH; forward and reverse search are unavailable.", vim.log.levels.ERROR)
         return
     end
+
+    local page_count = pdf_page_count(pdf)
+    if not page_count or page_count < 1 then
+        notify("Could not read the PDF page count. Check that ImageMagick/Ghostscript can open this PDF.", vim.log.levels.ERROR)
+        return
+    end
     local line, column = unpack(vim.api.nvim_win_get_cursor(source_win))
-    local page = current_page(
-        pdf,
-        vim.api.nvim_buf_get_name(source_buf),
-        line,
-        column,
-        project.root,
-        synctex_file
-    )
+    local source = vim.api.nvim_buf_get_name(source_buf)
+    local has_synctex = find_synctex_file(pdf, project.root, synctex_file)
+    local compiling_without_sidecar = not has_synctex and compiler_running(source_buf)
+    local page = compiling_without_sidecar and 1
+        or current_page(pdf, source, line, column, project.root, synctex_file)
     local state = preview_for(pdf)
+    state.source_buf = source_buf
+    state.source = source
+    state.source_line = line
+    state.source_column = column
     state.source_dir = project.root
     state.synctex_file = synctex_file
+    state.page_count = page_count
+    state.revision = stats_revision(pdf)
+    set_document_lines(state, page_count)
     ensure_window(state, source_win)
-    update_mousefocus()
     set_page(state, page)
+    update_visible_pages(state)
     if vim.api.nvim_win_is_valid(source_win) then vim.api.nvim_set_current_win(source_win) end
 end
 
-local function page_count(state)
-    if vim.fn.executable("pdfinfo") ~= 1 then return nil end
-    local result = vim.system({ "pdfinfo", state.pdf }, { text = true }):wait()
-    if result.code ~= 0 then return nil end
-    return tonumber((result.stdout or ""):match("\nPages:%s*(%d+)"))
-end
-
 function M.next_page(buf)
-    local state
-    for _, candidate in pairs(previews) do if candidate.buf == buf then state = candidate; break end end
+    local state = find_state(buf)
     if not state then return end
-    local count = page_count(state)
-    set_page(state, count and math.min(state.page + 1, count) or state.page + 1)
+    state.page_count = state.page_count or pdf_page_count(state.pdf)
+    if not state.page_count then
+        notify("Could not read the PDF page count. Check that ImageMagick/Ghostscript can open this PDF.", vim.log.levels.ERROR)
+        return
+    end
+    local page = state.page
+    if win_is_showing(state.win, state.buf) then
+        page = vim.api.nvim_win_get_cursor(state.win)[1]
+    end
+    set_page(state, page + 1)
 end
 
 function M.previous_page(buf)
-    local state
-    for _, candidate in pairs(previews) do if candidate.buf == buf then state = candidate; break end end
+    local state = find_state(buf)
     if not state then return end
-    set_page(state, math.max(1, state.page - 1))
+    local page = state.page
+    if win_is_showing(state.win, state.buf) then
+        page = vim.api.nvim_win_get_cursor(state.win)[1]
+    end
+    set_page(state, page - 1)
 end
 
 function M.refresh(buf)
-    local state
-    for _, candidate in pairs(previews) do if candidate.buf == buf then state = candidate; break end end
+    local state = find_state(buf)
     if not state then return end
-    attach(state)
+    if not can_preview() then return end
+    local count = pdf_page_count(state.pdf)
+    if not count or count < 1 then
+        notify("Could not refresh the PDF page count. Check that ImageMagick/Ghostscript can open this PDF.", vim.log.levels.ERROR)
+        return
+    end
+    state.page_count = count
+    state.revision = stats_revision(state.pdf)
+    set_document_lines(state, count)
+    state.page = math.min(state.page, count)
+    close_placements(state)
+    if win_is_showing(state.win, state.buf) then update_visible_pages(state) end
+end
+
+local function placement_at_mouse(state, mouse)
+    if not win_is_showing(state.win, state.buf) then return end
+    for page, placement in pairs(state.placements) do
+        local ok, placement_state = pcall(function() return placement:state() end)
+        local loc = ok and placement_state and placement_state.loc
+        local info = placement.img and placement.img.info
+        if loc and info and info.size and info.dpi and info.dpi.width > 0 and info.dpi.height > 0 then
+            local screen = vim.fn.screenpos(state.win, page, 1)
+            if screen and screen.row > 0 and screen.col > 0 then
+                local x_cells = mouse.screencol - screen.col
+                local y_cells = mouse.screenrow - screen.row
+                if x_cells >= 0 and y_cells >= 0 and x_cells < loc.width and y_cells < loc.height then
+                    return page, x_cells, y_cells, loc, info
+                end
+            end
+        end
+    end
 end
 
 function M.reverse_search(buf)
-    local state
-    for _, candidate in pairs(previews) do if candidate.buf == buf then state = candidate; break end end
-    if not state or not state.placement then return end
+    local state = find_state(buf)
+    if not state then return end
     local mouse = vim.fn.getmousepos()
     if not mouse or mouse.winid ~= state.win then return end
 
-    local wininfo = vim.fn.getwininfo(state.win)[1]
-    local placement = state.placement
-    local loc = placement:state().loc
-    local info = placement.img.info
-    if not wininfo or not info or not info.size or not info.dpi or info.dpi.width <= 0 or info.dpi.height <= 0 then
-        notify("PDF page geometry is not ready yet; try again in a moment.", vim.log.levels.WARN)
+    local page, x_cells, y_cells, loc, info = placement_at_mouse(state, mouse)
+    if not page then
+        notify("Click inside a rendered PDF page to run SyncTeX reverse search.", vim.log.levels.INFO)
         return
     end
-    local x_cells = mouse.screencol - (wininfo.wincol + wininfo.textoff)
-    local y_cells = mouse.screenrow - wininfo.winrow
-    if x_cells < 0 or y_cells < 0 or x_cells >= loc.width or y_cells >= loc.height then return end
-
     local page_width = info.size.width / info.dpi.width * 72
-    local page_height = info.size.height / info.dpi.height * 72
     local x = math.floor(x_cells / loc.width * page_width)
-    local y = math.floor(y_cells / loc.height * page_height)
+    local y = math.floor(y_cells / loc.height * (info.size.height / info.dpi.height * 72))
     local output = run_synctex({
-        "synctex", "edit", "-o", string.format("%d:%d:%d:%s", state.page, x, y, state.pdf),
+        "synctex", "edit", "-o", string.format("%d:%d:%d:%s", page, x, y, state.pdf),
     },
         state.source_dir or vim.fn.fnamemodify(state.pdf, ":h"),
         state.pdf,
@@ -388,11 +582,81 @@ function M.reverse_search(buf)
     if not ok then notify("VimTeX reverse search failed: " .. tostring(err), vim.log.levels.ERROR) end
 end
 
+local function focus_mouse_window(mouse, preview_win)
+    local target_win = mouse.winid
+    if not target_win or target_win == preview_win or not vim.api.nvim_win_is_valid(target_win) then return end
+
+    local function focus_and_place_cursor()
+        if not vim.api.nvim_win_is_valid(target_win) then return end
+        pcall(vim.api.nvim_set_current_win, target_win)
+        local target_buf = vim.api.nvim_win_get_buf(target_win)
+        local line_count = vim.api.nvim_buf_line_count(target_buf)
+        local line = math.max(1, math.min(mouse.line or 1, line_count))
+        local line_text = vim.api.nvim_buf_get_lines(target_buf, line - 1, line, false)[1] or ""
+        local column = math.min(math.max((mouse.column or 1) - 1, 0), #line_text)
+        pcall(vim.api.nvim_win_set_cursor, target_win, { line, column })
+    end
+
+    -- The buffer-local mouse mapping replaces Neovim's built-in <LeftMouse>
+    -- action. Apply both focus and cursor placement ourselves after dispatch.
+    focus_and_place_cursor()
+    vim.schedule(focus_and_place_cursor)
+end
+
+function M.mouse_click(buf)
+    local state = find_state(buf)
+    if not state then return end
+    local mouse = vim.fn.getmousepos()
+    if not mouse or not mouse.winid or not vim.api.nvim_win_is_valid(mouse.winid) then return end
+    if mouse.winid == state.win then
+        M.reverse_search(buf)
+    else
+        focus_mouse_window(mouse, state.win)
+    end
+end
+
 function M.on_compile_success()
     for _, state in pairs(previews) do
-        if vim.api.nvim_buf_is_valid(state.buf) and vim.uv.fs_stat(state.pdf)
-            and state.revision ~= stats_revision(state.pdf) then
-            attach(state)
+        if vim.api.nvim_buf_is_valid(state.buf) and vim.uv.fs_stat(state.pdf) then
+            local revision = stats_revision(state.pdf)
+            if state.revision ~= revision then
+                local count = pdf_page_count(state.pdf)
+                if count and count > 0 then
+                    state.page_count = count
+                    state.revision = revision
+                    set_document_lines(state, count)
+                    state.page = math.min(state.page, count)
+
+                    local source_buf = state.source_buf
+                    if source_buf and vim.api.nvim_buf_is_valid(source_buf) then
+                        local synctex_file = compiler_file(source_buf, "synctex.gz")
+                        if find_synctex_file(state.pdf, state.source_dir, synctex_file) then
+                            state.synctex_file = synctex_file
+                            local line, column = state.source_line or 1, state.source_column or 0
+                            state.page = current_page(
+                                state.pdf,
+                                state.source or vim.api.nvim_buf_get_name(source_buf),
+                                line,
+                                column,
+                                state.source_dir,
+                                synctex_file
+                            )
+                        else
+                            notify(
+                                "VimTeX reported a successful build, but no SyncTeX sidecar was produced. Check the effective latexmk command and project latexmkrc.",
+                                vim.log.levels.WARN
+                            )
+                        end
+                    end
+
+                    if win_is_showing(state.win, state.buf) then
+                        set_page(state, state.page)
+                        update_visible_pages(state)
+                    end
+                else
+                    notify("PDF was rebuilt, but its page count could not be read.", vim.log.levels.WARN)
+                end
+            end
         end
     end
 end
@@ -403,10 +667,39 @@ function M.setup()
         pattern = "VimtexEventCompileSuccess",
         callback = M.on_compile_success,
     })
-    vim.api.nvim_create_autocmd({ "WinClosed", "BufWinLeave" }, {
+    vim.api.nvim_create_autocmd({ "WinScrolled", "CursorMoved" }, {
         group = group,
-        callback = function()
-            vim.schedule(update_mousefocus)
+        callback = function(args)
+            local win = args.event == "WinScrolled" and tonumber(args.match) or vim.api.nvim_get_current_win()
+            for _, state in pairs(previews) do
+                if state.win == win or (args.event == "CursorMoved" and args.buf == state.buf) then
+                    queue_visible_update(state)
+                end
+            end
+        end,
+    })
+    vim.api.nvim_create_autocmd("WinClosed", {
+        group = group,
+        callback = function(args)
+            local closed = tonumber(args.match)
+            for _, state in pairs(previews) do
+                if state.win == closed then
+                    close_placements(state)
+                    state.win = nil
+                end
+            end
+        end,
+    })
+    vim.api.nvim_create_autocmd("BufWipeout", {
+        group = group,
+        callback = function(args)
+            for key, state in pairs(previews) do
+                if state.buf == args.buf then
+                    close_placements(state)
+                    previews[key] = nil
+                    break
+                end
+            end
         end,
     })
 end
