@@ -1,7 +1,10 @@
 local config = require("config")
-local groups = { { "<leader>u", group = "UI" }, { "<leader>x", group = "Other and Maintenance" } }
-local function add(enabled, lhs, label)
-    if enabled then table.insert(groups, { lhs, group = label }) end
+local groups = {
+    { "<leader>u", group = "UI" },
+    { "<leader>x", group = "Other and Maintenance", icon = { icon = "󰒓 ", color = "orange" } },
+}
+local function add(enabled, lhs, label, icon)
+    if enabled then table.insert(groups, { lhs, group = label, icon = icon }) end
 end
 add(config.enabled("ai"), "<leader>a", "AI")
 add(config.enabled("dap"), "<leader>d", "Debug")
@@ -13,7 +16,7 @@ local language_enabled = config.enabled("treesitter")
 for _, enabled in pairs(config.get().languages) do
     language_enabled = language_enabled or enabled
 end
-add(language_enabled, "<leader>l", "Language")
+add(language_enabled, "<leader>l", "Language", { icon = "󰌌 ", color = "cyan" })
 add(language_enabled, "<leader>la", "Language Actions")
 
 return {
@@ -38,7 +41,26 @@ return {
             { "zM", function() require("ufo").closeAllFolds() end, desc = "Close All Folds" },
         },
     },
-    { "folke/which-key.nvim", event = "VeryLazy", opts = { preset = "classic", spec = groups } },
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        opts = {
+            preset = "classic",
+            spec = groups,
+            icons = {
+                rules = {
+                    { pattern = "^save$", icon = " ", color = "azure" },
+                    { pattern = "reload", icon = " ", color = "cyan" },
+                    { pattern = "jump to characters", icon = "󰆋 ", color = "green" },
+                    { pattern = "symbol outline", icon = "󰙅 ", color = "purple" },
+                    { pattern = "go to definition", icon = "󰈮 ", color = "blue" },
+                    { pattern = "open link", icon = "󰌷 ", color = "azure" },
+                    { pattern = "fold", icon = "󰐕 ", color = "purple" },
+                    { pattern = "escape", icon = "󱊷 ", color = "red" },
+                },
+            },
+        },
+    },
     { "nvim-lualine/lualine.nvim", event = "VeryLazy", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {
         options = { theme = "catppuccin-mocha", globalstatus = true },
         sections = { lualine_a = { "mode" }, lualine_b = { "branch", "diff", "diagnostics" }, lualine_c = { "filename" }, lualine_x = { "encoding", "filetype" }, lualine_y = { "progress" }, lualine_z = { "location" } },
