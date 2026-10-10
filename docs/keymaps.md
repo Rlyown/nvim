@@ -57,8 +57,8 @@ With TeX and the `images` capability enabled in Kitty, `,lr` opens the compiled 
 
 | Key/action | Result |
 | --- | --- |
-| `n` / `<PageDown>` / wheel down | Next PDF page |
-| `p` / `<PageUp>` / wheel up | Previous PDF page |
+| `j` / `n` / `<PageDown>` / wheel down | Next PDF page |
+| `k` / `p` / `<PageUp>` / wheel up | Previous PDF page |
 | `r` | Refresh the current page |
 | `q` | Close the preview split |
 | Click on the PDF page | Reverse SyncTeX to the corresponding source location |

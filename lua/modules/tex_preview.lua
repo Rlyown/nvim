@@ -128,7 +128,7 @@ end
 
 local function statusline(state)
     return string.format(
-        " PDF  %d/%s  |  scroll: wheel/C-d/C-u  |  n/p: page  |  click: SyncTeX  |  r: refresh  |  q: close ",
+        " PDF  %d/%s  |  page: j/k/n/p/PageDown/PageUp/wheel  |  click: SyncTeX  |  r: refresh  |  q: close ",
         state.page,
         state.page_count or "?"
     )
@@ -160,6 +160,7 @@ local function ensure_window(state, source_win)
     vim.wo[win].foldcolumn = "0"
     vim.wo[win].statuscolumn = ""
     vim.wo[win].wrap = false
+    vim.wo[win].scrolloff = 0
     vim.wo[win].winbar = ""
     vim.wo[win].statusline = statusline(state)
     return win
@@ -364,6 +365,12 @@ local function preview_for(pdf)
     end
     map("n", function() M.next_page(buf) end, "Next PDF page")
     map("p", function() M.previous_page(buf) end, "Previous PDF page")
+    map("j", function() M.next_page(buf) end, "Next PDF page")
+    map("k", function() M.previous_page(buf) end, "Previous PDF page")
+    map("<PageDown>", function() M.next_page(buf) end, "Next PDF page")
+    map("<PageUp>", function() M.previous_page(buf) end, "Previous PDF page")
+    map("<ScrollWheelDown>", function() M.next_page(buf) end, "Next PDF page")
+    map("<ScrollWheelUp>", function() M.previous_page(buf) end, "Previous PDF page")
     map("r", function() M.refresh(buf) end, "Refresh PDF preview")
     map("q", function()
         local win = vim.api.nvim_get_current_win()
@@ -382,8 +389,19 @@ local function set_page(state, page)
     page = math.max(1, math.min(state.page_count, math.floor(page)))
     state.page = page
     if win_is_showing(state.win, state.buf) then
-        pcall(vim.api.nvim_win_set_cursor, state.win, { page, 0 })
-        pcall(vim.api.nvim_win_call, state.win, function() vim.cmd("normal! zz") end)
+        -- Each PDF page is drawn as virtual lines below a one-line anchor. `zt`
+        -- applies scrolloff to the anchor and can leave several rows from the
+        -- previous page at the top of the window. Restore the view explicitly
+        -- with no virtual filler before the target page.
+        pcall(vim.api.nvim_win_call, state.win, function()
+            vim.fn.winrestview({
+                topline = page,
+                topfill = 0,
+                lnum = page,
+                col = 0,
+                leftcol = 0,
+            })
+        end)
         queue_visible_update(state)
     end
     if win_is_showing(state.win, state.buf) then
@@ -533,9 +551,41 @@ local function placement_at_mouse(state, mouse)
         local info = placement.img and placement.img.info
         if loc and info and info.size and info.dpi and info.dpi.width > 0 and info.dpi.height > 0 then
             local screen = vim.fn.screenpos(state.win, page, 1)
+            local image_col, image_row
             if screen and screen.row > 0 and screen.col > 0 then
-                local x_cells = mouse.screencol - screen.col
-                local y_cells = mouse.screenrow - screen.row
+                -- Snacks renders multi-row images as virtual lines below the
+                -- anchor buffer line, so the first image cell is one screen row
+                -- after screenpos()'s position for that line.
+                image_col = screen.col
+                image_row = screen.row + 1
+            else
+                -- After scrolling into an image, Neovim can scroll its virtual
+                -- lines into view while the anchor buffer line is off-screen.
+                -- In that case, reconstruct the image origin from the following
+                -- buffer line, which is exactly one rendered image-height later.
+                local next_line = page < state.page_count and vim.fn.screenpos(state.win, page + 1, 1)
+                if next_line and next_line.row > 0 and next_line.col > 0 then
+                    image_col = next_line.col
+                    image_row = next_line.row - loc.height
+                else
+                    -- If the image is taller than the viewport, its following
+                    -- buffer line may also be off-screen. topfill tracks the
+                    -- virtual rows remaining before that line.
+                    local view_ok, view = pcall(vim.api.nvim_win_call, state.win, function()
+                        return vim.fn.winsaveview()
+                    end)
+                    local wininfo = vim.fn.getwininfo(state.win)[1]
+                    local topfill = view_ok and type(view) == "table" and tonumber(view.topfill)
+                    if view_ok and type(view) == "table" and tonumber(view.topline) == page + 1
+                        and topfill and topfill > 0 and topfill <= loc.height and wininfo then
+                        image_col = (wininfo.wincol or 1) + (wininfo.textoff or 0)
+                        image_row = (wininfo.winrow or 1) + (wininfo.winbar or 0) - loc.height + topfill
+                    end
+                end
+            end
+            if image_col and image_row then
+                local x_cells = mouse.screencol - image_col
+                local y_cells = mouse.screenrow - image_row
                 if x_cells >= 0 and y_cells >= 0 and x_cells < loc.width and y_cells < loc.height then
                     return page, x_cells, y_cells, loc, info
                 end
