@@ -4,6 +4,7 @@ local previews = {}
 local prefetch_pages = 3
 local attach_page
 local update_visible_pages
+local queue_visible_update
 local group = vim.api.nvim_create_augroup("ConfigTexPreview", { clear = true })
 
 local function notify(message, level)
@@ -117,6 +118,7 @@ end
 
 local function advance_revision(state, pdf_revision)
     state.pdf_revision = pdf_revision
+    state.page_aspects = {}
     state.render_generation = (state.render_generation or 0) + 1
     -- A unique render identity also invalidates the cache when metadata is
     -- unchanged (for example, an identical-output rebuild).
@@ -147,15 +149,131 @@ local function pdf_page_count(pdf)
 end
 
 local function statusline(state)
+    local mode = state.zoom_mode == "full-page" and "Full page" or "Fit width"
+    local scroll = state.zoom_mode == "full-page" and "j/k: page" or "j/k: 1/4 page"
     return string.format(
-        " PDF  %d/%s  |  page: j/k/n/p/PageDown/PageUp/wheel  |  click: SyncTeX  |  r: refresh  |  q: close ",
+        " PDF %d/%s | %s | %s | n/p: page | ?: keys | click: SyncTeX | q: close ",
         state.page,
-        state.page_count or "?"
+        state.page_count or "?",
+        mode,
+        scroll
     )
 end
 
 local function win_is_showing(win, buf)
     return win and vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_buf(win) == buf
+end
+
+local function page_start_line(state, page)
+    return (page - 1) * state.page_span + 1
+end
+
+local function page_end_line(state, page)
+    return page * state.page_span
+end
+
+local function line_page(state, line)
+    local page = math.floor((math.max(1, line) - 1) / state.page_span) + 1
+    return math.max(1, math.min(state.page_count or page, page))
+end
+
+local function help_config(state)
+    if not win_is_showing(state.win, state.buf) then return nil end
+    local win_width = vim.api.nvim_win_get_width(state.win)
+    local win_height = vim.api.nvim_win_get_height(state.win)
+    local height = math.max(1, math.min(13, math.floor(win_height / 2)))
+    local width = math.max(1, math.min(76, win_width - 2))
+    return {
+        relative = "win",
+        win = state.win,
+        -- Leave room for the float's top and bottom border inside the preview.
+        row = math.max(0, win_height - height - 2),
+        col = math.max(0, math.floor((win_width - width) / 2)),
+        width = width,
+        height = height,
+        style = "minimal",
+        border = "rounded",
+        title = " PDF preview keys ",
+        title_pos = "center",
+        zindex = 80,
+    }
+end
+
+local function close_help(state, restore_focus)
+    local win, buf = state.help_win, state.help_buf
+    state.help_win, state.help_buf = nil, nil
+    if win and vim.api.nvim_win_is_valid(win) then
+        pcall(vim.api.nvim_win_close, win, true)
+    end
+    if buf and vim.api.nvim_buf_is_valid(buf) then
+        pcall(vim.api.nvim_buf_delete, buf, { force = true })
+    end
+    if restore_focus and win_is_showing(state.win, state.buf) then
+        pcall(vim.api.nvim_set_current_win, state.win)
+    end
+end
+
+local function toggle_help(state)
+    if state.help_win and vim.api.nvim_win_is_valid(state.help_win) then
+        close_help(state, true)
+        return
+    end
+    local config = help_config(state)
+    if not config then return end
+
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
+        "j/k  1/4-page scroll; pages in full-page mode",
+        "n/p  next / previous PDF page",
+        "PgDn/PgUp  next / previous PDF page",
+        "Wheel  scroll/page, depending on zoom mode",
+        "",
+        "w  fit width (default)",
+        "f  fit full page",
+        "z  toggle zoom mode",
+        "",
+        "Click  SyncTeX reverse search",
+        "r  refresh PDF",
+        "? / Esc  close this helper",
+        "q  close the PDF preview",
+    })
+    vim.bo[buf].buftype = "nofile"
+    vim.bo[buf].bufhidden = "wipe"
+    vim.bo[buf].swapfile = false
+    vim.bo[buf].modifiable = false
+    vim.bo[buf].readonly = true
+    local win = vim.api.nvim_open_win(buf, true, config)
+    state.help_buf, state.help_win = buf, win
+    vim.wo[win].wrap = true
+    vim.wo[win].number = false
+    vim.wo[win].relativenumber = false
+    vim.wo[win].cursorline = false
+    vim.wo[win].winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder"
+
+    local function map_helper(lhs, callback, desc)
+        vim.keymap.set("n", lhs, callback, { buffer = buf, silent = true, desc = desc })
+    end
+    map_helper("j", function() M.scroll(state.buf, 1) end, "Scroll PDF down")
+    map_helper("k", function() M.scroll(state.buf, -1) end, "Scroll PDF up")
+    map_helper("n", function() M.next_page(state.buf) end, "Next PDF page")
+    map_helper("p", function() M.previous_page(state.buf) end, "Previous PDF page")
+    map_helper("<PageDown>", function() M.next_page(state.buf) end, "Next PDF page")
+    map_helper("<PageUp>", function() M.previous_page(state.buf) end, "Previous PDF page")
+    map_helper("<ScrollWheelDown>", function() M.scroll(state.buf, 1) end, "Scroll PDF down")
+    map_helper("<ScrollWheelUp>", function() M.scroll(state.buf, -1) end, "Scroll PDF up")
+    map_helper("w", function() M.set_zoom(state.buf, "fit-width") end, "Fit PDF to preview width")
+    map_helper("f", function() M.set_zoom(state.buf, "full-page") end, "Fit PDF page to window")
+    map_helper("z", function() M.toggle_zoom(state.buf) end, "Toggle PDF zoom mode")
+    map_helper("r", function() M.refresh(state.buf) end, "Refresh PDF preview")
+    map_helper("q", function()
+        close_help(state, true)
+        if win_is_showing(state.win, state.buf) then
+            pcall(vim.api.nvim_win_close, state.win, true)
+        end
+    end, "Close PDF preview")
+    for _, key in ipairs({ "<Esc>", "?" }) do
+        map_helper(key, function() close_help(state, true) end, "Close PDF preview help")
+    end
 end
 
 local function find_state(buf)
@@ -181,6 +299,8 @@ local function ensure_window(state, source_win)
     vim.wo[win].statuscolumn = ""
     vim.wo[win].wrap = false
     vim.wo[win].scrolloff = 0
+    vim.wo[win].conceallevel = 2
+    vim.wo[win].concealcursor = "nvic"
     vim.wo[win].winbar = ""
     vim.wo[win].statusline = statusline(state)
     return win
@@ -218,13 +338,56 @@ local function close_placements(state)
     state.placements = {}
 end
 
+local function placement_dimensions(state)
+    if not win_is_showing(state.win, state.buf) then return 1, 1 end
+    -- Snacks.image encodes placement coordinates with at most 100 diacritics.
+    local width = math.max(1, math.min(100, vim.api.nvim_win_get_width(state.win)))
+    local height = math.max(1, math.min(100, vim.api.nvim_win_get_height(state.win)))
+    if state.zoom_mode ~= "full-page" then
+        -- A tall bound lets the page keep its natural aspect ratio while filling
+        -- the preview width; full-page mode instead fits both window dimensions.
+        height = 100
+    end
+    return width, height
+end
+
+local function resize_placements(state)
+    if not win_is_showing(state.win, state.buf) then return end
+    local width, height = placement_dimensions(state)
+    for _, placements in ipairs({ state.pending, state.placements }) do
+        for _, placement in pairs(placements) do
+            if placement.opts then
+                placement.opts.width = width
+                placement.opts.height = height
+                pcall(placement.update, placement)
+            end
+        end
+    end
+    vim.wo[state.win].statusline = statusline(state)
+end
+
+local function schedule_resize(state)
+    if state.resize_scheduled then return end
+    state.resize_scheduled = true
+    vim.schedule(function()
+        state.resize_scheduled = false
+        if not vim.api.nvim_buf_is_valid(state.buf) or not win_is_showing(state.win, state.buf) then return end
+        resize_placements(state)
+        if state.help_win and vim.api.nvim_win_is_valid(state.help_win) then
+            local config = help_config(state)
+            if config then pcall(vim.api.nvim_win_set_config, state.help_win, config) end
+        end
+        queue_visible_update(state)
+    end)
+end
+
 local function set_document_lines(state, count)
     if state.buffer_pages == count then return end
     if state.buffer_pages then close_placements(state) end
 
     local lines = {}
-    for page = 1, count do
-        lines[page] = " "
+    for _ = 1, count * state.page_span do
+        lines[#lines + 1] = " "
     end
     vim.bo[state.buf].modifiable = true
     vim.api.nvim_buf_set_lines(state.buf, 0, -1, false, lines)
@@ -255,12 +418,12 @@ local function viewport_pages(state)
         return fallback, fallback
     end
 
-    top = math.max(1, math.min(state.page_count, top))
-    bottom = math.max(top, math.min(state.page_count, bottom))
-    return top, bottom
+    top = line_page(state, top)
+    bottom = line_page(state, bottom)
+    return top, math.max(top, bottom)
 end
 
-local function queue_visible_update(state)
+queue_visible_update = function(state)
     if state.update_scheduled then return end
     state.update_scheduled = true
     vim.schedule(function()
@@ -325,10 +488,17 @@ attach_page = function(state, page)
     local requested_revision = state.revision
     local requested_pdf_revision = state.pdf_revision
     local old_placement = state.placements[page]
+    local width, height = placement_dimensions(state)
+    local first_line = page_start_line(state, page)
+    local last_line = page_end_line(state, page)
     local ok, placement = pcall(Snacks.image.placement.new, state.buf, state.pdf .. "#page=" .. page, {
-        pos = { page, 0 },
+        pos = { first_line, 0 },
+        range = { first_line, 0, last_line, 0 },
+        width = width,
+        height = height,
         auto_resize = true,
         inline = true,
+        conceal = true,
         on_update = function(next_placement)
             if state.pending[page] ~= next_placement then return end
             if requested_revision ~= state.revision or requested_pdf_revision ~= stats_revision(state.pdf) then
@@ -338,6 +508,10 @@ attach_page = function(state, page)
             end
             state.pending[page] = nil
             next_placement.tex_revision = requested_revision
+            local info = next_placement.img and next_placement.img.info
+            if info and info.size and info.size.width > 0 and info.size.height > 0 then
+                state.page_aspects[page] = info.size.height / info.size.width
+            end
             state.placements[page] = next_placement
             if old_placement and old_placement ~= next_placement then old_placement:close() end
             if win_is_showing(state.win, state.buf) then
@@ -379,20 +553,27 @@ local function preview_for(pdf)
         placements = {},
         pending = {},
         render_generation = 0,
+        zoom_mode = "fit-width",
+        page_aspects = {},
+        page_span = 100,
     }
     previews[key] = state
 
     local function map(lhs, callback, desc)
         vim.keymap.set("n", lhs, callback, { buffer = buf, silent = true, desc = desc })
     end
+    map("j", function() M.scroll(buf, 1) end, "Scroll down or next PDF page")
+    map("k", function() M.scroll(buf, -1) end, "Scroll up or previous PDF page")
     map("n", function() M.next_page(buf) end, "Next PDF page")
     map("p", function() M.previous_page(buf) end, "Previous PDF page")
-    map("j", function() M.next_page(buf) end, "Next PDF page")
-    map("k", function() M.previous_page(buf) end, "Previous PDF page")
     map("<PageDown>", function() M.next_page(buf) end, "Next PDF page")
     map("<PageUp>", function() M.previous_page(buf) end, "Previous PDF page")
-    map("<ScrollWheelDown>", function() M.next_page(buf) end, "Next PDF page")
-    map("<ScrollWheelUp>", function() M.previous_page(buf) end, "Previous PDF page")
+    map("<ScrollWheelDown>", function() M.scroll(buf, 1) end, "Scroll down or next PDF page")
+    map("<ScrollWheelUp>", function() M.scroll(buf, -1) end, "Scroll up or previous PDF page")
+    map("w", function() M.set_zoom(buf, "fit-width") end, "Fit PDF to preview width")
+    map("f", function() M.set_zoom(buf, "full-page") end, "Fit PDF page to window")
+    map("z", function() M.toggle_zoom(buf) end, "Toggle PDF zoom mode")
+    map("?", function() toggle_help(state) end, "Show PDF preview key helper")
     map("r", function() M.refresh(buf) end, "Refresh PDF preview")
     map("q", function()
         local win = vim.api.nvim_get_current_win()
@@ -411,15 +592,13 @@ local function set_page(state, page)
     page = math.max(1, math.min(state.page_count, math.floor(page)))
     state.page = page
     if win_is_showing(state.win, state.buf) then
-        -- Each PDF page is drawn as virtual lines below a one-line anchor. `zt`
-        -- applies scrolloff to the anchor and can leave several rows from the
-        -- previous page at the top of the window. Restore the view explicitly
-        -- with no virtual filler before the target page.
+        -- Each PDF page occupies a fixed range of placeholder lines. Restore
+        -- the view without scrolloff so the target page starts at the top.
         pcall(vim.api.nvim_win_call, state.win, function()
             vim.fn.winrestview({
-                topline = page,
+                topline = page_start_line(state, page),
                 topfill = 0,
-                lnum = page,
+                lnum = page_start_line(state, page),
                 col = 0,
                 leftcol = 0,
             })
@@ -537,7 +716,7 @@ function M.next_page(buf)
     end
     local page = state.page
     if win_is_showing(state.win, state.buf) then
-        page = vim.api.nvim_win_get_cursor(state.win)[1]
+        page = line_page(state, vim.api.nvim_win_get_cursor(state.win)[1])
     end
     set_page(state, page + 1)
 end
@@ -547,9 +726,60 @@ function M.previous_page(buf)
     if not state then return end
     local page = state.page
     if win_is_showing(state.win, state.buf) then
-        page = vim.api.nvim_win_get_cursor(state.win)[1]
+        page = line_page(state, vim.api.nvim_win_get_cursor(state.win)[1])
     end
     set_page(state, page - 1)
+end
+
+function M.scroll(buf, direction)
+    local state = find_state(buf)
+    if not state then return end
+    if state.zoom_mode == "full-page" then
+        if direction > 0 then M.next_page(buf) else M.previous_page(buf) end
+        return
+    end
+    if not win_is_showing(state.win, state.buf) then return end
+
+    local page = line_page(state, vim.api.nvim_win_get_cursor(state.win)[1])
+    local placement = state.placements[page]
+    if placement and placement.tex_revision ~= state.revision then
+        placement = nil
+    end
+    local page_rows
+    if placement then
+        local ok, placement_state = pcall(placement.state, placement)
+        page_rows = ok and placement_state and placement_state.loc and placement_state.loc.height
+    end
+    if not page_rows then
+        local aspect = state.page_aspects[page] or (792 / 612)
+        local terminal = Snacks.image.terminal.size()
+        local width = placement_dimensions(state)
+        local cell_width = terminal.cell_width or 1
+        local cell_height = terminal.cell_height or 1
+        page_rows = width * aspect * cell_width / cell_height
+    end
+
+    local count = math.max(1, math.floor(page_rows / 4 + 0.5))
+    local scroll_key = direction > 0 and string.char(5) or string.char(25) -- Ctrl-E / Ctrl-Y
+    pcall(vim.api.nvim_win_call, state.win, function()
+        vim.cmd.normal({ args = { tostring(count) .. scroll_key }, bang = true })
+    end)
+    queue_visible_update(state)
+end
+
+function M.set_zoom(buf, mode)
+    local state = find_state(buf)
+    if not state or (mode ~= "fit-width" and mode ~= "full-page") or state.zoom_mode == mode then return end
+    state.zoom_mode = mode
+    resize_placements(state)
+    set_page(state, state.page)
+    schedule_resize(state)
+end
+
+function M.toggle_zoom(buf)
+    local state = find_state(buf)
+    if not state then return end
+    M.set_zoom(buf, state.zoom_mode == "fit-width" and "full-page" or "fit-width")
 end
 
 function M.refresh(buf)
@@ -576,36 +806,34 @@ local function placement_at_mouse(state, mouse)
         local loc = ok and placement_state and placement_state.loc
         local info = placement.img and placement.img.info
         if loc and info and info.size and info.dpi and info.dpi.width > 0 and info.dpi.height > 0 then
-            local screen = vim.fn.screenpos(state.win, page, 1)
+            local first_line = page_start_line(state, page)
+            local screen = vim.fn.screenpos(state.win, first_line, 1)
             local image_col, image_row
             if screen and screen.row > 0 and screen.col > 0 then
-                -- Snacks renders multi-row images as virtual lines below the
-                -- anchor buffer line, so the first image cell is one screen row
-                -- after screenpos()'s position for that line.
+                -- The page range is backed by physical placeholder rows and
+                -- Snacks overlays one image row on each row in the range.
                 image_col = screen.col
-                image_row = screen.row + 1
+                image_row = screen.row
             else
-                -- After scrolling into an image, Neovim can scroll its virtual
-                -- lines into view while the anchor buffer line is off-screen.
-                -- In that case, reconstruct the image origin from the following
-                -- buffer line, which is exactly one rendered image-height later.
-                local next_line = page < state.page_count and vim.fn.screenpos(state.win, page + 1, 1)
+                -- If the page start is above the viewport, the next page start
+                -- gives the current page's image origin from its rendered height.
+                local next_line = page < state.page_count
+                    and vim.fn.screenpos(state.win, page_start_line(state, page + 1), 1)
                 if next_line and next_line.row > 0 and next_line.col > 0 then
                     image_col = next_line.col
                     image_row = next_line.row - loc.height
                 else
-                    -- If the image is taller than the viewport, its following
-                    -- buffer line may also be off-screen. topfill tracks the
-                    -- virtual rows remaining before that line.
+                    -- Pages use real placeholder rows, so a viewport scrolled
+                    -- into a page can recover the image origin from its top row.
                     local view_ok, view = pcall(vim.api.nvim_win_call, state.win, function()
                         return vim.fn.winsaveview()
                     end)
-                    local wininfo = vim.fn.getwininfo(state.win)[1]
-                    local topfill = view_ok and type(view) == "table" and tonumber(view.topfill)
-                    if view_ok and type(view) == "table" and tonumber(view.topline) == page + 1
-                        and topfill and topfill > 0 and topfill <= loc.height and wininfo then
-                        image_col = (wininfo.wincol or 1) + (wininfo.textoff or 0)
-                        image_row = (wininfo.winrow or 1) + (wininfo.winbar or 0) - loc.height + topfill
+                    local top_line = view_ok and type(view) == "table" and tonumber(view.topline)
+                    local visible = top_line and vim.fn.screenpos(state.win, top_line, 1)
+                    if top_line and line_page(state, top_line) == page and visible
+                        and visible.row > 0 and visible.col > 0 then
+                        image_col = visible.col
+                        image_row = visible.row - (top_line - first_line)
                     end
                 end
             end
@@ -752,6 +980,14 @@ function M.setup()
         pattern = "VimtexEventCompileSuccess",
         callback = M.on_compile_success,
     })
+    vim.api.nvim_create_autocmd("WinResized", {
+        group = group,
+        callback = function()
+            for _, state in pairs(previews) do
+                schedule_resize(state)
+            end
+        end,
+    })
     vim.api.nvim_create_autocmd({ "WinScrolled", "CursorMoved" }, {
         group = group,
         callback = function(args)
@@ -768,7 +1004,11 @@ function M.setup()
         callback = function(args)
             local closed = tonumber(args.match)
             for _, state in pairs(previews) do
+                if state.help_win == closed then
+                    state.help_win, state.help_buf = nil, nil
+                end
                 if state.win == closed then
+                    close_help(state, false)
                     close_placements(state)
                     state.win = nil
                 end
