@@ -5,7 +5,7 @@ return {
         go = { ft = { "go", "gomod", "gowork", "gotmpl" }, servers = { "gopls" }, tools = { "gopls" }, parsers = { "go", "gomod", "gosum", "gowork", "gotmpl" }, system = { "go" }, format = "gopls", debug = { "delve" } },
         rust = { ft = { "rust" }, tools = { "rust-analyzer" }, parsers = { "rust", "toml" }, system = { "rust" }, format = "rust-analyzer", debug = { "codelldb" } },
         python = { ft = { "python" }, servers = { "pyright" }, tools = { "pyright", "black" }, parsers = { "python" }, system = { "python" }, format = "null-ls", formatter = "black", debug = { "debugpy" } },
-        tex = { ft = { "tex", "bib" }, parsers = { "latex", "bibtex" }, system = { "latex" } },
+        tex = { ft = { "tex", "bib" }, parsers = { "latex", "bibtex" } },
         sql = { ft = { "sql" }, tools = { "sqlfluff" }, parsers = { "sql" }, formatter = "sqlfluff", format = "null-ls" },
         lua = { ft = { "lua" }, servers = { "lua_ls" }, tools = { "lua-language-server", "stylua" }, parsers = { "lua", "luadoc" }, formatter = "stylua", format = "null-ls" },
         shell = { ft = { "sh", "bash" }, servers = { "bashls" }, tools = { "bash-language-server", "shfmt" }, parsers = { "bash" }, formatter = "shfmt", format = "null-ls" },

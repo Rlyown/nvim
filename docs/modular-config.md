@@ -9,7 +9,7 @@ return {
 }
 ```
 
-`minimal` includes editing, search, Git, terminals, explorer, completion, UI, sessions, and Tree-sitter. The shared user configuration also enables Lua for maintaining this configuration with Lua LSP support. `developer` adds C/C++, Go, Rust, and Python. LaTeX, SQL, AI, remote development, images, and formula conversion require explicit selection.
+`minimal` includes editing, search, Git, terminals, explorer, completion, UI, sessions, and Tree-sitter. The shared user configuration also enables Lua for maintaining this configuration with Lua LSP support. `developer` adds C/C++, Go, Rust, and Python. It leaves LaTeX, SQL, AI, remote development, images, and formula conversion disabled; `./install.sh --full` includes LaTeX and VimTeX.
 
 Precedence is the `init.lua` preset, shared user configuration, local overrides, then environment variables. Finally, `NVIM_OFFLINE=1` forcibly disables AI and remote development. `NVIM_PROFILE` temporarily overrides the preset; `NVIM_LANGUAGES` replaces the language set; `NVIM_FEATURES=dap,ai,-images` selects features. Legacy `NVIM_ENABLE_LANGS` / `NVIM_DISABLE_LANGS` remain supported for one release, with newer variables taking precedence. Unknown names and values are errors.
 
@@ -25,6 +25,20 @@ Neovim 0.12.4 is required. Inspect the installation plan first:
 ```
 
 The installer uses the shared Lua resolver to collect dependencies and saves selections to the local override file. Fonts, Kitty, and formula conversion are installed according to selected features. Installation restores locked plugin revisions by default. `--no-plugin-sync` installs only system dependencies and saves selections. `--restore-lock` remains for compatibility, as do older flags such as `--disable-go`.
+
+## LaTeX and Skim
+
+Enabling `tex` (including in `--full`) installs the VimTeX plugin and the LaTeX/BibTeX Tree-sitter parsers only. It deliberately does not install TeX Live, MacTeX, or `latexmk`. VimTeX invokes the compiler tools available on the machine's `PATH` (normally `latexmk` from an existing TeX Live installation); install or configure a TeX distribution separately if compilation tools are missing.
+
+On macOS, VimTeX uses Skim, enables forward SyncTeX, and activates Skim when you run `,lr` (View PDF). Compilation remains manual-view by default: run `,lb` to compile, then `,lr` to open/update the PDF. Linux keeps VimTeX's generic system PDF viewer.
+
+For inverse SyncTeX, open **Skim → Settings → Sync**, choose **Custom**, and set the command to the absolute path of Neovim (find it with `command -v nvim`). Set Arguments to:
+
+```text
+--headless -c "VimtexInverseSearch %line '%file'"
+```
+
+Then use **Shift-Command-click** on PDF text to jump back to the corresponding source location. Skim's settings are per-user and must be configured once in the app; VimTeX's forward-search settings are already in this repository's configuration.
 
 Normal startup does not install Mason tools or parsers, or update plugins. A fresh runtime asks before installing plugins; headless startup does not automatically confirm. `:ConfigInstall` invokes the installer after explicit confirmation. `:ConfigInfo` shows effective settings and dependency sources. `:checkhealth config` reports missing plugins, tools, parsers, and trash utilities.
 

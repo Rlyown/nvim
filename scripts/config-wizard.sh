@@ -4,7 +4,7 @@ nvim_config_wizard() {
   local choice answer name
   printf '%s\n' \
     'No saved Neovim selection was found. Choose a setup:' \
-    '  1) Full: all non-LaTeX languages and optional features (recommended)' \
+    '  1) Full: all languages and optional features (recommended)' \
     '  2) Developer: C/C++, Go, Rust, Python, and Lua' \
     '  3) Minimal: core editor features only' \
     '  4) Custom: choose languages and optional features'
@@ -13,7 +13,7 @@ nvim_config_wizard() {
     case "$choice" in
       1)
         export NVIM_PROFILE=developer
-        export NVIM_LANGUAGES=cpp,go,rust,python,lua,shell,web,data,docker,asm,csv,sql,markdown
+        export NVIM_LANGUAGES=cpp,go,rust,python,lua,shell,web,data,docker,asm,csv,sql,markdown,tex
         export NVIM_FEATURES=dap,ai,remote,images,fonts,kitty,-formulas
         break ;;
       2) export NVIM_PROFILE=developer; break ;;
@@ -21,7 +21,7 @@ nvim_config_wizard() {
       4)
         export NVIM_PROFILE=minimal
         local languages=''
-        for name in cpp go rust python lua shell web data docker asm csv sql markdown; do
+        for name in cpp go rust python lua shell web data docker asm csv sql markdown tex; do
           answer=''
           read -r -p "Enable $name? [y/N] " answer || { echo 'Setup selection cancelled.' >&2; return 1; }
           case "$answer" in [yY]|[yY][eE][sS]) languages="${languages:+$languages,}$name" ;; esac

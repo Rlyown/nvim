@@ -5,7 +5,7 @@ local map = {
     ripgrep = { "ripgrep", "ripgrep" }, fd = { "fd-find", "fd" }, trash = { "trash-cli", "trash" },
     cc = { "build-essential", "llvm" }, ["tree-sitter"] = { "npm", "tree-sitter-cli" },
     cmake = { "cmake", "cmake" }, go = { "golang-go", "go" }, rust = { "cargo", "rust" },
-    python = { "python3 python3-venv", "python" }, latex = { "latexmk texlive-latex-extra", "texlive" },
+    python = { "python3 python3-venv", "python" },
     formulas = { "python3-pylatexenc", "pipx" }, fonts = { "fonts-firacode", "font-fira-mono-nerd-font" },
     kitty = { "kitty", "kitty" }, images = { "imagemagick", "imagemagick" },
 }

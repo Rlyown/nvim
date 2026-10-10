@@ -4,7 +4,15 @@ return {
         vim.g.vimtex_mappings_enabled = 0
         vim.g.vimtex_imaps_enabled = 0
         vim.g.vimtex_view_automatic = 0
+        vim.g.vimtex_quickfix_mode = 2
+        vim.g.vimtex_quickfix_open_on_warning = 0
+        vim.g.vimtex_compiler_method = "latexmk"
         vim.g.tex_flavor = "latex"
+        if vim.fn.has("mac") == 1 then
+            vim.g.vimtex_view_method = "skim"
+            vim.g.vimtex_view_skim_sync = 1
+            vim.g.vimtex_view_skim_activate = 1
+        end
         vim.api.nvim_create_autocmd("User", {
             group = vim.api.nvim_create_augroup("ConfigVimtexFocus", { clear = true }),
             pattern = "VimtexEventViewReverse",

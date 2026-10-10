@@ -10,7 +10,7 @@ while [[ $# -gt 0 ]]; do
     --full)
       SELECTION_PROVIDED=1
       export NVIM_PROFILE=developer
-      export NVIM_LANGUAGES=cpp,go,rust,python,lua,shell,web,data,docker,asm,csv,sql,markdown
+      export NVIM_LANGUAGES=cpp,go,rust,python,lua,shell,web,data,docker,asm,csv,sql,markdown,tex
       export NVIM_FEATURES=dap,ai,remote,images,fonts,kitty,-formulas
       shift ;;
     --profile|--languages|--features)
@@ -36,16 +36,18 @@ while [[ $# -gt 0 ]]; do
       cat <<'HELP'
 Install this Neovim configuration.
 
-  ./install.sh --full       Install all non-LaTeX languages and features
+  ./install.sh --full       Install all languages and features
   ./install.sh              Install the saved selection, or start the setup
                             wizard when no selection has been saved
   ./install.sh --dry-run    Preview packages and tools without installing
   ./install.sh --help       Show this help
 
 Full setup includes C/C++, Go, Rust, Python, Lua, Shell, Web, data formats,
-Docker, Assembly, CSV, SQL, Markdown, debugging, AI, remote tools and images.
-It excludes all LaTeX tools. Requires Neovim 0.12.4+, internet, and Homebrew
-on macOS. Add --no-plugin-sync to install system packages without syncing plugins.
+Docker, Assembly, CSV, SQL, Markdown, LaTeX/VimTeX, debugging, AI, remote
+tools and images. VimTeX is installed without TeX Live/MacTeX or latexmk;
+compilation requires an existing TeX toolchain on PATH. Requires Neovim 0.12.4+,
+internet, and Homebrew on macOS. Add --no-plugin-sync to install system packages
+without syncing plugins.
 
 With no saved selection or explicit options, the interactive wizard lets you
 choose Full, Developer, Minimal, or a custom setup.

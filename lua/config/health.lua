@@ -19,6 +19,13 @@ function M.check()
     for _, parser in ipairs(c.plan().parsers) do
         if #vim.api.nvim_get_runtime_file("parser/" .. parser .. ".*", false) == 0 then vim.health.warn("Missing parser: " .. parser) end
     end
+    if c.enabled("tex") then
+        if vim.fn.executable("latexmk") == 1 then
+            vim.health.ok("LaTeX compiler: " .. vim.fn.exepath("latexmk"))
+        else
+            vim.health.warn("VimTeX is enabled but latexmk is not on PATH; install/configure a TeX distribution separately")
+        end
+    end
     if c.enabled("explorer") and vim.fn.executable("trash") == 0 and vim.fn.executable("gio") == 0 then vim.health.warn("No trash utility found; trash operations will be refused") end
 end
 return M
