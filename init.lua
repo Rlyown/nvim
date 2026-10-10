@@ -1,6 +1,8 @@
 local root = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h")
 vim.opt.rtp:prepend(root)
 vim.loader.enable(true)
+local python_host = vim.fn.stdpath("data") .. "/python3-venv/bin/python"
+if vim.fn.executable(python_host) == 1 then vim.g.python3_host_prog = python_host end
 -- Select a preset here: "minimal" or "developer".
 vim.g.config_preset = "minimal"
 require("config").get()

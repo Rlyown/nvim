@@ -1,3 +1,7 @@
+local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
+if vim.fn.isdirectory(mason_bin) == 1 then vim.env.PATH = mason_bin .. ":" .. vim.env.PATH end
+local rustup_bin = "/opt/homebrew/opt/rustup/bin"
+if vim.fn.isdirectory(rustup_bin) == 1 then vim.env.PATH = vim.env.PATH .. ":" .. rustup_bin end
 local path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 local offline = require("config").get().offline
 local maintenance = vim.env.NVIM_MAINTENANCE == "1" and not offline

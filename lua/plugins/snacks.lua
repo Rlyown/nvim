@@ -45,11 +45,27 @@ if config.enabled("terminal") then
     key("<leader>ts", function() require("modules.terminal").prompt_send("selection") end, "Send Selection", "x")
 end
 return {
-    { "folke/snacks.nvim", lazy = false, keys = keys,
+    { "folke/snacks.nvim", priority = 1000, lazy = false, keys = keys,
         init = function() if config.enabled("explorer") then require("modules.explorer").setup() end end,
         opts = {
         bigfile = { enabled = true }, quickfile = { enabled = true },
-        dashboard = { enabled = true },
+        dashboard = {
+            enabled = true,
+            preset = {
+                -- Keep Snacks' default dashboard actions, but make session restore
+                -- choose from all saved sessions instead of silently checking cwd.
+                keys = {
+                    { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+                    { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+                    { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+                    { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+                    { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+                    { icon = " ", key = "s", desc = "Restore Session", action = ":SessionManager load_session" },
+                    { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+                    { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+                },
+            },
+        },
         input = { enabled = true }, notifier = { enabled = config.enabled("ui") },
         image = { enabled = config.enabled("images") },
         explorer = { enabled = config.enabled("explorer"), replace_netrw = true },
@@ -68,7 +84,13 @@ return {
                 win = { list = { keys = { d = "config_trash", D = "config_delete", ["<C-t>"] = "tab", ["<C-x>"] = "split", ["<C-v>"] = "vsplit", x = "config_cut", p = "config_paste" } } },
             } },
         },
-    } },
+        },
+        config = function(_, opts)
+            require("snacks").setup(opts)
+            Snacks.input.enable()
+            vim.ui.select = Snacks.picker.select
+        end,
+    },
     { "MagicDuck/grug-far.nvim", enabled = config.enabled("search"), opts = {}, keys = {
         { "<leader>sr", "<cmd>GrugFar<cr>", desc = "Search and Replace" },
     } },

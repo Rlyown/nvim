@@ -1,5 +1,5 @@
 return {
-    { "saghen/blink.cmp", event = "InsertEnter", dependencies = { "rafamadriz/friendly-snippets", { "xzbdmw/colorful-menu.nvim", opts = {} } }, opts = {
+    { "saghen/blink.cmp", event = "InsertEnter", dependencies = { "saghen/blink.lib", "rafamadriz/friendly-snippets", { "xzbdmw/colorful-menu.nvim", opts = {} } }, opts = {
         keymap = { preset = "default", ["<Tab>"] = { "snippet_forward", "fallback" }, ["<S-Tab>"] = { "snippet_backward", "fallback" } },
         sources = { default = { "lsp", "path", "snippets", "buffer" } },
         snippets = { preset = "default" },

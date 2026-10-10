@@ -1,5 +1,5 @@
 return {
-    { "Shatur/neovim-session-manager", dependencies = { "nvim-lua/plenary.nvim" }, cmd = "SessionManager", opts = function()
+    { "Shatur/neovim-session-manager", dependencies = { "nvim-lua/plenary.nvim" }, event = "VeryLazy", cmd = "SessionManager", opts = function()
         return { autoload_mode = require("session_manager.config").AutoloadMode.Disabled }
     end, keys = {
         { "<leader>pl", "<cmd>SessionManager load_session<cr>", desc = "Load Session" },
