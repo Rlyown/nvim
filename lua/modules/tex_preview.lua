@@ -148,15 +148,15 @@ local function pdf_page_count(pdf)
     end
 end
 
-local function statusline(state)
+local function preview_winbar(state)
     local mode = state.zoom_mode == "full-page" and "Full page" or "Fit width"
-    local scroll = state.zoom_mode == "full-page" and "j/k: page" or "j/k: 1/4 page"
+    local scroll = "j/k: 1/4 page"
     return string.format(
-        " PDF %d/%s | %s | %s | n/p: page | ?: keys | click: SyncTeX | q: close ",
+        " %s | ?: keys | q: close | PDF %d/%s | %s ",
+        scroll,
         state.page,
         state.page_count or "?",
-        mode,
-        scroll
+        mode
     )
 end
 
@@ -223,10 +223,10 @@ local function toggle_help(state)
 
     local buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
-        "j/k  1/4-page scroll; pages in full-page mode",
+        "j/k  scroll by 1/4 page in either zoom mode",
         "n/p  next / previous PDF page",
         "PgDn/PgUp  next / previous PDF page",
-        "Wheel  scroll/page, depending on zoom mode",
+        "Wheel  scroll by 1/4 page",
         "",
         "w  fit width (default)",
         "f  fit full page",
@@ -301,8 +301,8 @@ local function ensure_window(state, source_win)
     vim.wo[win].scrolloff = 0
     vim.wo[win].conceallevel = 2
     vim.wo[win].concealcursor = "nvic"
-    vim.wo[win].winbar = ""
-    vim.wo[win].statusline = statusline(state)
+    -- Lualine owns the global statusline; keep PDF details in this window's winbar.
+    vim.wo[win].winbar = preview_winbar(state)
     return win
 end
 
@@ -363,7 +363,7 @@ local function resize_placements(state)
             end
         end
     end
-    vim.wo[state.win].statusline = statusline(state)
+    vim.wo[state.win].winbar = preview_winbar(state)
 end
 
 local function schedule_resize(state)
@@ -446,7 +446,7 @@ update_visible_pages = function(state)
     local visible = math.max(1, math.min(state.page_count, top))
     if state.page ~= visible then
         state.page = visible
-        vim.wo[state.win].statusline = statusline(state)
+        vim.wo[state.win].winbar = preview_winbar(state)
     end
 
     for page = first, last do
@@ -515,7 +515,7 @@ attach_page = function(state, page)
             state.placements[page] = next_placement
             if old_placement and old_placement ~= next_placement then old_placement:close() end
             if win_is_showing(state.win, state.buf) then
-                vim.wo[state.win].statusline = statusline(state)
+                vim.wo[state.win].winbar = preview_winbar(state)
             end
         end,
     })
@@ -606,7 +606,7 @@ local function set_page(state, page)
         queue_visible_update(state)
     end
     if win_is_showing(state.win, state.buf) then
-        vim.wo[state.win].statusline = statusline(state)
+        vim.wo[state.win].winbar = preview_winbar(state)
     end
     return true
 end
@@ -734,10 +734,6 @@ end
 function M.scroll(buf, direction)
     local state = find_state(buf)
     if not state then return end
-    if state.zoom_mode == "full-page" then
-        if direction > 0 then M.next_page(buf) else M.previous_page(buf) end
-        return
-    end
     if not win_is_showing(state.win, state.buf) then return end
 
     local page = line_page(state, vim.api.nvim_win_get_cursor(state.win)[1])
