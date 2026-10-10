@@ -67,7 +67,16 @@ return {
             },
         },
         input = { enabled = true }, notifier = { enabled = config.enabled("ui") },
-        image = { enabled = config.enabled("images") },
+        image = {
+            enabled = config.enabled("images"),
+            convert = {
+                magick = {
+                    -- Keep the full PDF page (no -trim), so click coordinates map
+                    -- linearly to SyncTeX's page coordinate system.
+                    pdf = { "-density", 192, "{src}[{page}]", "-background", "white", "-alpha", "remove" },
+                },
+            },
+        },
         explorer = { enabled = config.enabled("explorer"), replace_netrw = true },
         picker = {
             enabled = config.enabled("search") or config.enabled("explorer"),

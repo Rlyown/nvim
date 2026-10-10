@@ -41,7 +41,7 @@ All abbreviations in the second column require a leading comma: `ld` means `,ld`
 | --- | --- |
 | `,s` Search | `sg` project text, `sw` word/selection, `sb` buffer lines, `ss` document symbols, `sS` workspace symbols, `sR` resume last search, `sr` replace, `sd` diagnostics, `su` undo history, `sh` help, `sk` keymaps, `sc` command history, `sn` notification history (requires UI) |
 | `,l` Language | `ld` definition, `lR` references, `lh` hover, `ln` rename, `lc` code action, `lf` format, `lF` toggle format-on-save globally, `lo` outline, `lj/ls` join/split code structures |
-| `,l` Filetype actions | `lr/lt/lb` run/test/build; Go `lae/lat/las` error handling/tags/fill struct and `lk` documentation; Rust `laa/lam/lk` actions/expand macro/documentation; TeX `lb/lr/lat/le/lv` compile/PDF/contents/errors/compilation output (only when TeX is enabled and in TeX buffers); CSV and SQL `lv` open their interfaces |
+| `,l` Filetype actions | `lr/lt/lb` run/test/build; Go `lae/lat/las` error handling/tags/fill struct and `lk` documentation; Rust `laa/lam/lk` actions/expand macro/documentation; TeX `lb` compile, `lr` open the Kitty PDF preview, and `lat/le/lv` toggle contents/show errors/show compilation output (only when TeX is enabled and in TeX buffers); CSV and SQL `lv` open their interfaces |
 | `,g` Git | `gn/gN` next/previous hunk, `gs` stage hunk or selected lines, `gu` undo staging, `gS` stage buffer, `gp` preview, `gb` blame, `gd` diff, `gm` repeated review, `gg` status, `gB` branches, `gl` commit history (pickers require Search) |
 | `,p` Sessions | `pl/ps/pd/pc` load/save/delete/load current directory |
 | `,t` Terminal | `th/tv/tf/tt` horizontal/vertical/float/tab, `ta` toggle all, `tc` send line, visual `tl/ts` send whole lines/exact selection |
@@ -50,6 +50,20 @@ All abbreviations in the second column require a leading comma: `ld` means `,ld`
 | `,x` Other and maintenance | `xi` configuration info, `xh` configuration health |
 
 In `Cargo.toml`, `,lau` upgrades the current dependency and `,lah` opens its documentation. Filetype changes remove inapplicable mappings. LSP mappings are removed when their supporting capabilities disappear.
+
+### LaTeX PDF Preview
+
+With TeX and the `images` capability enabled in Kitty, `,lr` opens the compiled PDF beside the source at the page containing the cursor. In the preview split:
+
+| Key/action | Result |
+| --- | --- |
+| `n` / `<PageDown>` / wheel down | Next PDF page |
+| `p` / `<PageUp>` / wheel up | Previous PDF page |
+| `r` | Refresh the current page |
+| `q` | Close the preview split |
+| Click on the PDF page | Reverse SyncTeX to the corresponding source location |
+
+A successful VimTeX compile refreshes an already-open preview. See [LaTeX and Kitty PDF preview](modular-config.md#latex-and-kitty-pdf-preview) for dependencies and setup.
 
 ## Debugging and Repeated Actions
 

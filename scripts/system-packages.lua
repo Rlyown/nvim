@@ -7,7 +7,7 @@ local map = {
     cmake = { "cmake", "cmake" }, go = { "golang-go", "go" }, rust = { "cargo", "rust" },
     python = { "python3 python3-venv", "python" },
     formulas = { "python3-pylatexenc", "pipx" }, fonts = { "fonts-firacode", "font-fira-mono-nerd-font" },
-    kitty = { "kitty", "kitty" }, images = { "imagemagick", "imagemagick" },
+    kitty = { "kitty", "kitty" }, images = { "imagemagick ghostscript", "imagemagick ghostscript" },
 }
 vim.opt.rtp:prepend(assert(vim.env.NVIM_CONFIG_ROOT))
 local packages = {}

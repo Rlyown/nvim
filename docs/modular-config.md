@@ -26,19 +26,11 @@ Neovim 0.12.4 is required. Inspect the installation plan first:
 
 The installer uses the shared Lua resolver to collect dependencies and saves selections to the local override file. Fonts, Kitty, and formula conversion are installed according to selected features. Installation restores locked plugin revisions by default. `--no-plugin-sync` installs only system dependencies and saves selections. `--restore-lock` remains for compatibility, as do older flags such as `--disable-go`.
 
-## LaTeX and Skim
+## LaTeX and Kitty PDF preview
 
-Enabling `tex` (including in `--full`) installs the VimTeX plugin and the LaTeX/BibTeX Tree-sitter parsers only. It deliberately does not install TeX Live, MacTeX, or `latexmk`. VimTeX invokes the compiler tools available on the machine's `PATH` (normally `latexmk` from an existing TeX Live installation); install or configure a TeX distribution separately if compilation tools are missing.
+Enabling `tex` (including in `--full`) installs the VimTeX plugin and the LaTeX/BibTeX Tree-sitter parsers only. It deliberately does not install TeX Live, MacTeX, or `latexmk`. VimTeX invokes the compiler tools available on the machine's `PATH` (normally `latexmk` from an existing TeX Live installation); install or configure a TeX distribution separately if compilation tools are missing. SyncTeX must also be available from that TeX distribution for source navigation.
 
-On macOS, VimTeX uses Skim, enables forward SyncTeX, and activates Skim when you run `,lr` (View PDF). Compilation remains manual-view by default: run `,lb` to compile, then `,lr` to open/update the PDF. Linux keeps VimTeX's generic system PDF viewer.
-
-For inverse SyncTeX, open **Skim → Settings → Sync**, choose **Custom**, and set the command to the absolute path of Neovim (find it with `command -v nvim`). Set Arguments to:
-
-```text
---headless -c "VimtexInverseSearch %line '%file'"
-```
-
-Then use **Shift-Command-click** on PDF text to jump back to the corresponding source location. Skim's settings are per-user and must be configured once in the app; VimTeX's forward-search settings are already in this repository's configuration.
+The built-in preview requires the `images` capability (ImageMagick and Ghostscript) and a Kitty-compatible graphics terminal. To enable it alongside VimTeX, select both `tex` and `images`, for example with `./install.sh --languages tex --features images`. Compile with `,lb`, then use `,lr` to open the PDF in a Neovim vertical split. Opening the preview selects the page containing the source cursor; an already-open preview refreshes after successful compilation, and supports `n`/`p`, PageDown/PageUp, or the mouse wheel for page-by-page navigation, `r` to refresh, and `q` to close. Each page is fitted to the preview split; continuous scrolling and zoom are not currently implemented. Click a page in Kitty to use reverse SyncTeX and jump back to the corresponding source location. No separate PDF viewer configuration is needed.
 
 Normal startup does not install Mason tools or parsers, or update plugins. A fresh runtime asks before installing plugins; headless startup does not automatically confirm. `:ConfigInstall` invokes the installer after explicit confirmation. `:ConfigInfo` shows effective settings and dependency sources. `:checkhealth config` reports missing plugins, tools, parsers, and trash utilities.
 
@@ -74,7 +66,7 @@ lua = {
 
 Put dedicated plugins in `lua/plugins/languages/` and explicitly include them in `config/specs.lua`. Helpers belong in `lua/modules/`, outside Lazy scanning. Declare platform package names in `scripts/system-packages.lua` when adding system capabilities. Features define their own mappings; which-key displays them.
 
-On macOS, VimTeX reverse search refocuses the terminal. It first checks `vim.g.config_tex_focus_app`, then recognizes `TERM_PROGRAM` values for Kitty, iTerm, Ghostty, WezTerm, Alacritty, Warp, and Terminal, and finally defaults to Kitty. `TERM=xterm-kitty` is also recognized.
+LaTeX preview and reverse SyncTeX remain in the Kitty terminal; clicks in the PDF split jump directly to the source buffer.
 
 Removed plugins include nvim-tree, ToggleTerm, OpenCode, Portal, Harpoon, Grapple, Illuminate, SnipRun, and Telescope's fzf, neoclip, and DAP extensions. Telescope remains a private dependency of the remote feature. Basic Markdown rendering remains; formula conversion requires `formulas`. Basic Tab completion does not load AI. Old navigation bookmarks and clipboard/macro history mappings are not retained.
 

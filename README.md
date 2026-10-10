@@ -12,7 +12,7 @@ cd ~/.config/nvim
 ./install.sh --full
 ```
 
-The full setup includes C/C++, Go, Rust, Python, Lua, Shell, web languages, JSON/YAML/TOML/XML, Docker, Assembly, CSV, SQL, Markdown, and LaTeX with VimTeX. It also enables debugging, AI, remote development, image support, and their dependencies. VimTeX and the LaTeX/BibTeX parsers are installed, but the installer does **not** install TeX Live, MacTeX, or `latexmk`; compilation uses the TeX toolchain already available on your `PATH`. On macOS, the configuration uses Skim for PDF viewing and SyncTeX. The installer needs an internet connection. Once it finishes, start Neovim with `nvim`.
+The full setup includes C/C++, Go, Rust, Python, Lua, Shell, web languages, JSON/YAML/TOML/XML, Docker, Assembly, CSV, SQL, Markdown, and LaTeX with VimTeX. It also enables debugging, AI, remote development, image support, and their dependencies. VimTeX and the LaTeX/BibTeX parsers are installed, but the installer does **not** install TeX Live, MacTeX, or `latexmk`; compilation uses the TeX toolchain already available on your `PATH`. With the `images` capability enabled, PDF previews render inside Kitty through Snacks.image and use SyncTeX for source navigation. The installer needs an internet connection. Once it finishes, start Neovim with `nvim`.
 
 To install the saved local selection, run:
 
@@ -37,7 +37,7 @@ Use `./install.sh --help` for the short option list. Add `--no-plugin-sync` to i
 - `--full` enables all available languages, including LaTeX/VimTeX, and development features.
 - Use `--languages ...` and `--features ...` for a custom selection. See [Configuration](docs/modular-config.md).
 
-The `developer` profile still leaves LaTeX disabled; use `--full` or explicitly select `tex` to enable VimTeX. See [LaTeX and Skim setup](docs/modular-config.md#latex-and-skim) for Skim inverse-search setup. The Copilot plugin has been removed. AI features use a separate plugin and may require service credentials.
+The `developer` profile still leaves LaTeX disabled; use `--full` or explicitly select `tex` to enable VimTeX. See [LaTeX and Kitty PDF preview](docs/modular-config.md#latex-and-kitty-pdf-preview) for setup and keymaps. The Copilot plugin has been removed. AI features use a separate plugin and may require service credentials.
 
 ## After installation
 

@@ -44,8 +44,9 @@ Install this Neovim configuration.
 
 Full setup includes C/C++, Go, Rust, Python, Lua, Shell, Web, data formats,
 Docker, Assembly, CSV, SQL, Markdown, LaTeX/VimTeX, debugging, AI, remote
-tools and images. VimTeX is installed without TeX Live/MacTeX or latexmk;
-compilation requires an existing TeX toolchain on PATH. Requires Neovim 0.12.4+,
+tools and images (ImageMagick and Ghostscript). VimTeX is installed without
+TeX Live/MacTeX or latexmk; compilation requires an existing TeX toolchain on
+PATH. PDF preview uses Kitty graphics and SyncTeX. Requires Neovim 0.12.4+,
 internet, and Homebrew on macOS. Add --no-plugin-sync to install system packages
 without syncing plugins.
 

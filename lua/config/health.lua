@@ -19,11 +19,26 @@ function M.check()
     for _, parser in ipairs(c.plan().parsers) do
         if #vim.api.nvim_get_runtime_file("parser/" .. parser .. ".*", false) == 0 then vim.health.warn("Missing parser: " .. parser) end
     end
+    if c.enabled("images") then
+        if vim.fn.executable("gs") == 1 then
+            vim.health.ok("Ghostscript: " .. vim.fn.exepath("gs"))
+        else
+            vim.health.warn("Ghostscript (gs) is required to render PDFs with Snacks.image")
+        end
+    end
     if c.enabled("tex") then
         if vim.fn.executable("latexmk") == 1 then
             vim.health.ok("LaTeX compiler: " .. vim.fn.exepath("latexmk"))
         else
             vim.health.warn("VimTeX is enabled but latexmk is not on PATH; install/configure a TeX distribution separately")
+        end
+        if vim.fn.executable("synctex") == 1 then
+            vim.health.ok("SyncTeX: " .. vim.fn.exepath("synctex"))
+        else
+            vim.health.warn("SyncTeX is not on PATH; built-in PDF forward/reverse search will not work")
+        end
+        if not c.enabled("images") then
+            vim.health.info("Snacks.image PDF preview requires the images capability")
         end
     end
     if c.enabled("explorer") and vim.fn.executable("trash") == 0 and vim.fn.executable("gio") == 0 then vim.health.warn("No trash utility found; trash operations will be refused") end
