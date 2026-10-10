@@ -100,7 +100,27 @@ local function stats_revision(pdf)
     local stat = vim.uv.fs_stat(pdf)
     if not stat then return "missing" end
     local mtime = stat.mtime or {}
-    return table.concat({ stat.size or 0, mtime.sec or 0, mtime.nsec or 0 }, "-")
+    local ctime = stat.ctime or {}
+    -- Compilers may replace a PDF with another file of identical size and
+    -- timestamp precision. Include inode/ctime so a completed rebuild still
+    -- invalidates Snacks' converted-page cache when the filesystem exposes them.
+    return table.concat({
+        stat.dev or 0,
+        stat.ino or 0,
+        stat.size or 0,
+        mtime.sec or 0,
+        mtime.nsec or 0,
+        ctime.sec or 0,
+        ctime.nsec or 0,
+    }, "-")
+end
+
+local function advance_revision(state, pdf_revision)
+    state.pdf_revision = pdf_revision
+    state.render_generation = (state.render_generation or 0) + 1
+    -- A unique render identity also invalidates the cache when metadata is
+    -- unchanged (for example, an identical-output rebuild).
+    state.revision = pdf_revision .. "-" .. state.render_generation
 end
 
 local function pdf_page_count(pdf)
@@ -303,6 +323,7 @@ attach_page = function(state, page)
     local old_cache = image_config.cache
     image_config.cache = cache_for(state.pdf, state.revision)
     local requested_revision = state.revision
+    local requested_pdf_revision = state.pdf_revision
     local old_placement = state.placements[page]
     local ok, placement = pcall(Snacks.image.placement.new, state.buf, state.pdf .. "#page=" .. page, {
         pos = { page, 0 },
@@ -310,7 +331,7 @@ attach_page = function(state, page)
         inline = true,
         on_update = function(next_placement)
             if state.pending[page] ~= next_placement then return end
-            if requested_revision ~= stats_revision(state.pdf) then
+            if requested_revision ~= state.revision or requested_pdf_revision ~= stats_revision(state.pdf) then
                 state.pending[page] = nil
                 next_placement:close()
                 return
@@ -357,6 +378,7 @@ local function preview_for(pdf)
         win = nil,
         placements = {},
         pending = {},
+        render_generation = 0,
     }
     previews[key] = state
 
@@ -486,6 +508,11 @@ function M.open()
     local page = compiling_without_sidecar and 1
         or current_page(pdf, source, line, column, project.root, synctex_file)
     local state = preview_for(pdf)
+    local revision = stats_revision(pdf)
+    if state.pdf_revision ~= revision then
+        advance_revision(state, revision)
+        close_placements(state)
+    end
     state.source_buf = source_buf
     state.source = source
     state.source_line = line
@@ -493,7 +520,6 @@ function M.open()
     state.source_dir = project.root
     state.synctex_file = synctex_file
     state.page_count = page_count
-    state.revision = stats_revision(pdf)
     set_document_lines(state, page_count)
     ensure_window(state, source_win)
     set_page(state, page)
@@ -536,7 +562,7 @@ function M.refresh(buf)
         return
     end
     state.page_count = count
-    state.revision = stats_revision(state.pdf)
+    advance_revision(state, stats_revision(state.pdf))
     set_document_lines(state, count)
     state.page = math.min(state.page, count)
     close_placements(state)
@@ -665,15 +691,15 @@ function M.mouse_click(buf)
     end
 end
 
-function M.on_compile_success()
+local function refresh_after_compile()
     for _, state in pairs(previews) do
         if vim.api.nvim_buf_is_valid(state.buf) and vim.uv.fs_stat(state.pdf) then
             local revision = stats_revision(state.pdf)
-            if state.revision ~= revision then
+            if state.pdf_revision ~= revision then
                 local count = pdf_page_count(state.pdf)
                 if count and count > 0 then
                     state.page_count = count
-                    state.revision = revision
+                    advance_revision(state, revision)
                     set_document_lines(state, count)
                     state.page = math.min(state.page, count)
 
@@ -709,6 +735,15 @@ function M.on_compile_success()
             end
         end
     end
+end
+
+function M.on_compile_success()
+    -- VimTeX's latexmk backend may copy its temporary PDF to the final output
+    -- path in another VimtexEventCompileSuccess autocmd. Defer our stat/cache
+    -- refresh until the whole User event has finished, otherwise we can inspect
+    -- the old PDF and never notice the copied build until the preview is opened
+    -- again.
+    vim.schedule(refresh_after_compile)
 end
 
 function M.setup()
