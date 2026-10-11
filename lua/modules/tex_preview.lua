@@ -11,6 +11,11 @@ local function notify(message, level)
     vim.notify(message, level or vim.log.levels.INFO, { title = "LaTeX preview" })
 end
 
+local function is_absolute_path(path)
+    local first = path:sub(1, 1)
+    return first == "/" or first == "\\" or path:match("^%a:[/\\]") ~= nil
+end
+
 local function vimtex_state(buf)
     local ok, state = pcall(function() return vim.b[buf].vimtex end)
     if not ok or type(state) ~= "table" or not state.compiler then return nil end
@@ -908,7 +913,7 @@ function M.reverse_search(buf)
         return
     end
     local source_dir = state.source_dir or vim.fn.getcwd()
-    if not vim.fs.is_absolute(file) then file = vim.fs.joinpath(source_dir, file) end
+    if not is_absolute_path(file) then file = vim.fs.joinpath(source_dir, file) end
     file = vim.fs.normalize(file)
     if vim.fn.filereadable(file) ~= 1 then
         notify("SyncTeX source file is not readable: " .. file, vim.log.levels.WARN)
