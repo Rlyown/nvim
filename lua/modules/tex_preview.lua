@@ -800,35 +800,63 @@ function M.previous_page(buf)
     set_page(state, page - 1)
 end
 
+local function rendered_page_rows(state, page)
+    local placement = state.placements[page]
+    if placement and placement.tex_revision == state.revision then
+        local ok, placement_state = pcall(placement.state, placement)
+        local rows = ok and placement_state and placement_state.loc and placement_state.loc.height
+        if rows then return rows end
+    end
+
+    local aspect = state.page_aspects[page] or (792 / 612)
+    local terminal = Snacks.image.terminal.size()
+    local width = placement_dimensions(state)
+    local cell_width = terminal.cell_width or 1
+    local cell_height = terminal.cell_height or 1
+    return width * aspect * cell_width / cell_height
+end
+
 function M.scroll(buf, direction)
     local state = find_state(buf)
     if not state then return end
     if not win_is_showing(state.win, state.buf) then return end
 
-    local page = line_page(state, vim.api.nvim_win_get_cursor(state.win)[1])
-    local placement = state.placements[page]
-    if placement and placement.tex_revision ~= state.revision then
-        placement = nil
-    end
-    local page_rows
-    if placement then
-        local ok, placement_state = pcall(placement.state, placement)
-        page_rows = ok and placement_state and placement_state.loc and placement_state.loc.height
-    end
-    if not page_rows then
-        local aspect = state.page_aspects[page] or (792 / 612)
-        local terminal = Snacks.image.terminal.size()
-        local width = placement_dimensions(state)
-        local cell_width = terminal.cell_width or 1
-        local cell_height = terminal.cell_height or 1
-        page_rows = width * aspect * cell_width / cell_height
-    end
-
+    local page = viewport_pages(state)
+    local page_rows = rendered_page_rows(state, page)
     local count = math.max(1, math.floor(page_rows / 4 + 0.5))
     local scroll_key = direction > 0 and string.char(5) or string.char(25) -- Ctrl-E / Ctrl-Y
-    pcall(vim.api.nvim_win_call, state.win, function()
+    local ok, view_state = pcall(vim.api.nvim_win_call, state.win, function()
+        local top = vim.fn.line("w0")
+        local bottom = vim.fn.line("w$")
+        local view = vim.fn.winsaveview()
         vim.cmd.normal({ args = { tostring(count) .. scroll_key }, bang = true })
+        return {
+            visible_rows = math.max(1, bottom - top + 1),
+            view = view,
+        }
     end)
+
+    if ok and direction > 0 and type(view_state) == "table" then
+        local last_page = state.page_count
+        local last_start = page_start_line(state, last_page)
+        local last_rows = math.max(1, math.ceil(rendered_page_rows(state, last_page)))
+        local last_content_line = math.min(page_end_line(state, last_page), last_start + last_rows - 1)
+        local max_topline = math.max(last_start, last_content_line - view_state.visible_rows + 1)
+        local top_ok, after_top = pcall(vim.api.nvim_win_call, state.win, function()
+            return vim.fn.line("w0")
+        end)
+        if top_ok and after_top > max_topline then
+            local view = view_state.view
+            view.topline = max_topline
+            view.lnum = max_topline
+            view.topfill = 0
+            view.col = 0
+            view.skipcol = 0
+            pcall(vim.api.nvim_win_call, state.win, function()
+                vim.fn.winrestview(view)
+            end)
+        end
+    end
     queue_visible_update(state)
 end
 
