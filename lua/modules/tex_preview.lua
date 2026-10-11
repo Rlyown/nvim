@@ -282,6 +282,34 @@ local function find_state(buf)
     end
 end
 
+local function source_window(state)
+    local function is_editor_window(win)
+        if not win or win == state.win or not vim.api.nvim_win_is_valid(win) then return false end
+        local buf = vim.api.nvim_win_get_buf(win)
+        return not vim.api.nvim_buf_get_name(buf):match("^snacks%-pdf://")
+    end
+
+    if is_editor_window(state.source_win) then return state.source_win end
+
+    for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+            if is_editor_window(win) and vim.api.nvim_win_get_buf(win) == state.source_buf then
+                state.source_win = win
+                return win
+            end
+        end
+    end
+
+    for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+            if is_editor_window(win) then
+                state.source_win = win
+                return win
+            end
+        end
+    end
+end
+
 local function ensure_window(state, source_win)
     if win_is_showing(state.win, state.buf) then return state.win end
     if source_win and vim.api.nvim_win_is_valid(source_win) then
@@ -693,6 +721,7 @@ function M.open()
         close_placements(state)
     end
     state.source_buf = source_buf
+    state.source_win = source_win
     state.source = source
     state.source_line = line
     state.source_column = column
@@ -878,8 +907,40 @@ function M.reverse_search(buf)
         notify("No source location was found at that PDF position.", vim.log.levels.WARN)
         return
     end
-    local ok, err = pcall(vim.fn["vimtex#view#inverse_search"], line, file, math.max(column or 0, 0))
-    if not ok then notify("VimTeX reverse search failed: " .. tostring(err), vim.log.levels.ERROR) end
+    local source_dir = state.source_dir or vim.fn.getcwd()
+    if not vim.fs.is_absolute(file) then file = vim.fs.joinpath(source_dir, file) end
+    file = vim.fs.normalize(file)
+    if vim.fn.filereadable(file) ~= 1 then
+        notify("SyncTeX source file is not readable: " .. file, vim.log.levels.WARN)
+        return
+    end
+
+    local win = source_window(state)
+    if not win then
+        notify("Could not find an editor window for the SyncTeX source.", vim.log.levels.WARN)
+        return
+    end
+
+    local ok, buf = pcall(function()
+        local source_buf = vim.fn.bufadd(file)
+        vim.fn.bufload(source_buf)
+        return source_buf
+    end)
+    if not ok then
+        notify("Could not open SyncTeX source: " .. tostring(buf), vim.log.levels.ERROR)
+        return
+    end
+
+    local opened, err = pcall(function()
+        vim.api.nvim_set_current_win(win)
+        vim.api.nvim_win_set_buf(win, buf)
+        local row = math.max(1, math.min(line, vim.api.nvim_buf_line_count(buf)))
+        local text = vim.api.nvim_buf_get_lines(buf, row - 1, row, false)[1] or ""
+        local col = column and column > 0 and column - 1 or 0
+        col = math.min(col, #text)
+        vim.api.nvim_win_set_cursor(win, { row, col })
+    end)
+    if not opened then notify("VimTeX reverse search failed: " .. tostring(err), vim.log.levels.ERROR) end
 end
 
 local function focus_mouse_window(mouse, preview_win)
