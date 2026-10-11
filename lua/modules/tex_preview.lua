@@ -1,6 +1,10 @@
 local M = {}
 
 local previews = {}
+local preview_window
+local close_placements
+local schedule_compile_refresh
+local compile_refresh_generation = 0
 local prefetch_pages = 3
 local attach_page
 local update_visible_pages
@@ -316,15 +320,45 @@ local function source_window(state)
 end
 
 local function ensure_window(state, source_win)
-    if win_is_showing(state.win, state.buf) then return state.win end
-    if source_win and vim.api.nvim_win_is_valid(source_win) then
-        vim.api.nvim_set_current_win(source_win)
+    if win_is_showing(state.win, state.buf)
+        and (not preview_window or not vim.api.nvim_win_is_valid(preview_window) or preview_window == state.win) then
+        preview_window = state.win
+        return state.win
     end
-    vim.cmd("botright vsplit")
-    local win = vim.api.nvim_get_current_win()
-    vim.api.nvim_win_set_buf(win, state.buf)
-    vim.cmd("vertical resize " .. math.max(30, math.floor(vim.o.columns * 0.46)))
+
+    local win = preview_window
+    if win and not vim.api.nvim_win_is_valid(win) then
+        preview_window = nil
+        win = nil
+    end
+    if not win and state.win and vim.api.nvim_win_is_valid(state.win) then
+        win = state.win
+    end
+
+    if win then
+        -- Every PDF keeps its own buffer and rendered-page cache, but all of
+        -- them take turns in this one split. Release the previous PDF's Kitty
+        -- placements before replacing its buffer so they cannot cover the new one.
+        for _, previous in pairs(previews) do
+            if previous.win == win then
+                close_help(previous, false)
+                close_placements(previous)
+                previous.win = nil
+            end
+        end
+        vim.api.nvim_win_set_buf(win, state.buf)
+    else
+        if source_win and vim.api.nvim_win_is_valid(source_win) then
+            vim.api.nvim_set_current_win(source_win)
+        end
+        vim.cmd("botright vsplit")
+        win = vim.api.nvim_get_current_win()
+        vim.api.nvim_win_set_buf(win, state.buf)
+        vim.cmd("vertical resize " .. math.max(30, math.floor(vim.o.columns * 0.46)))
+    end
+
     state.win = win
+    preview_window = win
     vim.wo[win].number = false
     vim.wo[win].relativenumber = false
     vim.wo[win].signcolumn = "no"
@@ -360,7 +394,7 @@ local function can_preview()
     return true
 end
 
-local function close_placements(state)
+close_placements = function(state)
     for _, placement in pairs(state.pending) do
         placement:close()
     end
@@ -534,9 +568,13 @@ attach_page = function(state, page)
         conceal = true,
         on_update = function(next_placement)
             if state.pending[page] ~= next_placement then return end
-            if requested_revision ~= state.revision or requested_pdf_revision ~= stats_revision(state.pdf) then
+            local current_pdf_revision = stats_revision(state.pdf)
+            if requested_revision ~= state.revision or requested_pdf_revision ~= current_pdf_revision then
                 state.pending[page] = nil
                 next_placement:close()
+                if requested_pdf_revision ~= current_pdf_revision and schedule_compile_refresh then
+                    schedule_compile_refresh()
+                end
                 return
             end
             state.pending[page] = nil
@@ -727,9 +765,6 @@ function M.open()
     end
     state.source_buf = source_buf
     state.source_win = source_win
-    state.source = source
-    state.source_line = line
-    state.source_column = column
     state.source_dir = project.root
     state.synctex_file = synctex_file
     state.page_count = page_count
@@ -981,59 +1016,119 @@ function M.mouse_click(buf)
     end
 end
 
-local function refresh_after_compile()
+local function refresh_after_compile(generation, attempt, pending_revisions)
+    if generation ~= compile_refresh_generation then return end
+
+    local retry = false
     for _, state in pairs(previews) do
-        if vim.api.nvim_buf_is_valid(state.buf) and vim.uv.fs_stat(state.pdf) then
+        if vim.api.nvim_buf_is_valid(state.buf) then
+            local source_buf = state.source_buf
+            local compiling = source_buf and vim.api.nvim_buf_is_valid(source_buf) and compiler_running(source_buf)
             local revision = stats_revision(state.pdf)
-            if state.pdf_revision ~= revision then
-                local count = pdf_page_count(state.pdf)
-                if count and count > 0 then
-                    state.page_count = count
-                    advance_revision(state, revision)
-                    set_document_lines(state, count)
-                    state.page = math.min(state.page, count)
-
-                    local source_buf = state.source_buf
-                    if source_buf and vim.api.nvim_buf_is_valid(source_buf) then
-                        local synctex_file = compiler_file(source_buf, "synctex.gz")
-                        if find_synctex_file(state.pdf, state.source_dir, synctex_file) then
-                            state.synctex_file = synctex_file
-                            local line, column = state.source_line or 1, state.source_column or 0
-                            state.page = current_page(
-                                state.pdf,
-                                state.source or vim.api.nvim_buf_get_name(source_buf),
-                                line,
-                                column,
-                                state.source_dir,
-                                synctex_file
-                            )
-                        else
-                            notify(
-                                "VimTeX reported a successful build, but no SyncTeX sidecar was produced. Check the effective latexmk command and project latexmkrc.",
-                                vim.log.levels.WARN
-                            )
-                        end
-                    end
-
-                    if win_is_showing(state.win, state.buf) then
-                        set_page(state, state.page)
-                        update_visible_pages(state)
-                    end
-                else
-                    notify("PDF was rebuilt, but its page count could not be read.", vim.log.levels.WARN)
+            if compiling then
+                pending_revisions[state] = nil
+                retry = true
+            elseif revision == "missing" then
+                pending_revisions[state] = nil
+                retry = true
+            elseif state.pdf_revision ~= revision then
+                local pending = pending_revisions[state]
+                if not pending or pending.revision ~= revision then
+                    pending = { revision = revision, stable_samples = 0 }
+                    pending_revisions[state] = pending
                 end
+                pending.stable_samples = pending.stable_samples + 1
+
+                -- Some VimTeX backends first write a temporary PDF and only
+                -- then copy it to the final output path. Wait for several
+                -- identical stat snapshots before rendering any pages.
+                if pending.stable_samples < 3 or attempt < 5 then
+                    retry = true
+                else
+                    local count = pdf_page_count(state.pdf)
+                    if count and count > 0 then
+                        local visible = win_is_showing(state.win, state.buf)
+                        local view
+                        if visible then
+                            local ok, saved_view = pcall(vim.api.nvim_win_call, state.win, function()
+                                return vim.fn.winsaveview()
+                            end)
+                            if ok and type(saved_view) == "table" then view = saved_view end
+                        end
+
+                        pending_revisions[state] = nil
+                        close_placements(state)
+                        state.page_count = count
+                        advance_revision(state, revision)
+                        set_document_lines(state, count)
+
+                        if source_buf and vim.api.nvim_buf_is_valid(source_buf) then
+                            local synctex_file = compiler_file(source_buf, "synctex.gz")
+                            state.synctex_file = synctex_file
+                            if not find_synctex_file(state.pdf, state.source_dir, synctex_file) then
+                                notify(
+                                    "VimTeX reported a successful build, but no SyncTeX sidecar was produced. Check the effective latexmk command and project latexmkrc.",
+                                    vim.log.levels.WARN
+                                )
+                            end
+                        end
+
+                        if visible then
+                            local max_line = math.max(1, count * state.page_span)
+                            if view then
+                                view.topline = math.max(1, math.min(view.topline or 1, max_line))
+                                view.lnum = math.max(1, math.min(view.lnum or view.topline, max_line))
+                                pcall(vim.api.nvim_win_call, state.win, function()
+                                    vim.fn.winrestview(view)
+                                end)
+                                state.page = viewport_pages(state)
+                            else
+                                state.page = math.min(state.page or 1, count)
+                                set_page(state, state.page)
+                            end
+                            update_visible_pages(state)
+                        else
+                            state.page = math.min(state.page or 1, count)
+                        end
+                    else
+                        retry = true
+                    end
+                end
+            else
+                pending_revisions[state] = nil
             end
+        end
+    end
+
+    -- Keep watching briefly even when the first post-event snapshot still
+    -- matches the old PDF; some compiler backends replace the final file later.
+    retry = retry or attempt < 5
+    if retry then
+        if attempt < 50 then
+            vim.defer_fn(function()
+                refresh_after_compile(generation, attempt + 1, pending_revisions)
+            end, 100)
+        else
+            notify(
+                "PDF output did not settle after compilation. Press r in the preview to refresh it.",
+                vim.log.levels.WARN
+            )
         end
     end
 end
 
+schedule_compile_refresh = function()
+    compile_refresh_generation = compile_refresh_generation + 1
+    local generation = compile_refresh_generation
+    vim.defer_fn(function()
+        refresh_after_compile(generation, 0, {})
+    end, 100)
+end
+
 function M.on_compile_success()
-    -- VimTeX's latexmk backend may copy its temporary PDF to the final output
-    -- path in another VimtexEventCompileSuccess autocmd. Defer our stat/cache
-    -- refresh until the whole User event has finished, otherwise we can inspect
-    -- the old PDF and never notice the copied build until the preview is opened
-    -- again.
-    vim.schedule(refresh_after_compile)
+    -- Wait until VimTeX's compile-success handlers have copied any temporary
+    -- output to its final path, and until that PDF remains unchanged briefly.
+    schedule_compile_refresh()
 end
 
 function M.setup()
@@ -1065,6 +1160,7 @@ function M.setup()
         group = group,
         callback = function(args)
             local closed = tonumber(args.match)
+            if preview_window == closed then preview_window = nil end
             for _, state in pairs(previews) do
                 if state.help_win == closed then
                     state.help_win, state.help_buf = nil, nil
