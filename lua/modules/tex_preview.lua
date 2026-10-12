@@ -134,13 +134,26 @@ local function advance_revision(state, pdf_revision)
     state.revision = pdf_revision .. "-" .. state.render_generation
 end
 
+local function command_error(name, result)
+    local detail = vim.trim((result.stderr or "") .. "\n" .. (result.stdout or ""))
+    if detail == "" then detail = "exit code " .. tostring(result.code) end
+    if #detail > 300 then detail = detail:sub(1, 300) .. "…" end
+    return name .. ": " .. detail
+end
+
 local function pdf_page_count(pdf)
+    local errors = {}
     if vim.fn.executable("pdfinfo") == 1 then
         local result = vim.system({ "pdfinfo", pdf }, { text = true }):wait()
         if result.code == 0 then
             local count = tonumber((result.stdout or ""):match("Pages:%s*(%d+)"))
             if count and count > 0 then return count end
+            errors[#errors + 1] = "pdfinfo returned no page count"
+        else
+            errors[#errors + 1] = command_error("pdfinfo", result)
         end
+    else
+        errors[#errors + 1] = "pdfinfo is unavailable"
     end
 
     -- Kitty machines often have ImageMagick/Ghostscript for Snacks.image but
@@ -153,8 +166,14 @@ local function pdf_page_count(pdf)
                 last_page = math.max(last_page, tonumber(page))
             end
             if last_page >= 0 then return last_page + 1 end
+            errors[#errors + 1] = "ImageMagick returned no page indexes"
+        else
+            errors[#errors + 1] = command_error("ImageMagick", result)
         end
+    else
+        errors[#errors + 1] = "ImageMagick (magick) is unavailable"
     end
+    return nil, table.concat(errors, "; ")
 end
 
 local function preview_winbar(state)
@@ -746,9 +765,12 @@ function M.open()
         return
     end
 
-    local page_count = pdf_page_count(pdf)
+    local page_count, page_count_error = pdf_page_count(pdf)
     if not page_count or page_count < 1 then
-        notify("Could not read the PDF page count. Check that ImageMagick/Ghostscript can open this PDF.", vim.log.levels.ERROR)
+        notify(
+            "Could not read the PDF page count. " .. (page_count_error or "Unknown PDF metadata error."),
+            vim.log.levels.ERROR
+        )
         return
     end
     local line, column = unpack(vim.api.nvim_win_get_cursor(source_win))
@@ -778,10 +800,16 @@ end
 function M.next_page(buf)
     local state = find_state(buf)
     if not state then return end
-    state.page_count = state.page_count or pdf_page_count(state.pdf)
     if not state.page_count then
-        notify("Could not read the PDF page count. Check that ImageMagick/Ghostscript can open this PDF.", vim.log.levels.ERROR)
-        return
+        local page_count, page_count_error = pdf_page_count(state.pdf)
+        if not page_count then
+            notify(
+                "Could not read the PDF page count. " .. (page_count_error or "Unknown PDF metadata error."),
+                vim.log.levels.ERROR
+            )
+            return
+        end
+        state.page_count = page_count
     end
     local page = state.page
     if win_is_showing(state.win, state.buf) then
@@ -879,9 +907,12 @@ function M.refresh(buf)
     local state = find_state(buf)
     if not state then return end
     if not can_preview() then return end
-    local count = pdf_page_count(state.pdf)
+    local count, page_count_error = pdf_page_count(state.pdf)
     if not count or count < 1 then
-        notify("Could not refresh the PDF page count. Check that ImageMagick/Ghostscript can open this PDF.", vim.log.levels.ERROR)
+        notify(
+            "Could not refresh the PDF page count. " .. (page_count_error or "Unknown PDF metadata error."),
+            vim.log.levels.ERROR
+        )
         return
     end
     state.page_count = count
@@ -1047,16 +1078,15 @@ end
 local function refresh_after_compile(generation, attempt, pending_revisions)
     if generation ~= compile_refresh_generation then return end
 
+    -- In VimTeX's default continuous mode, the compiler process remains alive
+    -- between builds. The success event, not is_running(), marks this build done.
     local retry = false
+    local last_page_count_error
     for _, state in pairs(previews) do
         if vim.api.nvim_buf_is_valid(state.buf) then
             local source_buf = state.source_buf
-            local compiling = source_buf and vim.api.nvim_buf_is_valid(source_buf) and compiler_running(source_buf)
             local revision = stats_revision(state.pdf)
-            if compiling then
-                pending_revisions[state] = nil
-                retry = true
-            elseif revision == "missing" then
+            if revision == "missing" then
                 pending_revisions[state] = nil
                 retry = true
             elseif state.pdf_revision ~= revision then
@@ -1073,7 +1103,7 @@ local function refresh_after_compile(generation, attempt, pending_revisions)
                 if pending.stable_samples < 3 or attempt < 5 then
                     retry = true
                 else
-                    local count = pdf_page_count(state.pdf)
+                    local count, page_count_error = pdf_page_count(state.pdf)
                     if count and count > 0 then
                         local visible = win_is_showing(state.win, state.buf)
                         local view
@@ -1119,6 +1149,7 @@ local function refresh_after_compile(generation, attempt, pending_revisions)
                             state.page = math.min(state.page or 1, count)
                         end
                     else
+                        last_page_count_error = page_count_error
                         retry = true
                     end
                 end
@@ -1137,10 +1168,9 @@ local function refresh_after_compile(generation, attempt, pending_revisions)
                 refresh_after_compile(generation, attempt + 1, pending_revisions)
             end, 100)
         else
-            notify(
-                "PDF output did not settle after compilation. Press r in the preview to refresh it.",
-                vim.log.levels.WARN
-            )
+            local message = "PDF output did not become readable after compilation. Press r in the preview to retry."
+            if last_page_count_error then message = message .. " Last check: " .. last_page_count_error end
+            notify(message, vim.log.levels.WARN)
         end
     end
 end
